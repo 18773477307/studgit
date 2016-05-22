@@ -1,0 +1,108 @@
+<table id="show_article_info" data-options="fit:true"></table>
+<div id="show_article_info_find" style="width:100%,text-align:left">
+	&nbsp;&nbsp;<span>标题:</span><input type="text" name="artTitle" id="show_article_artTitle"/>
+	&nbsp;&nbsp;<span>作者:</span><input type="text" name="artAuth" id="show_article_artAuth"/>
+	&nbsp;&nbsp;<span>发布日期:</span><input type="ndate" id="show_article_artStaTime" class="easyui-datebox myinput" required/>
+	&nbsp;&nbsp;<span>类型:</span><select name="artStaInfo" id="artStaInfo"><option value="0">全部</option><option value="1">可用</option><option value="2">不可用</option></select>
+	&nbsp;&nbsp;<a href="javascript:findArticleInfoByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+</div>
+
+<!-- 文章详情 -->
+<div id="article_show_newsInfo" class="easyui-dialog" title="文章详细" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>文章标题</label><input type="test" id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章作者</label><input type="test" id="artAuth_show" name="artAuth" class="myinput" readonly="readonly"/><br/><br/>
+		<label>发布日期</label><input type="test" id="artStaTime_show" name="artStaTime" class="myinput" readonly="readonly"/><br/><br/>
+		<label>截稿日期</label><input type="test" id="artEndTime_show" name="artEndTime" class="myinput" readonly="readonly"/><br/><br/>
+		<label>浏览次数</label><input type="test" id="artViews_show" name="artViews"class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章权重</label><input type="test" id="artWeight_show" name="artWeight"class="myinput" readonly="readonly"/><br/><br/>
+		<lable>文章内容：</lable>
+		<div id="article_content_show">
+		
+		</div><br/>
+	</form>
+	<div id="artPic_show_info" style="float:right;width:380px;margin-right:20px;margin-top:20px">
+			
+	</div>
+</div>
+<script>
+	$(function(){
+		var datagrid;
+		var artStaObj=[{Sta:2,sname:'不可用'},{Sta:1,sname:'可用'}];
+		datagrid=$('#show_article_info').datagrid({
+			url:'../articleServlet',
+			queryParams:{op:"getPageArticleInfo"},
+			fitColumns:true,
+			striped:true,
+			loadMsg:"数据加载中...",
+			pagination:true,
+			rownumbers:true,
+			sortName:'artId',
+			sortOrder:'asc',
+			remoteSort:false,
+			columns:[[   
+			          {field:'artIds',title:'选择',width:100,align:'center',checkbox:true},   
+			          {field:'artId',title:'文章编号',width:100,align:'center',sortable:true},   
+			          {field:'artTitle30',title:'标题',width:300,align:'center'},
+			          {field:'artStaTimes',title:'发布日期',width:100,align:'center'},
+			          {field:'artAuth',title:'作者',width:100,align:'center'},
+			          {field:'artViews',title:'浏览器次数',width:100,align:'center'},
+			          {field:'artWeight',title:'权重',width:100,align:'center'},	
+			          {field:'artSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
+							required:true,valueField:'Sta',textField:'sname',data:artStaObj}},
+				        	  formatter:function(value,row,index){
+				        		  for(var i=0;i<artStaObj.length;i++){
+				        			  if(artStaObj[i].Sta==value){
+				        				  return artStaObj[i].sname;
+				        			  }
+				        		  }
+				        		  return value;
+				        	  }
+				       },	        
+			          {field:'_operate',title:'操作',width:100,align:'center',
+			        	  formatter:function(value,rowData,index){
+			        		  //return "<a href=''>详细</a>";
+			        		  return '<a class="icon-search1 icon-padding" href="javascript:showArticleDetail(\''+rowData.artId+'\')">详细</a>';
+			        	  }
+			          }
+			]],
+			toolbar:"#show_article_info_find"
+		});
+	});
+
+	function findArticleInfoByInfo(){
+		var artTitle=$.trim($("#show_article_artTitle").val() );
+		var artAuth=$.trim($("#show_article_artAuth").val());
+		var artStaTime=$("#show_article_artStaTime").datebox('getValue');
+		var artSta=$.trim($("#artStaInfo").val());
+		
+		$('#show_article_info').datagrid({
+			url:'../articleServlet',
+			queryParams:{op:"findArticleByInfo",artTitle:artTitle,artAuth:artAuth,artStaTime:artStaTime,artSta:artSta}
+		});
+	}
+
+	function showArticleDetail(artId){
+		$("#article_show_newsInfo").dialog("open");
+		$.post("../articleServlet",{op:"findArticleByartId",artId:artId},function(data){
+			var article=data.rows;
+			$("#artTitle_show").val(article.artTitle);
+			$("#artAuth_show").val(article.artAuth);
+			$("#artStaTime_show").val(article.artStaTime);
+			$("#artEndTime_show").val(article.artEndTime);
+			$("#artViews_show").val(article.artViews);
+			$("#artWeight_show").val(article.artWeight);
+			$("#article_content_show").html(article.artCont);
+			
+			var str="";
+			
+			var pics=article.artPic.split(",");
+			
+			for(var i=0;i<pics.length;i++){
+				str+="<img src='../"+pics[i]+"' width='100px' height='100px'>&nbsp;";
+			}
+			$("#artPic_show_info").html($(str));
+			//console.info(news);
+		},"json");
+	}
+</script>

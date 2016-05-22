@@ -1,0 +1,59 @@
+<table id="discount_info_show" data-options="fit:true"></table>
+<div id="show_discount_info" style="width:100%,text-align:left">
+	&nbsp;&nbsp;<span>折扣力度:</span><input type="text" name="disPrice" id="show_discount_disPrice"/>
+	&nbsp;&nbsp;<a href="javascript:findDiscountInfoByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+</div>
+<script>
+	$(function(){
+		var datagrid;
+		var editRow=undefined;
+		var op;
+		var flag;
+		$.post("../goodsServlet",{op:"getAllGoodsName"},function(data){
+			goodsObj=data.rows;
+			datagrid=$('#discount_info_show').datagrid({
+				url:'../discountServlet',
+				queryParams:{op:"getPageDiscountInfo"},
+				fitColumns:true,
+				striped:true,
+				loadMsg:"数据加载中...",
+				pagination:true,
+				rownumbers:true,
+				sortName:'disId',
+				sortOrder:'asc',
+				remoteSort:false,
+				columns:[[
+					{field:'disIds',title:'选择',width:100,align:'center',checkbox:true},
+					{field:'disId',title:'优惠商品编号',width:100,align:'center',sortable:true},
+					{field:'goodsId',title:'商品名称',width:100,align:'center',editor:{type:"combobox",options:{
+						required:true,valueField:'goodsId',textField:'goodsName',data:goodsObj}},
+						formatter:function(value,row,index){
+							for(var i=0;i<goodsObj.length;i++){
+								if(goodsObj[i].goodsId==value){
+									return goodsObj[i].goodsName;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'disStartTimes',title:'优惠开始时间',width:100,align:'center',editor : {type : "datebox",options : {request : true}}},
+					{field:'disEndTimes',title:'优惠结束时间',width:100,align:'center',editor : {type : "datebox",options : {request : true}}},
+					{field:'disPrice',title:'折扣',width:100,align:'center',editor : {type : "text",options : {request : true}}},
+					
+				]],
+				toolbar:"#show_discount_info"
+			});
+		},"json");
+	});
+	
+	function findDiscountInfoByInfo(){
+		var disPrice=$.trim($("#show_discount_disPrice").val());
+		$('#discount_info_show').datagrid({
+			url:'../discountServlet',
+			queryParams:{op:"findDiscountByInfo",disPrice:disPrice}
+		});
+	}
+	
+</script>
+<!-- 查询开始时间<单日时间        and  单日时间<开始时间   -->
+	

@@ -1,0 +1,96 @@
+<table id="users_addr" data-options="fit:true"></table>
+<div id="show_usersaddr_info_find" style="width:100%,text-align:left;margin-top: 5px;">
+	<span>姓名：</span><input type="text" name="title" id="show_users_name" />
+	
+	<span>省：</span><select name="sel_Province" id="sel_Province" class="prov form_province">
+	</select> 
+	
+	<span>市：</span><select name="sel_City" id="sel_City" class="city form_city">
+	</select> 
+	
+	<span>县：</span><select name="sel_County" id="sel_County" class="dist form_area form-section">
+	</select> 
+	<a href="javascript:findUsersAddrByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">查询</a>
+</div>
+
+<script>
+
+	AreaSelector().init();
+
+		$('#users_addr').datagrid({
+			url : '../usersAddrServlet',
+			queryParams : {
+				op : "getPageUsersInfo"
+			},
+			fitColumns : true,
+			striped : true,
+			loadMsg : "数据加载中",
+			pagination : true,
+			rownumbers : true,
+			remoteSort : false,
+			columns : [ [ {
+				field : 'usersName',
+				title : '用户姓名',
+				align : 'center',
+				width : 100
+			}, {
+				field : 'province',
+				title : '省',
+				width : 100,
+				align : 'center'
+			}, {
+				field : 'city',
+				title : '市',
+				width : 100,
+				align : 'center'
+			}, {
+				field : 'county',
+				title : '区/县',
+				width : 100,
+				align : 'center'
+			} ,{
+				field : 'detailAddr',
+				title : '详细地址',
+				width : 400,
+				align : 'center'
+			} , {
+				field : 'reserve4',
+				title : '收件人',
+				width : 100,
+				align : 'center'
+			}, {
+				field : 'addrTel',
+				title : '收件人电话',
+				width : 100,
+				align : 'center'
+			}] ],
+			toolbar : "#show_usersaddr_info_find"
+		});
+		
+		function findUsersAddrByInfo() {
+			//获得省的字符串
+			var province = document.getElementById("sel_Province")
+			var str_province = province.options[province.selectedIndex].text;
+			//获得市的字符串
+			var city = document.getElementById("sel_City");
+			var str_city = city.options[city.selectedIndex].text;
+			//获得县的字符串
+			var county = document.getElementById("sel_County");
+			var str_county = county.options[county.selectedIndex].text;
+			//获得姓名
+			var name = $("#show_users_name").val();
+			
+			
+			$('#users_addr').datagrid({
+				url:'../usersAddrServlet',
+				queryParams:{op:"findInfoByInfo",str_province:str_province,str_city:str_city,str_county:str_county,name:name}
+			});
+			
+			/*$.post("../usersAddrServlet",{op:"findInfoByInfo",str_province:"str_province",str_city:"str_city",str_county:"str_county",name:"name"},function(data) {
+				
+			});*/
+		}	
+
+
+		
+</script>

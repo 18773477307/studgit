@@ -1,0 +1,73 @@
+<table id="shop_Detail" data-options="fit:true"></table>
+<div id="show_detail_find" style="width:100%,text-align:left;margin-top: 5px;">
+	<span>购物车编号：</span><input type="text" name="title" id="show_snum_name" />&nbsp;
+	
+	<span>用户名：</span><input type="text" name="unamme" id="show_users_name" />&nbsp;
+	
+	<span>商品名：</span><input type="text" name="gname" id="show_shop_name" />&nbsp;
+	
+	<a href="javascript:findShopDetailByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">查询</a>
+</div>
+
+<script>
+		var statusObj=[{Sta:1,sname:'可用'},{Sta:0,sname:'弃用'}];
+		$('#shop_Detail').datagrid({
+			url : '../shopDetailServlet',
+			queryParams : {
+				op : "getPageShopInfo"
+			},
+			fitColumns : true,
+			striped : true,
+			loadMsg : "数据加载中",
+			pagination : true,
+			rownumbers : true,
+			remoteSort : false,
+			columns : [ [ {
+				field : 'shopId',
+				title : '购物车编号',
+				align : 'center',
+				width : 100
+			}, {
+				field : 'usersName',
+				title : '用户姓名',
+				width : 100,
+				align : 'center'
+			}, {
+				field : 'goodsName',
+				title : '商品名',
+				width : 100,
+				align : 'center'
+			}, {
+				field : 'goodsNum',
+				title : '商品数量',
+				width : 100,
+				align : 'center'
+			}, {
+				field : 'reserve17',
+				title : '商品状态',
+				width : 100,
+				align : 'center',
+				editor : {type:"combobox",options:{
+					required:true,valueField:'Sta',textField:'sname',data:statusObj}},
+					formatter:function(value,row,index) {
+						for (var i = 0; i < statusObj.length; i ++) {
+							if (statusObj[i].Sta == value) {
+								return statusObj[i].sname;
+							}
+						}
+						return value;
+					}
+			} ] ],
+			toolbar : "#show_detail_find"
+		});		
+	function findShopDetailByInfo() {
+		var shopId = $("#show_snum_name").val();
+		var usersName = $("#show_users_name").val();
+		var goodsName = $("#show_shop_name").val();
+		
+		$('#shop_Detail').datagrid({
+			url:'../shopDetailServlet',
+			queryParams:{op:"findInfoByInfo",shopId:shopId,usersName:usersName,goodsName:goodsName}
+		});
+	}
+</script>
