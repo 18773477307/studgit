@@ -1,0 +1,135 @@
+@charset "utf-8";
+/* CSS Document */
+.separate_child{
+	float:left;
+	width:100%;
+	margin-top:20px;
+	background-color:#F5F5F5;
+}
+
+.evluate{
+	float:left;
+	margin-left:63px;
+	width:1224px;
+	margin-top:20px;
+	overflow: hidden;
+	margin-bottom:70px;
+}
+
+.evluate span{
+	font-family:"微软雅黑";
+	font-size:20px;
+}
+
+.evluate_show{
+	padding:60px 35px 30px 50px;
+	margin-top:15px;
+	background-color: #FFF;
+	height:auto;
+}
+
+.evluate_show li{
+	border-left:1px solid #E0E0E0;
+	position:relative;
+}
+
+.evluate_part1{
+	width:1224px;
+	padding-left: 35px;
+	padding-bottom: 80px;
+	height:140px;
+	list-style:none;
+	border-left:1px solid #E0E0E0;
+}
+
+.user_evluate{
+	float:left;
+	width:612px;
+}
+
+.head_img img{
+	float:left;
+	margin-top:15px;
+	margin-left:24px;
+	width:60px;
+	height:60px;
+	border-radius:50%;
+}
+
+.evluate_part1 span{
+	float:left;
+	font-size:12px;
+	color:#3D3D3D;
+}
+
+.write{
+	float:left;
+	width:470px;
+	height:auto;
+	margin-left:25px;
+	margin-top:25px;
+	font-size:16px;
+	padding-bottom:8px;
+	border-bottom:1px solid #DFDFDF;
+}
+
+.under{
+	float:left;
+	width:620px;
+	margin-top:30px;
+	margin-left:24px;
+}
+
+.date{
+	margin-left:15px;
+}
+
+.line-dot{
+	background:none repeat scroll 0% 0% #83C44E;
+	border-radius:50%;
+	position:absolute;
+	top:0px;
+	left:-6px;
+	width: 11px;
+	height: 11px;
+}
+
+.xiaomi_reply{
+	float:left;
+	width:600px;
+	height:auto;
+	margin-left:5px;
+}
+
+.reply_content{
+	float:left;
+	padding-right:5px;
+	padding-left:25px;
+	padding-top:25px;
+	width:380px;
+	font-size:15px;
+	line-height:28px;
+}
+
+.xiaomi{
+	float:left;
+	font-size:13px;
+	margin-top:30px;
+	padding-left:85px;
+	color:#ff6700;
+}
+
+.more1{
+	float:left;
+	background-color: #eee;
+    color: #424242;
+    cursor: pointer;
+    font-size: 14px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+	width: 1224px;
+	margin-top:-30px;
+	margin-left:63px;
+	margin-bottom:50px;
+}

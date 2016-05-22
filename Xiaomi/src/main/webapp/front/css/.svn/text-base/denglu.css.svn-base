@@ -1,0 +1,146 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	margin:0 auto;
+	padding:0;
+}
+body{
+	background:#f5f5f5;
+}
+html,body{
+	
+	width:100%;
+}
+#newsAll{
+	width:100%;
+	height:100%;
+}
+#logo{
+	margin-top:30px;
+}
+#yizhanghao{
+	margin-top:37px;
+}
+#one_user{
+	font-size:26px;
+	font-weight:bold;
+}
+#xiaolianjie{
+	margin-top:11px;
+}
+#xiaolianjie a{
+	color:#8d8d8d;
+	text-decoration:none;
+	font-size:14px;
+}
+#xiaolianjie a:hover{
+	color: #ff7e00;
+}
+#xiaolianjie p{
+	color:#8d8d8d;
+}
+#dlzc{
+	margin-top:40px;
+}
+.user_name{
+	background:#FFF;
+	height:44px;
+	width:315px;
+	border:solid 1px #e6e6e6;
+	
+	
+}
+.pwd{
+	background:#FFF;
+	margin-top:10px;
+	height:44px;
+	width:315px;
+	border:solid 1px #e6e6e6;
+	
+}
+#txuser_name{
+	border:none;
+	margin-top:12px;
+	height:20px;
+	width:302px;
+	
+}
+#txpwd{
+	border:none;
+	height:20px;
+	margin-top:12px;
+	width:302px;
+	
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+    color: #c2c2c2;
+    
+}
+
+#denglu{
+	margin-top:15px;
+	
+}
+#denglu a{
+	text-decoration:none;
+}
+#bt_degnlu{
+	height:45px;
+	width:317px;
+	border: 1px solid #f5f5f5;
+	background:#FF7A4D;
+	color:#FFF;
+	font-size:16px;
+}
+
+#genggai{
+	margin-top:15px;
+	width:317px;
+	text-align:right;
+}
+
+#genggai a:hover{
+	color: #ff7e00;
+}
+
+#otherfang{
+	font-size:12px;
+	
+}
+
+#otherfang a{
+	text-decoration:none;
+	color:#8d8d8d;
+}
+
+#wangji{
+	font-size:12px;
+	color:#8d8d8d;
+}
+
+#wangji a{
+	text-decoration:none;
+	color:#8d8d8d;
+}
+
+#zhuces{
+	margin-top:15px;
+	background:#FFF;
+	height:45px;
+	width:315px;
+	color:#8d8d8d;
+	border: 1px solid #d8d8d8;
+}
+
+footer{
+	margin-top:90px;
+}
+
+footer #wei{
+	font-size:12px;
+	color:#8d8d8d;
+}
+
+
+

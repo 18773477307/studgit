@@ -1,0 +1,19 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<span class="choice_2">2.选择网络制式</span>
+<ul class="models" id="gmemory">
+	<c:forEach items="${goodsMemory }" var="item" varStatus="status">
+		<li class="model1 lock" title="${item.dirName }" id="${status.count }">${item.dirName }</li>
+	</c:forEach>
+	<!-- <li class="model1 lock">双网通 64GB</li>
+    <li class="model1 lock">全网通 16GB</li> -->
+</ul>
+
+<span class="choice_2">3.选择颜色</span>
+<ul class="models" id="gcolor">
+<c:forEach items="${goodsColor }" var="item" varStatus="status">
+    <li class="model2 lock" title="${item.dirName }" id="g${status.count }">${item.dirName }</li>
+</c:forEach>
+    <!-- <li class="model2 lock">白色</li>
+    <li class="model2 lock">黑色</li> -->
+</ul>

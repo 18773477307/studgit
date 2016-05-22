@@ -1,0 +1,606 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	margin:0 auto;
+	padding:0;
+}
+body{
+	width:100%;
+	margin:0px auto;
+	font-family:"微软雅黑";
+	background: #F5F5F5;
+}
+#total{
+	width:100%;
+	height：auto;
+}
+
+
+.header{
+	width:100%;
+	min-width:1296px;
+	height:100px;
+	background:#fff;
+	border-bottom:2px solid #F60;
+}
+.container{
+    margin-left: auto;
+    margin-right: auto;
+    width:1226px;
+}
+.header-logo{
+    float: left;
+    margin-top: 25px;
+    width:100px;
+}
+.header-title{
+	float:left;
+}
+.header-p1{
+	height:50px;
+	font-size:26px;
+	float:left;
+	margin-top:25px;
+	line-height:50px;
+	color:#222;
+}
+.header-p2{
+	float:left;
+	margin-top:50px;
+	font-size:14px;
+	color:#999;
+	text-indent:10px;
+}
+.topbar-info{
+	float:right;
+	margin-top:25px;
+	font-family:"微软雅黑";
+	color:#666;
+	font-size:14px;
+}
+.user{
+	line-height:50px;
+}
+.user:hover{
+	color:#F60;
+	cursor:pointer;
+}
+.iconfont{
+	font-weight:bold;
+}
+.myorder{
+}
+
+
+
+
+/*中间部分*/
+#body{
+	background: #F5F5F5;
+	height: auto;
+	width: 100%;
+	padding-bottom: 100px;
+}
+#main{
+	width: 92%;
+	background: #FFF;
+	height: auto;
+	float: left;
+	margin-left: 60px;
+}
+
+#address{
+	width: 100%;
+	float: left;
+	padding-left: 50px;
+	margin-bottom: 30px;
+}
+.addr_title{
+	font-size: 20px;
+	color: #333;
+	line-height: 30px;
+	margin-bottom: 10px;
+	margin-bottom: 10px;
+	padding-top: 15px;
+}
+.addr_detail{
+	width: 250px;
+	height: 150px;
+	border: 1px solid #f0f0f0;
+	float: left;
+	margin-right: 30px;
+}
+
+.addr_detail p{
+	margin-left: 20px;
+}
+/*收货地址哪里的修改*/
+.addr_detail .change{
+	color: #eee;
+	float: right;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+
+.addr_detail .username{
+	font-size: 18px;
+	margin-top: 20px;
+	padding-top: 15px;
+	line-height: 50px;
+	height: 50px;
+}
+.addr_detail .tel{
+	font-size: 16px;
+	color: #999;
+	
+}
+.addr_detail .addr{
+	font-size: 15px;
+	color: #999;
+	line-height: 25px;
+}
+.addr_detail .small{
+	float: right;
+	margin-top: 15px;
+	margin-right: 10px;
+}
+
+#add{
+	height: 100%;
+	text-align: center;
+}
+.add_newaddr{
+	padding: 1px 7px;
+	width: 100%;
+	background: #f0f0f0;
+	border-radius: 50%;
+	text-align: center;
+	font-size: 22px;
+	font-weight: bold;
+	color: #FFF;
+	transition: all 1s; 
+	margin-top: 5px;
+}
+.add_p{
+	width: 100%;
+	font-size: 16px;
+	text-align: center;
+	color: #ccc;
+}
+
+.section-header{
+	width: 92%;
+	float: left;
+	margin-left: 50px;
+	border-bottom: 1px solid #CCC;
+	line-height: 50px;
+}
+.return_car{
+	float: left;
+	margin-left: 20px;
+	color: #999;
+	text-decoration: none;
+}
+
+.section-body{
+	width: 92%;
+	float: left;
+	margin-left: 50px;
+	height: 65px;
+	border-bottom: 1px solid #CCC;
+}
+.goods-list{
+	list-style: none;
+	height: 60px;
+}
+.clearfix div{
+	float: left;
+	height: 60px;
+	line-height: 60px;
+}
+.col-img{
+	margin-top: 10px;
+}
+.col-name{
+	width: 58%;
+
+}
+.col-name a{
+	text-decoration: none;
+		color: #333;
+}
+.col-price,.col-status,.col-total{
+	width: 140px;
+}
+.col-total{
+	color: #f60;
+}
+
+
+.money-box{
+	width: 92%;
+	min-width: 220px;
+	float: left;
+	margin-left:50px;
+	border-top: 1px solid #eee;
+}
+.money-box ul li{
+	list-style: none;
+	height: 35px;
+	line-height: 35px;
+}
+.clearfix label{
+	float: left;
+}
+.money-box ul li .val{
+	color: #f60;
+	margin-left: 940px;
+}
+
+#J_totalPrice{
+	font-size: 22px;
+}
+
+
+
+#addr_show{
+	width: 500px;
+	float: right;
+	margin-top: 60px;
+}
+#addr_show ul li{
+	list-style: none;
+	font-size: 14px;
+	line-height: 20px;
+}
+#addr_show .change{
+	color: #f60;
+	margin-left: 300px;
+	cursor: pointer;
+	font-size: 15px;
+}
+#addr_show .change:hover{
+	text-decoration: underline;
+	
+}
+
+
+/*去结算那个位置*/
+#main_footer{
+	width: 100%;
+	border-top: 1px solid #ccc;
+	height: auto;
+	float: left;
+	padding-bottom: 20px;
+}
+
+.count{
+	width: 100px;
+	height: 34px;
+	margin-top: 13px;
+	font-size: 15px;
+	color: #fff;
+	line-height: 34px;
+	float: right;
+	margin-right: 40px;
+	text-align: center;
+	border-radius:5px ;
+}
+.buy{
+	width: 100px;
+	height: 34px;
+}
+.order_detail{
+	width:92%;
+	height:40px;
+	padding-bottom: 10px;
+	line-height: 40px;
+}
+#spPic{
+	width: 300px;
+	height:40px;
+	float:left;
+}
+#spName{
+	width: 380px;
+	height:40px;
+	float:left;
+}
+#danjia{
+	width: 340px;
+	height:40px;
+	float:left;
+}
+#shuliang{
+	width: 50px;
+	height:40px;
+	float:left;
+}
+
+
+
+.list-body{
+	width: 92%;
+	height:100px;
+	float: left;
+	margin-left:50px;
+	line-height: 80px;
+	border-top: 1px solid #eee;
+	
+}
+.col-img{
+	width: 300px;
+	height:80px;
+	float:left;
+}
+.col-img img{
+	width:50px;
+	height:50px;
+	padding: 15px 65px;
+}
+.pro-names{
+	width: 380px;
+	height:100px;
+	float:left;
+}
+.pro-num{
+	width: 50px;
+	height:100px;
+	float:left;
+}
+.priceSingle{
+	width: 340px;
+	height:100px;
+	float:left;
+}
+.priceTotal{
+	width: 180px;
+	height:100px;
+	float:left;
+}
+
+
+/*订单提交*/
+#order_post{
+	display: none;
+	background: #f5f5f5;
+	width: 100%;
+	height:auto;
+	float: left;
+	margin-top: 20px;
+}
+
+.order_post_content{
+	width: 92%; 
+	float: left; 
+	margin-left: 60px; 
+	background: #fff;
+	margin-bottom: 20px;
+}
+.order_post_content img{
+	width: 65px; 
+	height: 65px;
+	padding-top: 40px;
+}
+
+.order_post_judge{
+	width: 100px;
+	height: 150px;
+	float: left;
+	margin-left: 35px;
+}
+.order_post_message{
+	width: 300px;
+	height: 150px;
+	float: left;
+}
+.order_post_message h2{
+	padding-top: 30px;
+	padding-bottom: 20px;
+}
+.pay_money{
+	font-size: 22px;
+	color: #f60;
+}
+.look_order{
+	float: left;
+	margin-left: 250px;
+	margin-right: 40px;
+	cursor: pointer;
+}
+.order_post_detail{
+	display: none;
+	float: left;
+	width: 300px;
+	height: 150px;
+}
+.order_post_detail ul li{
+	height: 30px;
+	line-height: 30px;
+	margin-top: 15px;
+	list-style: none;
+}
+
+
+/*支付方式*/
+#pay{
+	width: 92%;
+	height: 200px;
+	padding-top: 20px;
+	background: #fff;
+	float: left;
+	margin-left: 60px;
+}
+#choose_way{
+	width: 94%;
+	height: 50px;
+	font-size: 24px;
+	border-bottom: 1px solid #ccc;
+}
+#pay_way{
+	width: 94%;
+}
+#pay_way img{
+	margin-right: 20px;
+	border: 1px solid #ccc;
+	cursor: pointer;
+}
+.payways{
+	font-size: 22px;
+	height: 40px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+
+
+
+/*地址修改*/
+.addr_box{
+	display: none;
+	z-index: 11;
+	opacity: 0.6;
+	width: 100%;
+	height: 1600px;
+	position: absolute;
+	top: 0px;
+	background-color: #333;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	filter: alpha(opacity =     60);
+	position: fixed !important;
+	_top: expression(eval(document.compatMode &&       document.compatMode ==  
+		  'CSS1Compat')?    
+            documentElement.scrollTop+    (document.documentElement.clientHeight-this.offsetHeight
+		)/2:document.body.scrollTop+    (document.body.clientHeight-
+		this.clientHeight )/2 );
+}
+
+.addr_box_body{
+	width: 300px;
+	height: 420px;
+	background:#fff;
+	overflow: hidden;
+	position: absolute;
+	left: 300px;
+	top: 150px;
+	z-index: 99999;
+	display: block;
+	border: 1px solid #f60;
+}
+
+
+.form-section{
+	width: 200px;
+	float: left;
+}
+.form-section-name{
+	margin-top: 20px;
+}
+.form-section-name,.form-section-tel{
+	width: 200px;	
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+.form-section input{
+	padding: 8px;
+	border：#ccc;
+	text-align: left;
+	float: left;
+	padding-right: 110px;
+}
+.form-section-province{
+	width: 300px;
+	float: left;
+}
+.form_province{
+	width: 120px;
+	float: left;
+	padding-left: 0px;
+	margin-left: 20px;
+}
+.form_city{
+	float: left;
+	width: 120px;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+.form_area{
+	width: 200px;
+	margin-left: 20px;
+	
+	float: left;
+}
+#area{
+	width: 260px;
+	margin-bottom: 20px;
+}
+.label{
+	display: inline-block;
+	width: 35px;
+	height: 20px;
+	font-size: 14px;
+	position: absolute;
+	left: 30px;
+	color: #ccc;
+	background: #fff;
+}
+.box_name{
+	top: 7px;
+}
+.box_tel{
+	top: 62px;
+	width: 50px;
+}
+.box_detailaddr{
+	width: 70px;
+	top: 230px;
+}
+.box_post{
+	width: 70px;
+	top: 285px;
+}
+.form-section select{
+	padding: 8px 20px;
+	float: left;
+}
+.detail_addr,.post_code{
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+.addr_op{
+	width: 300px;
+	float: left;
+	border-top: 1px solid #ccc;
+	padding-top: 30px;
+}
+.addr_op a{
+	padding-top: 30px;
+	width: 120px;
+	height: 40px;
+	padding: 3px 35px;
+	margin-left: 28px;
+	color: #fff;
+	cursor: pointer;
+}
+.addr_save{
+	background: #f80;
+	border: 1px solid #f80;
+}
+.addr_cancel{
+	background: #ccc;
+	border: 1px solid #ccc;
+}
+.addr_save:hover{
+	background: #f60;
+	border: 1px solid #f60;
+}
+.addr_cancel:hover{
+	background: #999;
+	border: 1px solid #999;
+}
+
+
