@@ -1,23 +1,44 @@
 package com.xiaomi.entity;
 
 public class ResourcesWithBLOBs extends Resources {
-    private String rescont;
+	private static final long serialVersionUID = 1L;
 
-    private String reswords;
+	private String resCont;
 
-    public String getRescont() {
-        return rescont;
-    }
+    private String resWords;
 
-    public void setRescont(String rescont) {
-        this.rescont = rescont == null ? null : rescont.trim();
-    }
+	public String getResCont() {
+		return resCont;
+	}
 
-    public String getReswords() {
-        return reswords;
-    }
+	public void setResCont(String resCont) {
+		this.resCont = resCont;
+	}
 
-    public void setReswords(String reswords) {
-        this.reswords = reswords == null ? null : reswords.trim();
-    }
+	public String getResWords() {
+		return resWords;
+	}
+
+	public void setResWords(String resWords) {
+		this.resWords = resWords;
+	}
+
+	@Override
+	public String toString() {
+		return "ResourcesWithBLOBs [resCont=" + resCont + ", resWords="
+				+ resWords + "]";
+	}
+
+	public ResourcesWithBLOBs(String resCont, String resWords) {
+		super();
+		this.resCont = resCont;
+		this.resWords = resWords;
+	}
+
+	public ResourcesWithBLOBs() {
+		super();
+	}
+    
+    
+
 }

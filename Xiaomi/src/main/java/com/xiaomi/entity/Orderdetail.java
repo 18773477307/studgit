@@ -1,75 +1,105 @@
 package com.xiaomi.entity;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 
-public class Orderdetail {
-    private BigDecimal ordid;
 
-    private BigDecimal ptid;
+public class Orderdetail implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    private BigDecimal detaprice;
+	private int ordId;
 
-    private BigDecimal detanum;
+    private int ptId;
 
-    private BigDecimal detasta;
+    private int detaPrice;
+
+    private int detaNum;
+
+    private int detaSta;
 
     private String reserve19;
 
     private String reserve20;
 
-    public BigDecimal getOrdid() {
-        return ordid;
-    }
+	public int getOrdId() {
+		return ordId;
+	}
 
-    public void setOrdid(BigDecimal ordid) {
-        this.ordid = ordid;
-    }
+	public void setOrdId(int ordId) {
+		this.ordId = ordId;
+	}
 
-    public BigDecimal getPtid() {
-        return ptid;
-    }
+	public int getPtId() {
+		return ptId;
+	}
 
-    public void setPtid(BigDecimal ptid) {
-        this.ptid = ptid;
-    }
+	public void setPtId(int ptId) {
+		this.ptId = ptId;
+	}
 
-    public BigDecimal getDetaprice() {
-        return detaprice;
-    }
+	public int getDetaPrice() {
+		return detaPrice;
+	}
 
-    public void setDetaprice(BigDecimal detaprice) {
-        this.detaprice = detaprice;
-    }
+	public void setDetaPrice(int detaPrice) {
+		this.detaPrice = detaPrice;
+	}
 
-    public BigDecimal getDetanum() {
-        return detanum;
-    }
+	public int getDetaNum() {
+		return detaNum;
+	}
 
-    public void setDetanum(BigDecimal detanum) {
-        this.detanum = detanum;
-    }
+	public void setDetaNum(int detaNum) {
+		this.detaNum = detaNum;
+	}
 
-    public BigDecimal getDetasta() {
-        return detasta;
-    }
+	public int getDetaSta() {
+		return detaSta;
+	}
 
-    public void setDetasta(BigDecimal detasta) {
-        this.detasta = detasta;
-    }
+	public void setDetaSta(int detaSta) {
+		this.detaSta = detaSta;
+	}
 
-    public String getReserve19() {
-        return reserve19;
-    }
+	public String getReserve19() {
+		return reserve19;
+	}
 
-    public void setReserve19(String reserve19) {
-        this.reserve19 = reserve19 == null ? null : reserve19.trim();
-    }
+	public void setReserve19(String reserve19) {
+		this.reserve19 = reserve19;
+	}
 
-    public String getReserve20() {
-        return reserve20;
-    }
+	public String getReserve20() {
+		return reserve20;
+	}
 
-    public void setReserve20(String reserve20) {
-        this.reserve20 = reserve20 == null ? null : reserve20.trim();
-    }
+	public void setReserve20(String reserve20) {
+		this.reserve20 = reserve20;
+	}
+
+	@Override
+	public String toString() {
+		return "Orderdetail [ordId=" + ordId + ", ptId=" + ptId
+				+ ", detaPrice=" + detaPrice + ", detaNum=" + detaNum
+				+ ", detaSta=" + detaSta + ", reserve19=" + reserve19
+				+ ", reserve20=" + reserve20 + "]";
+	}
+
+	public Orderdetail(int ordId, int ptId, int detaPrice, int detaNum,
+			int detaSta, String reserve19, String reserve20) {
+		super();
+		this.ordId = ordId;
+		this.ptId = ptId;
+		this.detaPrice = detaPrice;
+		this.detaNum = detaNum;
+		this.detaSta = detaSta;
+		this.reserve19 = reserve19;
+		this.reserve20 = reserve20;
+	}
+
+	public Orderdetail() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+   
 }

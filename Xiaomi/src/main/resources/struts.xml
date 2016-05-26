@@ -9,7 +9,7 @@
 	<constant name="struts.devMode" value="true" />
 	
 	 <!-- 把struts的action对象交给spring容器管理 -->
-	<constant name="struts.objectFactory " value="spring" />
+	<constant name="struts.objectFactory" value="spring" />
 
 	<package name="default" namespace="/" extends="struts-default">
 		

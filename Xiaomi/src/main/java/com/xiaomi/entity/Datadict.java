@@ -1,35 +1,53 @@
 package com.xiaomi.entity;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 
-public class Datadict {
-    private BigDecimal dirid;
+public class Datadict implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private int dirId;
+	private String dirName;
+	private int dirType;
 
-    private String dirname;
+	public int getDirId() {
+		return dirId;
+	}
 
-    private BigDecimal dirtype;
+	public void setDirId(int dirId) {
+		this.dirId = dirId;
+	}
 
-    public BigDecimal getDirid() {
-        return dirid;
-    }
+	public String getDirName() {
+		return dirName;
+	}
 
-    public void setDirid(BigDecimal dirid) {
-        this.dirid = dirid;
-    }
+	public void setDirName(String dirName) {
+		this.dirName = dirName;
+	}
 
-    public String getDirname() {
-        return dirname;
-    }
+	public int getDirType() {
+		return dirType;
+	}
 
-    public void setDirname(String dirname) {
-        this.dirname = dirname == null ? null : dirname.trim();
-    }
+	public void setDirType(int dirType) {
+		this.dirType = dirType;
+	}
 
-    public BigDecimal getDirtype() {
-        return dirtype;
-    }
+	@Override
+	public String toString() {
+		return "Datadict [dirId=" + dirId + ", dirName=" + dirName
+				+ ", dirType=" + dirType + "]";
+	}
 
-    public void setDirtype(BigDecimal dirtype) {
-        this.dirtype = dirtype;
-    }
+	public Datadict(int dirId, String dirName, int dirType) {
+		super();
+		this.dirId = dirId;
+		this.dirName = dirName;
+		this.dirType = dirType;
+	}
+
+	public Datadict() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 }

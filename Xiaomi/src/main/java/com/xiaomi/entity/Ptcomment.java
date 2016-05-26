@@ -1,18 +1,20 @@
 package com.xiaomi.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.io.Serializable;
 
-public class Ptcomment {
-    private BigDecimal apprid;
 
-    private BigDecimal ptid;
+public class Ptcomment implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    private BigDecimal usersid;
+	private int apprId;
 
-    private Date apprdate;
+    private int ptId;
 
-    private BigDecimal apprsta;
+    private int usersId;
+
+    private String apprDate;
+
+    private int apprSta;
 
     private String reserve27;
 
@@ -20,67 +22,94 @@ public class Ptcomment {
 
     private String apprcont;
 
-    public BigDecimal getApprid() {
-        return apprid;
-    }
+	public int getApprId() {
+		return apprId;
+	}
 
-    public void setApprid(BigDecimal apprid) {
-        this.apprid = apprid;
-    }
+	public void setApprId(int apprId) {
+		this.apprId = apprId;
+	}
 
-    public BigDecimal getPtid() {
-        return ptid;
-    }
+	public int getPtId() {
+		return ptId;
+	}
 
-    public void setPtid(BigDecimal ptid) {
-        this.ptid = ptid;
-    }
+	public void setPtId(int ptId) {
+		this.ptId = ptId;
+	}
 
-    public BigDecimal getUsersid() {
-        return usersid;
-    }
+	public int getUsersId() {
+		return usersId;
+	}
 
-    public void setUsersid(BigDecimal usersid) {
-        this.usersid = usersid;
-    }
+	public void setUsersId(int usersId) {
+		this.usersId = usersId;
+	}
 
-    public Date getApprdate() {
-        return apprdate;
-    }
+	public String getApprDate() {
+		return apprDate;
+	}
 
-    public void setApprdate(Date apprdate) {
-        this.apprdate = apprdate;
-    }
+	public void setApprDate(String apprDate) {
+		this.apprDate = apprDate;
+	}
 
-    public BigDecimal getApprsta() {
-        return apprsta;
-    }
+	public int getApprSta() {
+		return apprSta;
+	}
 
-    public void setApprsta(BigDecimal apprsta) {
-        this.apprsta = apprsta;
-    }
+	public void setApprSta(int apprSta) {
+		this.apprSta = apprSta;
+	}
 
-    public String getReserve27() {
-        return reserve27;
-    }
+	public String getReserve27() {
+		return reserve27;
+	}
 
-    public void setReserve27(String reserve27) {
-        this.reserve27 = reserve27 == null ? null : reserve27.trim();
-    }
+	public void setReserve27(String reserve27) {
+		this.reserve27 = reserve27;
+	}
 
-    public String getReserve28() {
-        return reserve28;
-    }
+	public String getReserve28() {
+		return reserve28;
+	}
 
-    public void setReserve28(String reserve28) {
-        this.reserve28 = reserve28 == null ? null : reserve28.trim();
-    }
+	public void setReserve28(String reserve28) {
+		this.reserve28 = reserve28;
+	}
 
-    public String getApprcont() {
-        return apprcont;
-    }
+	public String getApprcont() {
+		return apprcont;
+	}
 
-    public void setApprcont(String apprcont) {
-        this.apprcont = apprcont == null ? null : apprcont.trim();
-    }
+	public void setApprcont(String apprcont) {
+		this.apprcont = apprcont;
+	}
+
+	@Override
+	public String toString() {
+		return "Ptcomment [apprId=" + apprId + ", ptId=" + ptId + ", usersId="
+				+ usersId + ", apprDate=" + apprDate + ", apprSta=" + apprSta
+				+ ", reserve27=" + reserve27 + ", reserve28=" + reserve28
+				+ ", apprcont=" + apprcont + "]";
+	}
+
+	public Ptcomment(int apprId, int ptId, int usersId, String apprDate,
+			int apprSta, String reserve27, String reserve28, String apprcont) {
+		super();
+		this.apprId = apprId;
+		this.ptId = ptId;
+		this.usersId = usersId;
+		this.apprDate = apprDate;
+		this.apprSta = apprSta;
+		this.reserve27 = reserve27;
+		this.reserve28 = reserve28;
+		this.apprcont = apprcont;
+	}
+
+	public Ptcomment() {
+		super();
+	}
+    
+    
 }

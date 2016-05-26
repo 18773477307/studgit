@@ -1,155 +1,198 @@
 package com.xiaomi.entity;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 
-public class Product {
-    private BigDecimal ptid;
 
-    private BigDecimal ptprice;
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    private String ptpic;
+	private int ptId;
 
-    private BigDecimal ptnum;
+    private double ptPrice;
 
-    private String ptcan;
+    private String ptPic;
 
-    private BigDecimal goodsid;
+    private int ptNum;
 
-    private BigDecimal ptformat;
+    private String ptCan;
 
-    private BigDecimal ptcolor;
+    private int goodsId;
 
-    private BigDecimal ptnet;
+    private int ptformat;
 
-    private BigDecimal ptversions;
+    private int ptcolor;
 
-    private BigDecimal ptmemory;
+    private int ptnet;
 
-    private BigDecimal ptcpu;
+    private int ptversions;
 
-    private BigDecimal ptbattery;
+    private int ptmemory;
+
+    private int ptcpu;
+
+    private int ptbattery;
 
     private String reserve13;
 
     private String reserve14;
 
-    public BigDecimal getPtid() {
-        return ptid;
-    }
+	public int getPtId() {
+		return ptId;
+	}
 
-    public void setPtid(BigDecimal ptid) {
-        this.ptid = ptid;
-    }
+	public void setPtId(int ptId) {
+		this.ptId = ptId;
+	}
 
-    public BigDecimal getPtprice() {
-        return ptprice;
-    }
+	public double getPtPrice() {
+		return ptPrice;
+	}
 
-    public void setPtprice(BigDecimal ptprice) {
-        this.ptprice = ptprice;
-    }
+	public void setPtPrice(double ptPrice) {
+		this.ptPrice = ptPrice;
+	}
 
-    public String getPtpic() {
-        return ptpic;
-    }
+	public String getPtPic() {
+		return ptPic;
+	}
 
-    public void setPtpic(String ptpic) {
-        this.ptpic = ptpic == null ? null : ptpic.trim();
-    }
+	public void setPtPic(String ptPic) {
+		this.ptPic = ptPic;
+	}
 
-    public BigDecimal getPtnum() {
-        return ptnum;
-    }
+	public int getPtNum() {
+		return ptNum;
+	}
 
-    public void setPtnum(BigDecimal ptnum) {
-        this.ptnum = ptnum;
-    }
+	public void setPtNum(int ptNum) {
+		this.ptNum = ptNum;
+	}
 
-    public String getPtcan() {
-        return ptcan;
-    }
+	public String getPtCan() {
+		return ptCan;
+	}
 
-    public void setPtcan(String ptcan) {
-        this.ptcan = ptcan == null ? null : ptcan.trim();
-    }
+	public void setPtCan(String ptCan) {
+		this.ptCan = ptCan;
+	}
 
-    public BigDecimal getGoodsid() {
-        return goodsid;
-    }
+	public int getGoodsId() {
+		return goodsId;
+	}
 
-    public void setGoodsid(BigDecimal goodsid) {
-        this.goodsid = goodsid;
-    }
+	public void setGoodsId(int goodsId) {
+		this.goodsId = goodsId;
+	}
 
-    public BigDecimal getPtformat() {
-        return ptformat;
-    }
+	public int getPtformat() {
+		return ptformat;
+	}
 
-    public void setPtformat(BigDecimal ptformat) {
-        this.ptformat = ptformat;
-    }
+	public void setPtformat(int ptformat) {
+		this.ptformat = ptformat;
+	}
 
-    public BigDecimal getPtcolor() {
-        return ptcolor;
-    }
+	public int getPtcolor() {
+		return ptcolor;
+	}
 
-    public void setPtcolor(BigDecimal ptcolor) {
-        this.ptcolor = ptcolor;
-    }
+	public void setPtcolor(int ptcolor) {
+		this.ptcolor = ptcolor;
+	}
 
-    public BigDecimal getPtnet() {
-        return ptnet;
-    }
+	public int getPtnet() {
+		return ptnet;
+	}
 
-    public void setPtnet(BigDecimal ptnet) {
-        this.ptnet = ptnet;
-    }
+	public void setPtnet(int ptnet) {
+		this.ptnet = ptnet;
+	}
 
-    public BigDecimal getPtversions() {
-        return ptversions;
-    }
+	public int getPtversions() {
+		return ptversions;
+	}
 
-    public void setPtversions(BigDecimal ptversions) {
-        this.ptversions = ptversions;
-    }
+	public void setPtversions(int ptversions) {
+		this.ptversions = ptversions;
+	}
 
-    public BigDecimal getPtmemory() {
-        return ptmemory;
-    }
+	public int getPtmemory() {
+		return ptmemory;
+	}
 
-    public void setPtmemory(BigDecimal ptmemory) {
-        this.ptmemory = ptmemory;
-    }
+	public void setPtmemory(int ptmemory) {
+		this.ptmemory = ptmemory;
+	}
 
-    public BigDecimal getPtcpu() {
-        return ptcpu;
-    }
+	public int getPtcpu() {
+		return ptcpu;
+	}
 
-    public void setPtcpu(BigDecimal ptcpu) {
-        this.ptcpu = ptcpu;
-    }
+	public void setPtcpu(int ptcpu) {
+		this.ptcpu = ptcpu;
+	}
 
-    public BigDecimal getPtbattery() {
-        return ptbattery;
-    }
+	public int getPtbattery() {
+		return ptbattery;
+	}
 
-    public void setPtbattery(BigDecimal ptbattery) {
-        this.ptbattery = ptbattery;
-    }
+	public void setPtbattery(int ptbattery) {
+		this.ptbattery = ptbattery;
+	}
 
-    public String getReserve13() {
-        return reserve13;
-    }
+	public String getReserve13() {
+		return reserve13;
+	}
 
-    public void setReserve13(String reserve13) {
-        this.reserve13 = reserve13 == null ? null : reserve13.trim();
-    }
+	public void setReserve13(String reserve13) {
+		this.reserve13 = reserve13;
+	}
 
-    public String getReserve14() {
-        return reserve14;
-    }
+	public String getReserve14() {
+		return reserve14;
+	}
 
-    public void setReserve14(String reserve14) {
-        this.reserve14 = reserve14 == null ? null : reserve14.trim();
-    }
+	public void setReserve14(String reserve14) {
+		this.reserve14 = reserve14;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [ptId=" + ptId + ", ptPrice=" + ptPrice + ", ptPic="
+				+ ptPic + ", ptNum=" + ptNum + ", ptCan=" + ptCan
+				+ ", goodsId=" + goodsId + ", ptformat=" + ptformat
+				+ ", ptcolor=" + ptcolor + ", ptnet=" + ptnet + ", ptversions="
+				+ ptversions + ", ptmemory=" + ptmemory + ", ptcpu=" + ptcpu
+				+ ", ptbattery=" + ptbattery + ", reserve13=" + reserve13
+				+ ", reserve14=" + reserve14 + "]";
+	}
+
+	public Product(int ptId, double ptPrice, String ptPic, int ptNum,
+			String ptCan, int goodsId, int ptformat, int ptcolor, int ptnet,
+			int ptversions, int ptmemory, int ptcpu, int ptbattery,
+			String reserve13, String reserve14) {
+		super();
+		this.ptId = ptId;
+		this.ptPrice = ptPrice;
+		this.ptPic = ptPic;
+		this.ptNum = ptNum;
+		this.ptCan = ptCan;
+		this.goodsId = goodsId;
+		this.ptformat = ptformat;
+		this.ptcolor = ptcolor;
+		this.ptnet = ptnet;
+		this.ptversions = ptversions;
+		this.ptmemory = ptmemory;
+		this.ptcpu = ptcpu;
+		this.ptbattery = ptbattery;
+		this.reserve13 = reserve13;
+		this.reserve14 = reserve14;
+	}
+
+	public Product() {
+		super();
+	}
+    
+    
+
 }

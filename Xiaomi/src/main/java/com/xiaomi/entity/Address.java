@@ -1,48 +1,33 @@
 package com.xiaomi.entity;
 
-import java.io.Serializable;
+public class Address {
+	private int addrId;
+	private int usersId;
+	private String province;
+	private String city;
+	private String county;
+	private String detailAddr;
+	private String addrTel;
+	private int defaultaddr;
+	private String postcode;
+	private String recipient;
+	private String reserve3;
+	private String reserve4;
 
-public class Address implements Serializable{
-	private static final long serialVersionUID = -4662270525044641056L;
-
-	private int addrid;
-
-    private int usersid;
-
-    private String province;
-
-    private String city;
-
-    private String county;
-
-    private String detailaddr;
-
-    private String addrtel;
-
-    private int defaultaddr;
-
-    private String postcode;
-
-    private String recipient;
-
-    private String reserve3;
-
-    private String reserve4;
-
-	public int getAddrid() {
-		return addrid;
+	public int getAddrId() {
+		return addrId;
 	}
 
-	public void setAddrid(int addrid) {
-		this.addrid = addrid;
+	public void setAddrId(int addrId) {
+		this.addrId = addrId;
 	}
 
-	public int getUsersid() {
-		return usersid;
+	public int getUsersId() {
+		return usersId;
 	}
 
-	public void setUsersid(int usersid) {
-		this.usersid = usersid;
+	public void setUsersId(int usersId) {
+		this.usersId = usersId;
 	}
 
 	public String getProvince() {
@@ -69,20 +54,20 @@ public class Address implements Serializable{
 		this.county = county;
 	}
 
-	public String getDetailaddr() {
-		return detailaddr;
+	public String getDetailAddr() {
+		return detailAddr;
 	}
 
-	public void setDetailaddr(String detailaddr) {
-		this.detailaddr = detailaddr;
+	public void setDetailAddr(String detailAddr) {
+		this.detailAddr = detailAddr;
 	}
 
-	public String getAddrtel() {
-		return addrtel;
+	public String getAddrTel() {
+		return addrTel;
 	}
 
-	public void setAddrtel(String addrtel) {
-		this.addrtel = addrtel;
+	public void setAddrTel(String addrTel) {
+		this.addrTel = addrTel;
 	}
 
 	public int getDefaultaddr() {
@@ -127,25 +112,25 @@ public class Address implements Serializable{
 
 	@Override
 	public String toString() {
-		return "\nAddress [addrid=" + addrid + ", usersid=" + usersid
+		return "Address [addrId=" + addrId + ", usersId=" + usersId
 				+ ", province=" + province + ", city=" + city + ", county="
-				+ county + ", detailaddr=" + detailaddr + ", addrtel="
-				+ addrtel + ", defaultaddr=" + defaultaddr + ", postcode="
+				+ county + ", detailAddr=" + detailAddr + ", addrTel="
+				+ addrTel + ", defaultaddr=" + defaultaddr + ", postcode="
 				+ postcode + ", recipient=" + recipient + ", reserve3="
 				+ reserve3 + ", reserve4=" + reserve4 + "]";
 	}
 
-	public Address(int addrid, int usersid, String province, String city,
-			String county, String detailaddr, String addrtel, int defaultaddr,
+	public Address(int addrId, int usersId, String province, String city,
+			String county, String detailAddr, String addrTel, int defaultaddr,
 			String postcode, String recipient, String reserve3, String reserve4) {
 		super();
-		this.addrid = addrid;
-		this.usersid = usersid;
+		this.addrId = addrId;
+		this.usersId = usersId;
 		this.province = province;
 		this.city = city;
 		this.county = county;
-		this.detailaddr = detailaddr;
-		this.addrtel = addrtel;
+		this.detailAddr = detailAddr;
+		this.addrTel = addrTel;
 		this.defaultaddr = defaultaddr;
 		this.postcode = postcode;
 		this.recipient = recipient;
@@ -154,6 +139,6 @@ public class Address implements Serializable{
 	}
 
 	public Address() {
+		super();
 	}
-    
 }
