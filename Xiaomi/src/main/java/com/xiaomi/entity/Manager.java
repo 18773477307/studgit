@@ -3,13 +3,9 @@ package com.xiaomi.entity;
 import java.io.Serializable;
 
 public class Manager implements Serializable{
-	
-	/**
-	 * 添加反序列化
-	 */
 	private static final long serialVersionUID = 5116322294199283260L;
 	
-	private String manaId;
+	private int manaId;
 	private String manaName;
 	private int manaSex;
 	private String manaPwd;
@@ -20,11 +16,11 @@ public class Manager implements Serializable{
 	
 	
 	//管理员编号
-	public String getManaId() {
+	public int getManaId() {
 		return manaId;
 	}
 	
-	public void setManaId(String manaId) {
+	public void setManaId(int manaId) {
 		this.manaId = manaId;
 	}
 	
@@ -82,11 +78,15 @@ public class Manager implements Serializable{
 		this.reserve6 = reserve6;
 	}
 
-	public Manager() {
-		super();
+	@Override
+	public String toString() {
+		return "Manager [manaId=" + manaId + ", manaName=" + manaName
+				+ ", manaSex=" + manaSex + ", manaPwd=" + manaPwd
+				+ ", manaSta=" + manaSta + ", reserve5=" + reserve5
+				+ ", reserve6=" + reserve6 + "]";
 	}
 
-	public Manager(String manaId, String manaName, int manaSex, String manaPwd,
+	public Manager(int manaId, String manaName, int manaSex, String manaPwd,
 			int manaSta, String reserve5, String reserve6) {
 		super();
 		this.manaId = manaId;
@@ -97,12 +97,8 @@ public class Manager implements Serializable{
 		this.reserve5 = reserve5;
 		this.reserve6 = reserve6;
 	}
-
-	@Override
-	public String toString() {
-		return "Manager [manaId=" + manaId + ", manaName=" + manaName
-				+ ", manaSex=" + manaSex + ", manaPwd=" + manaPwd
-				+ ", manaSta=" + manaSta + ", reserve5=" + reserve5
-				+ ", reserve6=" + reserve6 + "]";
+	
+	public Manager() {
+		super();
 	}
 }

@@ -1,119 +1,159 @@
 package com.xiaomi.entity;
 
-public class Address {
-	private int addrId;
-	private String usersId;
-	private String province;
-	private String city;
-	private String county;
-	private String detailAddr;
-	private String addrTel;
-	private String reserve3;
-	private String reserve4;
-	
-	
-	//收货地址编号
-	public int getAddrId() {
-		return addrId;
+import java.io.Serializable;
+
+public class Address implements Serializable{
+	private static final long serialVersionUID = -4662270525044641056L;
+
+	private int addrid;
+
+    private int usersid;
+
+    private String province;
+
+    private String city;
+
+    private String county;
+
+    private String detailaddr;
+
+    private String addrtel;
+
+    private int defaultaddr;
+
+    private String postcode;
+
+    private String recipient;
+
+    private String reserve3;
+
+    private String reserve4;
+
+	public int getAddrid() {
+		return addrid;
 	}
-	public int getAddrIds() {
-		return addrId;
+
+	public void setAddrid(int addrid) {
+		this.addrid = addrid;
 	}
-	
-	public void setAddrId(int addrId) {
-		this.addrId = addrId;
+
+	public int getUsersid() {
+		return usersid;
 	}
-	
-	//用户编号
-	public String getUsersId() {
-		return usersId;
+
+	public void setUsersid(int usersid) {
+		this.usersid = usersid;
 	}
-	public void setUsersId(String usersId) {
-		this.usersId = usersId;
-	}
-	
-	//省
+
 	public String getProvince() {
 		return province;
 	}
+
 	public void setProvince(String province) {
 		this.province = province;
 	}
-	
-	//市
+
 	public String getCity() {
 		return city;
 	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
-	
-	//县
+
 	public String getCounty() {
 		return county;
 	}
+
 	public void setCounty(String county) {
 		this.county = county;
 	}
-	
-	//详细地址
-	public String getDetailAddr() {
-		return detailAddr;
+
+	public String getDetailaddr() {
+		return detailaddr;
 	}
-	public void setDetailAddr(String detailAddr) {
-		this.detailAddr = detailAddr;
+
+	public void setDetailaddr(String detailaddr) {
+		this.detailaddr = detailaddr;
 	}
-	
-	//收件人电话
-	public String getAddrTel() {
-		return addrTel;
+
+	public String getAddrtel() {
+		return addrtel;
 	}
-	public void setAddrTel(String addrTel) {
-		this.addrTel = addrTel;
+
+	public void setAddrtel(String addrtel) {
+		this.addrtel = addrtel;
 	}
-	
-	//备用字段
+
+	public int getDefaultaddr() {
+		return defaultaddr;
+	}
+
+	public void setDefaultaddr(int defaultaddr) {
+		this.defaultaddr = defaultaddr;
+	}
+
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
+
 	public String getReserve3() {
 		return reserve3;
 	}
+
 	public void setReserve3(String reserve3) {
 		this.reserve3 = reserve3;
 	}
-	
+
 	public String getReserve4() {
 		return reserve4;
 	}
+
 	public void setReserve4(String reserve4) {
 		this.reserve4 = reserve4;
 	}
-	
-	public Address(int addrId, String usersId, String province, String city,
-			String county, String detailAddr, String addrTel, String reserve3,
-			String reserve4) {
+
+	@Override
+	public String toString() {
+		return "\nAddress [addrid=" + addrid + ", usersid=" + usersid
+				+ ", province=" + province + ", city=" + city + ", county="
+				+ county + ", detailaddr=" + detailaddr + ", addrtel="
+				+ addrtel + ", defaultaddr=" + defaultaddr + ", postcode="
+				+ postcode + ", recipient=" + recipient + ", reserve3="
+				+ reserve3 + ", reserve4=" + reserve4 + "]";
+	}
+
+	public Address(int addrid, int usersid, String province, String city,
+			String county, String detailaddr, String addrtel, int defaultaddr,
+			String postcode, String recipient, String reserve3, String reserve4) {
 		super();
-		this.addrId = addrId;
-		this.usersId = usersId;
+		this.addrid = addrid;
+		this.usersid = usersid;
 		this.province = province;
 		this.city = city;
 		this.county = county;
-		this.detailAddr = detailAddr;
-		this.addrTel = addrTel;
+		this.detailaddr = detailaddr;
+		this.addrtel = addrtel;
+		this.defaultaddr = defaultaddr;
+		this.postcode = postcode;
+		this.recipient = recipient;
 		this.reserve3 = reserve3;
 		this.reserve4 = reserve4;
 	}
-	
+
 	public Address() {
-		super();
 	}
-	
-	@Override
-	public String toString() {
-		return "Address [addrId=" + addrId + ", usersId=" + usersId
-				+ ", province=" + province + ", city=" + city + ", county="
-				+ county + ", detailAddr=" + detailAddr + ", addrTel="
-				+ addrTel + ", reserve3=" + reserve3 + ", reserve4=" + reserve4
-				+ "]";
-	}
-	
-	
+    
 }
