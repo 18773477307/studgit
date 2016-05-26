@@ -79,10 +79,13 @@ create table manager(
 );
 create sequence seq_manager_manaId start with 1 increment by 1;
 --插入-------------------------------------------------------------------------------------------
-insert into manager values (seq_manager_manaId.nextval,'ls',1,'aaaaaa',1,'');
-insert into manager values (seq_manager_manaId.nextval,'lj',0,'aaaaaa',1,'');
-insert into manager values (seq_manager_manaId.nextval,'pj',1,'aaaaaa',1,'');
-insert into manager values (seq_manager_manaId.nextval,'pxt',1,'aaaaaa',1,'');
+insert into manager values (seq_manager_manaId.nextval,'ls',1,'aaaaaa',1,'','');
+insert into manager values (seq_manager_manaId.nextval,'lj',0,'aaaaaa',1,'','');
+insert into manager values (seq_manager_manaId.nextval,'pj',1,'aaaaaa',1,'','');
+insert into manager values (seq_manager_manaId.nextval,'pxt',1,'aaaaaa',1,'','');
+
+select b.* from (select a.*,rownum rn from 
+		(select * from Manager order by manaId) a where 10>=rownum)b where rn>0 order by manaId asc
 --查询--------------------------------------------------------------------------------------------
 select * from manager;
 --删除--------------------------------------------------------------------------------------------

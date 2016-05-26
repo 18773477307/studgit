@@ -8,10 +8,7 @@
 		var statusObj=[{sid:0,sname:'男'},{sid:1,sname:'女'}];
 		var statusObj1=[{sid:0,sname:'已删除'},{sid:1,sname:'存在'}];
 		datagrid = $('#manager_info').datagrid({
-			url : '../managerServlet',
-			queryParams : {
-				op : "getPageManagerInfo"
-			},
+			url : 'back/manager_getAllManager.action',
 			fitColumns : true,
 			striped : true,
 			loadMsg : "数据加载中",
@@ -62,7 +59,7 @@
 					request : true
 					}
 				}
-			}, {field : 'reserve5',title : '状态',width : 100,align : 'center',editor : {type:"combobox",options:{
+			}, {field : 'manaSta',title : '状态',width : 100,align : 'center',editor : {type:"combobox",options:{
 				required:true,valueField:'sid',textField:'sname',data:statusObj1}},
 				formatter:function(value,row,index) {
 					for (var i = 0; i < statusObj1.length; i ++) {

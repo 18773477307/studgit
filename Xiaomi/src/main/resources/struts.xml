@@ -11,7 +11,22 @@
 	 <!-- 把struts的action对象交给spring容器管理 -->
 	<constant name="struts.objectFactory" value="spring" />
 
-	<package name="default" namespace="/" extends="struts-default">
-		
+	<package name="default" namespace="/front" extends="json-default">
+    	<action name="*_*" class="{1}Action" method="{2}">
+    		<result type="json">
+    			<param name="root">jsonObject</param>
+    		</result>
+<!--     		<result name="loginSuccess">/main.jsp</result>
+    		<result name="loginFail">/index.jsp</result>
+ -->    		
+    	</action>
+    	
+	</package>
+	<package name="Xiaomi" namespace="/back" extends="json-default">
+    	<action name="*_*" class="{1}Action" method="{2}">
+    		<result type="json">
+    			<param name="root">jsonObject</param>
+    		</result>
+    	</action>
 	</package>
 </struts>

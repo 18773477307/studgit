@@ -31,7 +31,7 @@ public interface ManagerService {
 	 * @param manaId 要删除的管理员编号
 	 * @return
 	 */
-	public int delManager(Manager manager);
+	public int delManager(String manaIds);
 	
 	/**
 	 * 总记录数

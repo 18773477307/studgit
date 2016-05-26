@@ -1,9 +1,12 @@
 package com.xiaomi.mapper;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
 
 import com.xiaomi.entity.Manager;
-
+@Repository("managerMapper")
 public interface ManagerMapper {
 	/**
 	 * 后台管理员登录
@@ -32,13 +35,12 @@ public interface ManagerMapper {
 	 * @return
 	 */
 	public int delManager(Manager manager);
-	
+	public int delManager(int manaId);
 	/**
 	 * 总记录数
 	 * @return
 	 */
-	public int total();
-	
+	public int selectTotalManager();
 	
 	/**
 	 * 分页查询管理员信息
@@ -46,5 +48,8 @@ public interface ManagerMapper {
 	 * @param pageSize  页面显示的条数
 	 * @return
 	 */
-	public List<Manager> find(Integer pageNo,Integer pageSize);
+	public List<Manager> getAllManager(Map<String, Object> params);
+
+	
+
 }

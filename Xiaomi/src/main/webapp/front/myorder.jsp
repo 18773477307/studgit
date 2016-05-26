@@ -153,9 +153,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                        <p><a target="_blank" href="" class="top1-title">红米手机2A 增强版</a></p>
 			                        <p><span class="top1-price">特价499元</span></p>
 			                    </div>
-			                    
 			                </div>
-			            <li class="tv"><a>电视&middot;盒子<a></li>
+			            <li class="tv"><a>电视&middot;盒子</a></li>
 			            	<!--电视盒子隐藏的层-->
 			                <div class="tv-show">
 			                    <div class="tv-show1">
