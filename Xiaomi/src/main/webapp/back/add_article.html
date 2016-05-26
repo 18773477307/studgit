@@ -4,7 +4,7 @@ $(function(){
 	var datagrid;
 	var artStaObj=[{Sta:2,sname:'不可用'},{Sta:1,sname:'可用'}];
 	datagrid=$('#article_info').datagrid({
-	url:'../articleServlet',
+	url:'../article_findall.action',
 	queryParams:{op:"getPageArticleInfo"},
 	fitColumns:true,
 	striped:true,
