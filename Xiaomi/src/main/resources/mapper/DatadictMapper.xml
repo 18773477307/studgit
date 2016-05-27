@@ -4,5 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.DatadictMapper" >
-  
+	<!-- 添加数据字典 -->
+	<insert id="addDatadict" parameterType="Datadict">
+		insert into datadict values(seq_datadict_dirId.nextval,dirName=#{dirName},dirType=#{dirType})
+	</insert>
+	
+	<!-- 查找数据字典的总记录数 -->
+	<select id="getTotal" resultType="int">
+		select count(dirId) from datadict
+	</select>
+	
+	<!-- 查找所有的数据字典信息 -->
+	<select id="getAllDatadict" parameterType="map" resultType="Datadict">
+		select * from (select d.*,rownum rn from 
+		(select * from datadict order by dirId) d where #{pageNo} >= rownum)b where rn>#{pageSize}
+	</select>
 </mapper>
