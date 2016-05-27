@@ -70,148 +70,138 @@
 					return value;
 				}
 			}] ],
-			toolbar : [ {
-				text : "添加",
-				iconCls : 'icon-add',
-				handler : function() {
-					flag = "添加";
-					op = "addManagerInfo"; // 当前的操作
-					//先判断有没有正在编辑的行
-					if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
-						datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-						datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
-						editRow = undefined;
-					} else { //在表格的最前面添加一行
-						datagrid.datagrid("insertRow", {index : 0,row : {}});
-
-						//打开编辑器
-						datagrid.datagrid("beginEdit",0);
-						editRow = 0; //记录当前正在编辑的行
-					}
-				}
-			}, {
-				text : "修改",
-				iconCls : 'icon-edit',
-				handler : function() {
-					flag = "修改";
-					//获取要修改的行
-					var rows = datagrid.datagrid("getChecked")[0];
-					if (rows == undefined) {
-						$.messager.show({
-							title : '温馨提示',
-							msg : '请选择你要修改的数据...',
-							timeout : 2000,
-							showType : 'slide'
-						});
-					} else {
-						op = "updateManagerInfo";
-						//先判断有没有正在编辑的行
-						if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
-							datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-							datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
-							editRow = undefined;
-						} else {
+			toolbar:[{
+		    	text:"添加",
+		    	iconCls:'icon-add',
+		    	handler:function(){
+		    		op="addManager";
+		    		flag="添加";
+		    		if(editRow!=undefined){
+		    			datagrid.datagrid("rejectChanges");
+		    			datagrid.datagrid("endEdit",editRow);
+		    			editRow=undefined;
+		    		}else{
+		    			datagrid.datagrid("insertRow",{index:0,row:{}});
+		    			
+		    			datagrid.datagrid("beginEdit",0);
+		    			editRow=0;
+		    		}
+		    	}
+		    },{
+		    	text:"修改",
+		    	iconCls:'icon-edit',
+		    	handler:function(){
+		    		flag="修改";
+		    		op="updateManager";
+		    		//console.info(op);
+		    		var rows=datagrid.datagrid("getChecked")[0];
+		    		if(rows==undefined){
+		    			$.messager.show({title:'温馨提示',msg:'请选择您要修改的的数据...',timeout:2000,showType:'slide'});	
+					}else{
+						op="updateManager";
+						flag="修改";
+						if(editRow!=undefined){  //说明有行正在被编辑，则还原当前的修改
+							datagrid.datagrid("rejectChanges"); //回滚自创建以来或自上次调用AcceptChanges，所有的变化数据。
+							datagrid.datagrid("endEdit",editRow); //关闭当前正在编辑的行
+							editRow=undefined;
+						}else{ 
 							//获取当前选择行的索引
-							var index = datagrid.datagrid("getRowIndex",rows);
-							
-							datagrid.datagrid("updateRow", {index:index,row:rows});
+							var index=datagrid.datagrid("getRowIndex",rows);
+						
+							datagrid.datagrid("updateRow",{index:index,row:rows});
 							
 							//打开编辑器
 							datagrid.datagrid("beginEdit",index);
-							editRow = index; //记录当前正在编辑的行
+							editRow=index;//记录当前正在被编辑的行
 						}
 					}
-				}
-			}, {
-				text : "删除",
-				iconCls : 'icon-remove',
-				handler : function() {
-					flag = "删除";
-					//获取所有被选中的行
-					var rows = datagrid.datagrid("getChecked");
-					if (rows.length <= 0) {
-						$.messager.show({
-							title : '温馨提示',
-							msg : '请选择你要删除的数据...',
-							timeout : 2000,
-							showType : 'slide'
-						});
-					} else {
-						$.messager.confirm('信息确认','您确定要删除选中的数据吗?',function(r) {
-							if (r) {
-								var aids = "";
-								for ( var i = 0; i < rows.length - 1; i++) {
-									aids += rows[i].manaId + ",";
+		    	}
+		    },{
+		    	text:"删除",
+		    	iconCls:'icon-remove',
+		    	handler:function(){
+		    		//获取所有被选中的行
+					var rows=datagrid.datagrid("getChecked");
+					if(rows.length<=0){ //没有选择任何一行
+						$.messager.show({title:'温馨提示',msg:'请选择您要删除的数据...',timeout:2000,showType:'slide'});
+					}else{
+						$.messager.confirm('信息确认', '您确定更要删除选中的数据吗?', function(r){
+							if (r){
+								var manaIds="";
+								for(var i=0;i<rows.length-1;i++){
+									manaIds+=rows[i].manaId+",";
 								}
-								aids += rows[i].manaId;
-								//将要删除的aid发送到服务器
-								$.post("../managerServlet",{op : "delManagerInfo",aids : aids},function(data) {
-									if (data == 1) { //添加成功
+								manaIds+=rows[i].manaId;
+								
+								//将要删除aid发送到服务器
+								$.post("manager_delManager",{manaIds:manaIds},function(data){
+									if(data.total>0){ //添加成功
 										$.messager.show({
-											title : '删除提示',
-											msg : '管理员信息删除成功...',
-											timeout : 2000,
-											showType : 'slide'
+											title:'删除提示',
+											msg:'管理员信息删除成功...',
+											timeout:2000,
+											showType:'slide'
 										});
 										datagrid.datagrid("reload"); //重新加载数据一次
-									} else {
-										$.messager.alert(
-											'失败提示',
-											'管理员信息删除失败...',
-											'error');
+									}else{
+										$.messager.alert('失败提示','管理员信息删除失败...','error');
 									}
 								});
 							}
 						});
 					}
 				}
-			},{
-				text : "保存",
-				iconCls : 'icon-save',
-				handler : function() {
-					datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
+		    },{
+		    	text:"保存",
+		    	iconCls:'icon-save',
+		    	handler:function(){
+		    		datagrid.datagrid("endEdit",editRow);
+		    		var rows=datagrid.datagrid("getChanges")[0];
+		    		if(rows==undefined){
+		    			datagrid.datagrid("rejectChanges");
+		    			("unselectAll");
+		    			editRow=undefined;
+		    			}else{
+		    				if(op=="addManager"){
+		    					var manaName=rows.manaName;
+		    					var manaPwd=rows.manaPwd;
+		    					var manaSex=rows.manaSex;
+		    					var manaSta = rows.manaSta;
+		    					$.post("manager_addManager.action",{manaName:manaName,manaPwd:manaPwd,manaSta:manaSta},function(data){
+		    						if(data.total==1){ //添加成功
+		    							$.messager.show({title:'成功提示',msg:'管理员信息'+flag+'成功...',timeout:2000,showType:'slide'});
+		    							datagrid.datagrid("reload");
+		    						}else{
+		    							$.messager.alert('失败提示','管理员信息'+flag+'失败...','error');
+		    						}
+		    					});
+		    				}else if(op=="updateManager"){
+		    					var manaId=rows.manaId;
+		    					var manaName=rows.manaName;
+		    					var manaSex=rows.manaSex;
+		    					var manaPwd=rows.manaPwd;
+		    					var manaSta = rows.manaSta;
+		    					$.post("manager_updateManager.action",{manaId:manaId,manaName:manaName,manaSex:manaSex,manaPwd:manaPwd,manaSta:manaSta},function(data){
+		    						if(data.total==1){ //添加成功
+		    							$.messager.show({title:'成功提示',msg:'管理员信息'+flag+'成功...',timeout:2000,showType:'slide'});
+		    							datagrid.datagrid("reload");
+		    						}else{
+		    							$.messager.alert('失败提示','管理员信息'+flag+'失败...','error');
+		    						}
+		    					});
+		    				}
+		    			}
+		    		}
+		    },{
+		  		text:'撤销',
+		  		iconCls:'icon-redo',
+		    	handler:function(){
+		    		datagrid.datagrid("rejectChanges");  //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
+		    		datagrid.datagrid("endEdit",editRow);
+		    		editRow=undefined;
+		    	}
+		  	}]
 		
-					//获取当前被修改的行
-					var rows = datagrid.datagrid("getChanges")[0];
-					if (rows == undefined) {
-						datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-						datagrid.datagrid("unselectAll"); //关闭当前正在被编辑的行
-						editRow = undefined;
-					} else {
-						rows["op"] = op;
-						$.post("../managerServlet",rows,function(data) {
-							data = parseInt($.trim(data));
-							if (data == 1) { //添加成功
-								$.messager.show({
-									title : '成功提示',
-									msg : '管理员信息'+flag+'成功...',
-									timeout : 2000,
-									showType : 'slide'
-								});
-								datagrid.datagrid("reload"); //重新加载数据一次
-							} else {
-								$.messager.alert(
-									'失败提示',
-									'管理员信息'+flag+'失败...',
-									'error');
-							}
-							rows = null;
-							datagrid.datagrid("reload"); //重新加载数据一次
-							editRow = undefined;
-							datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-							datagrid.datagrid("unselectAll");
-						});
-					}
-				}
-			}, {
-				text : '撤销',
-				iconCls : 'icon-redo',
-				handler : function() {
-					datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-					datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
-					editRow = undefined;
-				}
-			} ]
 		});
 	});
 </script>
