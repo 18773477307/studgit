@@ -2,6 +2,8 @@ package com.xiaomi.entity;
 
 import java.io.Serializable;
 
+import com.xiaomi.utils.MD5Encryption;
+
 public class UsersInfo implements Serializable{
 	private static final long serialVersionUID = -2328730024229978788L;
 	
@@ -19,6 +21,9 @@ public class UsersInfo implements Serializable{
 	private String reserve1;
 	private String reserve2;
 	public int getUsersId() {
+		return usersId;
+	}
+	public int getUsersIds() {
 		return usersId;
 	}
 	public void setUsersId(int usersId) {
@@ -46,7 +51,7 @@ public class UsersInfo implements Serializable{
 		return usersPwd;
 	}
 	public void setUsersPwd(String usersPwd) {
-		this.usersPwd = usersPwd;
+		this.usersPwd = MD5Encryption.createPassword(usersPwd);
 	}
 	public String getUsersIDCard() {
 		return usersIDCard;

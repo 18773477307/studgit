@@ -34,7 +34,7 @@ public interface UsersInfoService {
 	 * @param usersId:要删除的会员编号，
 	 * @return
 	 */
-	public int delUsersInfo(UsersInfo usersInfo);
+	public int delUsersInfo(String usersIds);
 	
 	/**
 	 * 检查

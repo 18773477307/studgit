@@ -17,12 +17,15 @@ create table usersInfo(
 );
 create sequence seq_usersinfo_usersId start with 1001 increment by 1;
 --插入-------------------------------------------------------------------------------------------
-insert into usersinfo values (seq_usersinfo_usersId.nextVal,'yy','15236523256','12345@qq.com','aaaaaa','543673333344445125',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
+insert into usersinfo values (seq_usersinfo_usersId.nextVal,'yy','15236523256','123456@qq.com','aaaaaa','543673333344445125',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'ss','18976352125','123789@qq.cn','aaaaaa','543673334444334444',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'aa','15111523256','12356@qq.com','aaaaaa','543673222344445125',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'bb','18222252125','45123@qq.cn','aaaaaa','543673337844334444',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'dd','18852052125','5643@qq.cn','aaaaaa','543673745844378454',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 
+
+select b.* from (select a.*,rownum rn from 
+		(select * from usersInfo order by usersId) a where 10>=rownum)b where rn>0 order by usersId asc
 --查询--------------------------------------------------------------------------------------------
 select * from usersinfo;
 --删除--------------------------------------------------------------------------------------------
