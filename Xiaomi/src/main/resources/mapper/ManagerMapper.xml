@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<insert id="addManager" parameterType="Manager" >
-	    insert into Manager values(seq_manager_manaId.nextval,#{manaName},#{manaSex},#{manaPwd},1,"","")
+	    insert into Manager values(seq_manager_manaId.nextval,#{manaName},#{manaSex},#{manaPwd},1,'','')
 	</insert>
 	
 	<select id="selectTotalManager" resultType="int">

@@ -57,8 +57,9 @@ public class ManagerAction implements ModelDriven<Manager> ,SessionAware {
 	}
 	
 	public String addManager(){
-		System.out.println(manager+"sds ");
+	//	System.out.println(manager+"sds ");
 		int result=managerService.addManager(manager);
+	//	System.out.println(result+"====");
 		jsonObject = new JsonObject<Manager>();
 		jsonObject.setTotal(result);
 		return "success";

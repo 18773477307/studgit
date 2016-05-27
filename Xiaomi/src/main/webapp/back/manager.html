@@ -134,7 +134,7 @@
 								manaIds+=rows[i].manaId;
 								
 								//将要删除aid发送到服务器
-								$.post("manager_delManager",{manaIds:manaIds},function(data){
+								$.post("back/manager_delManager",{manaIds:manaIds},function(data){
 									if(data.total>0){ //添加成功
 										$.messager.show({
 											title:'删除提示',
@@ -167,7 +167,7 @@
 		    					var manaPwd=rows.manaPwd;
 		    					var manaSex=rows.manaSex;
 		    					var manaSta = rows.manaSta;
-		    					$.post("manager_addManager.action",{manaName:manaName,manaPwd:manaPwd,manaSta:manaSta},function(data){
+		    					$.post("back/manager_addManager.action",{manaName:manaName,manaSex:manaSex,manaPwd:manaPwd,manaSta:manaSta},function(data){
 		    						if(data.total==1){ //添加成功
 		    							$.messager.show({title:'成功提示',msg:'管理员信息'+flag+'成功...',timeout:2000,showType:'slide'});
 		    							datagrid.datagrid("reload");
@@ -181,7 +181,7 @@
 		    					var manaSex=rows.manaSex;
 		    					var manaPwd=rows.manaPwd;
 		    					var manaSta = rows.manaSta;
-		    					$.post("manager_updateManager.action",{manaId:manaId,manaName:manaName,manaSex:manaSex,manaPwd:manaPwd,manaSta:manaSta},function(data){
+		    					$.post("back/manager_updateManager.action",{manaId:manaId,manaName:manaName,manaSex:manaSex,manaPwd:manaPwd,manaSta:manaSta},function(data){
 		    						if(data.total==1){ //添加成功
 		    							$.messager.show({title:'成功提示',msg:'管理员信息'+flag+'成功...',timeout:2000,showType:'slide'});
 		    							datagrid.datagrid("reload");
