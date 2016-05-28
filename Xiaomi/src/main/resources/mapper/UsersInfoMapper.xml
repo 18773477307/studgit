@@ -4,5 +4,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.UsersInfoMapper" >
-  
+  	<insert id="addUsersInfo" parameterType="UsersInfo" >
+	   insert into usersInfo values (seq_usersinfo_usersId.nextval,#{usersName},#{usersTel},#{usersEmail},#{usersPwd},#{usersIDCard},#{usersSex},'','','',#{usersSta},'','')
+	</insert>
+	
+	<select id="selectTotalUsers" resultType="int">
+		select count(1) from usersInfo
+	</select>
+	
+	<select id="getAllUsersInfo" resultType="UsersInfo" parameterType="map">
+		select b.* from (select a.*,rownum rn from 
+		(select * from usersInfo order by usersId) a where #{pageNo} >=rownum)b where rn>#{pageSize} order by usersId asc
+	</select>
+	
+	<update id="updateUsersInfo" parameterType="UsersInfo">
+		update usersInfo set usersName=#{usersName},usersSex=#{usersSex},usersTel=#{usersTel},usersEmail=#{usersEmail},
+		usersIDCard=#{usersIDCard},usersPwd=#{usersPwd},usersSta=#{usersSta} where usersId =#{usersId}
+	</update>
+	
+	<delete id="delUsersInfo" parameterType="int">
+		delete from usersInfo where usersId =#{usersId}
+	</delete>
 </mapper>

@@ -12,12 +12,12 @@ import com.xiaomi.entity.ArticleBean;
 import com.xiaomi.service.ArticleService;
 
 
-@Controller("articleAction")
+//@Controller("articleAction")
 public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 	private ArticleBean articleBean;
 	private Map<String, Object> session;
 	
-	@Autowired
+	//@Autowired
 	private ArticleService articleService;
 	
 	public String list(){

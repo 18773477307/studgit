@@ -8,10 +8,7 @@
 		var statusObj1=[{sid:0,sname:'已注销'},{sid:1,sname:'存在'}];
 		var statusObj=[{sid:0,sname:'男'},{sid:1,sname:'女'}];
 		datagrid = $('#users_info').datagrid({
-			url : '../usersServlet',
-			queryParams : {
-				op : "getPageUsersInfo"
-			},
+			url : 'back/user_getAllUsers.action',
 			fitColumns : true,
 			striped : true,
 			loadMsg : "数据加载中",
@@ -41,7 +38,7 @@
 					request : true
 					}
 				}
-			}, {field : 'usersSex',title : '性别',width : 100,align : 'center',editor : {type:"combobox",options:{
+			}, {field : 'usersSex',title : '性别',width : 70,align : 'center',editor : {type:"combobox",options:{
 				required:true,valueField:'sid',textField:'sname',data:statusObj}},
 				formatter:function(value,row,index) {
 					for (var i = 0; i < statusObj.length; i ++) {
@@ -180,17 +177,18 @@
 					} else {
 						$.messager.confirm('信息确认','您确定要删除选中的数据吗?',function(r) {
 							if (r) {
-								var usids = "";
+								var usersIds = "";
 								for ( var i = 0; i < rows.length - 1; i++) {
-									usids += rows[i].usersId + ",";
+									usersIds += rows[i].usersId + ",";
 								}
-								usids += rows[i].usersId;
+								usersIds += rows[i].usersId;
 								//将要删除的aid发送到服务器
-								$.post("../usersServlet",{op : "delUsersInfo",usids : usids},function(data) {
-									if (data == 1) { //添加成功
+								$.post("back/user_delUsersInfo",{usersIds : usersIds},function(data) {
+									alert(data.total);
+									if (data.total> 0) { //删除成功
 										$.messager.show({
 											title : '删除提示',
-											msg : '管理员信息删除成功...',
+											msg : '会员信息删除成功...',
 											timeout : 2000,
 											showType : 'slide'
 										});
@@ -198,7 +196,7 @@
 									} else {
 										$.messager.alert(
 											'失败提示',
-											'管理员信息删除失败...',
+											'会员信息删除失败...',
 											'error');
 									}
 								});
@@ -207,45 +205,53 @@
 					}
 				}
 			},{
-				text : "保存",
-				iconCls : 'icon-save',
-				handler : function() {
-					flag = "保存";
-					datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
-					
-					//获取当前被修改的行
-					var rows = datagrid.datagrid("getChanges")[0];
-					if (rows == undefined) {
-						datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-						datagrid.datagrid("unselectAll"); //关闭当前正在被编辑的行
-						editRow = undefined;
-					} else {
-						rows["op"] = op;
-						$.post("../usersServlet",rows,function(data) {
-							data = parseInt($.trim(data));
-							if (data == 1) { //添加成功
-								$.messager.show({
-									title : '成功提示',
-									msg : '会员信息'+flag+'成功...',
-									timeout : 2000,
-									showType : 'slide'
-								});
-								datagrid.datagrid("reload"); //重新加载数据一次
-							} else {
-								$.messager.alert(
-									'失败提示',
-									'会员信息'+flag+'失败...',
-									'error');
-							}
-							rows = null;
-							datagrid.datagrid("reload"); //重新加载数据一次
-							editRow = undefined;
-							datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-							datagrid.datagrid("unselectAll");
-						});
-					}
-				}
-			}, {
+				text:"保存",
+		    	iconCls:'icon-save',
+		    	handler:function(){
+		    		datagrid.datagrid("endEdit",editRow);
+		    		var rows=datagrid.datagrid("getChanges")[0];
+		    		if(rows==undefined){
+		    			datagrid.datagrid("rejectChanges");
+		    			("unselectAll");
+		    			editRow=undefined;
+		    			}else{
+		    				if(op=="addUsersInfo"){
+		    					var usersName=rows.usersName;
+		    					var usersTel=rows.usersTel;
+		    					var usersEmail=rows.usersEmail;
+		    					var usersPwd=rows.usersPwd;
+		    					var usersIDCard=rows.usersIDCard;
+		    					var usersSex=rows.usersSex;
+		    					var usersSta = rows.usersSta;
+		    					$.post("back/user_addUsersInfo.action",{usersName:usersName,usersTel:usersTel,usersEmail:usersEmail,usersSex:usersSex,usersIDCard:usersIDCard,usersPwd:usersPwd,usersSta:usersSta},function(data){
+		    						if(data.total==1){ //添加成功
+		    							$.messager.show({title:'成功提示',msg:'会员信息'+flag+'成功...',timeout:2000,showType:'slide'});
+		    							datagrid.datagrid("reload");
+		    						}else{
+		    							$.messager.alert('失败提示','会员信息'+flag+'失败...','error');
+		    						}
+		    					});
+		    				}else if(op=="updateUsersInfo"){
+		    					var usersId=rows.usersId;
+		    					var usersName=rows.usersName;
+		    					var usersTel=rows.usersTel;
+		    					var usersEmail=rows.usersEmail;
+		    					var usersPwd=rows.usersPwd;
+		    					var usersIDCard=rows.usersIDCard;
+		    					var usersSex=rows.usersSex;
+		    					var usersSta = rows.usersSta;
+		    					$.post("back/user_updateUsersInfo.action",{usersId:usersId,usersName:usersName,usersTel:usersTel,usersEmail:usersEmail,usersSex:usersSex,usersIDCard:usersIDCard,usersPwd:usersPwd,usersSta:usersSta},function(data){
+		    						if(data.total==1){ //添加成功
+		    							$.messager.show({title:'成功提示',msg:'会员信息'+flag+'成功...',timeout:2000,showType:'slide'});
+		    							datagrid.datagrid("reload");
+		    						}else{
+		    							$.messager.alert('失败提示','会员信息'+flag+'失败...','error');
+		    						}
+		    					});
+		    				}
+		    			}
+		    		}
+		    }, {
 				text : '撤销',
 				iconCls : 'icon-redo',
 				handler : function() {

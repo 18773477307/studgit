@@ -190,7 +190,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="news2 xmnews">
                 	<ul>
                     	<li>
-                 			<h2><a  href="front/xiangqing.jsp"> 小米手环光感版&小米手环1代对比图赏 </a></h2>                           
+                 			<h2><a  href="front/xiangqing.jsp"> 小米手环光感版小米手环1代对比图赏 </a></h2>                           
 							<span>
                             	<em class="views"><img src="front/iconfont-photo/iconfont-13bbcguankanshu.svg">5079</em>
                                 <a><img src="front/iconfont-photo/iconfont-dianping.svg">91</a>
@@ -228,7 +228,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <div class="news4 xmnews">
                 	<ul>
-                        <il>
+                        <li>
                             <h2><a href="front/xiangqing.jsp">11月6日年度旗舰小米圈铁耳机0元试用 抢楼送10个</a></h2>
                             <span>
                             	<em class="views"><img src="front/iconfont-photo/iconfont-13bbcguankanshu.svg">7845</em>
@@ -293,7 +293,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 <div class="tab_content">
                     	<ul class="pakuai" style="display: block;">
-							<li><a"><span style="color:#ff0000;">小米手机4c</span></a></li>
+							<li><a><span style="color:#ff0000;">小米手机4c</span></a></li>
 							<li><a>红米Note2</a> </li>
                             <li><a>小米Note</a></li>
                             <li><a>小米电视</a></li>

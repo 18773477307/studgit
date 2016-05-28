@@ -1,10 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
   <head>
     <base href="<%=basePath%>">
@@ -35,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	<li class="xmsj"><a>小米手机</a></li>
                 <li class="hongmi"><a>红米</a></li>
                 <li class="pingban"><a>平板</a></li>
-                <li class="tv"><a>电视·盒子<a></li>
+                <li class="tv"><a>电视·盒子</a></li>
                 <li class="luyouqi"><a>路由器</a></li>
                 <li class="yingjian"><a>智能硬件</a></li>
                 <li class="fuwu"><a>服务</a></li>
@@ -132,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	<tr>
             	<td>
                 	<a href="#">
-                        <p><img src="front/images/pic_1.png" class="td_img"	/></p>
+                        <p><img src="front/images/pic_1.png" class="td_img"/></p>
                         <span class="span_info">资源下载</span>
                     </a>
                 </td>

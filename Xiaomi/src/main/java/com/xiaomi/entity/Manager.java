@@ -2,6 +2,8 @@ package com.xiaomi.entity;
 
 import java.io.Serializable;
 
+import com.xiaomi.utils.MD5Encryption;
+
 public class Manager implements Serializable{
 	private static final long serialVersionUID = 5116322294199283260L;
 	
@@ -17,6 +19,9 @@ public class Manager implements Serializable{
 	
 	//管理员编号
 	public int getManaId() {
+		return manaId;
+	}
+	public int getManaIds() {
 		return manaId;
 	}
 	
@@ -48,7 +53,7 @@ public class Manager implements Serializable{
 	}
 	
 	public void setManaPwd(String manaPwd) {
-		this.manaPwd = manaPwd;
+		this.manaPwd =MD5Encryption.createPassword(manaPwd);
 	}
 	
 	

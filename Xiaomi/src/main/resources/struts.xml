@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC
-	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
-	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
 
 <struts>
 
@@ -11,11 +11,24 @@
 	 <!-- 把struts的action对象交给spring容器管理 -->
 	<constant name="struts.objectFactory" value="spring" />
 
-	<package name="default" namespace="/front" extends="struts-default">
-		
+	<package name="xmFront" namespace="/front" extends="json-default">
+    	<action name="*_*" class="{1}Action" method="{2}">
+    		<result type="json">
+    			<param name="root">jsonObject</param>
+    		</result>
+<!--     		<result name="loginSuccess">/main.jsp</result>
+    		<result name="loginFail">/index.jsp</result>
+ -->    		
+    	</action>
 	</package>
 	
-	<package name="default" namespace="/back" extends="struts-default">
-		
+	<package name="xmBack" namespace="/back" extends="json-default">
+		<global-allowed-methods>getAllManager,updateManager,delManager,addManager,getAllUsers</global-allowed-methods>
+    	<action name="*_*" class="{1}Action" method="{2}">
+    		<result type="json">
+    			<param name="root">jsonObject</param>
+    		</result>
+    	</action>
+	
 	</package>
 </struts>

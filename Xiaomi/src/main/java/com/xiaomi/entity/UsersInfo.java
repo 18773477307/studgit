@@ -2,6 +2,8 @@ package com.xiaomi.entity;
 
 import java.io.Serializable;
 
+import com.xiaomi.utils.MD5Encryption;
+
 public class UsersInfo implements Serializable{
 	private static final long serialVersionUID = -2328730024229978788L;
 	
@@ -18,8 +20,10 @@ public class UsersInfo implements Serializable{
 	private int usersSta;
 	private String reserve1;
 	private String reserve2;
-	
 	public int getUsersId() {
+		return usersId;
+	}
+	public int getUsersIds() {
 		return usersId;
 	}
 	public void setUsersId(int usersId) {
@@ -47,7 +51,7 @@ public class UsersInfo implements Serializable{
 		return usersPwd;
 	}
 	public void setUsersPwd(String usersPwd) {
-		this.usersPwd = usersPwd;
+		this.usersPwd = MD5Encryption.createPassword(usersPwd);
 	}
 	public String getUsersIDCard() {
 		return usersIDCard;
@@ -97,7 +101,6 @@ public class UsersInfo implements Serializable{
 	public void setReserve2(String reserve2) {
 		this.reserve2 = reserve2;
 	}
-	
 	@Override
 	public String toString() {
 		return "\nUsersInfo [usersId=" + usersId + ", usersName=" + usersName
@@ -108,7 +111,6 @@ public class UsersInfo implements Serializable{
 				+ ", usersSta=" + usersSta + ", reserve1=" + reserve1
 				+ ", reserve2=" + reserve2 + "]";
 	}
-	
 	public UsersInfo(int usersId, String usersName, String usersTel,
 			String usersEmail, String usersPwd, String usersIDCard,
 			int usersSex, String usersBirth, String usersPhoto, String balance,
@@ -128,7 +130,6 @@ public class UsersInfo implements Serializable{
 		this.reserve1 = reserve1;
 		this.reserve2 = reserve2;
 	}
-	
 	public UsersInfo() {
 	}
 	
