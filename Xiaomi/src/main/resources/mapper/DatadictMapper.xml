@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.xiaomi.mapper.DatadictMapper" >
 	<!-- 添加数据字典 -->
 	<insert id="addDatadict" parameterType="Datadict">
-		insert into datadict values(seq_datadict_dirId.nextval,dirName=#{dirName},dirType=#{dirType})
+		insert into datadict values(seq_datadict_dirId.nextval, #{dirName},#{dirType})
 	</insert>
 	
 	<!-- 查找数据字典的总记录数 -->
@@ -19,4 +19,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from (select d.*,rownum rn from 
 		(select * from datadict order by dirId) d where #{pageNo} >= rownum)b where rn>#{pageSize}
 	</select>
+	
+	<!-- 修改数据字典信息 -->
+	<update id="updateDatadict" parameterType="Datadict">
+		update datadict set dirName=#{dirName},dirType=#{dirType} where dirId=#{dirId}
+	</update>
+	
+	<!-- 删除数据字典信息 -->
+	<delete id="delManager" parameterType="int">
+		delete from datadict where dirId=#{dirId}
+	</delete>
 </mapper>

@@ -19,4 +19,6 @@ public interface AddressMapper {
 	List<Address> getAllAddress(Map<String, Object> params);
 
 	int selectTotalAddress();
+
+	List<Address> findAddressByInfo(Map<String, Object> params);
 }

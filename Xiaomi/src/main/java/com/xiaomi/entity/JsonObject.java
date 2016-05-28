@@ -18,4 +18,10 @@ public class JsonObject<T> {
 	public void setTotal(int total) {
 		this.total = total;
 	}
+	
+	@Override
+	public String toString() {
+		return "JsonObject [rows=" + rows + ", total=" + total + "]";
+	}
+	
 }
