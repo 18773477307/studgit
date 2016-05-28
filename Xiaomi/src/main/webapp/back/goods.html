@@ -1,3 +1,4 @@
+
 <table id="goods_info" data-options="fit:true"></table>
 
 
@@ -165,12 +166,12 @@ datagrid=$('#goods_info').datagrid({
 <!-- 添加商品界面 -->
 <div id="goods_add" class="easyui-dialog" title="添加商品" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
 	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>商品品牌： </label>
-		<select name="brand" id="goods_brand" class="myinput">
+		<label>商品类型： </label>
+		<select name="types" id="typesId" class="myinput">
 		
 		</select><br /><br />
-		<label>商品名称：</label><input type="text" name="goods_name" id="goods_name" class="myinput"/><br /><br />
-		<label>商品价格：</label><input name="price" id="goods_price" class="easyui-numberbox  myinput" required/><br /><br />
+		<label>商品名称：</label><input type="text" name="goodsName" id="goodsName" class="myinput"/><br /><br />
+		<label>商品价格：</label><input name="goodsminPrice" id="goodsminPrice" class="easyui-numberbox  myinput" required/><br /><br />
 		<label>商品小图片：</label><input type="file" name="goods_pic" id="goods_pic" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_show')"/><br /><br />
 		<label>商品型号： </label>
 		<select name="gformat" id="goods_format" class="myinput">
@@ -215,11 +216,6 @@ datagrid=$('#goods_info').datagrid({
 			<legend>商品大图片预览</legend>
 		</fieldset>
 	</div>
-	<!-- <div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsrepr_pic_show">
-			<legend>商品图片</legend>
-		</fieldset>
-	</div> -->
 </div>
 
 <script>
@@ -265,12 +261,12 @@ datagrid=$('#goods_info').datagrid({
 
 <div id="goods_update" class="easyui-dialog" title="修改商品信息" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
 	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>商品品牌： </label>
+		<label>商品类型： </label>
 		<select name="brand" id="goods_brand_update" class="myinput">
 		
 		</select><br /><br />
 		<label>商品名称：</label><input type="text" name="goods_name" id="goods_name_update" class="myinput"/><br /><br />
-		<label>商品价格：</label><input name="price" id="goods_price_update" class="easyui-numberbox  myinput" required/><br /><br />
+		<label>商品最低价格：</label><input name="price" id="goods_price_update" class="easyui-numberbox  myinput" required/><br /><br />
 		<label>商品小图片：</label><input type="file" name="goods_pic_update" id="goods_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_update_show')"/><br /><br />
 		<label>商品型号： </label>
 		<select name="gformat" id="goods_format_update" class="myinput">
