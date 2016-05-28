@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ModelDriven;
 import com.xiaomi.entity.Datadict;
 import com.xiaomi.entity.JsonObject;
-import com.xiaomi.entity.Manager;
 import com.xiaomi.service.DatadictService;
 
 @Controller("datadictAction")
@@ -24,9 +23,11 @@ public class DatadictAction implements ModelDriven<Datadict>,SessionAware {
 	private JsonObject<Datadict> jsonObject;
 	private int page;
 	private int rows;
+	private String dirIds;
 
-	public void setJsonObject(JsonObject<Datadict> jsonObject) {
-		this.jsonObject = jsonObject;
+
+	public JsonObject<Datadict> getJsonObject() {
+		return jsonObject;
 	}
 
 	public void setPage(int page) {
@@ -37,12 +38,24 @@ public class DatadictAction implements ModelDriven<Datadict>,SessionAware {
 		this.rows = rows;
 	}
 	
+	public void setDirIds(String dirIds) {
+		this.dirIds = dirIds;
+	}
+
+	//分页获取所有数据字典信息的方法
 	public String getAllDatadict(){
 		List<Datadict> datadicts = datadictService.find(page, rows);
 		int total = datadictService.total();
 		jsonObject=new JsonObject<Datadict>();
 		jsonObject.setRows(datadicts);
 		jsonObject.setTotal(total);
+		return "success";
+	}
+	
+	public String addDatadict(){
+		int result = datadictService.addDatadict(datadict);
+		jsonObject = new JsonObject<Datadict>();
+		jsonObject.setTotal(result);
 		return "success";
 	}
 
