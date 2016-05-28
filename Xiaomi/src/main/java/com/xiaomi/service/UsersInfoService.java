@@ -56,6 +56,9 @@ public interface UsersInfoService {
 	 * @return
 	 */
 	public List<UsersInfo> find(Integer pageNo,Integer pageSize);
+
+
+	public List<UsersInfo> findUsersInfoByInfo(Integer pageNo,Integer pageSize,String usersName, String usersTel, String usersEmail);
 	
 
 }
