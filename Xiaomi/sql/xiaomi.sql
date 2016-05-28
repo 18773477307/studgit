@@ -51,6 +51,7 @@ create table  address(
 );
 create sequence seq_address_addrId start with 1001 increment by 1;
 select u.usersName,province,city,county,detailAddr,reserve4,addrTel from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=10)b,usersInfo u where rn>0 and b.usersId=u.usersId
+insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳','珠晖','湖南工学院','18773477307',1,'421002','彭健','','');
 
 ---------------------------------------------------------------------------------------------
 select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9
