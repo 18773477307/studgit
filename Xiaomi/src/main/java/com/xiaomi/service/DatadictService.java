@@ -24,7 +24,7 @@ public interface DatadictService {
 	 * @param dirId 要删除的管编号
 	 * @return
 	 */
-	public int del(String dirId);
+	public int del(String dirIds);
 	
 	/**
 	 * 总记录数

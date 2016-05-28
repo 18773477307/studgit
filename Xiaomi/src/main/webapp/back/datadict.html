@@ -108,7 +108,7 @@
 								dirIds += rows[i].dirId;
 								//将要删除的aid发送到服务器
 								$.post("back/datadict_delDatadict",{dirIds : dirIds},function(data) {
-									if (data == 1) { //添加成功
+									if (data.total > 0) { //删除成功
 										$.messager.show({
 											title : '删除提示',
 											msg : '字典数据信息删除成功...',

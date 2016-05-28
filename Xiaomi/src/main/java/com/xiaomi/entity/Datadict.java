@@ -8,7 +8,12 @@ public class Datadict implements Serializable {
 	private String dirName;
 	private int dirType;
 
+	//数据字典编号
 	public int getDirId() {
+		return dirId;
+	}
+	
+	public int getDirIds(){
 		return dirId;
 	}
 
@@ -16,6 +21,7 @@ public class Datadict implements Serializable {
 		this.dirId = dirId;
 	}
 
+	//数据字典名称
 	public String getDirName() {
 		return dirName;
 	}
@@ -24,6 +30,7 @@ public class Datadict implements Serializable {
 		this.dirName = dirName;
 	}
 
+	//数据字典类型
 	public int getDirType() {
 		return dirType;
 	}
@@ -47,7 +54,6 @@ public class Datadict implements Serializable {
 
 	public Datadict() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 }

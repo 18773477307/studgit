@@ -16,22 +16,33 @@ public class DatadictServiceImpl implements DatadictService {
 	@Autowired
 	DatadictMapper datadictMapper;
 
-	//添加数据
+	//添加数据字典信息
 	@Override
 	public int addDatadict(Datadict datadict) {
 		return datadictMapper.addDatadict(datadict);
 	}
-
+	
+	//更新数据字典信息
 	@Override
 	public int updateDatadict(Datadict datadict) {
-		// TODO Auto-generated method stub
-		return 0;
+		return datadictMapper.updateDatadict(datadict);
 	}
 
+	//删除一条或多条数据字典信息
 	@Override
-	public int del(String dirId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int del(String dirIds) {
+		int result = 0;
+		if (dirIds.contains(",")) {
+			String[] str = dirIds.split(",");
+			for (String dirId : str) {
+				datadictMapper.delManager(Integer.parseInt(dirId));
+				result++;
+			}
+		}else {
+			datadictMapper.delManager(Integer.parseInt(dirIds));
+			result++;
+		}
+		return result;
 	}
 
 	//查询数据字典的总记录数
