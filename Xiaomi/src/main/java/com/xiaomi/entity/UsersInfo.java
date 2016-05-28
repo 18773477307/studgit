@@ -20,7 +20,6 @@ public class UsersInfo implements Serializable{
 	private int usersSta;
 	private String reserve1;
 	private String reserve2;
-	
 	public int getUsersId() {
 		return usersId;
 	}
@@ -102,7 +101,6 @@ public class UsersInfo implements Serializable{
 	public void setReserve2(String reserve2) {
 		this.reserve2 = reserve2;
 	}
-	
 	@Override
 	public String toString() {
 		return "\nUsersInfo [usersId=" + usersId + ", usersName=" + usersName
@@ -113,7 +111,6 @@ public class UsersInfo implements Serializable{
 				+ ", usersSta=" + usersSta + ", reserve1=" + reserve1
 				+ ", reserve2=" + reserve2 + "]";
 	}
-	
 	public UsersInfo(int usersId, String usersName, String usersTel,
 			String usersEmail, String usersPwd, String usersIDCard,
 			int usersSex, String usersBirth, String usersPhoto, String balance,
@@ -133,7 +130,6 @@ public class UsersInfo implements Serializable{
 		this.reserve1 = reserve1;
 		this.reserve2 = reserve2;
 	}
-	
 	public UsersInfo() {
 	}
 	

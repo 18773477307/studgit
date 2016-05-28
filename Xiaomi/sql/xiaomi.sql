@@ -139,6 +139,7 @@ insert into datadict values(seq_datadict_dirId.nextval,'128G',5);
 --查询--------------------------------------------------------------------------------------------
 select * from datadict;
 select dirId,dirName,dirType from datadict where dirType=4
+select * from (select d.*,rownum rn from (select * from datadict order by dirId) d where 10 >= rownum)b where rn>0;
 --删除--------------------------------------------------------------------------------------------
 drop table datadict;
 drop sequence seq_datadict_dirId;
