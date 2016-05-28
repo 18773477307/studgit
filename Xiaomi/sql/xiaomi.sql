@@ -52,17 +52,22 @@ create table  address(
 create sequence seq_address_addrId start with 1001 increment by 1;
 select u.usersName,province,city,county,detailAddr,reserve4,addrTel from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=10)b,usersInfo u where rn>0 and b.usersId=u.usersId
 insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳','珠晖','湖南工学院','18773477307',1,'421002','彭健','','');
-
+update address set province='湖南' ,city = '衡阳市',county='珠晖区' where usersId=1007
 ---------------------------------------------------------------------------------------------
 select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9
 select u.usersName,province,city,county from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9)b,usersInfo u where rn>0 and b.usersId=u.usersId and usersName like '%2%'
 select b.addrTel from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9)b where rn>0
+select * from 
+select u.usersName,b.* from (select a.*,rownum rn from (select * from address order by addrId)
+		a where rownum<=10)b,usersInfo u where rn>0 and b.usersId=u.usersId and
+		b.province like '%湖%' and b.city like '%阳%' and b.county like '%珠晖%' and u.usersName like '%a%'
 -------------------------------------------------------------------------------------------------
 --插入--------------------------------------------------------------------------------------------
-insert into address values (seq_address_addrId.nextval,1001,'湖南','衡阳','珠晖','湖南工学院','18773477307','421002','彭健');
-insert into address values (seq_address_addrId.nextval,1002,'湖南','湘潭','雨湖','详细地址一号','13645654651','411208','');
-insert into address values (seq_address_addrId.nextval,1003,'湖南','衡阳','珠晖','湖南工学院','15212541254','421002','');
-insert into address values (seq_address_addrId.nextval,1004,'贵州','贵阳','南明区','详细地址二号','13412541254','523623','');
+insert into address values (seq_address_addrId.nextval,1008,'湖南','湘潭市','雨湖区','湘潭县石潭镇','18973417307',0,'421002','刘娟','','');
+
+insert into address values (seq_address_addrId.nextval,1002,'湖南','湘潭','雨湖','详细地址一号','18973417307',0,'421002','刘娟','','');
+insert into address values (seq_address_addrId.nextval,1003,'湖南','衡阳','珠晖','湖南工学院','18973417307',0,'421002','刘娟','','');
+insert into address values (seq_address_addrId.nextval,1004,'贵州','贵阳','南明区','详细地址二号','18973417307',0,'421002','刘娟','','');
 -----------------------------------------------------------------------------------------------
 --查询--------------------------------------------------------------------------------------------
 select * from address;

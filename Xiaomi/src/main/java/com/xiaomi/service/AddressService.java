@@ -50,6 +50,9 @@ public interface AddressService {
 	 * @return
 	 */
 	public List<Address> find(Integer pageNo,Integer pageSize);
+
+
+	public List<Address> findAddressByInfo(Integer pageNo, Integer pageSize,String province, String city, String county, String usersName);
 	
 
 }
