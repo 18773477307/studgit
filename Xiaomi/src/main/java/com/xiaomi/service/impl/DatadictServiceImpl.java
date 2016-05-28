@@ -14,7 +14,7 @@ import com.xiaomi.service.DatadictService;
 @Service("datadictService")
 public class DatadictServiceImpl implements DatadictService {
 	@Autowired
-	private DatadictMapper datadictMapper;
+	DatadictMapper datadictMapper;
 
 	//添加数据
 	@Override

@@ -1,12 +1,15 @@
 package com.xiaomi.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.xiaomi.entity.Artcomment;
 
 
-public class Article implements Serializable{
-	private static final long serialVersionUID = 6600908385081780275L;
+public class ArticleBean implements Serializable{
+	private static final long serialVersionUID = 703184203389440799L;
 	
-	private int artId;				
+	private int artId;	 			
     private String artTitle;		
     private String artAuth;			
     private String artStaTime;
@@ -16,9 +19,8 @@ public class Article implements Serializable{
     private int artViews;
     private int artWeight;
     private int artSta;
-    private String reserve23;
-    private String reserve24;
-    
+    private int commentsCount;  
+    private List<Artcomment> artcomments;
 	public int getArtId() {
 		return artId;
 	}
@@ -79,31 +81,32 @@ public class Article implements Serializable{
 	public void setArtSta(int artSta) {
 		this.artSta = artSta;
 	}
-	public String getReserve23() {
-		return reserve23;
+	public int getCommentsCount() {
+		return commentsCount;
 	}
-	public void setReserve23(String reserve23) {
-		this.reserve23 = reserve23;
+	public void setCommentsCount(int commentsCount) {
+		this.commentsCount = commentsCount;
 	}
-	public String getReserve24() {
-		return reserve24;
+	public List<Artcomment> getArtcomments() {
+		return artcomments;
 	}
-	public void setReserve24(String reserve24) {
-		this.reserve24 = reserve24;
+	public void setArtcomments(List<Artcomment> artcomments) {
+		this.artcomments = artcomments;
 	}
 	@Override
 	public String toString() {
-		return "Article [artId=" + artId + ", artTitle=" + artTitle
+		return "\nArticleBean [artId=" + artId + ", artTitle=" + artTitle
 				+ ", artAuth=" + artAuth + ", artStaTime=" + artStaTime
 				+ ", fileinfo=" + fileinfo + ", artCont=" + artCont
 				+ ", artPic=" + artPic + ", artViews=" + artViews
 				+ ", artWeight=" + artWeight + ", artSta=" + artSta
-				+ ", reserve23=" + reserve23 + ", reserve24=" + reserve24 + "]";
+				+ ", commentsCount=" + commentsCount + ", artcomments="
+				+ artcomments + "]";
 	}
-	public Article(int artId, String artTitle, String artAuth,
+	public ArticleBean(int artId, String artTitle, String artAuth,
 			String artStaTime, String fileinfo, String artCont, String artPic,
-			int artViews, int artWeight, int artSta, String reserve23,
-			String reserve24) {
+			int artViews, int artWeight, int artSta, int commentsCount,
+			List<Artcomment> artcomments) {
 		super();
 		this.artId = artId;
 		this.artTitle = artTitle;
@@ -115,12 +118,10 @@ public class Article implements Serializable{
 		this.artViews = artViews;
 		this.artWeight = artWeight;
 		this.artSta = artSta;
-		this.reserve23 = reserve23;
-		this.reserve24 = reserve24;
+		this.commentsCount = commentsCount;
+		this.artcomments = artcomments;
 	}
-	public Article() {
-		super();
-		// TODO Auto-generated constructor stub
+	public ArticleBean() {
 	}
     
 }

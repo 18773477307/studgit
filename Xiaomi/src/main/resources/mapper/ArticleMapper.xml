@@ -4,5 +4,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ArticleMapper" >
- 
+	<select id="getallarticle" resultType="ArticleBean">
+		select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-mm-dd'),artViews,artWeight,artSta,
+		(select count(1) from artcomment where artId=a.artId) commentsCount from article a;
+	</select>
 </mapper>

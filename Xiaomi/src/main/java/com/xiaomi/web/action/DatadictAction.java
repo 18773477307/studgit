@@ -38,11 +38,8 @@ public class DatadictAction implements ModelDriven<Datadict>,SessionAware {
 	}
 	
 	public String getAllDatadict(){
-		//System.out.println("page："+page+" rows："+rows);
 		List<Datadict> datadicts = datadictService.find(page, rows);
-		System.out.println(datadicts);
 		int total = datadictService.total();
-		//System.out.println(total);
 		jsonObject=new JsonObject<Datadict>();
 		jsonObject.setRows(datadicts);
 		jsonObject.setTotal(total);

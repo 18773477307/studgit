@@ -3,7 +3,8 @@ package com.xiaomi.entity;
 import java.io.Serializable;
 
 public class Artcomment implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 421865625891473876L;
+	
 	private int comId;
     private int artId;
     private int usersId;
