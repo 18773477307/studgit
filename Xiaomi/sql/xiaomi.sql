@@ -144,6 +144,7 @@ insert into datadict values(seq_datadict_dirId.nextval,'128G',5);
 --查询--------------------------------------------------------------------------------------------
 select * from datadict;
 select dirId,dirName,dirType from datadict where dirType=4
+select * from (select d.*,rownum rn from (select * from datadict order by dirId) d where 10 >= rownum)b where rn>0;
 --删除--------------------------------------------------------------------------------------------
 drop table datadict;
 drop sequence seq_datadict_dirId;
@@ -350,8 +351,9 @@ create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
 ---插入--------------------------------------------------------------------------------------------------
-insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
+insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','-MM-dd'),'祝福大家','','',0,1,1,'','');
 select * from article;
+select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-mm-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=a.artId) commentsCount from article a;
 --删除-------------------------------------------------------------------------------------------------
 drop table article;
 drop sequence seq_article_artId
