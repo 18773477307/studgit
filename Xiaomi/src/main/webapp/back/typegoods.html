@@ -9,15 +9,13 @@
 		var statusObj=[{tsid:0,tsname:'不可用'},{tsid:1,tsname:'可用'}];
 		
 		datagrid=$('#typeGoods_info').datagrid({
-			url:'../typeGoodsServlet',
-			queryParams:{op:"getPageTypeGoodsInfo"},
+			url:'back/typegoods_findAllTypegoods.action',
 			fitColumns:true,
 			striped:true,
 			loadMsg:"数据加载中...",
 			pagination:true,
 			rownumbers:true,
 			sortName:'typesId',
-			sortOrder:'asc',
 			remoteSort:false,
 			columns:[[
 				{field:'typesIds',title:'选择',width:100,align:'center',checkbox:true},
@@ -102,10 +100,9 @@
 									typesIds+=rows[i].typesId+",";
 								}
 								typesIds+=rows[i].typesId;
-								
 								//将要删除的aid信息发送到服务器
-								$.post("../typeGoodsServlet",{op:"delTypeGoodsInfo",typesIds:typesIds},function(data){
-									if(data==1){
+								$.post("back/typegoods_delTypegoods.action",{typesIds:typesIds},function(data){
+									if(data.total > 0){
 										$.messager.show({
 											title:'删除提示',
 											msg:'商品类型信息删除成功...',
@@ -135,25 +132,48 @@
 						editRow=undefined;
 					}else{
 						rows["op"]=op;
-						
-						$.post("../typeGoodsServlet",rows,function(data){
-							data=parseInt( $.trim(data) );
-							if(data==1){
-								$.messager.show({
-									title:'成功提示',
-									msg:'商品类型'+flag+'成功...',
-									timeout:2000,
-									showType:'slide'
-								});
-							}else{
-								$.messager.alert('失败提示','商品类型'+flag+'失败...','error');
-							}
-							rows=null;
-							datagrid.datagrid("reload");	//重新加载数据一次
-							editRow=undefined;
-							datagrid.datagrid("rejectChanges");
-							datagrid.datagrid("unselectAll");
-						});
+						if (op == "updateTypeGoodsInfo") {
+							var typesId = rows.typesId;
+							var typesName = rows.typesName;
+							var typesSta = rows.typesSta;
+							$.post("back/typegoods_updateTypegoods.action",{typesId:typesId,typesName:typesName,typesSta:typesSta},function(data){
+								if(data.total > 0){
+									$.messager.show({
+										title:'成功提示',
+										msg:'商品类型'+flag+'成功...',
+										timeout:2000,
+										showType:'slide'
+									});
+								}else{
+									$.messager.alert('失败提示','商品类型'+flag+'失败...','error');
+								}
+								rows=null;
+								datagrid.datagrid("reload");	//重新加载数据一次
+								editRow=undefined;
+								datagrid.datagrid("rejectChanges");
+								datagrid.datagrid("unselectAll");
+							});
+						} else if (op == "addTypeGoodsInfo") {
+							var typesName = rows.typesName;
+							var typesSta = rows.typesSta;
+							$.post("back/typegoods_addTypegoods.action",{typesName:typesName,typesSta:typesSta},function(data){
+								if(data.total > 0){
+									$.messager.show({
+										title:'成功提示',
+										msg:'商品类型'+flag+'成功...',
+										timeout:2000,
+										showType:'slide'
+									});
+								}else{
+									$.messager.alert('失败提示','商品类型'+flag+'失败...','error');
+								}
+								rows=null;
+								datagrid.datagrid("reload");	//重新加载数据一次
+								editRow=undefined;
+								datagrid.datagrid("rejectChanges");
+								datagrid.datagrid("unselectAll");
+							});
+						}
 					}
 				}
 			},{
