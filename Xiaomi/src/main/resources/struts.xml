@@ -23,7 +23,9 @@
 	</package>
 	
 	<package name="xmBack" namespace="/back" extends="json-default">
-		<global-allowed-methods>getAllManager,updateManager,delManager,addManager,getAllUsers</global-allowed-methods>
+		<global-allowed-methods>getAllManager,updateManager,delManager,addManager,getAllUsers
+					,findAllTypegoods,updateTypegoods,delTypegoods,addTypegoods
+		</global-allowed-methods>
     	<action name="*_*" class="{1}Action" method="{2}">
     		<result type="json">
     			<param name="root">jsonObject</param>

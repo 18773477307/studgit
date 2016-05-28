@@ -19,6 +19,10 @@ public class Typegoods implements Serializable {
 		return typesId;
 	}
 
+	public int getTypesIds() {
+		return typesId;
+	}
+	
 	public void setTypesId(int typesId) {
 		this.typesId = typesId;
 	}
