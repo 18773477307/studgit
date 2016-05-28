@@ -183,8 +183,8 @@
 								}
 								usersIds += rows[i].usersId;
 								//将要删除的aid发送到服务器
-								$.post("back/user_delUsersInfo",{usersIds : usersIds},function(data) {
-									alert(data.total);
+								$.post("back/user_delUsersInfo.action",{usersIds : usersIds},function(data) {
+									//alert(data.total);
 									if (data.total> 0) { //删除成功
 										$.messager.show({
 											title : '删除提示',
