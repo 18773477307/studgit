@@ -1,6 +1,9 @@
 package com.xiaomi.entity;
 
-public class Address {
+import java.io.Serializable;
+
+public class Address implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private int addrId;
 	private int usersId;
 	private String province;
@@ -13,8 +16,21 @@ public class Address {
 	private String recipient;
 	private String reserve3;
 	private String reserve4;
+	
+	private String usersName;
+
+	public String getUsersName() {
+		return usersName;
+	}
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
 
 	public int getAddrId() {
+		return addrId;
+	}
+	
+	public int getAddrIds() {
 		return addrId;
 	}
 

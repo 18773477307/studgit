@@ -27,7 +27,7 @@ public interface AddressService {
 	 * @param addrId 要删除的地址编号，如果要同时删除多个，则用逗号隔开
 	 * @return
 	 */
-	public int delAddress(Address address);
+	public int delAddress(String addrIds);
 	
 	/**
 	 * 查找地址信息
