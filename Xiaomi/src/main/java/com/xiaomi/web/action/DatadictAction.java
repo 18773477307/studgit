@@ -24,9 +24,11 @@ public class DatadictAction implements ModelDriven<Datadict>,SessionAware {
 	private JsonObject<Datadict> jsonObject;
 	private int page;
 	private int rows;
+	private String dirIds;
 
-	public void setJsonObject(JsonObject<Datadict> jsonObject) {
-		this.jsonObject = jsonObject;
+
+	public JsonObject<Datadict> getJsonObject() {
+		return jsonObject;
 	}
 
 	public void setPage(int page) {
@@ -37,12 +39,44 @@ public class DatadictAction implements ModelDriven<Datadict>,SessionAware {
 		this.rows = rows;
 	}
 	
+	public void setDirIds(String dirIds) {
+		this.dirIds = dirIds;
+	}
+
+	//分页获取所有数据字典信息的方法
 	public String getAllDatadict(){
 		List<Datadict> datadicts = datadictService.find(page, rows);
 		int total = datadictService.total();
 		jsonObject=new JsonObject<Datadict>();
 		jsonObject.setRows(datadicts);
 		jsonObject.setTotal(total);
+		return "success";
+	}
+	
+	//添加数据字典信息的方法
+	public String addDatadict(){
+		int result = datadictService.addDatadict(datadict);
+		//System.out.println("添加结果：" + result);
+		jsonObject = new JsonObject<Datadict>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	//更新数据字典信息的方法
+	public String updateDatadict(){
+		int result = datadictService.updateDatadict(datadict);
+		//System.out.println("修改结果：" + result);
+		jsonObject = new JsonObject<Datadict>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	//删除数据字典信息的方法（可删除一条或多条）
+	public String delDatadict(){
+		int result = datadictService.del(dirIds);
+		//System.out.println("删除数据字典的结果：" + result);
+		jsonObject = new JsonObject<Datadict>();
+		jsonObject.setTotal(result);
 		return "success";
 	}
 

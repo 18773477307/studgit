@@ -38,6 +38,7 @@
 				iconCls : 'icon-add',
 				handler : function() {
 					op = "addDatadictInfo"; // 当前的操作
+					flag="添加";
 					//先判断有没有正在编辑的行
 					if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
 						datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
@@ -66,6 +67,7 @@
 						});
 					} else {
 						op = "updateDatadictInfo";
+						flag="修改";
 						//先判断有没有正在编辑的行
 						if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
 							datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
@@ -105,8 +107,8 @@
 								}
 								dirIds += rows[i].dirId;
 								//将要删除的aid发送到服务器
-								$.post("../datadictServlet",{op : "delDatadictInfo",dirIds : dirIds},function(data) {
-									if (data == 1) { //添加成功
+								$.post("back/datadict_delDatadict",{dirIds : dirIds},function(data) {
+									if (data.total > 0) { //删除成功
 										$.messager.show({
 											title : '删除提示',
 											msg : '字典数据信息删除成功...',
@@ -138,29 +140,51 @@
 						datagrid.datagrid("unselectAll"); //关闭当前正在被编辑的行
 						editRow = undefined;
 					} else {
-						rows["op"] = op;
-						$.post("../datadictServlet",rows,function(data) {
-							data = parseInt($.trim(data));
-							if (data == 1) { //添加成功
-								$.messager.show({
-									title : '成功提示',
-									msg : '字典数据信息添加成功...',
-									timeout : 2000,
-									showType : 'slide'
-								});
-								datagrid.datagrid("reload"); //重新加载数据一次
-							} else {
-								$.messager.alert(
-									'失败提示',
-									'字典数据信息添加失败...',
-									'error');
-							}
-							rows = null;
-							datagrid.datagrid("reload"); //重新加载数据一次
-							editRow = undefined;
-							datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
-							datagrid.datagrid("unselectAll");
-						});
+						
+						if(op=="addDatadictInfo"){
+							var dirName=rows.dirName;
+							var dirType=rows.dirType;
+							$.post("back/datadict_addDatadict",{dirName:dirName,dirType:dirType},function(data) {
+								if(data.total==1){	//表示添加信息成功
+									$.messager.show({
+										title : '成功提示',
+										msg : '字典数据信息' + flag + '成功...',
+										timeout : 2000,
+										showType : 'slide'
+									});
+									datagrid.datagrid("reload");
+								}else{
+									$.messager.show({
+										title : '失败提示',
+										msg : '字典数据信息' + flag + '失败...',
+										timeout : 2000,
+										showType : 'slide'
+									});
+								}
+							});
+						}else if(op="updateDatadictInfo"){
+							var dirId=rows.dirId;
+							var dirName=rows.dirName;
+							var dirType=rows.dirType;
+							$.post("back/datadict_updateDatadict",{dirId:dirId,dirName:dirName,dirType:dirType},function(data) {
+								if(data.total==1){	//表示更新信息成功
+									$.messager.show({
+										title : '成功提示',
+										msg : '字典数据信息' + flag + '成功...',
+										timeout : 2000,
+										showType : 'slide'
+									});
+									datagrid.datagrid("reload");
+								}else{
+									$.messager.show({
+										title : '失败提示',
+										msg : '字典数据信息' + flag + '失败...',
+										timeout : 2000,
+										showType : 'slide'
+									});
+								}
+							});
+						}
 					}
 				}
 			}, {

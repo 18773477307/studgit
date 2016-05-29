@@ -37,13 +37,17 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 		int result = 0;
 		if (usersIds.contains(",")) {
 			String[] str = usersIds.split(",");
-			for (String manaId : str) {
-				usersInfoMapper.delUsersInfo(Integer.parseInt(manaId));
+			for (String usersId : str) {
+				usersInfoMapper.delUsersInfo(Integer.parseInt(usersId));
 				result++;
+				System.out.println(result);
+
 			}
 		}else {
 			usersInfoMapper.delUsersInfo(Integer.parseInt(usersIds));
 			result++;
+			System.out.println(result);
+
 		}
 		return result;
 	}
@@ -59,6 +63,16 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 		params.put("pageNo", pageNo*pageSize);
 		params.put("pageSize", (pageNo-1)*pageSize);
 		return  usersInfoMapper.getAllUsersInfo(params);
+	}
+	@Override
+	public List<UsersInfo> findUsersInfoByInfo(Integer pageNo,Integer pageSize, String usersName, String usersTel,String usersEmail) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		params.put("usersName", usersName);
+		params.put("usersTel", usersTel);
+		params.put("usersEmail", usersEmail);
+		return  usersInfoMapper.getUsersInfoByInfo(params);
 	}
 
 }

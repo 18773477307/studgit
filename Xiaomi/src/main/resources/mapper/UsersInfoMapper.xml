@@ -17,12 +17,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		(select * from usersInfo order by usersId) a where #{pageNo} >=rownum)b where rn>#{pageSize} order by usersId asc
 	</select>
 	
+	<select id="getUsersInfoByInfo" resultType="UsersInfo" parameterType="map">
+		select * from (select a.*,rownum rn from 
+		(select * from usersInfo order by usersId) a where #{pageNo} >=rownum)b where rn>#{pageSize} 
+			<if test="usersName != null and usersName != ''" >
+		        and usersName like '%${usersName}%'
+		    </if>
+		    <if test="usersTel != null and usersTel !='' " >
+		        and usersTel like '%${usersTel}%'
+		    </if>
+		    <if test="usersEmail != null and usersEmail !='' " >
+		        and usersEmail like '%${usersEmail}%'
+		    </if>
+	</select>
+	
 	<update id="updateUsersInfo" parameterType="UsersInfo">
 		update usersInfo set usersName=#{usersName},usersSex=#{usersSex},usersTel=#{usersTel},usersEmail=#{usersEmail},
 		usersIDCard=#{usersIDCard},usersPwd=#{usersPwd},usersSta=#{usersSta} where usersId =#{usersId}
 	</update>
 	
 	<delete id="delUsersInfo" parameterType="int">
-		delete from usersInfo where usersId =#{usersId}
+		delete from usersInfo where usersId = #{usersId}
 	</delete>
 </mapper>

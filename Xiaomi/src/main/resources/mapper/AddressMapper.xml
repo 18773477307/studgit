@@ -12,7 +12,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(1) from address
 	</select>
 	<select id="getAllAddress" resultType="Address" parameterType="map">
-		select b.* from (select a.*,rownum rn from 
-		(select * from address order by addrId) a where #{pageNo} >=rownum)b where rn>#{pageSize} order by addrId asc
+		select * from (select a.*,rownum rn from 
+		(select d.*,usersName from address d,usersInfo u where d.usersId=u.usersId order by addrId)
+		 a where #{pageNo} >=rownum)b where rn>#{pageSize} order by addrId asc
+	</select>
+	
+	
+	<select id="findAddressByInfo" resultType="Address" parameterType="map">
+		select u.usersName,b.* from (select a.*,rownum rn from (select * from address order by addrId)
+		a where #{pageNo} >=rownum)b,usersInfo u where rn>#{pageSize} and b.usersId=u.usersId 
+			<if test="province != null and province != ''" >
+		        and b.province = #{province}
+		    </if>
+		    <if test="city != null and city !='' " >
+		        and b.city = #{city}
+		    </if>
+		    <if test="county != null and county !='' " >
+		        and b.county = #{county}
+		    </if>
+		    <if test="usersName != null and usersName != '' " >
+		        and u.usersName like '%${usersName}%'
+		    </if>
 	</select>
 </mapper>

@@ -53,10 +53,24 @@ public class AddressServiceImpl implements AddressService {
 		return  addressMapper.getAllAddress(params);
 	}
 	
+	
+	@Override
+	public List<Address> findAddressByInfo(Integer pageNo, Integer pageSize, String province,String city, String county, String usersName) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		params.put("province", province);
+		params.put("city", city);
+		params.put("county", county);
+		params.put("usersName", usersName);
+		return addressMapper.findAddressByInfo(params);
+	}
 	@Override
 	public List<Address> findAddress() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

@@ -136,13 +136,13 @@
 								//将要删除aid发送到服务器
 								$.post("back/manager_delManager",{manaIds:manaIds},function(data){
 									if(data.total>0){ //添加成功
+										datagrid.datagrid("reload"); //重新加载数据一次
 										$.messager.show({
 											title:'删除提示',
 											msg:'管理员信息删除成功...',
 											timeout:2000,
 											showType:'slide'
 										});
-										datagrid.datagrid("reload"); //重新加载数据一次
 									}else{
 										$.messager.alert('失败提示','管理员信息删除失败...','error');
 									}
@@ -169,8 +169,8 @@
 		    					var manaSta = rows.manaSta;
 		    					$.post("back/manager_addManager.action",{manaName:manaName,manaSex:manaSex,manaPwd:manaPwd,manaSta:manaSta},function(data){
 		    						if(data.total==1){ //添加成功
-		    							$.messager.show({title:'成功提示',msg:'管理员信息'+flag+'成功...',timeout:2000,showType:'slide'});
 		    							datagrid.datagrid("reload");
+		    							$.messager.show({title:'成功提示',msg:'管理员信息'+flag+'成功...',timeout:2000,showType:'slide'});
 		    						}else{
 		    							$.messager.alert('失败提示','管理员信息'+flag+'失败...','error');
 		    						}

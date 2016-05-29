@@ -147,7 +147,6 @@ public class Goods implements Serializable{
 
 	public Goods() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

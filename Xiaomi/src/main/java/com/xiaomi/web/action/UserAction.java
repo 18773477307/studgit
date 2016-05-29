@@ -44,6 +44,15 @@ public class UserAction implements ModelDriven<UsersInfo> {
 		return "success";
 	}
 	
+	public String findUsersInfoByInfo(){
+		List<UsersInfo> usersInfos = usersInfoService.findUsersInfoByInfo(page, rows,usersInfo.getUsersName(),usersInfo.getUsersTel(),usersInfo.getUsersEmail());
+		System.out.println(usersInfos.size());
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setRows(usersInfos);
+		jsonObject.setTotal(usersInfos.size());
+		return "success";
+	}
+	
 	
 	public String addUsersInfo(){
 	//	System.out.println(Users+"sds ");
@@ -62,7 +71,9 @@ public class UserAction implements ModelDriven<UsersInfo> {
 	}
 	
 	public String delUsersInfo(){
+		System.out.println("====删除用户信息");
 		int result = usersInfoService.delUsersInfo(usersIds);
+		System.out.println(result+"result");
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";

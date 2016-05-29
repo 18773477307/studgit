@@ -26,5 +26,9 @@ public class JsonObject<T> {
 	public void setObject(T object) {
 		this.object = object;
 	}
+	@Override
+	public String toString() {
+		return "JsonObject [rows=" + rows + ", total=" + total + "]";
+	}
 	
 }
