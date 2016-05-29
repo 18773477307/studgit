@@ -21,6 +21,11 @@ public class ArticleBean implements Serializable{
     private int artSta;
     private int commentsCount;  
     private List<Artcomment> artcomments;
+    
+    //多个删除
+    public int getArtIds() {
+		return artId;
+	}
 	public int getArtId() {
 		return artId;
 	}
@@ -28,6 +33,14 @@ public class ArticleBean implements Serializable{
 		this.artId = artId;
 	}
 	public String getArtTitle() {
+		return artTitle;
+	}
+	
+	//标题截取
+	public String getArtTitle28() {
+		if(artTitle.length()>28){
+			return artTitle.substring(0,28)+"...";
+		}
 		return artTitle;
 	}
 	public void setArtTitle(String artTitle) {
@@ -40,6 +53,12 @@ public class ArticleBean implements Serializable{
 		this.artAuth = artAuth;
 	}
 	public String getArtStaTime() {
+		return artStaTime;
+	}
+	public String getArtStaTimes() {
+		if(artStaTime!=null && artStaTime.length()>10){
+			return artStaTime.substring(0,10);
+		}
 		return artStaTime;
 	}
 	public void setArtStaTime(String artStaTime) {

@@ -1,3 +1,5 @@
+--blob:二进制lob，为二进制数据，最长可达4GB，存贮在数据库中。
+--clob:字符lob,字符数据,最长可以达到4GB,存贮在数据库中。
 --1-------------------------------------------------------------------------------------------------------------------------------------
 --用户信息表
 create table usersInfo(
@@ -367,14 +369,25 @@ create table article(
 	   reserve23 varchar2(20),               --备用字段
 	   reserve24 varchar2(20)               --备用字段                     
 );
+
 create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
 ---插入--------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
+insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');
+=======
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
+>>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 select * from article;
+<<<<<<< HEAD
+select b.* from (select a.*,rownum rn from 
+		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
+=======
+>>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 --删除-------------------------------------------------------------------------------------------------
 drop table article;
+delete article;
 drop sequence seq_article_artId
 select count(comId) from artcomment a,article t where a.artId=t.artId and artId=1005
 --13------------------------------------------------------------------------------------------------------
