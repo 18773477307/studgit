@@ -4,8 +4,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ArticleMapper" >
+
 	<select id="getallarticle" resultType="ArticleBean">
-		select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-mm-dd'),artViews,artWeight,artSta,
-		(select count(1) from artcomment where artId=a.artId) commentsCount from article a;
+		select b.* from (select a.*,rownum rn from 
+		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
 	</select>
+	
+	<select id="selectTotalArticle" resultType="int">
+		select count(1) from article
+	</select>
+	
+	<select id="selectArticleByData" parameterType="ArticleBean" resultType="ArticleBean">
+		select b.* from (select a.*,rownum rn from 
+		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae
+		<where>
+		      <if test="artTitle != null and artTitle != ''" >
+		        and artTitle like '%${artTitle}%'
+		      </if>
+		       <if test="artAuth != null and artAuth != ''" >
+		        and artAuth like '%${artAuth}%'
+		      </if>
+		      <if test="artSta != null and artSta != ''">
+	        	artSta=#{artSta}
+		      </if>
+	      </where>) a where #{pageNo} >=rownum)b where rn>#{pageSize}
+    
+  </select>
+  
+  <select id="selectArticleByArtId" parameterType="ArticleBean" resultType="ArticleBean">
+    	select artTitle,artCont from article where artId=#{artId}
+  </select>
+  
+  <insert id="insertArticle" parameterType="ArticleBean" >
+	    insert into article values(seq_article_artId.nextval,#{artTitle},#{artAuth},to_date(#{artStaTime},'yyyy-MM-dd'),#{fileinfo},#{artCont},#{artPic},0,#{artWeight},1,'','')
+   </insert>
 </mapper>
