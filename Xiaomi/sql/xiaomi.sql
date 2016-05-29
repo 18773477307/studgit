@@ -92,7 +92,7 @@ insert into manager values (seq_manager_manaId.nextval,'ls',1,'aaaaaa',1,'','');
 insert into manager values (seq_manager_manaId.nextval,'lj',0,'aaaaaa',1,'','');
 insert into manager values (seq_manager_manaId.nextval,'pj',1,'aaaaaa',1,'','');
 insert into manager values (seq_manager_manaId.nextval,'pxt',1,'aaaaaa',1,'','');
-
+update manager set manaSta=1 where manaId =2
 select b.* from (select a.*,rownum rn from 
 		(select * from Manager order by manaId) a where 10>=rownum)b where rn>0 order by manaId asc
 --查询--------------------------------------------------------------------------------------------
@@ -106,13 +106,14 @@ drop sequence seq_manager_manaId
 create table datadict(
        dirId int primary key,         --编号      
        dirName varchar2(100),         --名称   
-       dirType int                    --1.型号  2.颜色   3.网络制式  4.网络版本（移动   联通   电信    全网通） 5内存大小  
+       dirType int                    --1.型号  2.颜色   3.网络制式  4.网络版本（移动   联通   电信    全网通） 5内存大小 6 电视尺寸 7 电池型号  
 );
 create sequence seq_datadict_dirId start with 1 increment by 1;
 --插入-----------------------------------------------------------------------------------------------
 insert into datadict values(seq_datadict_dirId.nextval,'标准版',1);   
 insert into datadict values(seq_datadict_dirId.nextval,'女神版',1);  
 insert into datadict values(seq_datadict_dirId.nextval,'顶配版',1);  
+insert into datadict values(seq_datadict_dirId.nextval,'无',1);  
 
 insert into datadict values(seq_datadict_dirId.nextval,'竹纹',2);   
 insert into datadict values(seq_datadict_dirId.nextval,'白色',2);   
@@ -120,17 +121,20 @@ insert into datadict values(seq_datadict_dirId.nextval,'黑色',2);
 insert into datadict values(seq_datadict_dirId.nextval,'粉色',2);	
 insert into datadict values(seq_datadict_dirId.nextval,'蓝色',2);	 
 insert into datadict values(seq_datadict_dirId.nextval,'金色',2);	
+insert into datadict values(seq_datadict_dirId.nextval,'无',2);	
 
 insert into datadict values(seq_datadict_dirId.nextval,'双网通 ',3);  
 insert into datadict values(seq_datadict_dirId.nextval,'全网通',3);		
 insert into datadict values(seq_datadict_dirId.nextval,'移动 ',3);  		
 insert into datadict values(seq_datadict_dirId.nextval,'联通',3);     
 insert into datadict values(seq_datadict_dirId.nextval,'电信',3);	
+insert into datadict values(seq_datadict_dirId.nextval,'无',3);	
 
 insert into datadict values(seq_datadict_dirId.nextval,'2G',4);			
 insert into datadict values(seq_datadict_dirId.nextval,'3G ',4);  	
 insert into datadict values(seq_datadict_dirId.nextval,'4G',4);      
 insert into datadict values(seq_datadict_dirId.nextval,'5G',4);		
+insert into datadict values(seq_datadict_dirId.nextval,'无',4);		
 
 
 insert into datadict values(seq_datadict_dirId.nextval,'2G',5);			
@@ -140,6 +144,16 @@ insert into datadict values(seq_datadict_dirId.nextval,'16G',5);
 insert into datadict values(seq_datadict_dirId.nextval,'32G ',5);  	
 insert into datadict values(seq_datadict_dirId.nextval,'64G',5);      
 insert into datadict values(seq_datadict_dirId.nextval,'128G',5);
+insert into datadict values(seq_datadict_dirId.nextval,'无',5);
+
+insert into datadict values(seq_datadict_dirId.nextval,'42寸',6);
+insert into datadict values(seq_datadict_dirId.nextval,'48寸 ',6);  	
+insert into datadict values(seq_datadict_dirId.nextval,'62寸',6); 
+insert into datadict values(seq_datadict_dirId.nextval,'无',6); 
+
+insert into datadict values(seq_datadict_dirId.nextval,'5号',7);
+insert into datadict values(seq_datadict_dirId.nextval,'7号 ',7);  	
+insert into datadict values(seq_datadict_dirId.nextval,'无 ',7);  	
 
 --查询--------------------------------------------------------------------------------------------
 select * from datadict;
@@ -182,23 +196,27 @@ create table goods(
        typesId int         	--商品类型编号，引入外键
                constraint FK_goods_typegoods_typesId references typegoods(typesId),
        goodsName varchar2(20),      	--商品名字
-       goodsminPrice number(8,2),     	--商品最低价格
-       goodsVersion varchar2(2000), 	--商品简介
+       goodsminPrice number(8,2),     		--商品折扣价格
+       goodsVersion varchar2(2000), 	--商品简介 如科技与时尚的完美结合
        goodsminPic varchar2(2000),   	--商品小图片
        goodsmaxPic varchar2(4000),   	--商品大图片
-	   goodsSta int,			    	--商品状态	0:下架	1：上架
-	   goodsplace varchar2(20),       	--位置
-	   reserve11 varchar2(20),			--备用字段
-	   reserve12 varchar2(20)           --备用字段
-	   
+       goodsPlace varchar2(20),       	--位置
+	   goodsSta int			    	--商品状态	0:下架	1：上架
 );
 create sequence seq_goods_goodsId start with 1001 increment by 1;
 --插入--------------------------------------------------------------------------------------------
-insert into goods values (seq_goods_goodsId.nextval,1001,'小米4s',1699,'','','',1,'顶部1','','');
-insert into goods values (seq_goods_goodsId.nextval,1001,'小米Note',799,'','','',1,'顶部2','','');
+insert into goods values (seq_goods_goodsId.nextval,1001,'小米4s',1169,'小米4s真的不错呢','','','顶部1',1);
+insert into goods values (seq_goods_goodsId.nextval,1002,'小米平板',799,'小米平板评价','','','顶部2',1);
 --查询--------------------------------------------------------------------------------------------
 select * from goods;
+select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId =
 select distinct(goodsName) from goods;
+drop table goods;
+drop sequence seq_goods_goodsId
+
+select * from (select a.*,rownum rn from 
+		(select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId order by goodsId)
+		 a where 10>=rownum)b where rn>0
 ---删除------------------------------------------------------------------------------------------------------
 drop table goods;
 drop sequence seq_goods_goodsId;
@@ -209,36 +227,36 @@ create table product (
 		ptPrice number(8,2),         --产品价格
 		ptPic varchar2(2000),	     --产品详情图片
 		ptNum int,                   --产品库存数量  
-		ptCan varchar2(2000),	     --产品参数
 		goodsId int     
 	          constraint FK_product_goods_goodsId references goods(goodsId),         --引入商品id
 		--下面字段只对手机有用
 	    ptformat int     
-	          constraint FK_product_datadict_ptformat references datadict(dirId),    --型号，引入外键 
+	          constraint FK_product_datadict_ptformat references datadict(dirId),    --1型号，引入外键 1-4
 	    ptcolor  int      
-	          constraint FK_product_datadict_ptcolor references datadict(dirId),     --商品颜色，引入外键
+	          constraint FK_product_datadict_ptcolor references datadict(dirId),     --2商品颜色，引入外键5-11
 	    ptnet  int     
-	          constraint FK_product_datadict_ptnet references datadict(dirId),       --网络制式，引入外键
-	    poperator int
-	          constraint FK_product_datadict_poperator references datadict(dirId),	 --网络运营商，引入外键
+	          constraint FK_product_datadict_ptnet references datadict(dirId),       --3网络制式，引入外键12-17
 	 	ptversions  int     
-	          constraint FK_product_datadict_ptversions references datadict(dirId),--网络版本，引入外键  
+	          constraint FK_product_datadict_ptversions references datadict(dirId),--4网络运营商，引入外键 18-22
 	    ptmemory  int     
-	          constraint FK_product_datadict_ptmemory references datadict(dirId),     --内存大小，引入外键
-		reserve13 varchar2(20),	    --备用字段
-	    reserve14 varchar2(20)      --备用字段
+	          constraint FK_product_datadict_ptmemory references datadict(dirId),     --5内存大小，引入外键23-30
+	    ptsize  int     
+	          constraint FK_product_datadict_ptsize references datadict(dirId),    --6电视机尺寸，引入外键  31-34  
+	    ptbattery  int     
+	          constraint FK_product_datadict_ptbattery references datadict(dirId),    --7电池型号，引入外键  35-37
+	    ptSta int																					          
 );
 create sequence seq_product_ptId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into product values(seq_product_ptId.nextval,1899,'',100,'',1002,1,9,11,12,17,23,'','');
-insert into product values(seq_product_ptId.nextval,2199,'',100,'',1002,3,9,11,14,17,23,'','');
+insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
+insert into product values(seq_product_ptId.nextval,2199,'',100,1002,3,9,11,14,17,23,'','');
 --查询---------------------------------------------------------------------------------
 select * from product;t6
 --跟新---------------------------------------------------------------------------------
 update product set ptPrice=1499 where ptId=1
 --删除---------------------------------------------------------------------------------
 drop table product;
-drop sequence seq_product_ptId666
+drop sequence seq_product_ptId
 --8-------------------------------------------------------------------------------------------------------------
 --购物车表（购买商品都要经过订单界面）《一个主题对应多个选项：一个用户id对应多个产品id》
 create table shopCar(                

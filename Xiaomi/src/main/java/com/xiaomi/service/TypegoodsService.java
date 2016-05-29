@@ -12,4 +12,6 @@ public interface TypegoodsService {
 	int updateTypegoods(Typegoods typegoods);
 	int delTypegoods(String typesIds);
 	int addTypegoods(Typegoods typegoods);
+	
+	List<Typegoods> findAllType();
 }

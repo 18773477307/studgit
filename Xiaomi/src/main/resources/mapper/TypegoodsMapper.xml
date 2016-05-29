@@ -24,4 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <insert id="addTypegoods" parameterType="Typegoods">
   	insert into typegoods values (seq_typegoods_typesId.nextval,  #{typesName}, #{typesSta},'','')
   </insert>
+  
+  <select id="getAllType" resultType="Typegoods">
+  	select typesId,typesName from typegoods
+  </select>
 </mapper>

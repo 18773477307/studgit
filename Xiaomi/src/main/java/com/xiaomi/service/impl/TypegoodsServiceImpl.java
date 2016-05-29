@@ -45,4 +45,9 @@ public class TypegoodsServiceImpl implements TypegoodsService {
 		return typegoodsMapper.addTypegoods(typegoods);
 	}
 
+	@Override
+	public List<Typegoods> findAllType() {
+		return typegoodsMapper.getAllType();
+	}
+
 }
