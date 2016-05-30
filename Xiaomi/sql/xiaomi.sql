@@ -28,6 +28,7 @@ select b.* from (select a.*,rownum rn from
 		(select * from usersInfo order by usersId) a where 10>=rownum)b where rn>0 order by usersId asc
 --查询--------------------------------------------------------------------------------------------
 select * from usersinfo;
+select usersId,usersName from usersInfo
 --删除--------------------------------------------------------------------------------------------
 drop sequence seq_usersinfo_usersId
 delete from usersInfo where usersId=1001,usersId=1002,usersId=1003
@@ -233,7 +234,8 @@ create sequence seq_product_ptId start with 1001 increment by 1;
 insert into product values(seq_product_ptId.nextval,1899,'',100,'',1002,1,9,11,12,17,23,'','');
 insert into product values(seq_product_ptId.nextval,2199,'',100,'',1002,3,9,11,14,17,23,'','');
 --查询---------------------------------------------------------------------------------
-select * from product;t6
+select * from product;
+select p.ptId,g.goodsId,g.goodsName from product p,goods g where p.goodsId=g.goodsId;
 --跟新---------------------------------------------------------------------------------
 update product set ptPrice=1499 where ptId=1
 --删除---------------------------------------------------------------------------------
@@ -404,11 +406,12 @@ create table ptcomment(
 );
 create sequence seq_ptcomment_apprId start with 1001 increment by 1;
 ---插入-------------------------------------------------------------------------------------------------------
-insert into goodsappr values (seq_ptcomment_apprId.nextval,1001,1001,'嗯呢，不错',TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss'),1,'','');
+insert into ptcomment values (seq_ptcomment_apprId.nextval,1001,1001,'嗯呢，不错',TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss'),1,'','');
 ---跟新------------------------------------------------------------------------------------------------------
-update  goodsappr set apprDate=TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss') where apprId=1001
+update  ptcomment set apprDate=TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss') where apprId=1001
 ---查询------------------------------------------------------------------------------------------------------
-select * from goodsappr;
+select * from ptcomment;
+select * from (select a.*,rownum rn from (select * from ptcomment order by apprId)a where 10 >= rownum)b where rn>0
 ---删除------------------------------------------------------------------------------------------------------
 drop table ptcomment;
 drop sequence seq_ptcomment_apprId

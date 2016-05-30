@@ -56,6 +56,12 @@ public interface UsersInfoService {
 	 * @return
 	 */
 	public List<UsersInfo> find(Integer pageNo,Integer pageSize);
+
+	/**
+	 * 获取所有的用户名称
+	 * @return
+	 */
+	public List<UsersInfo> getAllUserNames();
 	
 
 }

@@ -60,5 +60,10 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 		params.put("pageSize", (pageNo-1)*pageSize);
 		return  usersInfoMapper.getAllUsersInfo(params);
 	}
+	
+	@Override
+	public List<UsersInfo> getAllUserNames() {
+		return usersInfoMapper.getAllUsersName();
+	}
 
 }

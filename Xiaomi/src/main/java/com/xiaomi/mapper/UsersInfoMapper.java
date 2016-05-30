@@ -18,4 +18,6 @@ public interface UsersInfoMapper {
 	int selectTotalUsers();
 
 	List<UsersInfo> getAllUsersInfo(Map<String, Object> params);
+
+	List<UsersInfo> getAllUsersName();
 }

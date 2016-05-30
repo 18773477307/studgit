@@ -35,6 +35,16 @@ public class Product implements Serializable {
     private String reserve13;
 
     private String reserve14;
+    
+    private String goodsName;
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
 
 	public int getPtId() {
 		return ptId;
@@ -164,13 +174,13 @@ public class Product implements Serializable {
 				+ ", ptcolor=" + ptcolor + ", ptnet=" + ptnet + ", ptversions="
 				+ ptversions + ", ptmemory=" + ptmemory + ", ptcpu=" + ptcpu
 				+ ", ptbattery=" + ptbattery + ", reserve13=" + reserve13
-				+ ", reserve14=" + reserve14 + "]";
+				+ ", reserve14=" + reserve14 + ", goodsName=" + goodsName + "]";
 	}
 
 	public Product(int ptId, double ptPrice, String ptPic, int ptNum,
 			String ptCan, int goodsId, int ptformat, int ptcolor, int ptnet,
 			int ptversions, int ptmemory, int ptcpu, int ptbattery,
-			String reserve13, String reserve14) {
+			String reserve13, String reserve14, String goodsName) {
 		super();
 		this.ptId = ptId;
 		this.ptPrice = ptPrice;
@@ -187,12 +197,12 @@ public class Product implements Serializable {
 		this.ptbattery = ptbattery;
 		this.reserve13 = reserve13;
 		this.reserve14 = reserve14;
+		this.goodsName = goodsName;
 	}
 
 	public Product() {
 		super();
 	}
-    
-    
+
 
 }
