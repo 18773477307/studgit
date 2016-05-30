@@ -59,7 +59,7 @@ public class AddressServiceImpl implements AddressService {
 		Map<String , Object> params=new HashMap< String , Object>();
 		params.put("pageNo", pageNo*pageSize);
 		params.put("pageSize", (pageNo-1)*pageSize);
-		params.put("", province);
+		params.put("province", province);
 		params.put("city", city);
 		params.put("county", county);
 		params.put("usersName", usersName);

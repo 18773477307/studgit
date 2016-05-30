@@ -58,7 +58,6 @@
     	<div title="商品类型管理">  
         	<ul class="easyui-tree" id="menu-tree1">
 				<li id="admin_typegoods">商品类型管理</li>
-				<li id="admin_brand">商品品牌管理</li>
 			</ul>  
     	</div>  
 	    <div title="数据字典">  
@@ -69,8 +68,8 @@
 	    <div title="商品信息管理">  
 	        <ul class="easyui-tree" id="menu-tree3">
 	        	<li id="admin_goodsinfo">商品信息管理</li>
-	        	<!--<li id="admin_goodsDetailinfo">商品详细信息管理</li>
-	        	 <li id="admin_goodsinfo_research">商品信息查询</li> -->
+	        	<li id="admin_goodsDetailinfo">详细信息管理</li>
+	        	 <!--<li id="admin_goodsinfo_research">商品信息查询</li> -->
 			</ul> 
 	    </div>
 	    <div title="评论管理">  

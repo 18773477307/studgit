@@ -20,4 +20,6 @@ public interface UsersInfoMapper {
 	List<UsersInfo> getAllUsersInfo(Map<String, Object> params);
 
 	List<UsersInfo> getAllUsersName();
+
+	List<UsersInfo> getUsersInfoByInfo(Map<String, Object> params);
 }

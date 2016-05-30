@@ -4,5 +4,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.GoodsMapper" >
-
+	<select id="getTotalGoods" resultType="int">
+		select count(1) from goods
+	</select>
+	
+	<select id="getAllGoodsInfo" resultType="Goods" parameterType="map">
+		 select * from (select a.*,rownum rn from 
+		(select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId order by goodsId)
+		 a where #{pageNo}>=rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="getGoodsByGoodsId" parameterType="int" resultType="Goods">
+		select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId = #{goodsId} 
+	</select>
 </mapper>

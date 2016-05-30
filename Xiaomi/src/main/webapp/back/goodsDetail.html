@@ -3,7 +3,7 @@
 
 <script>
 var opt;
-$.post("../goodsServlet",{op:"getAllGoodsDetailName"},function(data){
+/* $.post("../goodsServlet",{op:"getAllGoodsDetailName"},function(data){
 	var obj_name=$("#goods_name");
 	var obj_name_update=$("#goods_name_update");
 	$.each(data.rows,function(index,item){
@@ -11,7 +11,7 @@ $.post("../goodsServlet",{op:"getAllGoodsDetailName"},function(data){
 		obj_name.append($(opt));
 		obj_name_update.append($(opt));
 	});
-},"json");
+},"json"); */
 
 datagrid=$('#goodsDetail_info').datagrid({
 	url:'../goodsDetailServlet',
@@ -23,8 +23,20 @@ datagrid=$('#goodsDetail_info').datagrid({
 	rownumbers:true,
 	remoteSort:false,
 	columns:[[
-		{field:'goodsNames',title:'选择',width:100,align:'center',checkbox:true},
-		{field:'goodsName',title:'商品名字',width:100,align:'center',sortable:true},
+		{field:'ptIds',title:'选择',width:100,align:'center',checkbox:true},
+		{field:'ptId',title:'编号',width:100,align:'center',sortable:true},
+		{field:'ptPrice',title:'产品原价',width:100,align:'center'},
+		{field:'ptPic',title:'产品详情图片',width:100,align:'center'},
+		{field:'ptNum',title:'产品库存',width:100,align:'center'},
+		{field:'goodsName',title:'商品名称',width:200,align:'center'},
+		{field:'ptformat',title:'型号',width:200,align:'center'},
+		{field:'ptcolor',title:'颜色',width:200,align:'center'},
+		{field:'ptnet',title:'网络制式',width:200,align:'center'},
+		{field:'poperator',title:'网络运营商',width:200,align:'center'},
+		{field:'ptversions',title:'网络版本',width:200,align:'center'},
+		{field:'ptmemory',title:'内存大小',width:200,align:'center'},
+		{field:'ptsize',title:'电视尺寸',width:200,align:'center'},
+		{field:'ptbattery',title:'电池型号',width:200,align:'center'},
 		{field:'_operate',title:'操作',width:100,align:'center',
 			formatter:function(value,rowData,index){
 				return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetailInfo(\''+rowData.goodsName+'\')">详情</a>';
@@ -46,7 +58,7 @@ datagrid=$('#goodsDetail_info').datagrid({
 			
 			if(rows==undefined){
 				$.messager.show({title:'温馨提示',msg:'请选择您要修改的数据...',timeout:2000,showType:'slide'});
-				alert("666")
+				
 			}else{
 				var goodsName=rows.goodsName;
 				$("#goodsDetail_update").dialog("open");

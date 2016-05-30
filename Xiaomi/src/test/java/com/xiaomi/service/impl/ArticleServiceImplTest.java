@@ -18,9 +18,10 @@ public class ArticleServiceImplTest {
 	
 	@Autowired
 	private ArticleService articleService;
+
 	@Test
 	public void testFindallarticle() {
-		List<ArticleBean> articles=articleService.findallarticle();
+		List<ArticleBean> articles=articleService.findallarticle(1, 10);
 		System.out.println(articles);
 		assertNotNull(articles);
 	}

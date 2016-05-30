@@ -5,55 +5,37 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	private int ptId;
-
-    private double ptPrice;
-
-    private String ptPic;
-
-    private int ptNum;
-
-    private String ptCan;
-
-    private int goodsId;
-
-    private int ptformat;
-
-    private int ptcolor;
-
-    private int ptnet;
-
-    private int ptversions;
-
-    private int ptmemory;
-
-    private int ptcpu;
-
-    private int ptbattery;
-
-    private String reserve13;
-
-    private String reserve14;
+    private double ptPrice;//产品价格
+    private String ptPic;//产品详情图片
+    private int ptNum;//产品库存数量 
+    private int goodsId;//引入商品id
+    private int ptformat;//1型号 标配版
+    private int ptcolor;//商品颜色
+    private int ptnet;//网络制式 3G 4G
+    private int ptversions;//网络运营商 电信 全网通等
+    
+    private int ptmemory;//内存大小 2G -128G
+    private int ptsize; //电视机尺寸
+    private int ptbattery;	//电池型号
     
     private String goodsName;
 
 	public String getGoodsName() {
 		return goodsName;
 	}
-
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
 	}
-
+	public int getPtIds() {
+		return ptId;
+	}
 	public int getPtId() {
 		return ptId;
 	}
-
 	public void setPtId(int ptId) {
 		this.ptId = ptId;
 	}
-
 	public double getPtPrice() {
 		return ptPrice;
 	}
@@ -61,15 +43,12 @@ public class Product implements Serializable {
 	public void setPtPrice(double ptPrice) {
 		this.ptPrice = ptPrice;
 	}
-
 	public String getPtPic() {
 		return ptPic;
 	}
-
 	public void setPtPic(String ptPic) {
 		this.ptPic = ptPic;
 	}
-
 	public int getPtNum() {
 		return ptNum;
 	}
@@ -78,18 +57,9 @@ public class Product implements Serializable {
 		this.ptNum = ptNum;
 	}
 
-	public String getPtCan() {
-		return ptCan;
-	}
-
-	public void setPtCan(String ptCan) {
-		this.ptCan = ptCan;
-	}
-
 	public int getGoodsId() {
 		return goodsId;
 	}
-
 	public void setGoodsId(int goodsId) {
 		this.goodsId = goodsId;
 	}
@@ -101,7 +71,6 @@ public class Product implements Serializable {
 	public void setPtformat(int ptformat) {
 		this.ptformat = ptformat;
 	}
-
 	public int getPtcolor() {
 		return ptcolor;
 	}
@@ -109,100 +78,66 @@ public class Product implements Serializable {
 	public void setPtcolor(int ptcolor) {
 		this.ptcolor = ptcolor;
 	}
-
 	public int getPtnet() {
 		return ptnet;
 	}
-
 	public void setPtnet(int ptnet) {
 		this.ptnet = ptnet;
 	}
-
 	public int getPtversions() {
 		return ptversions;
 	}
-
 	public void setPtversions(int ptversions) {
 		this.ptversions = ptversions;
 	}
-
 	public int getPtmemory() {
 		return ptmemory;
 	}
-
 	public void setPtmemory(int ptmemory) {
 		this.ptmemory = ptmemory;
 	}
-
-	public int getPtcpu() {
-		return ptcpu;
+	public int getPtsize() {
+		return ptsize;
 	}
-
-	public void setPtcpu(int ptcpu) {
-		this.ptcpu = ptcpu;
+	public void setPtsize(int ptsize) {
+		this.ptsize = ptsize;
 	}
-
 	public int getPtbattery() {
 		return ptbattery;
 	}
-
 	public void setPtbattery(int ptbattery) {
 		this.ptbattery = ptbattery;
 	}
-
-	public String getReserve13() {
-		return reserve13;
+	public Product() {
+		super();
 	}
-
-	public void setReserve13(String reserve13) {
-		this.reserve13 = reserve13;
-	}
-
-	public String getReserve14() {
-		return reserve14;
-	}
-
-	public void setReserve14(String reserve14) {
-		this.reserve14 = reserve14;
-	}
-
 	@Override
 	public String toString() {
 		return "Product [ptId=" + ptId + ", ptPrice=" + ptPrice + ", ptPic="
-				+ ptPic + ", ptNum=" + ptNum + ", ptCan=" + ptCan
-				+ ", goodsId=" + goodsId + ", ptformat=" + ptformat
-				+ ", ptcolor=" + ptcolor + ", ptnet=" + ptnet + ", ptversions="
-				+ ptversions + ", ptmemory=" + ptmemory + ", ptcpu=" + ptcpu
-				+ ", ptbattery=" + ptbattery + ", reserve13=" + reserve13
-				+ ", reserve14=" + reserve14 + ", goodsName=" + goodsName + "]";
+				+ ptPic + ", ptNum=" + ptNum + ", goodsId=" + goodsId
+				+ ", ptformat=" + ptformat + ", ptcolor=" + ptcolor
+				+ ", ptnet=" + ptnet + ", ptversions=" + ptversions
+				+ ", ptmemory=" + ptmemory + ", ptsize=" + ptsize
+				+ ", ptbattery=" + ptbattery + ", goodsName=" + goodsName + "]";
 	}
-
 	public Product(int ptId, double ptPrice, String ptPic, int ptNum,
-			String ptCan, int goodsId, int ptformat, int ptcolor, int ptnet,
-			int ptversions, int ptmemory, int ptcpu, int ptbattery,
-			String reserve13, String reserve14, String goodsName) {
+			int goodsId, int ptformat, int ptcolor, int ptnet, int ptversions,
+			int ptmemory, int ptsize, int ptbattery, String goodsName) {
 		super();
 		this.ptId = ptId;
 		this.ptPrice = ptPrice;
 		this.ptPic = ptPic;
 		this.ptNum = ptNum;
-		this.ptCan = ptCan;
 		this.goodsId = goodsId;
 		this.ptformat = ptformat;
 		this.ptcolor = ptcolor;
 		this.ptnet = ptnet;
 		this.ptversions = ptversions;
 		this.ptmemory = ptmemory;
-		this.ptcpu = ptcpu;
+		this.ptsize = ptsize;
 		this.ptbattery = ptbattery;
-		this.reserve13 = reserve13;
-		this.reserve14 = reserve14;
 		this.goodsName = goodsName;
 	}
-
-	public Product() {
-		super();
-	}
-
+	
 
 }

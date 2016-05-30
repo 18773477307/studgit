@@ -22,13 +22,23 @@ public class Goods implements Serializable{
 
     private int goodsSta;
 
-    private String goodsplace;
+    private String goodsPlace;
 
-    private String reserve11;
+    
+    private String typesName;
+    
+	public String getTypesName() {
+		return typesName;
+	}
 
-    private String reserve12;
+	public void setTypesName(String typesName) {
+		this.typesName = typesName;
+	}
 
 	public int getGoodsId() {
+		return goodsId;
+	}
+	public int getGoodsIds() {
 		return goodsId;
 	}
 
@@ -92,34 +102,19 @@ public class Goods implements Serializable{
 		this.goodsSta = goodsSta;
 	}
 
-	public String getGoodsplace() {
-		return goodsplace;
+	public String getGoodsPlace() {
+		return goodsPlace;
 	}
 
-	public void setGoodsplace(String goodsplace) {
-		this.goodsplace = goodsplace;
+	public void setGoodsPlace(String goodsPlace) {
+		this.goodsPlace = goodsPlace;
 	}
 
-	public String getReserve11() {
-		return reserve11;
-	}
-
-	public void setReserve11(String reserve11) {
-		this.reserve11 = reserve11;
-	}
-
-	public String getReserve12() {
-		return reserve12;
-	}
-
-	public void setReserve12(String reserve12) {
-		this.reserve12 = reserve12;
-	}
+	
 
 	public Goods(int goodsId, int typesId, String goodsName,
 			double goodsminPrice, String goodsVersion, String goodsminPic,
-			String goodsmaxPic, int goodsSta, String goodsplace,
-			String reserve11, String reserve12) {
+			String goodsmaxPic, int goodsSta, String goodsPlace) {
 		super();
 		this.goodsId = goodsId;
 		this.typesId = typesId;
@@ -129,9 +124,7 @@ public class Goods implements Serializable{
 		this.goodsminPic = goodsminPic;
 		this.goodsmaxPic = goodsmaxPic;
 		this.goodsSta = goodsSta;
-		this.goodsplace = goodsplace;
-		this.reserve11 = reserve11;
-		this.reserve12 = reserve12;
+		this.goodsPlace = goodsPlace;
 	}
 
 	@Override
@@ -140,14 +133,12 @@ public class Goods implements Serializable{
 				+ ", goodsName=" + goodsName + ", goodsminPrice="
 				+ goodsminPrice + ", goodsVersion=" + goodsVersion
 				+ ", goodsminPic=" + goodsminPic + ", goodsmaxPic="
-				+ goodsmaxPic + ", goodsSta=" + goodsSta + ", goodsplace="
-				+ goodsplace + ", reserve11=" + reserve11 + ", reserve12="
-				+ reserve12 + "]";
+				+ goodsmaxPic + ", goodsSta=" + goodsSta + ", goodsPlace="
+				+ goodsPlace + ", typesName=" + typesName + "]";
 	}
 
 	public Goods() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }
