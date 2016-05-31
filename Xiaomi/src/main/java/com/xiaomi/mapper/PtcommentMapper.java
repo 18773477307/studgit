@@ -18,4 +18,6 @@ public interface PtcommentMapper {
 	List<Ptcomment> getAllPtcomment(Map<String, Object> params);
 
 	int getTotal();
+
+	Ptcomment findPtcommentByApprId(int apprId);
 }

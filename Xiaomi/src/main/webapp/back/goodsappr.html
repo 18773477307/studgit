@@ -247,12 +247,14 @@
 //查看商品评价信息详情
 function showGoodsApprDetail(apprId){
 	$.post("back/ptcomment_findPtcommentByApprId.action",{apprId:apprId},function(data){
-		var goodsAppr =data.rows;
+		var goodsAppr =data.object;
+		//alert("goodsName:"+goodsAppr.goodsName);
+		//alert("usersName:"+goodsAppr.usersName);
 		$("#goodsAppr_apprId_show").val(goodsAppr.apprId);
 		$("#goodsAppr_goodsName_show").val(goodsAppr.goodsName);
 		$("#goodsAppr_usersName_show").val(goodsAppr.usersName);
 		$("#goodsAppr_apprDate_show").val(goodsAppr.apprDate);
-		$("#goodsAppr_content_show").html(goodsAppr.apprCont);
+		$("#goodsAppr_content_show").html(goodsAppr.apprcont);
 		$("#show_goodsApprInfo").dialog("open");
 	},"json");
 }
@@ -261,14 +263,14 @@ function showGoodsApprDetail(apprId){
 //官方回复
 function goreply(apprId){
 	$.post("back/ptcomment_findPtcommentByApprId.action",{apprId:apprId},function(data){
-		var goodsAppr =data.rows;
+		var goodsAppr =data.object;
 		$("#apprId_show").val(goodsAppr.apprId);
 		$("#goodsId_show").val(goodsAppr.goodsId);
 		$("#goodsName_show").val(goodsAppr.goodsName);
 		$("#usersId_show").val(goodsAppr.usersId);
 		$("#usersName_show").val(goodsAppr.usersName);
 		$("#apprDate_show").val(goodsAppr.apprDate);
-		$("#content_show").html(goodsAppr.apprCont);
+		$("#content_show").html(goodsAppr.apprcont);
 		$("#reply_goodsApprInfo").dialog("open");
 	},"json");
 }
@@ -286,21 +288,20 @@ function doreply(){
 	var str=year+'-'+month+'-'+days+' '+hour+':'+minute+':'+second;
 	var repDate=str;
 	var repCont=$("#reply_Info").val();
-	$.post("../replyServlet",{op:"addReplyInfo",usersId:usersId,goodsId:goodsId,repDate:repDate,repCont:repCont},function(data){
-		data=parseInt($.trim(data));
-		
-			if(data==1){  //添加成功
-				$("#reply_Info").val("");
-				$("#reply_goodsApprInfo").dialog("close");
-				$.messager.show({
-					title:'成功提示',
-					msg:'回复成功...',
-					timeout:2000,
-					showType:'slide'
-				});
-			}else{
-				$.messager.alert('失败信息','回复失败....','error');
-			}
+	$.post("back/reply_addReplyInfo",{usersId:usersId,goodsId:goodsId,repDate:repDate,repCont:repCont},function(data){
+		//data=parseInt($.trim(data));
+		if(data.total==1){  //添加成功
+			$("#reply_Info").val("");
+			$("#reply_goodsApprInfo").dialog("close");
+			$.messager.show({
+				title:'成功提示',
+				msg:'回复成功...',
+				timeout:2000,
+				showType:'slide'
+			});
+		}else{
+			$.messager.alert('失败信息','回复失败....','error');
+		}
 	});
 }
 </script>

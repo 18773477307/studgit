@@ -376,17 +376,11 @@ create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
 ---插入--------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');
-=======
+insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');=======
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 select * from article;
-<<<<<<< HEAD
 select b.* from (select a.*,rownum rn from 
 		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
-=======
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 --删除-------------------------------------------------------------------------------------------------
 drop table article;
 delete article;
@@ -442,6 +436,11 @@ insert into ptcomment values (seq_ptcomment_apprId.nextval,1001,1001,'嗯呢，�
 update  ptcomment set apprDate=TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss') where apprId=1001
 ---查询------------------------------------------------------------------------------------------------------
 select * from ptcomment;
+select * from goods;
+select * from usersInfo;
+select * from 
+select pt.*,u.usersId,u.usersName from ptcomment pt,usersInfo u where u.usersId = pt.usersId;
+select pt.*,g.goodsId,g.goodsName,u.usersId,u.usersName from ptcomment pt,product pr,goods g,usersInfo u where pt.ptId = pr.ptId and pr.goodsId = g.goodsId and pt.usersId = u.usersId 
 select * from (select a.*,rownum rn from (select * from ptcomment order by apprId)a where 10 >= rownum)b where rn>0
 ---删除------------------------------------------------------------------------------------------------------
 drop table ptcomment;
@@ -455,7 +454,7 @@ create table reply(
        usersId int      		 --用户编号
              constraint FK_reply_usersInfo_usersId references usersInfo(usersId),
        apprId int                --评价编号
-             constraint seq_ptcomment_apprId references goodsappr(apprId),
+             constraint FK_seq_ptcomment_apprId references ptcomment(apprId),
        repCont varchar2(500),             --回复内容
        repDate date,             		  --回复日期 
        reserve29 varchar2(20),	          --备用字段

@@ -4,5 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ReplyMapper" >
-  
+	<insert id="addReplyInfo" parameterType="Reply">
+		insert into reply values(seq_reply_replyId.nextval,#{usersId},#{apprId},#{repCont},#{repDate},'','')
+	</insert>
 </mapper>

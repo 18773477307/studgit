@@ -12,4 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTotal" resultType="int">
 		select count(apprId) from ptcomment
 	</select>
+	
+	<!-- 根据apprId获取具体的商品评价信息 -->
+	<select id="findPtcommentByApprId" parameterType="int" resultType="Ptcomment">
+		select pt.*,g.goodsId,g.goodsName,u.usersId,u.usersName from 
+		ptcomment pt,product pr,goods g,usersInfo u where pt.ptId = pr.ptId 
+		and pr.goodsId = g.goodsId and pt.usersId = u.usersId and apprId=#{apprId}
+	</select>
 </mapper>

@@ -18,12 +18,19 @@ import com.xiaomi.service.PtcommentService;
 public class PtcommentServiceImplTest {
 	@Autowired
 	private PtcommentService ptcommentService;
-
+	
 	@Test
 	public void testGetAllPtcomment() {
 		List<Ptcomment> ptcomments = ptcommentService.find(1, 10);
 		System.out.println(ptcomments);
 		assertNotNull("获取所有的商品评价失败！！！",ptcomments);
+	}
+
+	@Test
+	public void testFindPtcommentByApprId() {
+		Ptcomment ptcom = ptcommentService.find(1001);
+		System.out.println(ptcom);
+		assertNotNull("查询失败！！",ptcom);
 	}
 
 }

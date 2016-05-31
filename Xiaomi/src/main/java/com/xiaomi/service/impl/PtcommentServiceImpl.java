@@ -50,8 +50,7 @@ public class PtcommentServiceImpl implements PtcommentService {
 
 	@Override
 	public Ptcomment find(int apprId) {
-		// TODO Auto-generated method stub
-		return null;
+		return ptcommentMapper.findPtcommentByApprId(apprId);
 	}
 
 }
