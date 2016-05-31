@@ -16,15 +16,12 @@
     		<result type="json">
     			<param name="root">jsonObject</param>
     		</result>
-<!--     		<result name="loginSuccess">/main.jsp</result>
-    		<result name="loginFail">/index.jsp</result>
- -->    		
     	</action>
 	</package>
 	
 	<package name="xmBack" namespace="/back" extends="json-default">
 		<global-allowed-methods>getAllManager,updateManager,delManager,addManager,getAllUsers,addUsersInfo,updateUsersInfo,delUsersInfo,getAllAddress,
-		findAddressByInfo,getAllDatadict,addDatadict,updateDatadict,delDatadict</global-allowed-methods>
+		findAddressByInfo,getAllDatadict,addDatadict,updateDatadict,delDatadict,findAllTypegoods,updateTypegoods,delTypegoods,addTypegoods</global-allowed-methods>
     	<action name="*_*" class="{1}Action" method="{2}">
     		<result type="json">
     			<param name="root">jsonObject</param>

@@ -23,7 +23,6 @@ public class TypegoodsAction implements ModelDriven<Typegoods>, SessionAware {
 	private Map<String, Object> session;
 	private String typesIds;
 
-
 	public JsonObject<Typegoods> getJsonObject() {
 		return jsonObject;
 	}
