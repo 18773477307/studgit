@@ -10,20 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.xiaomi.entity.ArticleBean;
-import com.xiaomi.service.ArticleService;
+import com.xiaomi.entity.UsersInfo;
+import com.xiaomi.service.UsersInfoService;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring.xml")
-public class ArticleServiceImplTest {
+public class UsersInfoServiceImplTest {
 	
 	@Autowired
-	private ArticleService articleService;
+	private UsersInfoService usersInfoService;
 
 	@Test
-	public void testFindallarticle() {
-		List<ArticleBean> articles=articleService.findallarticle(1, 10);
-		System.out.println(articles);
-		assertNotNull(articles);
+	public void testGetAllUserNames() {
+		List<UsersInfo> usersName = usersInfoService.getAllUserNames();
+		System.out.println(usersName);
+		assertNotNull("获取用户名称失败！！",usersName);
 	}
 
 }

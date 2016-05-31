@@ -4,5 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.PtcommentMapper" >
-  
+	<select id="getAllPtcomment" parameterType="map" resultType="Ptcomment">
+		select * from (select a.*,rownum rn from 
+		(select * from ptcomment order by apprId)a where #{pageNo} >= rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		select count(apprId) from ptcomment
+	</select>
+	
+	<!-- 根据apprId获取具体的商品评价信息 -->
+	<select id="findPtcommentByApprId" parameterType="int" resultType="Ptcomment">
+		select pt.*,g.goodsId,g.goodsName,u.usersId,u.usersName from 
+		ptcomment pt,product pr,goods g,usersInfo u where pt.ptId = pr.ptId 
+		and pr.goodsId = g.goodsId and pt.usersId = u.usersId and apprId=#{apprId}
+	</select>
 </mapper>

@@ -2,150 +2,144 @@
 <table id="goods_info" data-options="fit:true"></table>
 
 <script>
-var opt;
-$.post("../brandServlet",{op:"getAllBrandInfo"},function(data){
-	var obj_brand=$("#goods_brand");
-	var obj_brand_update=$("#goods_brand_update");
-	$.each(data.rows,function(index,item){
-		opt="<option value='"+item.brandId+"'>"+item.brandName+"</option>";
-		obj_brand.append($(opt));
-		obj_brand_update.append($(opt));
-	});
-},"json");
-
-$.post("../datadictServlet",{op:"getAllDatadictInfo"},function(data){
-	var obj_format=$("#goods_format");
-	var obj_format_update=$("#goods_format_update");
-	var obj_color=$("#goods_color");
-	var obj_color_update=$("#goods_color_update");
-	var obj_memory=$("#goods_memory");
-	var obj_memory_update=$("#goods_memory_update");
-	var obj_versions=$("#goods_versions");
-	var obj_versions_update=$("#goods_versions_update");
+	var opt;
+	$.post("back/typegoods_findAllType.action",function(data){
+		var obj_type=$("#typesId");
+		var obj_type_update=$("#goods_type_update");
+		$.each(data.rows,function(index,item){
+			opt="<option value='"+item.typesId+"'>"+item.typesName+"</option>";
+			obj_type.append($(opt));
+			obj_type_update.append($(opt));
+		});
+	},"json");
 	
-	$.each(data.rows,function(index,item){
-		if(item.dirType==1){
-			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
-			obj_format.append($(opt));
-			obj_format_update.append($(opt));
-		}else if(item.dirType==2){
-			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
-			obj_color.append($(opt));
-			obj_color_update.append($(opt));
-		}else if(item.dirType==3){
-			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
-			obj_memory.append($(opt));
-			obj_memory_update.append($(opt));
-		}else if(item.dirType==4){
-			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
-			obj_versions.append($(opt));
-			obj_versions_update.append($(opt));
-		}
+	$.post("back/datadict_findAllDatadict.action",function(data){
+		var obj_format=$("#goods_format");
+		var obj_format_update=$("#goods_format_update");
+		var obj_color=$("#goods_color");
+		var obj_color_update=$("#goods_color_update");
+		var obj_memory=$("#goods_memory");
+		var obj_memory_update=$("#goods_memory_update");
+		var obj_versions=$("#goods_versions");
+		var obj_versions_update=$("#goods_versions_update");
+		var obj_size=$("#goods_size");
+		var obj_size_update=$("#goods_size_update");
+		
+		$.each(data.rows,function(index,item){
+			if(item.dirType==1){
+				opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+				obj_format.append($(opt));
+				obj_format_update.append($(opt));
+			}else if(item.dirType==2){
+				opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+				obj_color.append($(opt));
+				obj_color_update.append($(opt));
+			}else if(item.dirType==3){
+				opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+				obj_memory.append($(opt));
+				obj_memory_update.append($(opt));
+			}else if(item.dirType==4){
+				opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+				obj_versions.append($(opt));
+				obj_versions_update.append($(opt));
+			}else if(item.dirType==5){
+				opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+				obj_size.append($(opt));
+				obj_size_update.append($(opt));
+			}
+				
+		});
+	},"json");
+	
+	var artStaObj=[{Sta:0,sname:'下架'},{Sta:1,sname:'上架'}];
+	datagrid=$('#goods_info').datagrid({
+		url:'back/goods_getAllGoodsInfo.action',
+		fitColumns:true,
+		striped:true,
+		loadMsg:"数据加载中...",
+		pagination:true,
+		rownumbers:true,
+		sortName:'goodsId',
+		sortOrder:'asc',
+		remoteSort:false,
+		columns:[[
+			{field:'goodsIds',title:'选择',width:100,align:'center',checkbox:true},
+			{field:'goodsId',title:'商品编号',width:100,align:'center',sortable:true},
+			{field:'typesName',title:'商品类型',width:100,align:'center'},
+			{field:'goodsName',title:'商品名称',width:100,align:'center'},
+			{field:'goodsminPrice',title:'商品价格',width:100,align:'center'},
+			{field:'goodsVersion',title:'商品简介',width:200,align:'center'},
+			{field:'goodsSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
+				required:true,valueField:'Sta',textField:'sname',data:artStaObj}},
+	        	  formatter:function(value,row,index){
+	        		  for(var i=0;i<artStaObj.length;i++){
+	        			  if(artStaObj[i].Sta==value){
+	        				  return artStaObj[i].sname;
+	        			  }
+	        		  }
+	        		  return value;
+	        	  }
+	       },
+			{field:'_operate',title:'操作',width:100,align:'center',
+				formatter:function(value,rowData,index){
+					return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetail(\''+rowData.goodsId+'\')">详情</a>';
+				}
+			}
+		]],
+		toolbar: [{
+			text:"添加",
+			iconCls:'icon-add',
+			handler:function(){
+				$("#goods_add").dialog("open");
+				showp();
+			}
+		},{
+			text:"修改",
+			iconCls:'icon-edit',
+			handler:function(){
+				//获取要修改的行
+				var rows=datagrid.datagrid("getChecked")[0];
+				if(rows==undefined){
+					$.messager.show({title:'温馨提示',msg:'请选择您要修改的数据...',timeout:2000,showType:'slide'});
+				}else{
+					var goodsId=rows.goodsId;
+					$("#goods_update").dialog("open");
+					$("#update_goodsInfo").attr("href","javascript:updateGoodsInfo("+goodsId+")");
+					$.post("back/goods_findGoodsByGoodsId.action",{goodsId:goodsId},function(data){
+						var goods=data.rows[0];
+						$("#goods_type_update").val(goods.typesId);	//类型名
+						$("#goods_name_update").val(goods.goodsName);//商品名
+						$("#goods_price_update").val(goods.goodsminPrice);//价格
+						$("#goods_version_update").val(goods.goodsVersion);//简介
+						$("#goods_status_update").val(goods.goodsSta);//状态
+						
+						var str="";
+						var str1="";
+						if(goods.goodsminPic == null){
+							str="<img src='images/zanwu.jpg' alt='暂无图片' width='100px'>";
+						}else{
+							var onepics=goods.goodsminPic.split(",");
+							for(var i=0;i<onepics.length;i++){
+								str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+							}
+						}
+						$("#goods_pic_update_show").html($(str));
+						
+						if(goods.goodsmaxPic == null){
+							str1="<img src='images/zanwu.jpg' alt='暂无图片' width='100px'>";
+						}else{
+							var twopics=goods.goodsmaxPic.split(",");
+							for(var i=0;i<twopics.length;i++){
+								str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+							}
+						}
+						$("#goodsdescr_pic_update_show").html($(str1));
+					},"json");
+				}
+				showp1();
+			}
+		}]
 	});
-},"json");
-var artStaObj=[{Sta:0,sname:'下架'},{Sta:1,sname:'上架'}];
-datagrid=$('#goods_info').datagrid({
-	url:'../goodsServlet',
-	queryParams:{op:"getPageGoodsInfo"},
-	fitColumns:true,
-	striped:true,
-	loadMsg:"数据加载中...",
-	pagination:true,
-	rownumbers:true,
-	sortName:'goodsId',
-	sortOrder:'asc',
-	remoteSort:false,
-	columns:[[
-		{field:'goodsIds',title:'选择',width:100,align:'center',checkbox:true},
-		{field:'goodsId',title:'商品编号',width:100,align:'center',sortable:true},
-		{field:'brandName',title:'商品品牌',width:100,align:'center'},
-		{field:'goodsName',title:'商品名称',width:100,align:'center'},
-		{field:'goodsPrice',title:'商品价格',width:100,align:'center'},
-		{field:'goodsVersion',title:'商品简介',width:200,align:'center'},
-		{field:'goodsSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:artStaObj}},
-        	  formatter:function(value,row,index){
-        		  for(var i=0;i<artStaObj.length;i++){
-        			  if(artStaObj[i].Sta==value){
-        				  return artStaObj[i].sname;
-        			  }
-        		  }
-        		  return value;
-        	  }
-       },
-		{field:'_operate',title:'操作',width:100,align:'center',
-			formatter:function(value,rowData,index){
-				return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetail(\''+rowData.goodsId+'\')">详情</a>';
-			}
-		}
-	]],
-	toolbar: [{
-		text:"添加",
-		iconCls:'icon-add',
-		handler:function(){
-			$("#goods_add").dialog("open");
-			showp();
-		}
-	},{
-		text:"修改",
-		iconCls:'icon-edit',
-		handler:function(){
-			//获取要修改的行
-			var rows=datagrid.datagrid("getChecked")[0];
-			
-			if(rows==undefined){
-				$.messager.show({title:'温馨提示',msg:'请选择您要修改的数据...',timeout:2000,showType:'slide'});
-			}else{
-				var goodsId=rows.goodsId;
-				$("#goods_update").dialog("open");
-				$("#update_goodsInfo").attr("href","javascript:updateGoodsInfo("+goodsId+")");
-				$.post("../goodsServlet",{op:"findGoodsByGoodsId",goodsId:goodsId},function(data){
-					var goods=data.rows;
-					
-					//console.info(goods);
-					//$("#goods_brand_update").val(goods.brandId);
-					$("#goods_name_update").val(goods.goodsName);
-					$("#goods_price_update").val(goods.goodsPrice);
-					//$("#goods_format_update").val(goods.gformat);
-					//$("#goods_color_update").val(goods.gcolor);
-					//$("#goods_memory_update").val(goods.gmemory);
-					$("#goods_versions_update").val(goods.gversions);
-					$("#goods_version_update").val(goods.goodsVersion);
-					$("#goods_num_update").val(goods.goodsNum);
-					$("#goods_hot_update").val(goods.goodsHot);
-					$("#goods_status_update").val(goods.goodsSta);
-					
-					var str="";
-					var str1="";
-					var str2="";
-					
-					var onepics=goods.goodsPic.split(",");
-					//console.info(onepics);
-					for(var i=0;i<onepics.length;i++){
-						str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
-					}
-					$("#goods_pic_update_show").html($(str));
-					
-					
-					var twopics=goods.goodsdescr.split(",");
-					for(var i=0;i<twopics.length;i++){
-						str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
-					}
-					$("#goodsdescr_pic_update_show").html($(str1));
-					
-					
-					var threepics=goods.goodsrepr.split(",");
-					for(var i=0;i<threepics.length;i++){
-						str2+="<img src='../"+threepics[i]+"' width='100px'>&nbsp;";
-					}
-					$("#goodsrepr_pic_update_show").html($(str2));
-				},"json");
-			}
-			showp1();
-		}
-	}]
-
-});
 </script>
 
 
@@ -158,58 +152,43 @@ datagrid=$('#goods_info').datagrid({
 	label{
 		padding-right:10px;
 	}
+	.tagDiv{
+		width: 330px;
+		float: left;
+		height: 60px;
+	}
 </style>
 
 
 <!-- 添加商品界面 -->
 <div id="goods_add" class="easyui-dialog" title="添加商品" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
-	<form action="" style="padding:20px;float:left;display:inline-block;">
+	<form action="" style="padding:20px;float:left;display:inline-block; width:700px;height: 500px;">
+		<div class="tagDiv">
 		<label>商品类型： </label>
-		<select name="types" id="typesId" class="myinput">
-		
-		</select><br /><br />
-		<label>商品名称：</label><input type="text" name="goodsName" id="goodsName" class="myinput"/><br /><br />
-		<label>商品价格：</label><input name="goodsminPrice" id="goodsminPrice" class="easyui-numberbox  myinput" required/><br /><br />
-		<label>商品小图片：</label><input type="file" name="goods_pic" id="goods_pic" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_show')"/><br /><br />
-		<label>商品型号： </label>
-		<select name="gformat" id="goods_format" class="myinput">
-		
-		</select><br /><br />
-		<label>商品颜色： </label>
-		<select name="gcolor" id="goods_color" class="myinput">
-		
-		</select><br /><br />
-		<label>网络制式： </label>
-		<select name="gmemory" id="goods_memory" class="myinput">
-		
-		</select><br /><br />
-		<label>网络版本： </label>
-		<select name="gversions" id="goods_versions" class="myinput">
-		</select><br /><br />
-		
-		<label>商品简介：</label><input class="myinput" name="goodsVersion" id="goods_version"/><br /><br />
-		<label>商品大图片：</label><input type="file" name="goodsdescr_pic" id="goodsdescr_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsdescr_pic_show')"/><br /><br />
-		<!-- <label>商品图片：</label><input type="file" name="goodsrepr_pic" id="goodsrepr_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsrepr_pic_show')"/><br /><br /> -->
-		<label>商品数量：</label><input name="price" id="goods_num" class="easyui-numberbox  myinput" required/><br /><br />
-		<label>商品热销率：</label><input name="popular" id="goods_hot" class="myinput"/><br /><br />
-		
-		<label>商品位置：</label>
+		<select name="types" id="typesId" class="myinput" onchange="checkType()">
+		</select>
+		</div>
+		<div class="tagDiv"><label>商品名称：</label><input type="text" name="goodsName" id="goodsName" class="myinput"/></div>
+		<div class="tagDiv"><label>商品价格：</label><input name="goodsminPrice" id="goodsminPrice" class="easyui-numberbox  myinput" required/></div>
+		<div class="tagDiv"><label>商品小图片：</label><input type="file" name="goods_pic" id="goods_pic" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_show')"/></div>
+		<div class="tagDiv"><label>商品简介：</label><input class="myinput" name="goodsVersion" id="goods_version"/></div>
+		<div class="tagDiv"><label>商品大图片：</label><input type="file" name="goodsdescr_pic" id="goodsdescr_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsdescr_pic_show')"/></div>
+		<div class="tagDiv"><label>商品位置：</label>
 		<select onchange="showc()" id="p"></select>
-		<select id="c"></select><br /><br />
-		
-		<label>商品状态：</label>
+		<select id="c"></select></div>
+		<div class="tagDiv"><label>商品状态：</label>
 		<select name="goodsSta" id="goods_status" class="myinput">
 			<option value="0">下架</option>
 			<option value="1">上架</option>
-		</select><br /><br />
+		</select></div>
 		<a href="javascript:addGoodsInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
 	</form>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+	<div style="float:left;width:380px;margin-top:50px;margin-bottom:20px;margin-left: 50px;">
 		<fieldset id="goods_pic_show">
 			<legend>商品小图片预览</legend>
 		</fieldset>
 	</div>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+	<div style="float:left;width:380px;margin-left: 50px;">
 		<fieldset id="goodsdescr_pic_show">
 			<legend>商品大图片预览</legend>
 		</fieldset>
@@ -217,23 +196,26 @@ datagrid=$('#goods_info').datagrid({
 </div>
 
 <script>
-
+	function checkType(){
+		//选中的文本 alert($('#typesId option:selected').val())
+		var typesName = $('#typesId option:selected').text();  	//获取选择的类型的名字当时手机时显示
+		var typesId = $('#typesId option:selected').val();      //选中的值
+		if(typesName=='手机'){
+			$("#phoneOnly").show();
+		}else{
+			$("#phoneOnly").hide();
+		}	
+	}
 </script>
 
 <!-- 查看商品详情的界面 -->
 
 <div id="goods_show" class="easyui-dialog" title="商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
 	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>商品品牌： </label><input type="text" id="goods_brand_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品类型：</label><input type="text" name="goods_type" id="goods_type_show" class="myinput" readonly/><br /><br />
 		<label>商品名称：</label><input type="text" name="goods_name" id="goods_name_show" class="myinput" readonly/><br /><br />
 		<label>商品价格：</label><input name="price" id="goods_price_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>商品型号： </label><input type="text" id="goods_format_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>商品颜色： </label><input type="text" id="goods_color_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>网络制式： </label><input type="text" id="goods_memory_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>网络版本： </label><input type="text" id="goods_versions_show" class="myinput" readonly="readonly"/><br /><br />
 		<label>商品简介：</label><input class="myinput" name="goodsVersion" id="goods_version_show" readonly="readonly"/><br /><br />
-		<label>商品数量：</label><input name="number" id="goods_num_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>商品热销率：</label><input name="popular" id="goods_hot_show" class="myinput" readonly="readonly"/><br /><br />
 		<label>商品位置：</label><input type="text" id="goods_weizhi_show" class="myinput" readonly="readonly"/><br /><br />
 		<label>商品状态：</label><input type="text" id="goods_status_show" class="myinput" readonly="readonly"/><br /><br />
 	</form>
@@ -247,51 +229,21 @@ datagrid=$('#goods_info').datagrid({
 			<legend>商品大图片预览</legend>
 		</fieldset>
 	</div>
-	<!-- <div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsrepr_picinfo_show">
-			<legend>商品图片</legend>
-		</fieldset>
-	</div> -->
 </div>
 
-
 <!-- 修改商品界面 -->
-
 <div id="goods_update" class="easyui-dialog" title="修改商品信息" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
 	<form action="" style="padding:20px;float:left;display:inline-block;">
 		<label>商品类型： </label>
-		<select name="brand" id="goods_brand_update" class="myinput">
-		
-		</select><br /><br />
+		<select name="goodsType" id="goods_type_update" class="myinput"></select><br /><br />
 		<label>商品名称：</label><input type="text" name="goods_name" id="goods_name_update" class="myinput"/><br /><br />
 		<label>商品最低价格：</label><input name="price" id="goods_price_update" class="easyui-numberbox  myinput" required/><br /><br />
 		<label>商品小图片：</label><input type="file" name="goods_pic_update" id="goods_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_update_show')"/><br /><br />
-		<label>商品型号： </label>
-		<select name="gformat" id="goods_format_update" class="myinput">
-		
-		</select><br /><br />
-		<label>商品颜色： </label>
-		<select name="gcolor" id="goods_color_update" class="myinput">
-		
-		</select><br /><br />
-		<label>网络制式： </label>
-		<select name="gmemory" id="goods_memory_update" class="myinput">
-		
-		</select><br /><br />
-		 <label>网络版本： </label>
-		<select name="gversions" id="goods_versions_update" class="myinput">
-		</select><br /><br />
-		
 		<label>商品简介：</label><input class="myinput" name="goodsVersion" id="goods_version_update"/><br /><br />
 		<label>商品大图片：</label><input type="file" name="goodsdescr_pic_update" id="goodsdescr_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsdescr_pic_update_show')"/><br /><br />
-		<!-- <label>商品图片：</label><input type="file" name="goodsrepr_pic_update" id="goodsrepr_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsrepr_pic_update_show')"/><br /><br /> -->
-		<label>商品数量：</label><input name="price" id="goods_num_update" class="easyui-numberbox  myinput" required/><br /><br />
-		<label>商品热销率：</label><input name="popular" id="goods_hot_update" class="myinput"/><br /><br />
-		
 		<label>商品位置：</label>
 		<select onchange="showc1()" id="p1"></select>
 		<select id="c1"></select><br /><br />
-		
 		<label>商品状态：</label>
 		<select name="goodsSta" id="goods_status_update" class="myinput">
 			<option value="0">下架</option>
@@ -309,112 +261,37 @@ datagrid=$('#goods_info').datagrid({
 			<legend>商品大图片预览</legend>
 		</fieldset>
 	</div>
-	<!-- <div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsrepr_pic_update_show">
-			<legend>商品图片</legend>
-		</fieldset>
-	</div> -->
 </div>
 
 <script>
-
-//打开dialog时  给下拉框赋值
-var p;
-var array=new Array();
-function showp(){    //该方法是首先创建二维数组array，其中一维是省，二维是市
-	p = document.getElementById("p");   //创建id`p的对象
-	p.options.length=0;   //设置id`p的下拉框的长度为0
-	array["无"] = new Array("无");
-	array["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3");    //创建二维数组
-	array["顶滚1"]=new Array("顶滚1左1","顶滚1左2","顶滚1左3","顶滚1左4","顶滚1左5","顶滚1左6","顶滚1右1","顶滚1右2","顶滚1右3","顶滚1右4","顶滚1右5","顶滚1右6");
-	array["顶滚2"]=new Array("顶滚2左1","顶滚2左2","顶滚2左3","顶滚2左4","顶滚2左5","顶滚2左6","顶滚2右1","顶滚2右2","顶滚2右3","顶滚2右4","顶滚2右5");
-	array["顶滚3"]=new Array("顶滚3左1","顶滚3左2","顶滚3左3","顶滚3左4","顶滚3左5","顶滚3左6");
-	array["顶滚4"]=new Array("顶滚4左1","顶滚4左2","顶滚4左3","顶滚4左4");
-	array["顶滚5"]=new Array("顶滚5左1","顶滚5左2","顶滚5左3","顶滚5左4","顶滚5左5","顶滚5左6");
-	array["顶滚6"]=new Array("顶滚6左1","顶滚6左2","顶滚6左3","顶滚6左4");
-	array["顶滚7"]=new Array("顶滚7左1","顶滚7左2");
-	array["顶滚8"]=new Array("顶滚8左1","顶滚8左2","顶滚8左3","顶滚8左4");
-	array["顶滚9"]=new Array("顶滚9左1","顶滚9左2");
-	array["顶滚10"]=new Array("顶滚10左1","顶滚10左2");
-	array["中滚"]=new Array("中1","中2","中3","中4","中5","中6","中7","中8","中9","中10");
-	for(var a in array){     //通过增强循环遍历出数组array中一维数组的值，并将其对应的数组值赋值给变量a
-		p.add(new Option(a,a),null);     //通过add函数new出一个新的option下拉框并赋值为变量a,通过循环重复操作此代码 实现创造下拉框中该一维数组的所有值
-	}
-	showc();
-}
-function showc(){     //此方法为创建市级下拉框并赋值
-	var c = document.getElementById("c");   //创建id`c的对象c
-	c.options.length=0;    //设置对象c的下拉框的长度为0
-	for(var i in array[p.value]){     //通过增强循环遍历出array的[p.value对应的省级]数组其市级数组的值日
-		c.add(new Option(array[p.value][i],array[p.value][i]),null);
-	}    //创造id c的下拉框并将相应省级数组的市级数组的值赋值给新的下拉框，通过循环反复操作该代码实现创建市级下拉框
-}
-//window.onload=showp;    //网页打开后首先加载函数showp；使用window.onlond=函数名来实现加载；
-
-
-var p1;
-var array1=new Array();
-function showp1(){    //该方法是首先创建二维数组array，其中一维是省，二维是市
-	p1 = document.getElementById("p1");   //创建id`p的对象
-	p1.options.length=0;   //设置id`p的下拉框的长度为0
-	array1["无"] = new Array("无");
-	array1["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3");    //创建二维数组
-	array1["顶滚1"]=new Array("顶滚1左1","顶滚1左2","顶滚1左3","顶滚1左4","顶滚1左5","顶滚1左6","顶滚1右1","顶滚1右2","顶滚1右3","顶滚1右4","顶滚1右5","顶滚1右6");
-	array1["顶滚2"]=new Array("顶滚2左1","顶滚2左2","顶滚2左3","顶滚2左4","顶滚2左5","顶滚2左6","顶滚2右1","顶滚2右2","顶滚2右3","顶滚2右4","顶滚2右5");
-	array1["顶滚3"]=new Array("顶滚3左1","顶滚3左2","顶滚3左3","顶滚3左4","顶滚3左5","顶滚3左6");
-	array1["顶滚4"]=new Array("顶滚4左1","顶滚4左2","顶滚4左3","顶滚4左4");
-	array1["顶滚5"]=new Array("顶滚5左1","顶滚5左2","顶滚5左3","顶滚5左4","顶滚5左5","顶滚5左6");
-	array1["顶滚6"]=new Array("顶滚6左1","顶滚6左2","顶滚6左3","顶滚6左4");
-	array1["顶滚7"]=new Array("顶滚7左1","顶滚7左2");
-	array1["顶滚8"]=new Array("顶滚8左1","顶滚8左2","顶滚8左3","顶滚8左4");
-	array1["顶滚9"]=new Array("顶滚9左1","顶滚9左2");
-	array1["顶滚10"]=new Array("顶滚10左1","顶滚10左2");
-	array1["中滚"]=new Array("中1","中2","中3","中4","中5","中6","中7","中8","中9","中10");
-	for(var a in array1){     //通过增强循环遍历出数组array中一维数组的值，并将其对应的数组值赋值给变量a
-		p1.add(new Option(a,a),null);     //通过add函数new出一个新的option下拉框并赋值为变量a,通过循环重复操作此代码 实现创造下拉框中该一维数组的所有值
-	}
-	showc1();
-}
-function showc1(){     //此方法为创建市级下拉框并赋值
-	var c1 = document.getElementById("c1");   //创建id`c的对象c
-	c1.options.length=0;    //设置对象c的下拉框的长度为0
-	for(var i in array1[p1.value]){     //通过增强循环遍历出array的[p.value对应的省级]数组其市级数组的值日
-		c1.add(new Option(array1[p1.value][i],array1[p1.value][i]),null);
-	}    //创造id c的下拉框并将相应省级数组的市级数组的值赋值给新的下拉框，通过循环反复操作该代码实现创建市级下拉框
-}
-
-
 
 //添加商品详情的方法
 function addGoodsInfo(){
 
 	var weizhi = $("#p").val() + $("#c").val();
 	
-	var brandId=$("#goods_brand").val();
-	var goodsName=$("#goods_name").val();
-	var goodsPrice=$("#goods_price").val();
-	var gformat=$("#goods_format").val();
-	var gcolor=$("#goods_color").val();
-	var gmemory=$("#goods_memory").val();
-	var gversions=$("#goods_versions").val();
-	var goodsVersion=$("#goods_version").val();
-	var goodsNum=$("#goods_num").val();
-	var goodsHot=$("#goods_hot").val();
-	var goodsSta=$("#goods_status").val();
-	
-	var one=document.getElementById("goods_pic");
-	var two=document.getElementById("goodsdescr_pic");
-	//var three=document.getElementById("goodsrepr_pic");
-	
-	var onepath="";
-	var twopath="";
-	//var threepath="";
-	
-	for(var i=0;i<one.files.length;i++){
-		if(i==one.files.length-1){
-			onepath+=one.files[i].name;
-		}else{
-			onepath+=one.files[i].name+",";
+		var weizhi = $("#p").val() + $("#c").val();
+		
+		var typesId=$("#goods_type").val();
+		var goodsName=$("#goods_name").val();
+		var goodsPrice=$("#goods_price").val();
+		var gformat=$("#goods_format").val();
+		var gcolor=$("#goods_color").val();
+		var gmemory=$("#goods_memory").val();
+		var gversions=$("#goods_versions").val();
+		var goodsVersion=$("#goods_version").val();
+		var goodsSta=$("#goods_status").val();
+		var one=document.getElementById("goods_pic");
+		var two=document.getElementById("goodsdescr_pic");
+		//var three=document.getElementById("goodsrepr_pic");
+		var onepath="";
+		var twopath="";
+		for(var i=0;i<one.files.length;i++){
+			if(i==one.files.length-1){
+				onepath+=one.files[i].name;
+			}else{
+				onepath+=one.files[i].name+",";
+			}
 		}
 	}
 	for(var i=0;i<two.files.length;i++){
@@ -472,59 +349,49 @@ function addGoodsInfo(){
 			$.messager.alert("错误提示","商品信息添加错误...\n"+e,"error");
 		}
 	});
-}
 	
 	
-	
+//////////////////////////////////////////////////////////////////////////////////////////////////	
 	//查看商品详细情况
 	function showGoodsDetail(goodsId){
 		$("#goods_show").dialog("open");
-		$.post("../goodsServlet",{op:"findGoodsByGoodsId",goodsId:goodsId},function(data){
-			var goods=data.rows;
-			$("#goods_brand_show").val(goods.brandName);
-			$("#goods_name_show").val(goods.goodsName);
-			$("#goods_price_show").val(goods.goodsPrice);
-			$("#goods_format_show").val(goods.gformat1);
-			$("#goods_color_show").val(goods.gcolor1);
-			$("#goods_memory_show").val(goods.gmemory1);
-			$("#goods_versions_show").val(goods.gversions1);
-			$("#goods_version_show").val(goods.goodsVersion);
-			$("#goods_num_show").val(goods.goodsNum);
-			$("#goods_hot_show").val(goods.goodsHot);
-			$("#goods_status_show").val(goods.goodsSta);
-			$("#goods_weizhi_show").val(goods.reserve12);
-			
+		$.post("back/goods_findGoodsByGoodsId.action",{goodsId:goodsId},function(data){
+			var goods=data.rows[0];
+			$("#goods_type_show").val(goods.typesName);	//类型名
+			$("#goods_name_show").val(goods.goodsName);	//商品名
+			$("#goods_price_show").val(goods.goodsminPrice);//价格
+			$("#goods_version_show").val(goods.goodsVersion);	//简介
+			$("#goods_status_show").val(goods.goodsSta);	//状态
+			$("#goods_weizhi_show").val(goods.goodsPlace);	//位置
 			var str="";
 			var str1="";
-			//var str2="";
-			
-			var onepics=goods.goodsPic.split(",");
-			for(var i=0;i<onepics.length;i++){
-				str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+			//小图片
+			if(goods.goodsminPic == null){
+				str="<img src='images/zanwu.jpg' alt='暂无图片' width='100px'>";
+			}else{
+				var onepics=goods.goodsminPic.split(",");
+				for(var i=0;i<onepics.length;i++){
+					str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+				}
 			}
 			$("#goods_picinfo_show").html($(str));
-			
-			
-			var twopics=goods.goodsdescr.split(",");
-			for(var i=0;i<twopics.length;i++){
-				str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+			//大图片	
+			if(goods.goodsmaxPic == null){
+				str1="<img src='images/zanwu.jpg' alt='暂无图片' width='100px'>";
+			}else{
+				var twopics=goods.goodsmaxPic.split(",");
+				for(var i=0;i<twopics.length;i++){
+					str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+				}
 			}
 			$("#goodsdescr_picinfo_show").html($(str1));
-			
-			
-			/*var threepics=goods.goodsrepr.split(",");
-			for(var i=0;i<threepics.length;i++){
-				str2+="<img src='../"+threepics[i]+"' width='100px'>&nbsp;";
-			}
-			$("#goodsrepr_picinfo_show").html($(str2));*/
 		},"json");
-		
 	}
 	
-	
+////////////////////////////////////////////////////////////////////////////////////////////////	
 	//修改商品信息的方法
 	function updateGoodsInfo(goodsId){
-		var brandId=$("#goods_brand_update").val();
+		var typesId=$("#goods_type_update").val();
 		var goodsName=$("#goods_name_update").val();
 		var goodsPrice=$("#goods_price_update").val();
 		var gformat=$("#goods_format_update").val();
@@ -559,14 +426,6 @@ function addGoodsInfo(){
 				twopath+=two.files[i].name+",";
 			}
 		}
-		/*for(var i=0;i<three.files.length;i++){
-			if(i==three.files.length-1){
-				threepath+=three.files[i].name;
-			}else{
-				threepath+=three.files[i].name+",";
-			}
-		}*/
-		//console.info(onepath+"====="+twopath+"======="+threepath);
 		
 		
 		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
@@ -575,14 +434,14 @@ function addGoodsInfo(){
 			fileElementId:["goods_pic_update","goodsdescr_pic_update"],	//需要上传的文件域的ID，即<input type="file">的ID。
 			//,"goodsrepr_pic_update"
 			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-			data:{goodsId:goodsId,onepath:onepath,twopath:twopath,brandId:brandId,goodsName:goodsName,goodsPrice:goodsPrice,gformat:gformat,gcolor:gcolor,gmemory:gmemory,gversions:gversions,goodsVersion:goodsVersion,goodsNum:goodsNum,goodsHot:goodsHot,goodsSta:goodsSta,weizhi:weizhi},
+			data:{goodsId:goodsId,onepath:onepath,twopath:twopath,typesId:typesId,goodsName:goodsName,goodsPrice:goodsPrice,gformat:gformat,gcolor:gcolor,gmemory:gmemory,gversions:gversions,goodsVersion:goodsVersion,goodsNum:goodsNum,goodsHot:goodsHot,goodsSta:goodsSta,weizhi:weizhi},
 			//gversions:gversions,,threepath:threepath
 			success:function(data,status){
 				if(parseInt($.trim(data))==1){
 					$.messager.show({title:'成功提示',msg:'商品信息修改成功...',timeout:2000,showType:'slide'});
 					$("#goods_update").dialog("close");
 					$("#goods_info").datagrid("reload");
-					//$("#goods_brand_update").val("");
+					//$("#goods_type_update").val("");
 					$("#goods_name_update").val("");
 					$("#goods_price_update").val("0");
 					$("#goods_pic_update").val("");
@@ -608,5 +467,72 @@ function addGoodsInfo(){
 				$.messager.alert("错误提示","商品信息修改错误...\n"+e,"error");
 			}
 		});
+	}
+//////////////////////////////////////////////////////////////////////////////////	
+	
+
+	//打开dialog时  给下拉框赋值
+	var p;
+	var array=new Array();
+	function showp(){    //该方法是首先创建二维数组array，其中一维是省，二维是市
+		p = document.getElementById("p");   //创建id`p的对象
+		p.options.length=0;   //设置id`p的下拉框的长度为0
+		array["无"] = new Array("无");
+		array["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3");    //创建二维数组
+		array["顶滚1"]=new Array("顶滚1左1","顶滚1左2","顶滚1左3","顶滚1左4","顶滚1左5","顶滚1左6","顶滚1右1","顶滚1右2","顶滚1右3","顶滚1右4","顶滚1右5","顶滚1右6");
+		array["顶滚2"]=new Array("顶滚2左1","顶滚2左2","顶滚2左3","顶滚2左4","顶滚2左5","顶滚2左6","顶滚2右1","顶滚2右2","顶滚2右3","顶滚2右4","顶滚2右5");
+		array["顶滚3"]=new Array("顶滚3左1","顶滚3左2","顶滚3左3","顶滚3左4","顶滚3左5","顶滚3左6");
+		array["顶滚4"]=new Array("顶滚4左1","顶滚4左2","顶滚4左3","顶滚4左4");
+		array["顶滚5"]=new Array("顶滚5左1","顶滚5左2","顶滚5左3","顶滚5左4","顶滚5左5","顶滚5左6");
+		array["顶滚6"]=new Array("顶滚6左1","顶滚6左2","顶滚6左3","顶滚6左4");
+		array["顶滚7"]=new Array("顶滚7左1","顶滚7左2");
+		array["顶滚8"]=new Array("顶滚8左1","顶滚8左2","顶滚8左3","顶滚8左4");
+		array["顶滚9"]=new Array("顶滚9左1","顶滚9左2");
+		array["顶滚10"]=new Array("顶滚10左1","顶滚10左2");
+		array["中滚"]=new Array("中1","中2","中3","中4","中5","中6","中7","中8","中9","中10");
+		for(var a in array){     //通过增强循环遍历出数组array中一维数组的值，并将其对应的数组值赋值给变量a
+			p.add(new Option(a,a),null);     //通过add函数new出一个新的option下拉框并赋值为变量a,通过循环重复操作此代码 实现创造下拉框中该一维数组的所有值
+		}
+		showc();
+	}
+	function showc(){     //此方法为创建市级下拉框并赋值
+		var c = document.getElementById("c");   //创建id`c的对象c
+		c.options.length=0;    //设置对象c的下拉框的长度为0
+		for(var i in array[p.value]){     //通过增强循环遍历出array的[p.value对应的省级]数组其市级数组的值日
+			c.add(new Option(array[p.value][i],array[p.value][i]),null);
+		}    //创造id c的下拉框并将相应省级数组的市级数组的值赋值给新的下拉框，通过循环反复操作该代码实现创建市级下拉框
+	}
+	//window.onload=showp;    //网页打开后首先加载函数showp；使用window.onlond=函数名来实现加载；
+
+
+	var p1;
+	var array1=new Array();
+	function showp1(){    //该方法是首先创建二维数组array，其中一维是省，二维是市
+		p1 = document.getElementById("p1");   //创建id`p的对象
+		p1.options.length=0;   //设置id`p的下拉框的长度为0
+		array1["无"] = new Array("无");
+		array1["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3");    //创建二维数组
+		array1["顶滚1"]=new Array("顶滚1左1","顶滚1左2","顶滚1左3","顶滚1左4","顶滚1左5","顶滚1左6","顶滚1右1","顶滚1右2","顶滚1右3","顶滚1右4","顶滚1右5","顶滚1右6");
+		array1["顶滚2"]=new Array("顶滚2左1","顶滚2左2","顶滚2左3","顶滚2左4","顶滚2左5","顶滚2左6","顶滚2右1","顶滚2右2","顶滚2右3","顶滚2右4","顶滚2右5");
+		array1["顶滚3"]=new Array("顶滚3左1","顶滚3左2","顶滚3左3","顶滚3左4","顶滚3左5","顶滚3左6");
+		array1["顶滚4"]=new Array("顶滚4左1","顶滚4左2","顶滚4左3","顶滚4左4");
+		array1["顶滚5"]=new Array("顶滚5左1","顶滚5左2","顶滚5左3","顶滚5左4","顶滚5左5","顶滚5左6");
+		array1["顶滚6"]=new Array("顶滚6左1","顶滚6左2","顶滚6左3","顶滚6左4");
+		array1["顶滚7"]=new Array("顶滚7左1","顶滚7左2");
+		array1["顶滚8"]=new Array("顶滚8左1","顶滚8左2","顶滚8左3","顶滚8左4");
+		array1["顶滚9"]=new Array("顶滚9左1","顶滚9左2");
+		array1["顶滚10"]=new Array("顶滚10左1","顶滚10左2");
+		array1["中滚"]=new Array("中1","中2","中3","中4","中5","中6","中7","中8","中9","中10");
+		for(var a in array1){     //通过增强循环遍历出数组array中一维数组的值，并将其对应的数组值赋值给变量a
+			p1.add(new Option(a,a),null);     //通过add函数new出一个新的option下拉框并赋值为变量a,通过循环重复操作此代码 实现创造下拉框中该一维数组的所有值
+		}
+		showc1();
+	}
+	function showc1(){     //此方法为创建市级下拉框并赋值
+		var c1 = document.getElementById("c1");   //创建id`c的对象c
+		c1.options.length=0;    //设置对象c的下拉框的长度为0
+		for(var i in array1[p1.value]){     //通过增强循环遍历出array的[p.value对应的省级]数组其市级数组的值日
+			c1.add(new Option(array1[p1.value][i],array1[p1.value][i]),null);
+		}    //创造id c的下拉框并将相应省级数组的市级数组的值赋值给新的下拉框，通过循环反复操作该代码实现创建市级下拉框
 	}
 </script>

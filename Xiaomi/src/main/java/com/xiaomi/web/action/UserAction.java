@@ -79,6 +79,13 @@ public class UserAction implements ModelDriven<UsersInfo> {
 		return "success";
 	}
 	
+	public String getAllUsersName(){
+		List<UsersInfo> usersName = usersInfoService.getAllUserNames();
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setRows(usersName);
+		return "success";
+	}
+	
 	
 	@Override
 	public UsersInfo getModel() {

@@ -26,6 +26,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<delete id="delManager" parameterType="int">
-		delete from Manager where manaId =#{manaId}
+		update manager set manaSta=0 where manaId =#{manaId}
 	</delete>
 </mapper>

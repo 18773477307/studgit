@@ -71,6 +71,12 @@
 .icon-search1{
 	background:url('../icons/search.png') no-repeat center center;
 }
+.icon-add1{
+	background:url('../icons/edit_add.png') no-repeat left center;
+}
+.icon-padding1{
+	padding-left:20px;
+}
 .icon-padding{
 	padding-left:40px;
 }

@@ -91,4 +91,6 @@ public interface DatadictService {
 	 */
 	public List<Datadict> findsVersion();
 
+	public List<Datadict> findAllDatadict();
+
 }

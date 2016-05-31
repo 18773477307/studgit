@@ -72,6 +72,14 @@ public class TypegoodsAction implements ModelDriven<Typegoods>, SessionAware {
 		return "success";
 	}
 	
+	public String findAllType(){
+		List<Typegoods> types = typegoodsService.findAllType();
+		jsonObject = new JsonObject<Typegoods>();
+		jsonObject.setRows(types);
+		return "success";
+	}
+	
+	
 	@Override
 	public Typegoods getModel() {
 		typegoods = new Typegoods();

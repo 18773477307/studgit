@@ -29,4 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delManager" parameterType="int">
 		delete from datadict where dirId=#{dirId}
 	</delete>
+	
+	<select id="findAllDatadict" resultType="Datadict">
+		select dirId,dirName,dirType from datadict
+	</select>
 </mapper>

@@ -141,11 +141,11 @@ $(function(){
 					});
 				}
 			}else if(node.id=="admin_goodsDetailinfo"){//说明是商品评论信息管理
-				if(obj.tabs("exists","商品详细信息查询")){//则选中
-					obj.tabs("select","商品详细信息查询");
+				if(obj.tabs("exists","详细信息管理")){//则选中
+					obj.tabs("select","详细信息管理");
 				}else{
 					obj.tabs('add',{
-						title:"商品详细信息查询",
+						title:"详细信息管理",
 						closable:true,
 						fit:true,
 						href:'back/goodsDetail.html'
