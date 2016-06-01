@@ -59,27 +59,25 @@ $(function(){
 					showType:'slide'
 				});
 			}else{
-				
+				var artId=rows.artId;
 				$("#article_update_newsInfo").dialog("open");
+				$("#update_artice_info").attr("href","javascript:updateArticleInfo("+artId+")");
 				$.post("back/article_ArticleByartId.action",{artId:artId},function(data){
 					var article=data.rows;
-					alert(article);
-					$("#update_artTitle").val(article.artTitle);
-					$("#update_artStaTime").datebox('setValue',article.artStaTime);
-					$("#update_artAuth").val(article.artAuth);
-					$("#update_artWeight").val(article.artWeight);
-					$("#update_fileinfo").val(article.fileinfo);
-					$("#update_artSta").val(article.artSta);
+					$("#update_artTitle").val(article[0].artTitle);
+					$("#update_artStaTime").datebox('setValue',article[0].artStaTimes);
+					$("#update_artAuth").val(article[0].artAuth);
+					$("#update_artWeight").val(article[0].artWeight);
+					$("#update_fileinfo").val(article[0].fileinfo);
+					$("#update_artSta").val(article[0].artSta);
 					
-					var artCont=article.artCont;
+					var artCont=article[0].artCont;
 					ue2.ready(function(){  
 				        ue2.setContent(artCont);  
 				    });  
 					var str="";
-					var pics=article.artPic.split(",");
-					for(var i=0;i<pics.length;i++){
-						str+="<img src='../"+pics[i]+"' width='100px'>&nbsp;";
-					}
+					var pics=article[0].artPic;
+					str+="<img src='upload/"+pics+"' width='100px'>&nbsp;";
 					$("#update_article_artPic_show").html($(str));
 				},"json");
 			}
@@ -89,8 +87,7 @@ $(function(){
 		iconCls:'icon-remove',
 		handler:function(){
 			//获取所有被选中的行
-			var rows=datagrid.datagrid("getChecked");
-			
+			var rows=datagrid.datagrid("getChecked");			
 			if(rows.length<=0){//没有选中一行
 				$.messager.show({
 					title:'温馨提示',
@@ -107,8 +104,8 @@ $(function(){
 						}
 						artIds+=rows[i].artId;
 						//将要删除aid发到服务器
-						$.post("../articleServlet",{op:"delarticleInfo",artIds:artIds},function(data){
-							if(data==1){//删除添加
+						$.post("back/article_delarticleInfo.action",{artIds:artIds},function(data){
+							if(data.total==1){//删除添加
 								$.messager.show({
 									title:'删除提示',
 									msg:'新闻信息删除成功',
@@ -186,14 +183,17 @@ $(function(){
 </div>
 
 <!-- 文章详情 -->
-<div id="article_show_newsInfo" class="easyui-dialog" title="文章详细" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true" style="background:#F1F2F6;">
-	<div style="text-align: center; margin: 80px auto; width: 860px;">
+<div id="article_show_newsInfo" class="easyui-dialog" title="文章详细" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<div style="text-align:center; margin-top:40px;width:824px;margin-left: auto;margin-right: auto;" >
 		<form >
-			<label>文章标题</label><input type="test" id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/><br/><br/>
-			<lable>文章内容：</lable>
-			<div id="article_content_show">
-			
-			</div><br/>
+			<table>
+				<tr>
+					<td><input id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td><div><script id="article_content" type="text/plain" style="width:824px;height:500px;"></script></div></td>
+				</tr>
+			</table>	
 		</form>
 	</div>
 </div>
@@ -241,27 +241,27 @@ $(function(){
 			</tr>
 			<tr>
 				<td>请确认：</td>
-				<td><a href="javascript:updateArticleInfo(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a></td>
+				<td><a href="javascript:updateArticleInfo(0)" id="update_artice_info" class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a></td>
 			</tr>
 		</table>			
 	</form>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:20px;">
-		<fieldset id="update_article_artPic_show">
-			<legend>图片预览</legend>
-		</fieldset>
-	</div>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:20px;" id="update_article_artPic_show"></div>
 </div>
 
 <script>
 	var ue1=UE.getEditor('editor_artice');
 	var ue2=UE.getEditor('update_artice');
+	var ue3=UE.getEditor('article_content');
 	
 	function showArticleDetail(artId){
 		$("#article_show_newsInfo").dialog("open");
 		$.post("back/article_ArticleByartId.action",{artId:artId},function(data){
 			var article=data.rows;
 			$("#artTitle_show").val(article[0].artTitle);
-			$("#article_content_show").html(article[0].artCont);
+			var artCont=article[0].artCont;
+			ue3.ready(function(){  
+		        ue3.setContent(artCont);  
+		    }); 
 		},"json");
 	}
 	
@@ -299,6 +299,45 @@ $(function(){
 			},
 			error:function(data,status,e){
 				$.messager.alert("错误提示","文章信息添加有误3。。。\n"+e,"error");
+			}
+		});
+	}
+	
+	function updateArticleInfo(artId){
+		var artTitle=$("#update_artTitle").val();
+		var artAuth=$("#update_artAuth").val();
+		var artStaTime=$("#update_artStaTime").datebox('getValue');
+		var fileinfo=$("#update_fileinfo").val();
+		var artWeight=$("#update_artWeight").val();
+		var artSta=$("#update_artSta").val();
+		var artCont=ue2.getContent();
+		
+		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
+			url:"back/article_updateArticleInfo.action",	//上传处理程序地址。
+			secureuri:false,	//是否启用安全提交，默认为false。 
+			fileElementId:"update_artPic",	//需要上传的文件域的ID，即<input type="file">的ID。
+			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+			data:{artId:artId,artTitle:artTitle,artStaTime:artStaTime,artAuth:artAuth,artWeight:artWeight,artSta:artSta,artCont:artCont,fileinfo:fileinfo},
+			success:function(data,status){
+				if(parseInt($.trim(data.total))==1){
+					$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
+					$("#article_update_newsInfo").dialog("close");
+					$("#article_info").datagrid("reload");
+					
+					$("#update_artTitle").val("");
+					$("#update_artAuth").val("");
+					$("#update_artStaTime").datebox('setValue','');
+					$("#update_artWeight").val("0");
+					$("#update_artPic").val("");
+					$("#update_fileinfo").val("");
+					$("#update_article_artPic_show").html("");
+					ue2.getContent("");
+				}else{
+					$.messager.alert("失败提示","新闻信息修改失败...","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","新闻信息修改错误...\n"+e,"error");
 			}
 		});
 	}
