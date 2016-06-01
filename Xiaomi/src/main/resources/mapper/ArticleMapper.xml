@@ -7,35 +7,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="getallarticle" resultType="ArticleBean">
 		select b.* from (select a.*,rownum rn from 
-		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
+		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae where artSta=1) a where #{pageNo} >=rownum)b where rn>#{pageSize}
 	</select>
 	
 	<select id="selectTotalArticle" resultType="int">
 		select count(1) from article
 	</select>
 	
-	<select id="selectArticleByData" parameterType="ArticleBean" resultType="ArticleBean">
+	<select id="selectArticleByData" resultType="ArticleBean">
 		select b.* from (select a.*,rownum rn from 
 		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae
 		<where>
-		      <if test="artTitle != null and artTitle != ''" >
-		        and artTitle like '%${artTitle}%'
+		      <if test="articleBean.artTitle!= null and articleBean.artTitle!= ''" >
+		        ae.artTitle like '%${articleBean.artTitle}%'
 		      </if>
-		       <if test="artAuth != null and artAuth != ''" >
-		        and artAuth like '%${artAuth}%'
+		       <if test="articleBean.artAuth != null and articleBean.artAuth != ''" >
+		        and ae.artAuth like '%${articleBean.artAuth}%'
 		      </if>
-		      <if test="artSta != null and artSta != ''">
-	        	artSta=#{artSta}
+		      <if test="articleBean.artStaTime != null and articleBean.artStaTime != ''">
+	        	and ae.artStaTime>=to_date(#{articleBean.artStaTime},'yyyy-MM-dd')
+		      </if>
+		      <if test="articleBean.artSta != null and articleBean.artSta != '' and articleBean.artSta !=0">
+	        	and ae.artSta=#{articleBean.artSta}
 		      </if>
 	      </where>) a where #{pageNo} >=rownum)b where rn>#{pageSize}
     
   </select>
   
   <select id="selectArticleByArtId" parameterType="ArticleBean" resultType="ArticleBean">
-    	select artTitle,artCont from article where artId=#{artId}
+    	select artId,artTitle,artAuth,artStaTime,fileinfo,artCont,artPic,artWeight,artSta from article where artId=#{artId}
   </select>
   
   <insert id="insertArticle" parameterType="ArticleBean" >
 	    insert into article values(seq_article_artId.nextval,#{artTitle},#{artAuth},to_date(#{artStaTime},'yyyy-MM-dd'),#{fileinfo},#{artCont},#{artPic},0,#{artWeight},1,'','')
    </insert>
+   
+   <update id="updateArticle" parameterType="ArticleBean">
+		update article
+		<set>
+			<if test="artTitle!=null">
+				artTitle=#{artTitle},
+			</if>
+			<if test="artAuth!=null">
+				artAuth=#{artAuth},
+			</if>
+			<if test="artStaTime!=null">
+				artStaTime=to_date(#{artStaTime},'yyyy-MM-dd'),
+			</if>
+			<if test="artCont!=null">
+				artCont=#{artCont},
+			</if>
+			<if test="artPic!=null">
+				artPic=#{artPic},
+			</if>
+			<if test="artWeight!=null">
+				artWeight=#{artWeight},
+			</if>
+			<if test="artSta!=null">
+				artSta=#{artSta},
+			</if>
+			<if test="fileinfo!=null">
+				fileinfo=#{fileinfo}
+			</if>
+		</set>
+		<if test="artId!=0">
+			where artId=#{artId}
+		</if>
+	</update>
+	
+	<update id="updateartSta" parameterType="ArticleBean">
+		update article set artSta=2 where artId=#{artId}
+	</update>
+	
+	<select id="getarticle" resultType="ArticleBean">
+		select b.* from (select a.*,rownum rn from 
+		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
 </mapper>

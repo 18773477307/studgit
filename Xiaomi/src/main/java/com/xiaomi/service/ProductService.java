@@ -6,6 +6,9 @@ import com.xiaomi.entity.Product;
 
 public interface ProductService {
 
+	List<Product> getAllProduct(Integer pageNo, Integer pageSize);
+
+	int getTotalProduct();
 	/**
 	 * 获取所有商品的名字
 	 * @return

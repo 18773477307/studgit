@@ -1,6 +1,7 @@
 package com.xiaomi.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xiaomi.entity.Goods;
 
@@ -17,4 +18,13 @@ public interface GoodsService {
 	public int getTotalGoods();
 	
 	public List<Goods> findGoodsByGoodsId(int goodsId);
+
+	public int addGoodsInfo(Goods goods);
+
+	public int addGoodsInfo(Goods goods,Map<String,Object> map);
+
+	public int updateGoodsInfo(Goods goods, Map<String, Object> map);
+	
+	public int updateGoodsInfo(Goods goods);
+	
 }

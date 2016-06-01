@@ -18,10 +18,22 @@ public class ArticleServiceImplTest {
 	
 	@Autowired
 	private ArticleService articleService;
+	
 
 	@Test
 	public void testFindallarticle() {
 		List<ArticleBean> articles=articleService.findallarticle(1, 10);
+		System.out.println(articles);
+		assertNotNull(articles);
+	}
+	
+	@Test
+	public void testFindarticlebydata() {
+		ArticleBean articleBean=new ArticleBean();
+		articleBean.setArtTitle("明"); 
+		articleBean.setArtStaTime("2016-06-01");
+		System.out.println(articleBean);
+		List<ArticleBean> articles=articleService.findarticlebydata(articleBean,1,10);
 		System.out.println(articles);
 		assertNotNull(articles);
 	}

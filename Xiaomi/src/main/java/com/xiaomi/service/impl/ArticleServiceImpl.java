@@ -4,13 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.xiaomi.entity.Article;
 import com.xiaomi.entity.ArticleBean;
 import com.xiaomi.mapper.ArticleMapper;
 import com.xiaomi.service.ArticleService;
-
+@Transactional
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService {
 	@Autowired
@@ -30,8 +34,12 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<ArticleBean> findarticlebydata(ArticleBean articleBean) {
-		return articleMapper.selectArticleByData(articleBean);
+	public List<ArticleBean> findarticlebydata(ArticleBean articleBean,Integer pageNo,Integer pageSize) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("articleBean", articleBean);
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		return articleMapper.selectArticleByData(params);
 	}
 
 	@Override
@@ -42,6 +50,37 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public int addArticleInfo(ArticleBean articleBean) {
 		return articleMapper.insertArticle(articleBean);
+	}
+
+	@Override
+	public int updateArticle(ArticleBean articleBean) {
+		return articleMapper.updateArticle(articleBean);
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean updateArtSta(ArticleBean articleBean) {
+		try {
+			articleMapper.updateartSta(articleBean);
+			return true;
+		} catch (Exception e) {
+			LogManager.getLogger().debug("状态改变失败",e);
+			throw new RuntimeException("状态改变失败",e);
+		}
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public boolean updateArtSta(ArticleBean articleBean, String[] artIds) {
+		boolean flag=true;
+		if(artIds.length>1){
+			for(String v:artIds){
+				articleBean.setArtId(Integer.parseInt(v));
+				if(!updateArtSta(articleBean)){
+					return false;
+				}
+			}
+			return true;
+		}
+		return updateArtSta(articleBean);
 	}
 
 }

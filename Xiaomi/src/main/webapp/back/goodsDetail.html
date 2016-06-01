@@ -12,10 +12,17 @@ var opt;
 		obj_name_update.append($(opt));
 	});
 },"json"); */
+var dirObj =[{Sta:1,sname:'可用'},{Sta:2,sname:'不可用'}];
+var dirObj1=[{Sta:1,sname:'标准版'},{Sta:2,sname:'女神版'},{Sta:3,sname:'顶配版'},{Sta:4,sname:'无'}];
+var dirObj2=[{Sta:5,sname:'竹纹'},{Sta:6,sname:'白色'},{Sta:7,sname:'黑色'},{Sta:8,sname:'粉色'},{Sta:9,sname:'蓝色'},{Sta:10,sname:'金色'},{Sta:11,sname:'无'}];
+var dirObj3=[{Sta:12,sname:'双网通'},{Sta:13,sname:'全网通'},{Sta:14,sname:'移动'},{Sta:15,sname:'联通'},{Sta:16,sname:'电信'},{Sta:17,sname:'无'}];
+var dirObj4=[{Sta:18,sname:'2G'},{Sta:19,sname:'3G'},{Sta:20,sname:'4G'},{Sta:21,sname:'5G'},{Sta:22,sname:'无'}];
+var dirObj5=[{Sta:23,sname:'2G'},{Sta:24,sname:'4G'},{Sta:25,sname:'8G'},{Sta:26,sname:'16G'},{Sta:27,sname:'32G'},{Sta:28,sname:'64G'},{Sta:29,sname:'128G'},{Sta:30,sname:'无'}];
+var dirObj6=[{Sta:31,sname:'42寸'},{Sta:32,sname:'48寸'},{Sta:33,sname:'62寸'},{Sta:34,sname:'无'}];
+var dirObj7=[{Sta:35,sname:'5号'},{Sta:36,sname:'7号'},{Sta:37,sname:'无'}];
 
 datagrid=$('#goodsDetail_info').datagrid({
-	url:'../goodsDetailServlet',
-	queryParams:{op:"getPageGoodsDetailInfo"},
+	url:'back/product_getAllProduct.action',
 	fitColumns:true,
 	striped:true,
 	loadMsg:"数据加载中...",
@@ -26,17 +33,107 @@ datagrid=$('#goodsDetail_info').datagrid({
 		{field:'ptIds',title:'选择',width:100,align:'center',checkbox:true},
 		{field:'ptId',title:'编号',width:100,align:'center',sortable:true},
 		{field:'ptPrice',title:'产品原价',width:100,align:'center'},
-		{field:'ptPic',title:'产品详情图片',width:100,align:'center'},
+		{field:'ptPic',title:'产品详情图片',width:100,align:'center',
+			formatter:function(value,row,index){
+				var photo="";
+				if(row.ptPic == null || row.ptPic =="" ){
+					photo ="<img src='images/zanwu.jpg' alt='暂无图片' height=60px width=60px style='border-radius:80px;'>";
+				}else{
+					photo ="<img src='../upload/"+row.ptPic+"height=80px style='border-radius:80px;'";
+				}
+      		  	return photo;
+      	  	}
+		},
 		{field:'ptNum',title:'产品库存',width:100,align:'center'},
-		{field:'goodsName',title:'商品名称',width:200,align:'center'},
-		{field:'ptformat',title:'型号',width:200,align:'center'},
-		{field:'ptcolor',title:'颜色',width:200,align:'center'},
-		{field:'ptnet',title:'网络制式',width:200,align:'center'},
-		{field:'poperator',title:'网络运营商',width:200,align:'center'},
-		{field:'ptversions',title:'网络版本',width:200,align:'center'},
-		{field:'ptmemory',title:'内存大小',width:200,align:'center'},
-		{field:'ptsize',title:'电视尺寸',width:200,align:'center'},
-		{field:'ptbattery',title:'电池型号',width:200,align:'center'},
+		{field:'goodsName',title:'商品名称',width:100,align:'center'},
+		{field:'ptformat',title:'型号',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj1}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj1.length;i++){
+	      			  if(dirObj1[i].Sta==value){
+	      				  return dirObj1[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},	
+		{field:'ptcolor',title:'颜色',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj2}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj2.length;i++){
+	      			  if(dirObj2[i].Sta==value){
+	      				  return dirObj2[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},	
+		{field:'ptnet',title:'网络制式',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj3}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj3.length;i++){
+	      			  if(dirObj3[i].Sta==value){
+	      				  return dirObj3[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},	
+		{field:'ptversions',title:'网络版本',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj4}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj4.length;i++){
+	      			  if(dirObj4[i].Sta==value){
+	      				  return dirObj4[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},	
+		{field:'ptmemory',title:'内存大小',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj5}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj5.length;i++){
+	      			  if(dirObj5[i].Sta==value){
+	      				  return dirObj5[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},	
+		{field:'ptsize',title:'电视尺寸',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj6}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj6.length;i++){
+	      			  if(dirObj6[i].Sta==value){
+	      				  return dirObj6[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},	
+		{field:'ptbattery',title:'电池型号',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj7}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj7.length;i++){
+	      			  if(dirObj7[i].Sta==value){
+	      				  return dirObj7[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},
+		{field:'ptSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
+			required:true,valueField:'Sta',textField:'sname',data:dirObj}},
+	      	  formatter:function(value,row,index){
+	      		  for(var i=0;i<dirObj.length;i++){
+	      			  if(dirObj[i].Sta==value){
+	      				  return dirObj[i].sname;
+	      			  }
+	      		  }
+	      		  return value;
+	      	  }
+		},
 		{field:'_operate',title:'操作',width:100,align:'center',
 			formatter:function(value,rowData,index){
 				return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetailInfo(\''+rowData.goodsName+'\')">详情</a>';
