@@ -22,10 +22,7 @@ public class ArticleBean implements Serializable{
     private int commentsCount;  
     private List<Artcomment> artcomments;
     
-    //多个删除
-    public int getArtIds() {
-		return artId;
-	}
+
 	public int getArtId() {
 		return artId;
 	}
