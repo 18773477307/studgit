@@ -26,11 +26,15 @@
 		<global-allowed-methods>
 		<!--一排一个表的操作  -->
 		getAllManager,updateManager,delManager,addManager,
-		getAllUsers,addUsersInfo,updateUsersInfo,delUsersInfo,
+		getAllUsers,addUsersInfo,updateUsersInfo,delUsersInfo,getAllUsersName,
 		getAllAddress,findAddressByInfo,
 		getAllDatadict,addDatadict,updateDatadict,delDatadict,
-		findallArticle,ArticleByartId,AddArticleInfo,updateArticleInfo,delarticleInfo,ArticleByData
+		findallArticle,ArticleByartId,AddArticleInfo,updateArticleInfo,delarticleInfo,ArticleByData,
+		getAllProductName,
+		getAllPtcomment,findPtcommentByApprId,
+		addReplyInfo
 		</global-allowed-methods>
+
     	<action name="*_*" class="{1}Action" method="{2}">
     		<result type="json">
     			<param name="root">jsonObject</param>

@@ -11,6 +11,7 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.xiaomi.entity.Datadict;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.Manager;
+import com.xiaomi.entity.Typegoods;
 import com.xiaomi.service.DatadictService;
 
 @Controller("datadictAction")
@@ -77,6 +78,14 @@ public class DatadictAction implements ModelDriven<Datadict>,SessionAware {
 		//System.out.println("删除数据字典的结果：" + result);
 		jsonObject = new JsonObject<Datadict>();
 		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	
+	public String findAllDatadict() {
+		List<Datadict> data = datadictService.findAllDatadict();
+		jsonObject = new JsonObject<Datadict>();
+		jsonObject.setRows(data);
 		return "success";
 	}
 

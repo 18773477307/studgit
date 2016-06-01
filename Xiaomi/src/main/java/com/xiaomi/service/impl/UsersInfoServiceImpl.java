@@ -64,6 +64,12 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 		params.put("pageSize", (pageNo-1)*pageSize);
 		return  usersInfoMapper.getAllUsersInfo(params);
 	}
+	
+	@Override
+	public List<UsersInfo> getAllUserNames() {
+		return usersInfoMapper.getAllUsersName();
+	}
+
 	@Override
 	public List<UsersInfo> findUsersInfoByInfo(Integer pageNo,Integer pageSize, String usersName, String usersTel,String usersEmail) {
 		Map<String , Object> params=new HashMap< String , Object>();

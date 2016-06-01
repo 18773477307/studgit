@@ -103,4 +103,9 @@ public class DatadictServiceImpl implements DatadictService {
 		return null;
 	}
 
+	@Override
+	public List<Datadict> findAllDatadict() {
+		return datadictMapper.findAllDatadict();
+	}
+
 }

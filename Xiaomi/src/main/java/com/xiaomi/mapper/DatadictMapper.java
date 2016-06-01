@@ -44,5 +44,7 @@ public interface DatadictMapper {
 	int delManager(Datadict datadict);
 	int delManager(int dirId);
 
+	List<Datadict> findAllDatadict();
+
 
 }

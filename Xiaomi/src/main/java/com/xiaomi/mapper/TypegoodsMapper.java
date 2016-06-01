@@ -15,4 +15,6 @@ public interface TypegoodsMapper {
 	int updateTypegoods(Typegoods typegoods);
 	int delTypegoods(int typesIds);
 	int addTypegoods(Typegoods typegoods);
+	
+	List<Typegoods> getAllType();
 }
