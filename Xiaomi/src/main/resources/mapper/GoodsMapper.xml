@@ -17,4 +17,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getGoodsByGoodsId" parameterType="int" resultType="Goods">
 		select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId = #{goodsId} 
 	</select>
+	
+	<insert id="addGoodsInfo" parameterType="Goods">
+		insert into goods values(seq_goods_goodsId.nextval,#{typesId},#{goodsName},#{goodsminPrice},
+		#{goodsVersion},#{goodsminPic},#{goodsmaxPic},#{goodsPlace},1)
+	</insert>
+	
+	<update id="updateGoodsInfo" parameterType="Goods">
+		update goods set 
+		<if test="typesId != null and typesId != ''" >
+	        typesId=#{typesId},
+	    </if>
+	    <if test="goodsName != null and goodsName != ''" >
+	        goodsName=#{goodsName},
+	    </if>
+	    <if test="goodsminPrice != null and goodsminPrice != ''" >
+	        goodsminPrice=#{goodsminPrice},
+	    </if>
+	    <if test="goodsVersion != null and goodsVersion != ''" >
+	        goodsVersion=#{goodsVersion},
+	    </if>
+	    <if test="goodsminPic != null and goodsminPic != ''" >
+	        goodsminPic=#{goodsminPic},
+	    </if>
+	    <if test="goodsmaxPic != null and goodsmaxPic != ''" >
+	        goodsmaxPic=#{goodsmaxPic},
+	    </if>
+	    <if test="goodsPlace != null and goodsPlace != ''" >
+	        goodsPlace=#{goodsPlace},
+	    </if>
+	    <if test="goodsSta != null and goodsSta != ''" >
+	        goodsSta=#{goodsSta}
+	    </if>
+		 	where goodsId=#{goodsId}
+	</update>
 </mapper>

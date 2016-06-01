@@ -216,8 +216,20 @@ select distinct(goodsName) from goods;
 drop table goods;
 drop sequence seq_goods_goodsId
 
+
+update goods set goodsPlace='顶部,小米2' where goodsId=1006
+update goods set goodsPlace='顶部1,小米2' where goodsId=1006
+update goods set goodsPlace='顶部,小米2' where goodsId=1006
+update goods set goodsPlace='顶部,小米2' where goodsId=1006
 select * from (select a.*,rownum rn from 
 		(select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId order by goodsId)
+		 a where 10>=rownum)b where rn>0
+	  	select count(1) from product
+	 
+		 
+		 select * from (select a.*,rownum rn from 
+	(select p.*,d.dirName,g.goodsName from product p,goods g,datadict d 
+	where g.goodsId=p.goodsId and p.ptformat=d.dirId order by ptId)
 		 a where 10>=rownum)b where rn>0
 ---删除------------------------------------------------------------------------------------------------------
 drop table goods;
@@ -251,9 +263,10 @@ create table product (
 create sequence seq_product_ptId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
 insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
-insert into product values(seq_product_ptId.nextval,2199,'',100,1002,3,9,11,14,17,23,'','');
+insert into product values(seq_product_ptId.nextval,999,'',100,1002,4,6,17,22,30,34,37,1);
 --查询---------------------------------------------------------------------------------
-select * from product;t6
+select * from product;
+select * from goods;
 --跟新---------------------------------------------------------------------------------
 update product set ptPrice=1499 where ptId=1
 --删除---------------------------------------------------------------------------------

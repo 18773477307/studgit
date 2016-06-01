@@ -15,4 +15,8 @@ public interface GoodsMapper {
 	List<Goods> getAllGoodsInfo(Map<String, Object> params);
 
 	List<Goods> getGoodsByGoodsId(int goodsId);
+
+	int addGoodsInfo(Goods goods);
+
+	int updateGoodsInfo(Goods goods);
 }

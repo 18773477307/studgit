@@ -17,6 +17,22 @@ public class Product implements Serializable {
     private int ptmemory;//内存大小 2G -128G
     private int ptsize; //电视机尺寸
     private int ptbattery;	//电池型号
+    private int ptSta;    //状态
+    private int dirName;	//数据字典里面对应的名字
+    private String goodsName;
+	
+	public String getGoodsName() {
+		return goodsName;
+	}
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+	public int getDirName() {
+		return dirName;
+	}
+	public void setDirName(int dirName) {
+		this.dirName = dirName;
+	}
 	
 	public int getPtIds() {
 		return ptId;
@@ -99,6 +115,12 @@ public class Product implements Serializable {
 	public void setPtbattery(int ptbattery) {
 		this.ptbattery = ptbattery;
 	}
+	public int getPtSta() {
+		return ptSta;
+	}
+	public void setPtSta(int ptSta) {
+		this.ptSta = ptSta;
+	}
 	public Product() {
 		super();
 	}
@@ -109,11 +131,11 @@ public class Product implements Serializable {
 				+ ", ptformat=" + ptformat + ", ptcolor=" + ptcolor
 				+ ", ptnet=" + ptnet + ", ptversions=" + ptversions
 				+ ", ptmemory=" + ptmemory + ", ptsize=" + ptsize
-				+ ", ptbattery=" + ptbattery + "]";
+				+ ", ptbattery=" + ptbattery + ", ptSta=" + ptSta + "]";
 	}
 	public Product(int ptId, double ptPrice, String ptPic, int ptNum,
 			int goodsId, int ptformat, int ptcolor, int ptnet, int ptversions,
-			int ptmemory, int ptsize, int ptbattery) {
+			int ptmemory, int ptsize, int ptbattery, int ptSta) {
 		super();
 		this.ptId = ptId;
 		this.ptPrice = ptPrice;
@@ -127,6 +149,7 @@ public class Product implements Serializable {
 		this.ptmemory = ptmemory;
 		this.ptsize = ptsize;
 		this.ptbattery = ptbattery;
+		this.ptSta = ptSta;
 	}
-
+	
 }

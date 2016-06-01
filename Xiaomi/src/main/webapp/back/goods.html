@@ -48,7 +48,6 @@
 				obj_size.append($(opt));
 				obj_size_update.append($(opt));
 			}
-				
 		});
 	},"json");
 	
@@ -113,6 +112,15 @@
 						$("#goods_price_update").val(goods.goodsminPrice);//价格
 						$("#goods_version_update").val(goods.goodsVersion);//简介
 						$("#goods_status_update").val(goods.goodsSta);//状态
+						var goodsPlace = goods.goodsPlace;		//位置
+						if(goodsPlace != null && goodsPlace.contains(",")){
+							var place1 = goodsPlace.split(",")[0]; //（顶滚2）,顶滚2左2
+							var place2 = goodsPlace.split(",")[1]; //顶滚2,（顶滚2左2）
+							$("#p1 option:selected").text(place1);
+							$("#c1 option:selected").text(place2);
+							$("#p1 option:selected").val(place1);
+							$("#c1 option:selected").val(place2);
+						}
 						
 						var str="";
 						var str1="";
@@ -121,7 +129,7 @@
 						}else{
 							var onepics=goods.goodsminPic.split(",");
 							for(var i=0;i<onepics.length;i++){
-								str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+								str+="<img src='../uploadpic/"+onepics[i]+"' width='100px'>&nbsp;";
 							}
 						}
 						$("#goods_pic_update_show").html($(str));
@@ -131,7 +139,7 @@
 						}else{
 							var twopics=goods.goodsmaxPic.split(",");
 							for(var i=0;i<twopics.length;i++){
-								str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+								str1+="<img src='../uploadpic/"+twopics[i]+"' width='100px'>&nbsp;";
 							}
 						}
 						$("#goodsdescr_pic_update_show").html($(str1));
@@ -171,9 +179,9 @@
 		</div>
 		<div class="tagDiv"><label>商品名称：</label><input type="text" name="goodsName" id="goodsName" class="myinput"/></div>
 		<div class="tagDiv"><label>商品价格：</label><input name="goodsminPrice" id="goodsminPrice" class="easyui-numberbox  myinput" required/></div>
-		<div class="tagDiv"><label>商品小图片：</label><input type="file" name="goods_pic" id="goods_pic" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_show')"/></div>
+		<div class="tagDiv"><label>商品小图片：</label><input type="file" name="goods_pic" id="goods_pic" onchange="previewMultipleImage(this,'goods_pic_show')"/></div>
 		<div class="tagDiv"><label>商品简介：</label><input class="myinput" name="goodsVersion" id="goods_version"/></div>
-		<div class="tagDiv"><label>商品大图片：</label><input type="file" name="goodsdescr_pic" id="goodsdescr_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsdescr_pic_show')"/></div>
+		<div class="tagDiv"><label>商品大图片：</label><input type="file" name="goodsdescr_pic" id="goodsdescr_pic" onchange="previewMultipleImage(this,'goodsdescr_pic_show')"/></div>
 		<div class="tagDiv"><label>商品位置：</label>
 		<select onchange="showc()" id="p"></select>
 		<select id="c"></select></div>
@@ -239,9 +247,9 @@
 		<select name="goodsType" id="goods_type_update" class="myinput"></select><br /><br />
 		<label>商品名称：</label><input type="text" name="goods_name" id="goods_name_update" class="myinput"/><br /><br />
 		<label>商品最低价格：</label><input name="price" id="goods_price_update" class="easyui-numberbox  myinput" required/><br /><br />
-		<label>商品小图片：</label><input type="file" name="goods_pic_update" id="goods_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goods_pic_update_show')"/><br /><br />
+		<label>商品小图片：</label><input type="file" name="goods_pic" id="goods_pic_update" onchange="previewMultipleImage(this,'goods_pic_update_show')"/><br /><br />
 		<label>商品简介：</label><input class="myinput" name="goodsVersion" id="goods_version_update"/><br /><br />
-		<label>商品大图片：</label><input type="file" name="goodsdescr_pic_update" id="goodsdescr_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsdescr_pic_update_show')"/><br /><br />
+		<label>商品大图片：</label><input type="file" name="goodsdescr_pic" id="goodsdescr_pic_update" onchange="previewMultipleImage(this,'goodsdescr_pic_update_show')"/><br /><br />
 		<label>商品位置：</label>
 		<select onchange="showc1()" id="p1"></select>
 		<select id="c1"></select><br /><br />
@@ -266,61 +274,41 @@
 
 <script>
 
-	//添加商品详情的方法
+	//添加商品详情的方法   完成
 	function addGoodsInfo(){
-	
-		var weizhi = $("#p").val() + $("#c").val();
-		
-		var typesId=$("#goods_type").val();
-		var goodsName=$("#goods_name").val();
-		var goodsPrice=$("#goods_price").val();
-		var gformat=$("#goods_format").val();
-		var gcolor=$("#goods_color").val();
-		var gmemory=$("#goods_memory").val();
-		var gversions=$("#goods_versions").val();
+		var goodsPlace = $("#p").val() +","+ $("#c").val();
+		var typesId=$("#typesId").val();
+		var goodsName=$("#goodsName").val();
+		var goodsminPrice=$("#goodsminPrice").val();
 		var goodsVersion=$("#goods_version").val();
 		var goodsSta=$("#goods_status").val();
-		var one=document.getElementById("goods_pic");
+		/* var one=document.getElementById("goods_pic");
 		var two=document.getElementById("goodsdescr_pic");
-		//var three=document.getElementById("goodsrepr_pic");
-		var onepath="";
-		var twopath="";
-		for(var i=0;i<one.files.length;i++){
-			if(i==one.files.length-1){
-				onepath+=one.files[i].name;
-			}else{
-				onepath+=one.files[i].name+",";
-			}
-		}
-		for(var i=0;i<two.files.length;i++){
-			if(i==two.files.length-1){
-				twopath+=two.files[i].name;
-			}else{
-				twopath+=two.files[i].name+",";
-			}
-		}
+		var goodsminPic=one.files.name;
+		var goodsmaxPic=two.files.name; */
 		
 		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
-			url:"../goodsServlet?op=addGoodsInfo",	//上传处理程序地址。
+			url:"back/goods_addGoodsInfo.action",	//上传处理程序地址。
 			secureuri:false,	//是否启用安全提交，默认为false。 
 			fileElementId:["goods_pic","goodsdescr_pic"],	//需要上传的文件域的ID，即<input type="file">的ID。
-			//,"goodsrepr_pic"
 			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-			data:{onepath:onepath,twopath:twopath,typesId:typesId,goodsName:goodsName,goodsPrice:goodsPrice,gformat:gformat,gcolor:gcolor,gmemory:gmemory,gversions:gversions,goodsVersion:goodsVersion,goodsNum:goodsNum,goodsHot:goodsHot,goodsSta:goodsSta,weizhi:weizhi},
-			//gversions:gversions,threepath:threepath,
+			data:{
+				typesId:typesId,
+				goodsName:goodsName,
+				goodsminPrice:goodsminPrice,
+				goodsVersion:goodsVersion,
+				goodsSta:goodsSta,
+				goodsPlace:goodsPlace},
 			success:function(data,status){
-				if(parseInt($.trim(data))==1){
+				if(parseInt($.trim(data.total))==1){
 					$.messager.show({title:'成功提示',msg:'商品信息添加成功...',timeout:2000,showType:'slide'});
 					$("#goods_add").dialog("close");
 					$("#goods_info").datagrid("reload");
-					//$("#goods_type").val("");
-					$("#goods_name").val("");
-					$("#goods_price").val("0");
+					$("#goodsName").val("");
+					$("#goodsminPrice").val("0");
 					$("#goods_pic").val("");
 					$("#goods_pic_show").html("");
 					$("#goods_version").val("");
-					$("#goods_num").val("0");
-					$("#goods_hot").val("");
 					$("#goods_status").val("");
 					$("#goodsdescr_pic").val("");
 					$("#goodsdescr_pic_show").html("");
@@ -329,14 +317,14 @@
 				}
 			},
 			error:function(data,status,e){
-				$.messager.alert("错误提示","商品信息添加错误...\n"+e,"error");
+				$.messager.alert("错误提示","商品信息添加错误...\n","error");
 			}
 		});
 	}
 	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////	
-	//查看商品详细情况
+	//查看商品详细情况 完成
 	function showGoodsDetail(goodsId){
 		$("#goods_show").dialog("open");
 		$.post("back/goods_findGoodsByGoodsId.action",{goodsId:goodsId},function(data){
@@ -355,7 +343,7 @@
 			}else{
 				var onepics=goods.goodsminPic.split(",");
 				for(var i=0;i<onepics.length;i++){
-					str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+					str+="<img src='../uploadpic/"+onepics[i]+"' width='100px'>&nbsp;";
 				}
 			}
 			$("#goods_picinfo_show").html($(str));
@@ -365,7 +353,7 @@
 			}else{
 				var twopics=goods.goodsmaxPic.split(",");
 				for(var i=0;i<twopics.length;i++){
-					str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+					str1+="<img src='../uploadpic/"+twopics[i]+"' width='100px'>&nbsp;";
 				}
 			}
 			$("#goodsdescr_picinfo_show").html($(str1));
@@ -377,68 +365,36 @@
 	function updateGoodsInfo(goodsId){
 		var typesId=$("#goods_type_update").val();
 		var goodsName=$("#goods_name_update").val();
-		var goodsPrice=$("#goods_price_update").val();
-		var gformat=$("#goods_format_update").val();
-		var gcolor=$("#goods_color_update").val();
-		var gmemory=$("#goods_memory_update").val();
-		var gversions=$("#goods_versions_update").val();
+		var goodsminPrice=$("#goods_price_update").val();
 		var goodsVersion=$("#goods_version_update").val();
-		var goodsNum=$("#goods_num_update").val();
-		var goodsHot=$("#goods_hot_update").val();
 		var goodsSta=$("#goods_status_update").val();
-		var weizhi = $("#p1").val() + $("#c1").val();
-		
-		var one=document.getElementById("goods_pic_update");
-		var two=document.getElementById("goodsdescr_pic_update");
-		//var three=document.getElementById("goodsrepr_pic_update");
-		
-		var onepath="";
-		var twopath="";
-		//var threepath="";
-		
-		for(var i=0;i<one.files.length;i++){
-			if(i==one.files.length-1){
-				onepath+=one.files[i].name;
-			}else{
-				onepath+=one.files[i].name+",";
-			}
-		}
-		for(var i=0;i<two.files.length;i++){
-			if(i==two.files.length-1){
-				twopath+=two.files[i].name;
-			}else{
-				twopath+=two.files[i].name+",";
-			}
-		}
-		
-		
+		var goodsPlace = $("#p1").val() +","+ $("#c1").val();
+		//alert(goodsId);
 		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
-			url:"../goodsServlet?op=updateGoodsInfo",	//上传处理程序地址。
+			url:"back/goods_updateGoodsInfo.action",	//上传处理程序地址。
 			secureuri:false,	//是否启用安全提交，默认为false。 
 			fileElementId:["goods_pic_update","goodsdescr_pic_update"],	//需要上传的文件域的ID，即<input type="file">的ID。
-			//,"goodsrepr_pic_update"
 			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-			data:{goodsId:goodsId,onepath:onepath,twopath:twopath,typesId:typesId,goodsName:goodsName,goodsPrice:goodsPrice,gformat:gformat,gcolor:gcolor,gmemory:gmemory,gversions:gversions,goodsVersion:goodsVersion,goodsNum:goodsNum,goodsHot:goodsHot,goodsSta:goodsSta,weizhi:weizhi},
-			//gversions:gversions,,threepath:threepath
+			data:{
+				goodsId:goodsId,
+				typesId:typesId,
+				goodsName:goodsName,
+				goodsminPrice:goodsminPrice,
+				goodsVersion:goodsVersion,
+				goodsSta:goodsSta,
+				goodsPlace:goodsPlace},
 			success:function(data,status){
-				if(parseInt($.trim(data))==1){
+				if(parseInt($.trim(data.total))==1){
 					$.messager.show({title:'成功提示',msg:'商品信息修改成功...',timeout:2000,showType:'slide'});
 					$("#goods_update").dialog("close");
 					$("#goods_info").datagrid("reload");
-					//$("#goods_type_update").val("");
 					$("#goods_name_update").val("");
 					$("#goods_price_update").val("0");
-					$("#goods_pic_update").val("");
+					$("#goods_pic").val("");
 					$("#goods_pic_update_show").html("");
-					//$("#goods_format_update").val("");
-					//$("#goods_color_update").val("");
-					//$("#goods_memory_update").val("");
-					//$("#goods_versions_update").val("");
 					$("#goods_version_update").val("");
-					$("#goods_num_update").val("0");
-					$("#goods_hot_update").val("");
 					$("#goods_status_update").val("");
-					$("#goodsdescr_pic_update").val("");
+					$("#goodsdescr_pic").val("");
 					$("#goodsdescr_pic_update_show").html("");
 					//$("#goodsrepr_pic_update").val("");
 					//$("#goodsrepr_pic_update_show").html("");
@@ -448,7 +404,7 @@
 				}
 			},
 			error:function(data,status,e){
-				$.messager.alert("错误提示","商品信息修改错误...\n"+e,"error");
+				$.messager.alert("错误提示","商品信息修改错误...\n","error");
 			}
 		});
 	}
