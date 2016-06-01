@@ -27,5 +27,13 @@ public class ProductServiceImpl implements ProductService {
 	public int getTotalProduct() {
 		return productMapper.getTotalProduct();
 	}
+	@Override
+	public List<Product> getAllGoodsName() {
+		return productMapper.getAllGoodsName();
+	}
 
+	@Override
+	public int total() {
+		return productMapper.getTotal();
+	}
 }

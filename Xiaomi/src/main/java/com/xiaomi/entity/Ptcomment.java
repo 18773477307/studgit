@@ -11,6 +11,12 @@ public class Ptcomment implements Serializable {
     private int ptId;
 
     private int usersId;
+    
+    private int goodsId;
+    
+    private String goodsName;
+    
+    private String usersName;
 
     private String apprDate;
 
@@ -21,6 +27,7 @@ public class Ptcomment implements Serializable {
     private String reserve28;
 
     private String apprcont;
+    
 
 	public int getApprId() {
 		return apprId;
@@ -44,6 +51,30 @@ public class Ptcomment implements Serializable {
 
 	public void setUsersId(int usersId) {
 		this.usersId = usersId;
+	}
+	
+	public int getGoodsId() {
+		return goodsId;
+	}
+
+	public void setGoodsId(int goodsId) {
+		this.goodsId = goodsId;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getUsersName() {
+		return usersName;
+	}
+
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
 	}
 
 	public String getApprDate() {
@@ -91,11 +122,13 @@ public class Ptcomment implements Serializable {
 		return "Ptcomment [apprId=" + apprId + ", ptId=" + ptId + ", usersId="
 				+ usersId + ", apprDate=" + apprDate + ", apprSta=" + apprSta
 				+ ", reserve27=" + reserve27 + ", reserve28=" + reserve28
-				+ ", apprcont=" + apprcont + "]";
+				+ ", apprcont=" + apprcont + ", goodsName=" + goodsName
+				+ ", usersName=" + usersName + "]";
 	}
 
 	public Ptcomment(int apprId, int ptId, int usersId, String apprDate,
-			int apprSta, String reserve27, String reserve28, String apprcont) {
+			int apprSta, String reserve27, String reserve28, String apprcont,
+			String goodsName, String usersName) {
 		super();
 		this.apprId = apprId;
 		this.ptId = ptId;
@@ -105,6 +138,8 @@ public class Ptcomment implements Serializable {
 		this.reserve27 = reserve27;
 		this.reserve28 = reserve28;
 		this.apprcont = apprcont;
+		this.goodsName = goodsName;
+		this.usersName = usersName;
 	}
 
 	public Ptcomment() {

@@ -14,6 +14,7 @@ public class Product implements Serializable {
     private int ptcolor;//商品颜色
     private int ptnet;//网络制式 3G 4G
     private int ptversions;//网络运营商 电信 全网通等
+    
     private int ptmemory;//内存大小 2G -128G
     private int ptsize; //电视机尺寸
     private int ptbattery;	//电池型号
@@ -33,7 +34,6 @@ public class Product implements Serializable {
 	public void setDirName(int dirName) {
 		this.dirName = dirName;
 	}
-	
 	public int getPtIds() {
 		return ptId;
 	}
@@ -131,11 +131,13 @@ public class Product implements Serializable {
 				+ ", ptformat=" + ptformat + ", ptcolor=" + ptcolor
 				+ ", ptnet=" + ptnet + ", ptversions=" + ptversions
 				+ ", ptmemory=" + ptmemory + ", ptsize=" + ptsize
-				+ ", ptbattery=" + ptbattery + ", ptSta=" + ptSta + "]";
+				+ ", ptbattery=" + ptbattery + ", ptSta=" + ptSta
+				+ ", dirName=" + dirName + ", goodsName=" + goodsName + "]";
 	}
 	public Product(int ptId, double ptPrice, String ptPic, int ptNum,
 			int goodsId, int ptformat, int ptcolor, int ptnet, int ptversions,
-			int ptmemory, int ptsize, int ptbattery, int ptSta) {
+			int ptmemory, int ptsize, int ptbattery, int ptSta, int dirName,
+			String goodsName) {
 		super();
 		this.ptId = ptId;
 		this.ptPrice = ptPrice;
@@ -150,6 +152,8 @@ public class Product implements Serializable {
 		this.ptsize = ptsize;
 		this.ptbattery = ptbattery;
 		this.ptSta = ptSta;
+		this.dirName = dirName;
+		this.goodsName = goodsName;
 	}
 	
 }

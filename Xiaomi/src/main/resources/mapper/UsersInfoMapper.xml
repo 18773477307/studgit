@@ -39,4 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delUsersInfo" parameterType="int">
 		delete from usersInfo where usersId = #{usersId}
 	</delete>
+	
+	<select id="getAllUsersName" resultType="UsersInfo">
+		select usersId,usersName from usersInfo
+	</select>
 </mapper>
