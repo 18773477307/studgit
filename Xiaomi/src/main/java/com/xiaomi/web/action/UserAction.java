@@ -19,7 +19,7 @@ public class UserAction implements ModelDriven<UsersInfo> {
 	private int page;
 	private int rows;
 	private String usersIds;
-	
+
 	public JsonObject<UsersInfo> getJsonObject() {
 		return jsonObject;
 	}
@@ -43,7 +43,7 @@ public class UserAction implements ModelDriven<UsersInfo> {
 		jsonObject.setTotal(total);
 		return "success";
 	}
-	
+
 	public String findUsersInfoByInfo(){
 		List<UsersInfo> usersInfos = usersInfoService.findUsersInfoByInfo(page, rows,usersInfo.getUsersName(),usersInfo.getUsersTel(),usersInfo.getUsersEmail());
 		System.out.println(usersInfos.size());
@@ -52,24 +52,24 @@ public class UserAction implements ModelDriven<UsersInfo> {
 		jsonObject.setTotal(usersInfos.size());
 		return "success";
 	}
-	
-	
+
+
 	public String addUsersInfo(){
-	//	System.out.println(Users+"sds ");
+		//	System.out.println(Users+"sds ");
 		int result=usersInfoService.addUsersInfo(usersInfo);
-	//	System.out.println(result+"====");
+		//	System.out.println(result+"====");
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";
 	}
-	
+
 	public String updateUsersInfo(){
 		int result = usersInfoService.updateUsersInfo(usersInfo);
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";
 	}
-	
+
 	public String delUsersInfo(){
 		System.out.println("====删除用户信息");
 		int result = usersInfoService.delUsersInfo(usersIds);
@@ -78,15 +78,15 @@ public class UserAction implements ModelDriven<UsersInfo> {
 		jsonObject.setTotal(result);
 		return "success";
 	}
-	
+
 	public String getAllUsersName(){
 		List<UsersInfo> usersName = usersInfoService.getAllUserNames();
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setRows(usersName);
 		return "success";
 	}
-	
-	
+
+
 	@Override
 	public UsersInfo getModel() {
 		usersInfo = new UsersInfo();

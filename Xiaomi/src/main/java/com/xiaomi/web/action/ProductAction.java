@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.xiaomi.entity.Datadict;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.Product;
 import com.xiaomi.service.ProductService;
