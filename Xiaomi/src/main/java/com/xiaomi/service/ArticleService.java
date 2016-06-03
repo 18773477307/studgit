@@ -2,12 +2,13 @@ package com.xiaomi.service;
 
 import java.util.List;
 
+import com.xiaomi.entity.Article;
 import com.xiaomi.entity.ArticleBean;
 
 
 public interface ArticleService {
 	/**
-	 * 分页查询
+	 * 分页查询(根据状态)
 	 * @param pageNo
 	 * @param pageSize
 	 * @return
@@ -25,7 +26,7 @@ public interface ArticleService {
 	 * @param articleBean
 	 * @return
 	 */
-	List<ArticleBean> findarticlebydata(ArticleBean articleBean);
+	List<ArticleBean> findarticlebydata(ArticleBean articleBean,Integer pageNo,Integer pageSize);
 	
 	/**
 	 * 文章查询
@@ -41,5 +42,28 @@ public interface ArticleService {
 	 * @return
 	 */
 	int addArticleInfo(ArticleBean articleBean);
+	
+	/**
+	 * 修改文章
+	 * @param articleBean
+	 * @return
+	 */
+	int updateArticle(ArticleBean articleBean);
+	
+	/**
+	 * 删除文章（更新状态而已）
+	 * @param article
+	 * @return
+	 */
+	boolean updateArtSta(ArticleBean articleBean);
+	
+	/**
+	 * 方法重写，多个更新
+	 * @param article
+	 * @param artIds
+	 * @return
+	 */
+	boolean updateArtSta(ArticleBean articleBean, String[] artIds);
+
 	
 }

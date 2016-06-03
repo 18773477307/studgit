@@ -21,9 +21,12 @@ public class ReplyAction implements ModelDriven<Reply>,SessionAware {
 	
 	private JsonObject<Reply> jsonObject;
 	
-	public String addReplyInfo(Reply reply){
+	public JsonObject<Reply> getJsonObject() {
+		return jsonObject;
+	}
+
+	public String addReplyInfo(){
 		int result = replyService.addReplyInfo(reply);
-		System.out.println(result);
 		jsonObject = new JsonObject<Reply>();
 		jsonObject.setTotal(result);
 		return "success";

@@ -10,7 +10,7 @@ import com.xiaomi.entity.ArticleBean;
 public interface ArticleMapper {
 	
 	/**
-	 * 分页查询
+	 * 分页查询状态为可用
 	 * @return
 	 */
 	List<ArticleBean> getallarticle(Map<String, Object> params);
@@ -25,7 +25,7 @@ public interface ArticleMapper {
 	 * 组合查询
 	 * @return
 	 */
-	List<ArticleBean> selectArticleByData(ArticleBean articleBean);
+	List<ArticleBean> selectArticleByData(Map<String, Object> params);
 	
 	/**
 	 * ArtId查询
@@ -39,4 +39,19 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	int insertArticle(ArticleBean articleBean);
+	
+	/**
+	 * 修改文章
+	 * @param articleBean
+	 * @return
+	 */
+	int updateArticle(ArticleBean articleBean);
+	
+	/**
+	 * 删除文章（更新状态而已）
+	 * @param article
+	 * @return
+	 */
+	void updateartSta(ArticleBean articleBean);
+
 }
