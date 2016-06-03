@@ -21,4 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getTotal" resultType="int">
 		select count(ptId) from product
 	</select>
+	<select id="getProductInfoByPtId" resultType="Product" parameterType="int">
+		select p.*,goodsName from product p,goods g where p.goodsId = g.goodsId and ptId=#{ptId}
+	</select>	
 </mapper>

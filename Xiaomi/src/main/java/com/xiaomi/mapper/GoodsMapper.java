@@ -19,4 +19,6 @@ public interface GoodsMapper {
 	int addGoodsInfo(Goods goods);
 
 	int updateGoodsInfo(Goods goods);
+
+	List<Goods> getAllGoodsName();
 }

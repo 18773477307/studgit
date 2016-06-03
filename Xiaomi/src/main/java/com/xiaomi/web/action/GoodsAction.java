@@ -121,6 +121,14 @@ public class GoodsAction implements ModelDriven<Goods> {
 		return "success";
 	}
 	
+	public String getAllGoodsName(){
+		List<Goods> goods = goodsService.getAllGoodsName();
+		System.out.println(goods);
+		jsonObject = new JsonObject<Goods>();
+		jsonObject.setRows(goods);
+		return "success";
+	}
+	
 	@Override
 	public Goods getModel() {
 		goods = new Goods();

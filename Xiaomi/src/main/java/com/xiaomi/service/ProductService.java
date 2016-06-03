@@ -21,4 +21,6 @@ public interface ProductService {
 	 */
 	int total();
 
+	List<Product> findProductInfoByPtId(int ptId);
+
 }

@@ -36,4 +36,9 @@ public class ProductServiceImpl implements ProductService {
 	public int total() {
 		return productMapper.getTotal();
 	}
+
+	@Override
+	public List<Product> findProductInfoByPtId(int ptId) {
+		return productMapper.getProductInfoByPtId(ptId);
+	}
 }

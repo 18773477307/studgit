@@ -212,6 +212,7 @@ insert into goods values (seq_goods_goodsId.nextval,1001,'小米4s',1169,'小米
 insert into goods values (seq_goods_goodsId.nextval,1002,'小米平板',799,'小米平板评价','','','顶部2',1);
 --查询--------------------------------------------------------------------------------------------
 select * from goods;
+select goodsName from goods;
 select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId =
 select distinct(goodsName) from goods;
 drop table goods;
@@ -263,7 +264,7 @@ create table product (
 );
 create sequence seq_product_ptId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
+insert into product values(seq_product_ptId.nextval,1899,'minote.jpg',100,1001,1,5,12,18,23,34,37,1);
 insert into product values(seq_product_ptId.nextval,999,'',100,1002,4,6,17,22,30,34,37,1);
 --查询---------------------------------------------------------------------------------
 select * from product;

@@ -48,6 +48,13 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 		jsonObject.setRows(productNames);
 		return "success";
 	}
+	
+	public String findProductInfoByPtId(){
+		List<Product> products = productService.findProductInfoByPtId(product.getPtId());
+		jsonObject=new JsonObject<Product>();
+		jsonObject.setRows(products);
+		return "success";
+	}
 
 
 	@Override

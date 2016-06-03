@@ -21,4 +21,6 @@ public interface ProductMapper {
 
 	int getTotal();
 
+	List<Product> getProductInfoByPtId(int ptId);
+
 }
