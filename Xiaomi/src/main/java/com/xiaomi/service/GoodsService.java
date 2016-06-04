@@ -29,4 +29,12 @@ public interface GoodsService {
 
 	public List<Goods> getAllGoodsName();
 	
+	/**
+	 * 查询所有的商品名
+	 * @return
+	 */
+	public List<Goods> getallgoodname();
+	
+	public List<Goods> getIndexGoodsInfo();
+	
 }

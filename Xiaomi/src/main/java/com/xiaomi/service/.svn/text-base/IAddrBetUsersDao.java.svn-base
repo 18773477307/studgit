@@ -1,0 +1,29 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.xiaomi.entity.AddrBetUsers;
+import com.xiaomi.entity.Manager;
+import com.xiaomi.entity.UsersInfo;
+
+
+public interface IAddrBetUsersDao {
+	/**
+	 * 地址的总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询地址信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<AddrBetUsers> find(Integer pageNo,Integer pageSize);
+	
+	public List<AddrBetUsers> find(String name, String province, String city, String county,Integer pageNo, Integer pageSize);
+	
+	public List<Manager> find(String uname, String pwd);
+}

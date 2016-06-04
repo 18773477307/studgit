@@ -1,0 +1,68 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.Resources;
+
+public interface IResourcesDao {
+	/**
+	 * 添加视频信息
+	 * @param goods:要添加的视频
+	 * @return
+	 */
+	public int addResources(Resources resources);
+	
+	/**
+	 * 修改视频信息
+	 * @param resources:要修改的视频
+	 * @return
+	 */
+	public int updateResources(Resources resources);
+	
+	/**
+	 * 删除视频
+	 * @param resId:要删除的视频编号，如果要同时删除多个，则用逗号隔开
+	 * @return
+	 */
+	public int del(String resId);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询视频信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<Resources> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的视频信息
+	 * @param resId:要查询的视频编号
+	 * @return
+	 */
+	public Resources find(String resId);
+	
+	/**
+	 * 根据视频类型分页查询
+	 * @param goodsId:要查询的视频编号
+	 * @param pageNo:要查询的页数
+	 * @param pageSize:每页显示的条数
+	 * @return
+	 */
+	public List<Resources> findGoodsId(String resId,Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 根据视频类型分页查询
+	 * @param resName：要查询的视频名称
+	 * @param pageNo：要查询的页数
+	 * @param pageSize：每页显示的条数
+	 * @return
+	 */
+	public List<Resources> find(String resName,Integer pageNo,Integer pageSize);
+	
+}

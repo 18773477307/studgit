@@ -1,0 +1,315 @@
+<table id="goodsDetail_info" data-options="fit:true"></table>
+
+
+<script>
+var opt;
+$.post("../goodsServlet",{op:"getAllGoodsDetailName"},function(data){
+	var obj_name=$("#goods_name");
+	var obj_name_update=$("#goods_name_update");
+	$.each(data.rows,function(index,item){
+		opt="<option value='"+item.goodsName+"'>"+item.goodsName+"</option>";
+		obj_name.append($(opt));
+		obj_name_update.append($(opt));
+	});
+},"json");
+
+datagrid=$('#goodsDetail_info').datagrid({
+	url:'../goodsDetailServlet',
+	queryParams:{op:"getPageGoodsDetailInfo"},
+	fitColumns:true,
+	striped:true,
+	loadMsg:"数据加载中...",
+	pagination:true,
+	rownumbers:true,
+	remoteSort:false,
+	columns:[[
+		{field:'goodsNames',title:'选择',width:100,align:'center',checkbox:true},
+		{field:'goodsName',title:'商品名字',width:100,align:'center',sortable:true},
+		{field:'_operate',title:'操作',width:100,align:'center',
+			formatter:function(value,rowData,index){
+				return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetailInfo(\''+rowData.goodsName+'\')">详情</a>';
+			}
+		}
+	]],
+	toolbar: [{
+		text:"添加",
+		iconCls:'icon-add',
+		handler:function(){
+			$("#goodsDetail_add").dialog("open");
+		}
+	},{
+		text:"修改",
+		iconCls:'icon-edit',
+		handler:function(){
+			//获取要修改的行
+			var rows=datagrid.datagrid("getChecked")[0];
+			
+			if(rows==undefined){
+				$.messager.show({title:'温馨提示',msg:'请选择您要修改的数据...',timeout:2000,showType:'slide'});
+				alert("666")
+			}else{
+				var goodsName=rows.goodsName;
+				$("#goodsDetail_update").dialog("open");
+				$("#update_goodsDetail").attr("href","javascript:updateGoodsDetail("+goodsName+")");
+				$.post("../goodsDetailServlet",{op:"findGoodsDetailByGoodsName",goodsName:goodsName},function(data){
+					$("#goods_name_show").val(goodsDetail.goodsName);
+					$("#processorinfo_show").val(goodsDetail.goodsProcessor);
+					$("#memoryinfo_show").val(goodsDetail.goodsMemory);
+					$("#cellinfo_show").val(goodsDetail.goodsCell);
+					
+					var str="";
+					var str1="";
+					
+					var onepics=goods.goodsPic.split(",");
+					for(var i=0;i<onepics.length;i++){
+						str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+					}
+					$("#goodsdetailinfo_pic_show").html($(str));
+					
+					
+					var twopics=goods.goodsdescr.split(",");
+					for(var i=0;i<twopics.length;i++){
+						str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+					}
+					$("#goodsdetailplay_pic_show").html($(str1));
+				},"json");
+			}
+		}
+	}]
+
+});
+</script>
+
+
+<style>
+	.myinput{
+		width:200px;
+		border:1px solid #F63;
+	}
+	
+	label{
+		padding-right:10px;
+	}
+</style>
+
+
+<!-- 添加商品界面 -->
+
+<div id="goodsDetail_add" class="easyui-dialog" title="添加商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>商品名字： </label>
+		<select name="goods_name" id="goods_name" class="myinput">
+		
+		</select><br /><br />
+		<label>处理器参数：</label><input type="text" name="processorinfo" id="processorinfo" class="myinput"/><br /><br />
+		<label>内存参数：</label><input type="text" name="memoryinfo" id="memoryinfo" class="myinput"/><br /><br />
+		<label>电池参数：</label><input type="text" name="cellinfo" id="cellinfo" class="myinput"/><br /><br />
+		<label>商品详情图片：</label><input type="file" name="goodsinfo_pic" id="goodsinfo_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsinfo_pic_show')"/><br /><br />
+		<label>商品轮播图片：</label><input type="file" name="goodsplay_pic" id="goodsplay_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsplay_pic_show')"/><br /><br />
+		<a href="javascript:addGoodsDetailInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+	</form>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+		<fieldset id="goodsinfo_pic_show">
+			<legend>商品详情图片预览</legend>
+		</fieldset>
+	</div>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+		<fieldset id="goodsplay_pic_show">
+			<legend>商品轮播图片预览</legend>
+		</fieldset>
+	</div>
+</div>
+
+
+
+<!-- 查看商品详情的界面 -->
+
+<div id="goodsDetail_show" class="easyui-dialog" title="查看商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>商品名字： </label><input type="text" id="goods_name_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>处理器参数：</label><input type="text" id="processorinfo_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>内存参数：</label><input type="text" id="memoryinfo_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>电池参数： </label><input type="text" id="cellinfo_show" class="myinput" readonly="readonly"/><br /><br />
+	</form>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+		<fieldset id="goodsdetailinfo_pic_show">
+			<legend>商品详情图片预览</legend>
+		</fieldset>
+	</div>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+		<fieldset id="goodsdetailplay_pic_show">
+			<legend>商品轮播图片预览</legend>
+		</fieldset>
+	</div>
+</div>
+
+
+<!-- 修改商品界面 -->
+
+<div id="goodsDetail_update" class="easyui-dialog" title="修改商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>商品名字： </label>
+		<select name="goods_name" id="goods_name_update" class="myinput">
+		
+		</select><br /><br />
+		<label>处理器参数：</label><input type="text" name="processorinfo" id="processorinfo_update" class="myinput"/><br /><br />
+		<label>内存参数：</label><input type="text" name="memoryinfo" id="memoryinfo_update" class="myinput"/><br /><br />
+		<label>电池参数：</label><input type="text" name="cellinfo" id="cellinfo_update" class="myinput"/><br /><br />
+		<label>商品详情图片：</label><input type="file" name="goodsinfo_pic" id="goodsinfo_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsinfo_pic_update_show')"/><br /><br />
+		<label>商品轮播图片：</label><input type="file" name="goodsplay_pic" id="goodsplay_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsplay_pic_update_show')"/><br /><br />
+		<a href="javascript:updateGoodsDetail(0)" id="update_goodsDetail" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+	</form>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+		<fieldset id="goodsinfo_pic_update_show">
+			<legend>商品详情图片预览</legend>
+		</fieldset>
+	</div>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
+		<fieldset id="goodsplay_pic_update_show">
+			<legend>商品轮播图片预览</legend>
+		</fieldset>
+	</div>
+</div>
+
+<script>
+
+	//添加商品详情的方法
+	function addGoodsDetailInfo(){
+		var goodsName=$("#goods_name").val();
+		var goodsProcessor=$("#processorinfo").val();
+		var goodsMemory=$("#memoryinfo").val();
+		var goodsCell=$("#cellinfo").val();
+		
+		
+		var one=document.getElementById("goodsinfo_pic");
+		var two=document.getElementById("goodsplay_pic");
+		
+		var onepath="";
+		var twopath="";
+		
+		for(var i=0;i<one.files.length;i++){
+			if(i==one.files.length-1){
+				onepath+=one.files[i].name;
+			}else{
+				onepath+=one.files[i].name+",";
+			}
+		}
+		for(var i=0;i<two.files.length;i++){
+			if(i==two.files.length-1){
+				twopath+=two.files[i].name;
+			}else{
+				twopath+=two.files[i].name+",";
+			}
+		}
+		
+		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
+			url:"../goodsDetailServlet?op=addGoodsDetailInfo",	//上传处理程序地址。
+			secureuri:false,	//是否启用安全提交，默认为false。 
+			fileElementId:["goodsinfo_pic","goodsplay_pic"],	//需要上传的文件域的ID，即<input type="file">的ID。
+			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+			data:{onepath:onepath,twopath:twopath,goodsName:goodsName,goodsProcessor:goodsProcessor,goodsMemory:goodsMemory,goodsCell:goodsCell},
+			success:function(data,status){
+				if(parseInt($.trim(data))==1){
+					$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
+					$("#goodsDetail_add").dialog("close");
+					$("#goodsDetail_info").datagrid("reload");
+					
+					$("#processorinfo").val("");
+					$("#memoryinfo").val("");
+					$("#cellinfo").val("");
+				}else{
+					$.messager.alert("失败提示","商品信息添加失败...","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","商品信息添加错误...\n"+e,"error");
+			}
+		});
+	}
+	
+	
+	
+	//查看商品详细情况
+	function showGoodsDetailInfo(goodsName){
+		$("#goodsDetail_show").dialog("open");
+		$.post("../goodsDetailServlet",{op:"findGoodsDetailByGoodsName",goodsName:goodsName},function(data){
+			var goodsDetail=data.rows;
+			$("#goods_name_show").val(goodsDetail.goodsName);
+			$("#processorinfo_show").val(goodsDetail.goodsProcessor);
+			$("#memoryinfo_show").val(goodsDetail.goodsMemory);
+			$("#cellinfo_show").val(goodsDetail.goodsCell);
+			
+			var str="";
+			var str1="";
+			
+			var onepics=goodsDetail.goodsPics.split(",");
+			console.info(goodsDetail);
+			for(var i=0;i<onepics.length;i++){
+				str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+			}
+			$("#goodsdetailinfo_pic_show").html($(str));
+			
+			
+			var twopics=goodsDetail.goodsPlaypic.split(",");
+			for(var i=0;i<twopics.length;i++){
+				str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
+			}
+			$("#goodsdetailplay_pic_show").html($(str1));
+			
+		},"json");
+		
+	}
+	
+	
+	//修改商品信息的方法
+	function updateGoodsDetail(goodsName){
+		var goodsName=$("#goods_name_update").val();
+		var goodsProcessor=$("#processorinfo_update").val();
+		var goodsMemory=$("#memoryinfo_update").val();
+		var goodsCell=$("#cellinfo_update").val();
+		
+		
+		var one=document.getElementById("goodsinfo_pic_update");
+		var two=document.getElementById("goodsplay_pic_update");
+		
+		var onepath="";
+		var twopath="";
+		
+		for(var i=0;i<one.files.length;i++){
+			if(i==one.files.length-1){
+				onepath+=one.files[i].name;
+			}else{
+				onepath+=one.files[i].name+",";
+			}
+		}
+		for(var i=0;i<two.files.length;i++){
+			if(i==two.files.length-1){
+				twopath+=two.files[i].name;
+			}else{
+				twopath+=two.files[i].name+",";
+			}
+		}
+		
+		
+		
+		
+		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
+			url:"../goodsDetailServlet?op=updateGoodsDeatil",	//上传处理程序地址。
+			secureuri:false,	//是否启用安全提交，默认为false。 
+			fileElementId:["goodsinfo_pic_update","goodsplay_pic_update"],	//需要上传的文件域的ID，即<input type="file">的ID。
+			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+			data:{onepath:onepath,twopath:twopath,goodsName:goodsName,goodsProcessor:goodsProcessor,goodsMemory:goodsMemory,goodsCell:goodsCell},
+			success:function(data,status){
+				if(parseInt($.trim(data))==1){
+					$.messager.show({title:'成功提示',msg:'商品详细信息修改成功...',timeout:2000,showType:'slide'});
+					
+				}else{
+					$.messager.alert("失败提示","商品详细信息修改失败...","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","商品详细信息修改错误...\n"+e,"error");
+			}
+		});
+	}
+</script>

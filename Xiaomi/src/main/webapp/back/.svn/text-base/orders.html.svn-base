@@ -1,0 +1,136 @@
+<table id="orders_info" data-options="fit:true"></table>
+
+
+<div id="show_orders_info_find" style="width:100%,text-align:left">
+	<label>订单编号：</label><input type="text" name="ordId" id="show_ordersId"/>
+	<label>订单日期：</label><input name="ndate" id="show_orders_ndate" class="easyui-datebox myinput" required/>
+	<a href="javascript:findGoodsInfoByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">查询</a>
+</div>
+
+
+<script>
+$(function(){
+	var statusObj=[{sid:0,sname:'无效订单'},{sid:1,sname:'未支付'},{sid:2,sname:'已支付'},{sid:3,sname:'已发货'},{sid:4,sname:'已完成'}];
+	
+	$('#orders_info').datagrid({
+		url:'../ordersServlet',
+		queryParams:{op:"getPageOrdersInfo"},
+		fitColumns:true,
+		striped:true,
+		loadMsg:"数据加载中...",
+		pagination:true,
+		rownumbers:true,
+		sortName:'ordId',
+		sortOrder:'asc',
+		remoteSort:false,
+		columns:[[
+			{field:'ordIds',title:'选择',width:100,align:'center',checkbox:true},
+			{field:'ordId',title:'订单编号',width:100,align:'center',sortable:true},
+			{field:'detailDelivery',title:'收获地址',width:150,align:'center'},
+			{field:'usersName',title:'用户姓名',width:100,align:'center'},
+			{field:'ordDates',title:'订单日期',width:100,align:'center'},
+			{field:'ordTatol',title:'订单总价',width:100,align:'center'},
+			{field:'ordSta',title:'订单状态',width:100,align:'center',editor:{type:"combobox",options:{
+				required:true,valueField:'sid',textField:'sname',data:statusObj}},
+				formatter:function(value,row,index){
+					for(var i=0;i<statusObj.length;i++){
+						if(statusObj[i].sid==value){
+							return statusObj[i].sname;
+						}
+					}
+					return value;
+				}
+			},
+			{field:'_operate',title:'操作',width:100,align:'center',
+				formatter:function(value,rowData,index){
+					return '<a class="icon-search1 icon-padding" href="javascript:showOrdersDetail(\''+rowData.ordId+'\')">详情</a>';
+				}
+			}
+		]],
+		toolbar:"#show_orders_info_find"
+	});
+});
+
+function findGoodsInfoByInfo(){
+	var ordId=$.trim($("#show_ordersId").val());
+	var ndate=$("#show_orders_ndate").datebox('getValue');
+	
+	$('#orders_info').datagrid({
+		url:'../ordersServlet',
+		queryParams:{op:"findGoodsByInfo",ordId:ordId,ndate:ndate}
+		
+	});
+}
+</script>
+
+
+<style>
+	.myinput{
+		width:200px;
+		border:1px solid #F63;
+	}
+	
+	label{
+		padding-right:10px;
+	}
+</style>
+
+
+
+<!-- 订单详情查看 -->
+<div id="ordersDetail_show" class="easyui-dialog" title="订单详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>订单编号： </label><input type="text" id="ordId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>收件人：</label><input type="text" name="users_name" id="users_name" class="myinput" readonly/><br /><br />
+		<label>收件人电话：</label><input name="price" id="users_addrTel" class="myinput" readonly="readonly"/><br /><br />
+		<label>收货地址： </label><input type="text" id="users_address" class="myinput" readonly="readonly"/><br /><br />
+		<label>邮政编码： </label><input type="text" id="users_post" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品名称： </label><input type="text" id="goods_name" class="myinput" readonly="readonly"/><br /><br />
+		<label>网络格式： </label><input type="text" id="goods_formatInfo" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品颜色：</label><input class="myinput" name="goods_colorInfo" id="goods_colorInfo" readonly="readonly"/><br /><br />
+		<label>内存大小：</label><input name="goods_memoryInfo" id="goods_memoryInfo" class="myinput" readonly="readonly"/><br /><br />
+		<label>网络版本：</label><input name="goods_versionsInfo" id="goods_versionsInfo" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品数量：</label><input type="text" id="orders_detaNum" class="myinput" readonly="readonly"/><br /><br />
+		<label>订单总价：</label><input type="text" id="orders_detaPrice" class="myinput" readonly="readonly"/><br /><br />
+	</form>
+</div>
+
+
+<script>
+	function showOrdersDetail(ordId){
+		$("#ordersDetail_show").dialog("open");
+		
+		$.post("../ordersServlet",{op:"findOrdersInfoByOrdId",ordId:ordId},function(data){
+			var orders=data.rows;
+			$("#ordId_show").val(orders.ordId);
+			$("#users_name").val(orders.usersName);
+			$("#users_addrTel").val(orders.addrTel);
+			$("#users_address").val(orders.detailDelivery);
+			$("#users_post").val(orders.reserve3);
+			$("#goods_name").val(orders.goodsName);
+			$("#goods_formatInfo").val(orders.format);
+			$("#goods_colorInfo").val(orders.color);
+			$("#goods_memoryInfo").val(orders.memory);
+			$("#goods_versionsInfo").val(orders.versions);
+			$("#orders_detaNum").val(orders.detaNum);
+			$("#orders_detaPrice").val(orders.ordTatol);
+		},"json");
+	}
+	
+	$("#ordersDetail_show").dialog({
+		onClose:function(){
+			$("#ordId_show").val("");
+			$("#users_name").val("");
+			$("#users_addrTel").val("");
+			$("#users_address").val("");
+			$("#users_post").val("");
+			$("#goods_name").val("");
+			$("#goods_formatInfo").val("");
+			$("#goods_colorInfo").val("");
+			$("#goods_memoryInfo").val("");
+			$("#goods_versionsInfo").val("");
+			$("#orders_detaNum").val("");
+			$("#orders_detaPrice").val("");
+		}
+	});
+</script>

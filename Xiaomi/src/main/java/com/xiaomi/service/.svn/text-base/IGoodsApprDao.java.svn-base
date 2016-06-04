@@ -1,0 +1,47 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.GoodsAppr;
+
+public interface IGoodsApprDao {
+	/**
+	 * 添加数据
+	 * @param add要添加的数据
+	 * @return
+	 */
+	public int addGoodsAppr(GoodsAppr goodsAppr);
+	
+	
+	/**
+	 * 删除数据
+	 * @param apprId 要删除的商品评论编号
+	 * @return
+	 */
+	
+	public int del(String apprId);
+	/**
+	 * 修改评价
+	 * @param goodsAppr
+	 * @return
+	 */
+	public int updateAppr(GoodsAppr goodsAppr);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查商评论表信息
+	 * @param pageNo  要查询的页数,如果是null，则查询全部
+	 * @param pageSize  页面显示的条数
+	 * @return
+	 */
+	public List<GoodsAppr> find(Integer pageNo,Integer pageSize);
+	
+	
+	public GoodsAppr find(String apprId);
+
+}

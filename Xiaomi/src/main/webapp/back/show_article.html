@@ -10,12 +10,12 @@
 <!-- 文章详情 -->
 <div id="article_show_newsInfo" class="easyui-dialog" title="文章详细" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
 	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>文章标题</label><input type="text" id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/><br/><br/>
-		<label>文章作者</label><input type="text" id="artAuth_show" name="artAuth" class="myinput" readonly="readonly"/><br/><br/>
-		<label>发布日期</label><input type="text" id="artStaTime_show" name="artStaTime" class="myinput" readonly="readonly"/><br/><br/>
-		<label>截稿日期</label><input type="text" id="artEndTime_show" name="artEndTime" class="myinput" readonly="readonly"/><br/><br/>
-		<label>浏览次数</label><input type="text" id="artViews_show" name="artViews"class="myinput" readonly="readonly"/><br/><br/>
-		<label>文章权重</label><input type="text" id="artWeight_show" name="artWeight"class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章标题：</label><input type="text" id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章作者：</label><input type="text" id="artAuth_show" name="artAuth" class="myinput" readonly="readonly"/><br/><br/>
+		<label>发布日期：</label><input type="text" id="artStaTime_show" name="artStaTime" class="myinput" readonly="readonly"/><br/><br/>
+		<label>浏览次数：</label><input type="text" id="artViews_show" name="artViews"class="myinput" readonly="readonly"/><br/><br/>
+		<label>评论次数：</label><input type="text" id="commentsCount_show" name="commentsCount"class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章权重：</label><input type="text" id="artWeight_show" name="artWeight"class="myinput" readonly="readonly"/><br/><br/>
 		<lable>文章内容：</lable>
 		<div id="article_content_show">
 		
@@ -84,13 +84,13 @@
 
 	function showArticleDetail(artId){
 		$("#article_show_newsInfo").dialog("open");
-		$.post("../articleServlet",{op:"findArticleByartId",artId:artId},function(data){
-			var article=data.rows;
+		$.post("back/article_ArticleByartId.action",{artId:artId},function(data){
+			var article=data.rows[0];
 			$("#artTitle_show").val(article.artTitle);
 			$("#artAuth_show").val(article.artAuth);
-			$("#artStaTime_show").val(article.artStaTime);
-			$("#artEndTime_show").val(article.artEndTime);
+			$("#artStaTime_show").val(article.artStaTimes);
 			$("#artViews_show").val(article.artViews);
+			$("#commentsCount_show").val(article.commentsCount);
 			$("#artWeight_show").val(article.artWeight);
 			$("#article_content_show").html(article.artCont);
 			
@@ -99,7 +99,7 @@
 			var pics=article.artPic.split(",");
 			
 			for(var i=0;i<pics.length;i++){
-				str+="<img src='../"+pics[i]+"' width='100px' height='100px'>&nbsp;";
+				str+="<img src='../uploadpic/"+pics[i]+"' width='100px' height='100px'>&nbsp;";
 			}
 			$("#artPic_show_info").html($(str));
 			//console.info(news);

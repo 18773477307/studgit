@@ -1,0 +1,119 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/yc19_2_2/!svn/ver/442/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao
+END
+IManagerDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/yc19_2_2/!svn/ver/49/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IManagerDao.java
+END
+IArtCommentDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/yc19_2_2/!svn/ver/388/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IArtCommentDao.java
+END
+DBHelper.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/yc19_2_2/!svn/ver/256/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/DBHelper.java
+END
+IDataDictDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/yc19_2_2/!svn/ver/181/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IDataDictDao.java
+END
+IDiscountDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/yc19_2_2/!svn/ver/277/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IDiscountDao.java
+END
+IAddressDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/yc19_2_2/!svn/ver/420/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IAddressDao.java
+END
+IGoodsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/yc19_2_2/!svn/ver/433/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IGoodsDao.java
+END
+IUsersInfoDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/yc19_2_2/!svn/ver/319/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IUsersInfoDao.java
+END
+IArticleDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/yc19_2_2/!svn/ver/360/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IArticleDao.java
+END
+IOrdersDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/yc19_2_2/!svn/ver/442/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IOrdersDao.java
+END
+IShopDetailDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/yc19_2_2/!svn/ver/442/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IShopDetailDao.java
+END
+IAddrBetUsersDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/yc19_2_2/!svn/ver/441/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IAddrBetUsersDao.java
+END
+ITypeGoodsDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/yc19_2_2/!svn/ver/55/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/ITypeGoodsDao.java
+END
+IResourcesDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/yc19_2_2/!svn/ver/56/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IResourcesDao.java
+END
+IBrandDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/yc19_2_2/!svn/ver/112/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IBrandDao.java
+END
+IGoodsApprDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/yc19_2_2/!svn/ver/186/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IGoodsApprDao.java
+END
+IGoodsDetailDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/yc19_2_2/!svn/ver/362/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IGoodsDetailDao.java
+END
+IOrdersDetailDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/yc19_2_2/!svn/ver/440/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IOrdersDetailDao.java
+END
+IReplyDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/yc19_2_2/!svn/ver/247/%E6%BA%90%E7%A0%81%E6%B5%8B%E8%AF%95/Xiaomi/src/com/xiaomi/dao/IReplyDao.java
+END

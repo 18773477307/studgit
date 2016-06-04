@@ -13,7 +13,6 @@ public class JsonObject<T> {
 	public void setRows(List<T> rows) {
 		this.rows = rows;
 	}
-	
 	public int getTotal() {
 		return total;
 	}
@@ -28,7 +27,7 @@ public class JsonObject<T> {
 	}
 	@Override
 	public String toString() {
-		return "JsonObject [rows=" + rows + ", total=" + total + "]";
+		return "JsonObject [rows=" + rows + ", total=" + total + ", object="
+				+ object + "]";
 	}
-	
 }

@@ -1,0 +1,76 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.ArtComment;
+
+
+public interface IArtCommentDao {
+	/**
+	 * 添加数据
+	 * @param add要添加的数据
+	 * @return
+	 */
+	public int addArtComment(ArtComment artComment);
+	
+	
+	/**
+	 * 删除数据
+	 * @param apprId 要删除的文章评论编号
+	 * @return
+	 */
+	
+	public int del(String comId);
+	/**
+	 * 修改评价
+	 * @param IArtComment
+	 * @return
+	 */
+	public int updateArtComment(ArtComment artComment);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int getTotal();
+	
+	/**
+	 * 分页查询评论
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public List<ArtComment> find(Integer pageNo, Integer pageSize);
+	
+	/**
+	 * 分页查文章评论表信息
+	 * @param pageNo  要查询的页数,如果是null，则查询全部
+	 * @param pageSize  页面显示的条数
+	 * @return
+	 */
+	public List<ArtComment> find(String artId,Integer pageNo,Integer pageSize);
+	
+	
+	/**
+	 * 根据conId查评价
+	 * @param comId
+	 * @return
+	 */
+	public ArtComment find(String comId);
+
+	/**
+	 * 统计该文章的浏览次数
+	 * @param artId
+	 * @return
+	 */
+	public int total(String artId);
+	
+	
+	/**
+	 * 根据artId查到对应的文章的评论内容和评论者
+	 * @param artId
+	 * @return
+	 */
+	public List<ArtComment> findcomment(String artId);
+	
+}

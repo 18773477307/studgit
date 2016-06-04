@@ -1,0 +1,8 @@
+<table id="goodsinfo_research" data-options="fit:true"></table>
+
+
+<div id="show_goodsinfo_find" style="width:100%,text-align:left">
+	<label>商品名称：</label><input type="text" name="ordId" id="show_ordersId"/>
+	<label>订单日期：</label><input name="ndate" id="show_orders_ndate" class="easyui-datebox myinput" required/>
+	<a href="javascript:findGoodsInfoByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">查询</a>
+</div>

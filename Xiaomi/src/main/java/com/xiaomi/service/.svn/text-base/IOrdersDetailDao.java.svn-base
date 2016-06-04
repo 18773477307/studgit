@@ -1,0 +1,16 @@
+package com.xiaomi.dao;
+
+import com.xiaomi.entity.OrderDetail;
+
+public interface IOrdersDetailDao {
+	/**
+	 * 插入订单详情
+	 */
+	public int addordersdetail(OrderDetail orderDetail);
+	
+	/**
+	 * 删除订单详情
+	 */
+	public int del(String ordId);
+
+}
