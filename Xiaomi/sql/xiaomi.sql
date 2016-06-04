@@ -213,6 +213,9 @@ insert into goods values (seq_goods_goodsId.nextval,1002,'小米平板',799,'小
 select * from goods;
 select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId =
 select distinct(goodsName) from goods;
+
+update goods set goodsPlace='顶部小米1' where goodsid = 1002
+
 drop table goods;
 drop sequence seq_goods_goodsId
 
