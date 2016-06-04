@@ -1,0 +1,228 @@
+<table id="reply_info" data-options="fit:true"></table>
+<script>
+	$(function(){
+		var datagrid;
+		var editRow=undefined;
+		var op;
+		var flag;
+		$.post("../usersServlet",{op:"getAllUsersName"},function(datad){
+			
+		$.post("../goodsServlet",{op:"getAllGoodsName"},function(data){
+		
+			goodsObj=data.rows;
+			usersObj=datad.rows;
+		
+			var statusObj=[{tsid:0,tsname:'未回复'},{tsid:1,tsname:'已回复'}];
+			datagrid=$('#reply_info').datagrid({
+				url:'../replyServlet',
+				queryParams:{op:"getPageReplyInfo"},
+				fitColumns:true,
+				striped:true,
+				loadMsg:"数据加载中...",
+				pagination:true,
+				rownumbers:true,
+				sortName:'replyId',
+				sortOrder:'asc',
+				remoteSort:false,
+				columns:[[
+					{field:'replyIds',title:'选择',width:80,align:'center',checkbox:true},
+					{field:'replyId',title:'官方回复编号',width:80,align:'center',sortable:true},
+					{field:'usersId',title:'用户名称',width:80,align:'center',
+						 formatter:function(value,row,index){
+							for(var i=0;i<usersObj.length;i++){
+								if(usersObj[i].usersId==value){
+									return usersObj[i].usersName;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'goodsId',title:'商品名称',width:80,align:'center',
+						formatter:function(value,row,index){
+							for(var i=0;i<goodsObj.length;i++){
+								if(goodsObj[i].goodsId==value){
+									return goodsObj[i].goodsName;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'repCont',title:'回复内容',width:200,align:'center'},
+					{field:'repDate',title:'回复时间',width:100,align:'center'},
+					{field:'reserve29',title:'回复状态',width:100,align:'center',editor:{type:"combobox",options:{
+						required:true,valueField:'tsid',textField:'tsname',data:statusObj}},
+						formatter:function(value,row,index){
+							for(var i=0;i<statusObj.length;i++){
+								if(statusObj[i].tsid==value){
+									return statusObj[i].tsname;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'_operate',title:'操作',width:80,align:'center',
+			        	formatter: function(value,rowData,index){
+			        		//console.info(rowData);
+			        		//console.info(JSON.stringify(rowData));
+			        		//console.info( JSON.parse(rowData) );
+			        		
+							return '<a class="icon-search1 icon-padding" href="javascript:reply('+rowData.replyId+')">详情</a>';
+							
+						}
+					}
+				]],
+				toolbar: [{
+					text:"删除",
+					iconCls:'icon-remove',
+					handler:function(){
+						//获取所有选中的行
+						flag="删除"
+						var rows=datagrid.datagrid("getChecked");
+						if(rows.length<=0){
+							$.messager.show({
+								title:"温馨提示",
+								msg:"请选择您要删除的数据...",
+								timeout:2000,
+								showType:'slide'
+							});
+						}else{
+							$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
+								if(r){
+									var replyIds="";
+									for(var i=0;i<rows.length-1;i++){
+										replyIds+=rows[i].replyId+",";
+									}
+									replyIds+=rows[i].replyId;
+									
+									//将要删除的repId信息发送到服务器
+									$.post("../replyServlet",{op:"delReplyInfo",replyIds:replyIds},function(data){
+										if(data==1){
+											$.messager.show({
+												title:'删除提示',
+												msg:'官方回复信息'+flag+'成功...',
+												timeout:2000,
+												showType:'slide'
+											});
+											datagrid.datagrid("reload");	//重新加载数据一次
+										}else{
+											$.messager.alert('失败提示','官方回复信息'+flag+'失败...','error');
+										}
+									});
+								}
+							});
+						}
+						
+					}
+				},{
+					text:"撤销",
+					iconCls:'icon-redo',
+					handler:function(){
+						datagrid.datagrid("rejectChanges");
+						datagrid.datagrid("endEdit",editRow);
+						editRow=undefined;
+					}
+				}]
+	
+			});
+		},"json");
+		},"json");
+		
+	});
+	
+	
+</script>
+
+<style>
+	.myinput{
+		width:200px;
+		border:1px solid #F63;
+		padding:3px;
+		font-size:13px;
+	}
+	
+	label{
+		padding-right:10px;
+		font-size:14px;
+	}
+	#reply_content{
+		width:500px;
+		height:200px;
+		border:1px solid #f5f5f5;
+	}
+	
+</style>
+
+<!-- 官方回复 -->
+<div id="reply_Info" class="easyui-dialog" title="官方回复详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>官方回复编号:</label><input type="text" id="replyId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>用户编号:</label><input type="text" name="usersId" id="usersId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>用户名称:</label><input type="text" name="usersName" id="usersName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品编号:</label><input name="goodsId" id="goodsId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品名称:</label><input name="goodsName" id="goodsName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>回复时间:</label><input type="text" name="repDate" id="repDate_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>回复内容:</label>
+		<div id="reply_content">
+		
+		</div>
+		
+	</form>
+</div>
+
+
+<script>
+//官方回复
+function reply(replyId){
+	$.post("../replyServlet",{op:"findReplyById",replyId:replyId},function(data){
+		var reply =data.rows;
+		$("#replyId_show").val(reply.replyId);
+		$("#usersId_show").val(reply.usersId);
+		$("#usersName_show").val(reply.usersName);
+		$("#goodsId_show").val(reply.goodsId);
+		$("#goodsName_show").val(reply.goodsName);
+		var date=new Date();
+		var year=date.getFullYear();
+		var month=date.getMonth()+1;
+		var days=date.getDate();
+		var hour=date.getHours();
+		var minute=date.getMinutes();
+		var second=date.getSeconds();
+		var str=year+'-'+month+'-'+days+'- '+hour+':'+minute+':'+second;
+		$("#repDate_show").val(str);
+		//$("#repDate_show").val(reply.repDate);
+		$("#reply_content").html(reply.repCont);
+		
+		//console.info("发了请求");
+		$("#reply_Info").dialog("open");
+	},"json");
+}
+/*
+function doreply(){
+	var replyId=$("#replyId_show").val();
+	var usersId=$("#usersId_show").val();
+	var goodsId=$("#goodsId_show").val();
+	var repDate=$("#repDate_show").val();
+	var repCont=$("#reply_content").html();
+	
+	$.post("../replyServlet",{op:"addReplyInfo",replyId:replyId,usersId:usersId,goodsId:goodsId,repDate:repDate,repCont:repCont},function(data){
+		data=parseInt($.trim(data));
+			if(data==1){  //添加成功
+				$("#replyId_show").val("");
+				$("#usersId_show").val("");
+				$("#goodsId_show").val("");
+				$("#repDate_show").val("");
+				$("#reply_content").html("");
+				$("#reply_Info").dialog("colse");
+				$.messager.show({
+					title:'成功提示',
+					msg:'回复成功...',
+					timeout:2000,
+					showType:'slide'
+				});
+			}else{
+				$.messager.alert('失败信息','回复失败....','error');
+			}
+	},"json");
+}
+*/
+</script>

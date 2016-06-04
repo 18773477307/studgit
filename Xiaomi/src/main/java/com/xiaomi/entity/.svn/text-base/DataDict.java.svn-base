@@ -1,0 +1,58 @@
+package com.xiaomi.entity;
+
+public class DataDict {
+	private int dirId;
+	private String dirName;
+	private int dirType;
+	
+	
+	//编号
+	public int getDirId() {
+		return dirId;
+	}
+	
+	//编号
+	public int getDirIds() {
+		return dirId;
+	}
+	
+	public void setDirId(int dirId) {
+		this.dirId = dirId;
+	}
+	
+	//名称
+	public String getDirName() {
+		return dirName;
+	}
+	
+	public void setDirName(String dirName) {
+		this.dirName = dirName;
+	}
+	
+	//1.网络格式  2.颜色   3.内存大小   4.网络版本（移动   联通   电信    全网通）   
+	public int getDirType() {
+		return dirType;
+	}
+	
+	public void setDirType(int dirType) {
+		this.dirType = dirType;
+	}
+
+	public DataDict(int dirId, String dirName, int dirType) {
+		super();
+		this.dirId = dirId;
+		this.dirName = dirName;
+		this.dirType = dirType;
+	}
+
+	public DataDict() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "DataDict [dirId=" + dirId + ", dirName=" + dirName
+				+ ", dirType=" + dirType + "]";
+	}
+	
+}

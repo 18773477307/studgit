@@ -9,11 +9,11 @@ $(function(){
 
 	//验证注册用户名
 	$("#usersName").blur(function(){
-		var uname = $("#usersName").val();
+		var usersName = $("#usersName").val();
 		var reg = /^([a-zA-Z0-9\u4E00-\u9FA5_-]{2,12})/;
-		  if (uname.match(reg)) {
-		      $.post("../usersServlet?d="+new Date(),{op:"checkuname",uname:uname},function(data){
-		          if (parseInt(data) > 0) {
+		  if (usersName.match(reg)) {
+		      $.post("front/user_unameCheck.action",{usersName:usersName},function(data){
+		          if (parseInt(data.total) > 0) {
 		          	 $("#name_tishi").html("用户名已经存在...").css("color", "#F00");
 		          	$("#usersName").val("");
 		          	 return false;
@@ -32,11 +32,11 @@ $(function(){
 	
 	//手机号码验证
 	$("#tel").blur(function(){
-		var tel=$("#tel").val();
+		var usersTel=$("#tel").val();
 		 var reg = /^1[3-8]\d{9}$/;
-		 if (tel.match(reg)) {
-		      $.post("../usersServlet?d="+new Date(),{op:"checktel",tel:tel},function(data){
-		          if (parseInt(data) > 0) {
+		 if (usersTel.match(reg)) {
+		      $.post("front/user_telCheck.action",{usersTel:usersTel},function(data){
+		          if (parseInt(data.total) > 0) {
 		          	 $("#tel_tishi").html("手机号已经被注册,请直接登录...").css("color", "#F00");
 		          	$("#tel").val("");
 		          	 return false;
@@ -54,11 +54,11 @@ $(function(){
 	
 	//身份证号码验证
 	$("#idCard").blur(function(){
-		var idCard=$(this).val();
+		var usersIDCard=$(this).val();
 		 var reg = /^[1-9]\d{17}$/;
-		 if (idCard.match(reg)) {
-		      $.post("../usersServlet?d="+new Date(),{op:"checkIdCard",idCard:idCard},function(data){
-		          if (parseInt(data) > 0) {
+		 if (usersIDCard.match(reg)) {
+		      $.post("front/user_idCardCheck.action",{usersIDCard:usersIDCard},function(data){
+		          if (parseInt(data.total) > 0) {
 		          	 $("#id_tishi").html("身份证号被占用,请确认是否有账号...").css("color", "#F00");
 		          	$("#idCard").val("");
 		          	 return false;
@@ -77,10 +77,10 @@ $(function(){
 	//邮箱验证
 	$("#email").blur(function(){
 		var reg=/^\w+@\w+\.(com)|(cn)$/;
-		var email=document.getElementById('email').value;
-		if(email.match(reg)){
-			$.post("../usersServlet?d="+new Date(),{op:"checkemail",email:email},function(data){
-		          if (parseInt(data) > 0) {
+		var usersEmail=document.getElementById('email').value;
+		if(usersEmail.match(reg)){
+			$.post("front/user_emailCheck.action",{usersEmail:usersEmail},function(data){
+		          if (parseInt(data.total) > 0) {
 		          	 $("#youxiang_tishi").html("该邮箱已经存在,请确认是否已有账号...").css("color", "#F00");
 		          	$("#email").val("");
 		          	 return false;

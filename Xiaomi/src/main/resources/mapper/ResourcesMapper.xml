@@ -4,5 +4,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ResourcesMapper" >
-  
+
+ 	<select id="findallResources" resultType="Resources">
+ 		select b.* from (select a.*,rownum rn from (select resId,resName,resCont,resWords,resDate,resViews,resSta,re.goodsId,goodsName 
+ 		from resources re,goods g where g.goodsId=re.goodsId)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="selectTotalResources" resultType="int">
+		select count(1) from resources
+	</select>
+	
+	
+	<select id="findResourcesByInfo" resultType="Resources">
+ 		select b.* from (select a.*,rownum rn from (select resId,resName,resCont,resWords,resDate,resViews,resSta,re.goodsId,goodsName from resources re,goods g where g.goodsId=re.goodsId
+ 		<if test="resources.resName!= null and resources.resName!= ''" >
+	        and re.resName like '%${resources.resName}%'
+	      </if>
+	      <if test="resources.resDate != null and resources.resDate != ''">
+        	and re.resDate>=to_date(#{resources.resDate},'yyyy-MM-dd')
+	      </if>
+	      <if test="resources.goodsId != null and resources.goodsId != '' and resources.goodsId !=0">
+        	and re.goodsId=#{resources.goodsId}
+	      </if>
+	     )a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	
 </mapper>

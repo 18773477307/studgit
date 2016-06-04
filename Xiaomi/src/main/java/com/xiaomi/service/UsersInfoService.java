@@ -65,5 +65,14 @@ public interface UsersInfoService {
 
 	public List<UsersInfo> findUsersInfoByInfo(Integer pageNo,Integer pageSize,String usersName, String usersTel, String usersEmail);
 	
+	public int unameCheck(String usersName);
+	
+	public int emailCheck(String usersEmail);
+	
+	public int telCheck(String usersTel);
+	
+	public int idCardCheck(String usersIdCard);
+	
+	public UsersInfo findUserByUsersInfo(UsersInfo users);
 
 }

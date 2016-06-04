@@ -43,4 +43,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getAllUsersName" resultType="UsersInfo">
 		select usersId,usersName from usersInfo
 	</select>
+	
+	<select id="unameCheck" parameterType="string" resultType="UsersInfo">
+		select * from usersInfo where usersName=#{usersName}
+	</select>
+	
+	<select id="emailCheck" parameterType="string" resultType="UsersInfo">
+		select * from usersInfo where usersEmail=#{usersEmail}
+	</select>
+	
+	<select id="telCheck" parameterType="string" resultType="UsersInfo">
+		select * from usersInfo where usersTel=#{usersTel}
+	</select>
+	
+	<select id="idCardCheck" parameterType="string" resultType="UsersInfo">
+		select * from usersInfo where usersIDCard=#{usersIDCard}
+	</select>
+	
+	<select id="findUserByUsersInfo" parameterType="UsersInfo" resultType="UsersInfo">
+		select * from usersInfo where usersTel=#{usersTel} or usersEmail=#{usersEmail} and usersPwd=#{usersPwd}
+	</select>
 </mapper>

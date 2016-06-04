@@ -1,7 +1,6 @@
 
 <table id="goods_info" data-options="fit:true"></table>
 
-
 <script>
 	var opt;
 	$.post("back/typegoods_findAllType.action",function(data){
@@ -284,6 +283,18 @@
 		var goodsSta=$("#goods_status").val();
 		/* var one=document.getElementById("goods_pic");
 		var two=document.getElementById("goodsdescr_pic");
+<<<<<<< HEAD
+		//var three=document.getElementById("goodsrepr_pic");
+		var onepath="";
+		var twopath="";
+		for(var i=0;i<one.files.length;i++){
+			if(i==one.files.length-1){
+				onepath+=one.files[i].name;
+			}else{
+				onepath+=one.files[i].name+",";
+			}
+		}
+=======
 		var goodsminPic=one.files.name;
 		var goodsmaxPic=two.files.name; */
 		
@@ -321,6 +332,61 @@
 			}
 		});
 	}
+	for(var i=0;i<two.files.length;i++){
+		if(i==two.files.length-1){
+			twopath+=two.files[i].name;
+		}else{
+			twopath+=two.files[i].name+",";
+		}
+	}
+	/*for(var i=0;i<three.files.length;i++){
+		if(i==three.files.length-1){
+			threepath+=three.files[i].name;
+		}else{
+			threepath+=three.files[i].name+",";
+		}
+	}*/
+	//console.info(onepath+"====="+twopath+"======="+threepath);
+	
+	$.ajaxFileUpload({	//异步上传文件的jQuery插件。
+		url:"../goodsServlet?op=addGoodsInfo",	//上传处理程序地址。
+		secureuri:false,	//是否启用安全提交，默认为false。 
+		fileElementId:["goods_pic","goodsdescr_pic"],	//需要上传的文件域的ID，即<input type="file">的ID。
+		//,"goodsrepr_pic"
+		dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+		data:{onepath:onepath,twopath:twopath,brandId:brandId,goodsName:goodsName,goodsPrice:goodsPrice,gformat:gformat,gcolor:gcolor,gmemory:gmemory,gversions:gversions,goodsVersion:goodsVersion,goodsNum:goodsNum,goodsHot:goodsHot,goodsSta:goodsSta,weizhi:weizhi},
+		//gversions:gversions,threepath:threepath,
+		success:function(data,status){
+			if(parseInt($.trim(data))==1){
+				$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
+				$("#goods_add").dialog("close");
+				$("#goods_info").datagrid("reload");
+				//$("#goods_brand").val("");
+				$("#goods_name").val("");
+				$("#goods_price").val("0");
+				$("#goods_pic").val("");
+				$("#goods_pic_show").html("");
+				//$("#goods_format").val("");
+				//$("#goods_color").val("");
+				//$("#goods_memory").val("");
+				//$("#goods_versions").val("");
+				$("#goods_version").val("");
+				$("#goods_num").val("0");
+				$("#goods_hot").val("");
+				$("#goods_status").val("");
+				$("#goodsdescr_pic").val("");
+				$("#goodsdescr_pic_show").html("");
+				//$("#goodsrepr_pic").val("");
+				//$("#goodsrepr_pic_show").html("");
+				//$("#weizhi").val("");
+			}else{
+				$.messager.alert("失败提示","商品信息添加失败...","error");
+			}
+		},
+		error:function(data,status,e){
+			$.messager.alert("错误提示","商品信息添加错误...\n"+e,"error");
+		}
+	});
 	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////	

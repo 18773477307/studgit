@@ -22,7 +22,7 @@ $(function(){
 	          {field:'artViews',title:'浏览器次数',width:100,align:'center'},
 	          {field:'commentsCount',title:'评论次数',width:100,align:'center'},
 	          {field:'artWeight',title:'权重',width:100,align:'center'},	
-	          	{field:'artSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
+	          {field:'artSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
 					required:true,valueField:'Sta',textField:'sname',data:artStaObj}},
 		        	  formatter:function(value,row,index){
 		        		  for(var i=0;i<artStaObj.length;i++){
@@ -77,7 +77,7 @@ $(function(){
 				    });  
 					var str="";
 					var pics=article[0].artPic;
-					str+="<img src='upload/"+pics+"' width='100px'>&nbsp;";
+					str+="<img src='../uploadpic/"+pics+"' width='100px'>&nbsp;";
 					$("#update_article_artPic_show").html($(str));
 				},"json");
 			}
@@ -184,17 +184,20 @@ $(function(){
 
 <!-- 文章详情 -->
 <div id="article_show_newsInfo" class="easyui-dialog" title="文章详细" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
-	<div style="text-align:center; margin-top:40px;width:824px;margin-left: auto;margin-right: auto;" >
-		<form >
-			<table>
-				<tr>
-					<td><input id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/></td>
-				</tr>
-				<tr>
-					<td><div><script id="article_content" type="text/plain" style="width:824px;height:500px;"></script></div></td>
-				</tr>
-			</table>	
-		</form>
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>文章标题：</label><input type="text" id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章作者：</label><input type="text" id="artAuth_show" name="artAuth" class="myinput" readonly="readonly"/><br/><br/>
+		<label>发布日期：</label><input type="text" id="artStaTime_show" name="artStaTime" class="myinput" readonly="readonly"/><br/><br/>
+		<label>浏览次数：</label><input type="text" id="artViews_show" name="artViews"class="myinput" readonly="readonly"/><br/><br/>
+		<label>评论次数：</label><input type="text" id="commentsCount_show" name="commentsCount"class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章权重：</label><input type="text" id="artWeight_show" name="artWeight"class="myinput" readonly="readonly"/><br/><br/>
+		<lable>文章内容：</lable>
+		<div id="article_content_show">
+		
+		</div><br/>
+	</form>
+	<div id="artPic_show_info" style="float:right;width:380px;margin-right:20px;margin-top:20px">
+			
 	</div>
 </div>
 
@@ -251,17 +254,27 @@ $(function(){
 <script>
 	var ue1=UE.getEditor('editor_artice');
 	var ue2=UE.getEditor('update_artice');
-	var ue3=UE.getEditor('article_content');
 	
 	function showArticleDetail(artId){
 		$("#article_show_newsInfo").dialog("open");
 		$.post("back/article_ArticleByartId.action",{artId:artId},function(data){
-			var article=data.rows;
-			$("#artTitle_show").val(article[0].artTitle);
-			var artCont=article[0].artCont;
-			ue3.ready(function(){  
-		        ue3.setContent(artCont);  
-		    }); 
+			var article=data.rows[0];
+			$("#artTitle_show").val(article.artTitle);
+			$("#artAuth_show").val(article.artAuth);
+			$("#artStaTime_show").val(article.artStaTimes);
+			$("#artViews_show").val(article.artViews);
+			$("#commentsCount_show").val(article.commentsCount);
+			$("#artWeight_show").val(article.artWeight);
+			$("#article_content_show").html(article.artCont);
+			
+			var str="";
+			
+			var pics=article.artPic.split(",");
+			
+			for(var i=0;i<pics.length;i++){
+				str+="<img src='../uploadpic/"+pics[i]+"' width='100px' height='100px'>&nbsp;";
+			}
+			$("#artPic_show_info").html($(str));
 		},"json");
 	}
 	

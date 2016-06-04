@@ -129,7 +129,7 @@ public class Goods implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Goods [goodsId=" + goodsId + ", typesId=" + typesId
+		return "\nGoods [goodsId=" + goodsId + ", typesId=" + typesId
 				+ ", goodsName=" + goodsName + ", goodsminPrice="
 				+ goodsminPrice + ", goodsVersion=" + goodsVersion
 				+ ", goodsminPic=" + goodsminPic + ", goodsmaxPic="

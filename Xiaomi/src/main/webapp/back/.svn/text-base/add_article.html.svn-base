@@ -1,0 +1,326 @@
+<table id="article_info" data-options="fit:true"></table>
+<script>
+$(function(){
+	var datagrid;
+	var artStaObj=[{Sta:2,sname:'不可用'},{Sta:1,sname:'可用'}];
+	datagrid=$('#article_info').datagrid({
+	url:'../articleServlet',
+	queryParams:{op:"getPageArticleInfo"},
+	fitColumns:true,
+	striped:true,
+	loadMsg:"数据加载中...",
+	pagination:true,
+	rownumbers:true,
+	sortName:'artId',
+	sortOrder:'asc',
+	remoteSort:false,
+	columns:[[   
+	          {field:'artIds',title:'选择',width:100,align:'center',checkbox:true},   
+	          {field:'artId',title:'文章编号',width:100,align:'center',sortable:true},   
+	          {field:'artTitle30',title:'标题',width:300,align:'center'},
+	          {field:'artStaTimes',title:'发布日期',width:100,align:'center'},
+	          {field:'artAuth',title:'作者',width:100,align:'center'},
+	          {field:'artViews',title:'浏览器次数',width:100,align:'center'},
+	          {field:'artWeight',title:'权重',width:100,align:'center'},	
+	          {field:'artSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
+					required:true,valueField:'Sta',textField:'sname',data:artStaObj}},
+		        	  formatter:function(value,row,index){
+		        		  for(var i=0;i<artStaObj.length;i++){
+		        			  if(artStaObj[i].Sta==value){
+		        				  return artStaObj[i].sname;
+		        			  }
+		        		  }
+		        		  return value;
+		        	  }
+		       },	        
+	          {field:'_operate',title:'操作',width:100,align:'center',
+	        	  formatter:function(value,rowData,index){
+	        		  //return "<a href=''>详细</a>";
+	        		  return '<a class="icon-search1 icon-padding" href="javascript:showArticleDetail(\''+rowData.artId+'\')">详细</a>';
+	        	  }
+	          }
+	]],
+	toolbar:[{
+		text:"添加",
+		iconCls:'icon-add',
+		handler:function(){
+			$("#article_add_newsInfo").dialog("open");
+		}
+	},{
+		text:"修改",
+		iconCls:'icon-edit',
+		handler:function(){
+			//获取要修改的行
+			var rows=datagrid.datagrid("getChecked")[0];
+			var artId=rows.artId;
+			if(rows==undefined){
+				$.messager.show({title:'温馨提示',msg:'请选择您要修改的数据...',timeout:2000,showType:'slide'});
+			}else{
+				
+				$("#article_update_newsInfo").dialog("open");
+				$("#update_article").attr("href","javascript:updateArticleInfo("+artId+")");
+				$.post("../articleServlet",{op:"findArticleByartId",artId:artId},function(data){
+					var article=data.rows;
+					
+					$("#update_article_artTitle").val(article.artTitle);
+					$("#update_article_artStaTime").datebox('setValue',article.artStaTime);
+					$("#update_article_artAuth").val(article.artAuth);
+					$("#update_article_artWeight").val(article.artWeight);
+					$("#update_article_reserve25").val(article.reserve25);
+					$("#update_article_reserve26").val(article.reserve26);
+					
+					var artCont=article.artCont;
+					ue1.ready(function(){  
+				        ue1.setContent(artCont);  
+				    });  
+					
+					var str="";
+					
+					var pics=article.artPic.split(",");
+					for(var i=0;i<pics.length;i++){
+						str+="<img src='../"+pics[i]+"' width='100px'>&nbsp;";
+					}
+					$("#update_article_artPic_show").html($(str));
+				},"json");
+			}
+		}
+	},{
+		text:"删除",
+		iconCls:'icon-remove',
+		handler:function(){
+			//获取所有被选中的行
+			var rows=datagrid.datagrid("getChecked");
+			
+			if(rows.length<=0){//没有选中一行
+				$.messager.show({
+					title:'温馨提示',
+					msg:'请选择您要删除的数据',
+					timeout:2000,
+					showType:'slide'
+				});
+			}else{
+				$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
+					if(r){
+						var artIds="";
+						for(var i=0;i<rows.length-1;i++){
+							artIds+=rows[i].artId+",";
+						}
+						artIds+=rows[i].artId;
+						//将要删除aid发到服务器
+						$.post("../articleServlet",{op:"delarticleInfo",artIds:artIds},function(data){
+							if(data==1){//删除添加
+								$.messager.show({
+									title:'删除提示',
+									msg:'新闻信息删除成功',
+									timeout:2000,
+									showType:'slide'
+								});
+								datagrid.datagrid("reload");//重新加载数据一次
+							}else{
+								$.messager.alert('失败提示','新闻类型信息删除失败....','error');
+							}
+						});
+					}
+				});
+			}
+		}
+	}]
+	});
+});
+
+</script>
+<style>
+	.myinput{
+		width:200px;
+		border:1px solid #F63;
+	}
+	label{
+		padding-right:10px;
+	}
+</style>
+
+
+<!-- 添加文章 -->
+<div id="article_add_newsInfo" class="easyui-dialog" title="添加文章" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>文章标题</label><input type="test" name=artTitle id="article_artTitle" class="myinput"><br/><br/>
+		<label>文章作者</label><input type="test" name="artAuth" id="article_artAuth" class="myinput"><br/><br/>
+		<label>发布日期</label><input name="artStaTime" id="article_artStaTime" class="easyui-datebox myinput" required><br/><br/>
+		<label>截稿日期</label><input name="artEndTime" id="article_artEndTime" class="easyui-datebox myinput" required><br/><br/>
+		<label>文章图片</label><input type="file" name="artPic" id="article_artPic" multiple="multiple" onchange="previewMultipleImage(this,'article_artPic_show')"><br/><br/>
+		<label>图片名称</label><input type="test" name=reserve26 id="article_reserve26" class="myinput"><br/><br/>
+		<label>文章简介</label><textarea name="reserve25" id="article_reserve25" style="width:600px;height:100px;"></textarea><br/><br/>
+		<label>文章权重</label><input name="artWeight" id="article_artWeight" class="easyui-numberbox myinput"><br/><br/>
+		<lable>文章内容：</lable>
+		<div>
+			<script id="editor" type="text/plain" style="width:824px;height:500px;"></script>
+		</div><br/>
+		<a href="javascript:addArticleInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+	</form>
+	<div style="float:right;width:380px;margin-right:20px;">
+			<fieldset id="article_artPic_show">
+				<legend>图片预览</legend>
+			</fieldset>
+		</div>
+</div>
+
+<!-- 文章详情 -->
+<div id="article_show_newsInfo" class="easyui-dialog" title="文章详细" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>文章标题</label><input type="test" id="artTitle_show" name="artTitle" class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章作者</label><input type="test" id="artAuth_show" name="artAuth" class="myinput" readonly="readonly"/><br/><br/>
+		<label>发布日期</label><input type="test" id="artStaTime_show" name="artStaTime" class="myinput" readonly="readonly"/><br/><br/>
+		<label>截稿日期</label><input type="test" id="artEndTime_show" name="artEndTime" class="myinput" readonly="readonly"/><br/><br/>
+		<label>浏览次数</label><input type="test" id="artViews_show" name="artViews"class="myinput" readonly="readonly"/><br/><br/>
+		<label>文章权重</label><input type="test" id="artWeight_show" name="artWeight"class="myinput" readonly="readonly"/><br/><br/>
+		<lable>文章内容：</lable>
+		<div id="article_content_show">
+		
+		</div><br/>
+	</form>
+	<div id="artPic_show_info" style="float:right;width:380px;margin-right:20px;margin-top:20px">
+			
+	</div>
+</div>
+
+<!-- 修改新闻 -->
+<div id="article_update_newsInfo" class="easyui-dialog" title="修改新闻" data-options="fit:true,iconCls:'icon-edit',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>文章标题：</label><input type="text" name="artTitle" id="update_article_artTitle" class="myinput"/><br /><br />
+		<label>发布日期：</label><input name="artStaTime" id="update_article_artStaTime" class="easyui-datebox myinput" required/><br /><br />
+		<label>新闻作者：</label><input type="text" name="artAuth" id="update_article_artAuth" class="myinput"/><br /><br />
+		<label>新闻图片：</label><input type="file" name="artPic" id="update_article_artPic" multiple="multiple" onchange="previewMultipleImage(this,'update_article_artPic_show')"/><br /><br />
+		<label>图片名称: </label><input type="test" name=reserve26 id="update_article_reserve26" class="myinput"><br/><br/> 
+		<label>新闻权重：</label><input class="easyui-numberbox myinput" name="artWeight" id="update_article_artWeight"/><br /><br />
+		<label>文章状态 </label>
+		<select name="artSta" id="update_article_artSta" class="myinput">
+			<option value="1">可用</option>
+			<option value="2">不可用</option>
+		</select><br /><br />
+		<label>文章简介</label><textarea name="reserve25" id="update_article_reserve25" style="width:600px;height:100px;"></textarea><br/><br/>
+		
+		<label>新闻内容：</label>
+		<div>
+			<script type="text/plain" id="update_artice_content" style="width:800px;height:400px;"></script>
+		</div><br /><br />
+		<a href="javascript:updateArticleInfo(0)" id="update_article" class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a>
+	</form>
+	<div style="float:right;width:380px;margin-right:20px;margin-top:20px;" id="update_article_artPic_show">
+
+	</div>
+</div>
+
+<script>
+	var ue=UE.getEditor('editor');
+	var ue1 = UE.getEditor('update_artice_content');
+	function addArticleInfo(){
+		var artTitle=$("#article_artTitle").val();
+		var artAuth=$("#article_artAuth").val();
+		var artStaTime=$("#article_artStaTime").datebox('getValue');
+		var artEndTime=$("#article_artEndTime").datebox('getValue');
+		var artWeight=$("#article_artWeight").val();
+		var reserve25=$("#article_reserve25").val();
+		var reserve26=$("#article_reserve26").val();
+		
+		var artCont=ue.getContent();
+		
+		$.ajaxFileUpload({
+			url:"../articleServlet?op=addArticleInfo",
+			secureuri:false,
+			fileElementId:"article_artPic",
+			dataType:"json",
+			data:{artTitle:artTitle,artAuth:artAuth,artStaTime:artStaTime,artEndTime:artEndTime,artWeight:artWeight,artCont:artCont,reserve25:reserve25,reserve26:reserve26},
+			success:function(data,status){
+				if(parseInt($.trim(data))==1){//说明是成功的
+					$.messager.show({title:'成功提示',msg:'新闻信息添加成功',timeout:2000,showType:'slide'});
+					$("#article_add_newsInfo").dialog("close");
+					$("#article_info").datagrid("reload");//页面刷新
+					
+					$("#article_artTitle").val("");
+					$("#article_artAuth").val("");
+					$("#article_artStaTime").datebox('setValue','');
+					$("#article_artEndTime").datebox('setValue','');
+					$("#article_artWeight").val("0");
+					$("#article_artPic").val("");
+					$("#article_artPic_show").html("");
+					$("#article_reserve25").val("");
+					$("#article_reserve26").val("");
+					
+					ue.setContent("");
+				}else{
+					$.messager.alert("失败提示","文章信息添加失败。。。","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","文章信息添加有误。。。\n"+e,"error");
+			}
+		});
+	}
+
+	function showArticleDetail(artId){
+		$("#article_show_newsInfo").dialog("open");
+		$.post("../articleServlet",{op:"findArticleByartId",artId:artId},function(data){
+			var article=data.rows;
+			$("#artTitle_show").val(article.artTitle);
+			$("#artAuth_show").val(article.artAuth);
+			$("#artStaTime_show").val(article.artStaTime);
+			$("#artEndTime_show").val(article.artEndTime);
+			$("#artViews_show").val(article.artViews);
+			$("#artWeight_show").val(article.artWeight);
+			$("#article_content_show").html(article.artCont);
+			
+			var str="";
+			
+			var pics=article.artPic.split(",");
+			
+			for(var i=0;i<pics.length;i++){
+				str+="<img src='../"+pics[i]+"' width='100px' height='100px'>&nbsp;";
+			}
+			$("#artPic_show_info").html($(str));
+			console.info(news);
+		},"json");
+	}
+	
+	function updateArticleInfo(artId){
+		var artTitle=$("#update_article_artTitle").val();
+		var artStaTime=$("#update_article_artStaTime").datebox('getValue');
+		var artAuth=$("#update_article_artAuth").val();
+		var artWeight=$("#update_article_artWeight").val();
+		var artSta=$("#update_article_artSta").val();
+		var reserve25=$("#update_article_reserve25").val();
+		var reserve26=$("#update_article_reserve26").val();
+		
+		var artCont=ue1.getContent();
+		
+		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
+			url:"../articleServlet?op=updateArticleInfo",	//上传处理程序地址。
+			secureuri:false,	//是否启用安全提交，默认为false。 
+			fileElementId:"update_article_artPic",	//需要上传的文件域的ID，即<input type="file">的ID。
+			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
+			data:{artId:artId,artTitle:artTitle,artStaTime:artStaTime,artAuth:artAuth,artWeight:artWeight,artSta:artSta,artCont:artCont,reserve25:reserve25,reserve26:reserve26},
+			success:function(data,status){
+				if(parseInt($.trim(data))==1){
+					$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
+					$("#article_update_newsInfo").dialog("close");
+					$("#article_info").datagrid("reload");
+					
+					$("#update_article_artTitle").val("");
+					$("#update_article_artAuth").val("");
+					$("#update_article_artStaTime").datebox('setValue','');
+					$("#update_article_artWeight").val("0");
+					$("#update_article_artPic").val("");
+					$("#update_article_artPic_show").html("");
+					
+					ue.getContent("");
+				}else{
+					$.messager.alert("失败提示","新闻信息修改失败...","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","新闻信息修改错误...\n"+e,"error");
+			}
+		});
+	}
+</script>
+
+

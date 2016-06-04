@@ -1,0 +1,154 @@
+package com.xiaomi.entity;
+
+public class OrderDetail {
+	private String ordId;
+	private String goodsId;
+	private double detaPrice;
+	private int detaNum;
+	private int detaSta;
+	private String reserve21;
+	private String reserve22;
+	
+	//订单编号，引入外键
+	public String getOrdId() {
+		return ordId;
+	}
+	public void setOrdId(String ordId) {
+		this.ordId = ordId;
+	}
+	
+	//商品编号
+	public String getGoodsId() {
+		return goodsId;
+	}
+	public void setGoodsId(String goodsId) {
+		this.goodsId = goodsId;
+	}
+	
+	//购买价
+	public double getDetaPrice() {
+		return detaPrice;
+	}
+	public void setDetaPrice(double detaPrice) {
+		this.detaPrice = detaPrice;
+	}
+	
+	//数量
+	public int getDetaNum() {
+		return detaNum;
+	}
+	public void setDetaNum(int detaNum) {
+		this.detaNum = detaNum;
+	}
+	
+	//状态
+	public int getDetaSta() {
+		return detaSta;
+	}
+	public void setDetaSta(int detaSta) {
+		this.detaSta = detaSta;
+	}
+	
+	//备用字段21
+	public String getReserve21() {
+		return reserve21;
+	}
+	public void setReserve21(String reserve21) {
+		this.reserve21 = reserve21;
+	}
+	
+	//备用字段22
+	public String getReserve22() {
+		return reserve22;
+	}
+	public void setReserve22(String reserve22) {
+		this.reserve22 = reserve22;
+	}
+	
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + detaNum;
+		long temp;
+		temp = Double.doubleToLongBits(detaPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + detaSta;
+		result = prime * result + ((goodsId == null) ? 0 : goodsId.hashCode());
+		result = prime * result + ((ordId == null) ? 0 : ordId.hashCode());
+		result = prime * result
+				+ ((reserve21 == null) ? 0 : reserve21.hashCode());
+		result = prime * result
+				+ ((reserve22 == null) ? 0 : reserve22.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrderDetail other = (OrderDetail) obj;
+		if (detaNum != other.detaNum)
+			return false;
+		if (Double.doubleToLongBits(detaPrice) != Double
+				.doubleToLongBits(other.detaPrice))
+			return false;
+		if (detaSta != other.detaSta)
+			return false;
+		if (goodsId == null) {
+			if (other.goodsId != null)
+				return false;
+		} else if (!goodsId.equals(other.goodsId))
+			return false;
+		if (ordId == null) {
+			if (other.ordId != null)
+				return false;
+		} else if (!ordId.equals(other.ordId))
+			return false;
+		if (reserve21 == null) {
+			if (other.reserve21 != null)
+				return false;
+		} else if (!reserve21.equals(other.reserve21))
+			return false;
+		if (reserve22 == null) {
+			if (other.reserve22 != null)
+				return false;
+		} else if (!reserve22.equals(other.reserve22))
+			return false;
+		return true;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "OrderDetail [ordId=" + ordId + ", goodsId=" + goodsId
+				+ ", detaPrice=" + detaPrice + ", detaNum=" + detaNum
+				+ ", detaSta=" + detaSta + ", reserve21=" + reserve21
+				+ ", reserve22=" + reserve22 + "]";
+	}
+	
+	public OrderDetail(String ordId, String goodsId, double detaPrice,
+			int detaNum, int detaSta, String reserve21, String reserve22) {
+		super();
+		this.ordId = ordId;
+		this.goodsId = goodsId;
+		this.detaPrice = detaPrice;
+		this.detaNum = detaNum;
+		this.detaSta = detaSta;
+		this.reserve21 = reserve21;
+		this.reserve22 = reserve22;
+	}
+	
+	public OrderDetail() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+
+	
+}

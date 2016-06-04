@@ -79,10 +79,10 @@
 				<li id="admin_reply">官方回复</li>
 			</ul>   
     	</div>  
-	    <div title="优惠管理">  
+	    <div title="视屏管理">  
 	        <ul class="easyui-tree" id="menu-tree5">
-	        	<li id="admin_discount_goods">商品优惠管理</li>
-				<li id="admin_discount_activity">优惠活动查询</li>
+				<li id="admin_video_goods">视屏查看</li>
+				<li id="admin_video_add">视屏维护</li>
 			</ul>   
 	    </div>  
 	    <div title="订单管理">  

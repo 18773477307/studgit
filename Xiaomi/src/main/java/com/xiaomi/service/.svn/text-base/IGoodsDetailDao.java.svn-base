@@ -1,0 +1,45 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.Goods;
+import com.xiaomi.entity.GoodsDetail;
+
+public interface IGoodsDetailDao {
+	/**
+	 * 添加商品详情
+	 * @param goods:要添加的新闻
+	 * @return
+	 */
+	public int addGoodsDetail(GoodsDetail goodsDetail);
+	
+
+	/**
+	 * 修改商品
+	 * @param goodsDetail:要修改的商品详情
+	 * @return
+	 */
+	public int updateGoodsDetail(GoodsDetail goodsDetail);
+	
+
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询商品信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<GoodsDetail> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的商品信息
+	 * @param goodsName:要查询的商品编号
+	 * @return
+	 */
+	public GoodsDetail find(String goodsName);
+}

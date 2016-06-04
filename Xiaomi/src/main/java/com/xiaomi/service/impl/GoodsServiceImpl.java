@@ -115,5 +115,14 @@ public class GoodsServiceImpl implements GoodsService {
 	public List<Goods> getAllGoodsName() {
 		return goodsMapper.getAllGoodsName();
 	}
+	
+	@Override
+	public List<Goods> getallgoodname() {
+		return goodsMapper.findallgoods();
+	}
+	
+	public List<Goods> getIndexGoodsInfo() {
+		return goodsMapper.getIndexGoodsInfo();
+	}
 
 }

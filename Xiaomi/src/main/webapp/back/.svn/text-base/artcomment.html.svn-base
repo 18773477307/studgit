@@ -1,0 +1,237 @@
+<table id="artComment_info" data-options="fit:true"></table>
+<script>
+	$(function(){
+		var datagrid;
+		var editRow=undefined;
+		var op;
+		var flag;
+		$.post("../usersServlet",{op:"getAllUsersName"},function(datad){
+			
+		$.post("../articleServlet",{op:"getAllArtTitle"},function(data){
+		
+		
+		
+		//getAllUsersName
+			var statusObj=[{tsid:0,tsname:'不显示'},{tsid:1,tsname:'显示'}];
+			
+			articleObj=data.rows;
+			
+			
+			usersObj=datad.rows;
+			
+			datagrid=$('#artComment_info').datagrid({
+				url:'../artCommentServlet',
+				queryParams:{op:"getPageArtCommentInfo"},
+				fitColumns:true,
+				striped:true,
+				loadMsg:"数据加载中...",
+				pagination:true,
+				rownumbers:true,
+				sortName:'comId',
+				sortOrder:'asc',
+				remoteSort:false,
+				columns:[[
+					{field:'comIds',title:'选择',width:100,align:'center',checkbox:true},
+					{field:'comId',title:'文章评价编号',width:100,align:'center',sortable:true},
+					{field:'artId',title:'文章标题',width:300,align:'center',
+						formatter:function(value,row,index){
+							for(var i=0;i<articleObj.length;i++){
+								if(articleObj[i].artId==value){
+									return articleObj[i].artTitle;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'usersId',title:'用户名称',width:100,align:'center',
+						 formatter:function(value,row,index){
+							for(var i=0;i<usersObj.length;i++){
+								if(usersObj[i].usersId==value){
+									return usersObj[i].usersName;
+								}
+							}
+							return value;
+						}
+					},
+					
+					{field:'comDates',title:'评论时间',width:100,align:'center'},
+					{field:'reserve27',title:'状态',width:100,align:'center',editor:{type:"combobox",options:{
+						required:true,valueField:'tsid',textField:'tsname',data:statusObj}},
+						formatter:function(value,row,index){
+							for(var i=0;i<statusObj.length;i++){
+								if(statusObj[i].tsid==value){
+									return statusObj[i].tsname;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'_operate',title:'操作',width:100,align:'center',
+			        	formatter: function(value,rowData,index){
+			        		//console.info(rowData);
+			        		//console.info(JSON.stringify(rowData));
+			        		//console.info( JSON.parse(rowData) );
+			        		
+							return '<a class="icon-search1 icon-padding" href="javascript:showArtCommentDetail('+rowData.comId+')">详细</a>';
+							
+						}
+					}
+				]],
+				toolbar: [{
+					text:"修改",
+					iconCls:'icon-edit',
+					handler:function(){
+						flag = "修改";
+						//获取要修改的行
+						var rows = datagrid.datagrid("getChecked")[0];
+						if (rows == undefined) {
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请选择你要修改的数据...',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						} else {
+							op = "updateArtCommentInfo";
+							//先判断有没有正在编辑的行
+							if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
+								datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
+								datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
+								editRow = undefined;
+							} else {
+								//获取当前选择行的索引
+								var index = datagrid.datagrid("getRowIndex",rows);
+								
+								datagrid.datagrid("updateRow", {index:index,row:rows});
+								
+								//打开编辑器
+								datagrid.datagrid("beginEdit",index);
+								editRow = index; //记录当前正在编辑的行
+							}
+						}
+						
+					}
+				},{
+					text:"删除",
+					iconCls:'icon-remove',
+					handler:function(){
+						//获取所有选中的行
+						flag="删除"
+						var rows=datagrid.datagrid("getChecked");
+						if(rows.length<=0){
+							$.messager.show({
+								title:"温馨提示",
+								msg:"请选择您要删除的数据...",
+								timeout:2000,
+								showType:'slide'
+							});
+						}else{
+							$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
+								if(r){
+									var comIds="";
+									for(var i=0;i<rows.length-1;i++){
+										comIds+=rows[i].comId+",";
+									}
+									comIds+=rows[i].comId;
+									
+									//将要删除的aid信息发送到服务器
+									$.post("../artCommentServlet",{op:"delArtCommentInfo",comIds:comIds},function(data){
+										if(data==1){
+											$.messager.show({
+												title:'删除提示',
+												msg:'文章评价信息'+flag+'成功...',
+												timeout:2000,
+												showType:'slide'
+											});
+											datagrid.datagrid("reload");	//重新加载数据一次
+										}else{
+											$.messager.alert('失败提示','文章评价信息'+flag+'失败...','error');
+										}
+									});
+								}
+							});
+						}
+						
+					}
+				},{
+					text:"保存",
+					iconCls:'icon-save',
+					handler:function(){
+						datagrid.datagrid("endEdit",editRow);//关闭当前正在编辑的行
+					
+						//获取当前被修改的数据
+						var rows=datagrid.datagrid("getChanges")[0];
+						if(rows==undefined){
+							datagrid.datagrid("rejectChanges");
+							datagrid.datagrid("unselectAll");
+							editRow=undefined;
+						}else{
+							rows["op"]=op;
+							
+							$.post("../artCommentServlet",rows,function(data){
+								data=parseInt( $.trim(data) );
+								if(data==1){
+									$.messager.show({
+										title:'成功提示',
+										msg:'文章评价'+flag+'成功...',
+										timeout:2000,
+										showType:'slide'
+									});
+								}else{
+									$.messager.alert('失败提示','文章评价'+flag+'失败...','error');
+								}
+								rows=null;
+								datagrid.datagrid("reload");	//重新加载数据一次
+								editRow=undefined;
+								datagrid.datagrid("rejectChanges");
+								datagrid.datagrid("unselectAll");
+							});
+						}
+						
+					}
+				},{
+					text:"撤销",
+					iconCls:'icon-redo',
+					handler:function(){
+						datagrid.datagrid("rejectChanges");
+						datagrid.datagrid("endEdit",editRow);
+						editRow=undefined;
+					}
+				}]
+	
+			});
+		},"json");
+		},"json");
+	});
+	
+	
+</script>
+
+<!-- 文章评价详情 -->
+<div id="show_ArtCommentInfo" class="easyui-dialog" title="文章评价详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>文章评价编号:</label><input type="text" id="artComment_comId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>文章标题:</label><input type="text" name="artTitle" id="artComment_artTitle_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>用户名称:</label><input name="usersName" id="artComment_usersName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>评价时间:</label><input type="text" name="comDate" id="artComment_comDate_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>评论内容:</label>
+		<div id="artComment_content_show" style="width:600px;height:auto;">
+			
+		</div><br/><br/>
+	</form>
+</div>
+
+<script>
+//查看文章评价信息详情
+function showArtCommentDetail(comId){
+	$.post("../artCommentServlet",{op:"findArtCommentBycomId",comId:comId},function(data){
+		var artComment =data.rows;
+		$("#artComment_comId_show").val(artComment.comId);
+		$("#artComment_artTitle_show").val(artComment.artTitle);
+		$("#artComment_usersName_show").val(artComment.usersName);
+		$("#artComment_comDate_show").val(artComment.comDate);
+		$("#artComment_content_show").html(artComment.comCont);
+		$("#show_ArtCommentInfo").dialog("open");
+	},"json");
+}
+</script>

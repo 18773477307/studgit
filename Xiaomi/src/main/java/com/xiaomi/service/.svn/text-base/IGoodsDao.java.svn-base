@@ -1,0 +1,84 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+
+import com.xiaomi.entity.Goods;
+
+public interface IGoodsDao {
+	/**
+	 * 添加商品
+	 * @param goods:要添加的新闻
+	 * @return
+	 */
+	public int addGoods(Goods goods);
+	
+	/**
+	 * 修改商品
+	 * @param goods:要修改的商品
+	 * @return
+	 */
+	public int updateGoods(Goods goods);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询商品信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<Goods> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的商品信息
+	 * @param goodsId:要查询的商品编号
+	 * @return
+	 */
+	public Goods find(String goodsId);
+	
+	/**
+	 * 根据商品类型分页查询
+	 * @param goodsId:要查询的商品编号
+	 * @param pageNo:要查询的页数
+	 * @param pageSize:每页显示的条数
+	 * @return
+	 */
+	public List<Goods> findGoodsId(String goodsId,Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 根据商品类型分页查询
+	 * @param goodsName：要查询的商品名称
+	 * @param pageNo：要查询的页数
+	 * @param pageSize：每页显示的条数
+	 * @return
+	 */
+	public List<Goods> find(String goodsName,Integer pageNo,Integer pageSize);
+	
+	public List<Goods> finds();
+	
+	public List<Goods> findName(String goodsName);
+	
+	public List<Goods> find();
+	
+	public List<Goods> findNames();
+	
+	//查找所有型号
+	public List<Goods> findGformat(String goodsName);
+	
+	//查找所有网络制式
+	public List<Goods> findGmemory(String typeName,String goodsName);
+	
+	//查找所有机身颜色
+	public List<Goods> findeGcolor(String memoryName,String typeName,String goodsName);
+	
+	//查找对应颜色的手机图片
+	public List<Goods> findPicture(String colorName,String goodsName);
+	
+	//查询手机的价格
+	public List<Goods> findPirce(String goodsName,String typeName,String memoryName,String colorName);
+}

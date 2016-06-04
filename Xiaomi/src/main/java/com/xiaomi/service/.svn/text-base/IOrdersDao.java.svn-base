@@ -1,0 +1,65 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.xiaomi.entity.Goods;
+import com.xiaomi.entity.Orders;
+
+
+public interface IOrdersDao {
+	/**
+	 * 添加订单
+	 */
+	public int addorders(Orders orders) ;
+	
+	/**
+	 * 组合查询语句
+	 * @param title
+	 * @param date
+	 * @param map
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Orders> find(String usersId,String ndate,Integer pageNo,Integer pageSize);
+	
+	
+	/**
+	 * 查询订单数量
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询新闻信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<Orders> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 根据订单id来查找订单详情
+	 * @param ordId
+	 * @return
+	 */
+	public Orders find(String ordId);
+	
+	/**
+	 * 查询要插入订单详情的订单id
+	 * @param usersId
+	 * @param ordDate
+	 * @return
+	 */
+	public List<Orders> findOrders(String usersId,String ordDate);
+	
+	
+	/**
+	 * 付款
+	 * @param usersId
+	 * @param ordDate
+	 * @return
+	 */
+	public int updateOrders(String usersId, String ordDate);
+}

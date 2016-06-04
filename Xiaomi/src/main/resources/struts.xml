@@ -6,19 +6,20 @@
 <struts>
 
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
-	<constant name="struts.devMode" value="true" />
+	<constant name="struts.devMode" value="false" />
 	
 	 <!-- 把struts的action对象交给spring容器管理 -->
 	<constant name="struts.objectFactory" value="spring" />
 
 	<package name="xmFront" namespace="/front" extends="json-default">
+		<global-allowed-methods>unameCheck,emailCheck,telCheck,idCardCheck,findUserByUsersInfo,addUsersInfo,getIndexGoodsInfo</global-allowed-methods>
     	<action name="*_*" class="{1}Action" method="{2}">
     		<result type="json">
     			<param name="root">jsonObject</param>
     		</result>
-<!--     		<result name="loginSuccess">/main.jsp</result>
+<!--    		<result name="loginSuccess">/main.jsp</result>
     		<result name="loginFail">/index.jsp</result>
- -->    		
+ -->            
     	</action>
 	</package>
 	
@@ -32,7 +33,9 @@
 		findallArticle,ArticleByartId,AddArticleInfo,updateArticleInfo,delarticleInfo,ArticleByData,
 		getAllProductName,
 		getAllPtcomment,findPtcommentByApprId,
-		addReplyInfo,getAllReplyInfo,findReplyInfoByReplyId
+		addReplyInfo,getAllReplyInfo,findReplyInfoByReplyId,
+		goodsNames,
+		GetAllResources,findResourcesByInfo
 		</global-allowed-methods>
 
     	<action name="*_*" class="{1}Action" method="{2}">

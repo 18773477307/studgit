@@ -1,0 +1,56 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.Address;
+
+
+public interface IAddressDao {
+	/**
+	 * 添加地址信息
+	 * @param addr 要添加的地址
+	 * @return
+	 */
+	public int insertAddr(Address addr);
+	
+	
+	/**
+	 * 修改地址
+	 * @param addr 要修改的地址
+	 * @return
+	 */
+	public int updateAddr(Address addr);
+	
+	
+	/**
+	 * 删除地址
+	 * @param addrId 要删除的地址编号，如果要同时删除多个，则用逗号隔开
+	 * @return
+	 */
+	public int delAddr(String addrId);
+	
+	/**
+	 * 查找地址信息
+	 * @param addr 
+	 * @return
+	 */
+	public int find(String name, String province, String city, String county,Integer pageNo, Integer pageSize);
+	
+	
+	/**
+	 * 地址的总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询地址信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<Address> find(Integer pageNo,Integer pageSize);
+	
+
+	public List<Address> findAddrInfoById(String usersId);
+}

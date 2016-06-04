@@ -211,26 +211,26 @@ $(function(){
 	$("#menu-tree5").tree({
 		onClick:function(node){
 			var obj=$('#index_content');
-			if(node.id=="admin_discount_goods"){
-				if(obj.tabs("exists","商品优惠管理")){
-					obj.tabs("select","商品优惠管理");
+			if(node.id=="admin_video_goods"){
+				if(obj.tabs("exists","视屏查看")){
+					obj.tabs("select","视屏查看");
 				}else{
 					obj.tabs('add',{
-						title:"商品优惠管理",
+						title:"视屏查看",
 						closable:true,
 						fit:true,
-						href:'back/discount_goods.html'
+						href:'back/video_goods.html'
 					});
 				}
-			}else if(node.id=="admin_discount_activity"){
-				if(obj.tabs("exists","优惠活动查询")){
-					obj.tabs("select","优惠活动查询");
+			}else if(node.id=="admin_video_add"){
+				if(obj.tabs("exists","视屏维护")){
+					obj.tabs("select","视屏维护");
 				}else{
 					obj.tabs('add',{
-						title:"优惠活动查询",
+						title:"视屏维护",
 						closable:true,
 						fit:true,
-						href:'back/discount_activity.html' 
+						href:'back/video_add.html'
 					});
 				}
 			}
