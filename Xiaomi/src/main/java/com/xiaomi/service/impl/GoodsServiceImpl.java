@@ -111,4 +111,9 @@ public class GoodsServiceImpl implements GoodsService {
 		return goodsMapper.updateGoodsInfo(goods);
 	}
 
+	@Override
+	public List<Goods> getIndexGoodsInfo() {
+		return goodsMapper.getIndexGoodsInfo();
+	}
+
 }

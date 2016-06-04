@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -13,13 +14,16 @@ import com.xiaomi.entity.Goods;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.service.GoodsService;
 @Controller("goodsAction")
-public class GoodsAction implements ModelDriven<Goods> {
+public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 	@Autowired
 	private GoodsService goodsService;
 	private Goods goods;
 	private JsonObject<Goods> jsonObject;
 	private int page;
 	private int rows;
+	
+	private Map<String, Object> session;
+	
 	//处理文件的三个属性   多个文件上传使用数组
 	private File goods_pic;
 	private String goods_picFileName;
@@ -121,10 +125,27 @@ public class GoodsAction implements ModelDriven<Goods> {
 		return "success";
 	}
 	
+	public String getIndexGoodsInfo() {
+		List<Goods> indexGoodsInfo = goodsService.getIndexGoodsInfo();
+		List<Goods> indexGoodsName = goodsService.getIndexGoodsInfo();
+		System.out.println(indexGoodsInfo);
+		jsonObject = new JsonObject<Goods>();
+		jsonObject.setRows(indexGoodsInfo);
+		
+		session.put("allPhone", indexGoodsInfo);
+		session.put("goName", indexGoodsName);
+		return "success";
+	}
+	
 	@Override
 	public Goods getModel() {
 		goods = new Goods();
 		return goods;
+	}
+	
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 
 }

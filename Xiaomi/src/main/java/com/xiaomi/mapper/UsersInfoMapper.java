@@ -22,4 +22,14 @@ public interface UsersInfoMapper {
 	List<UsersInfo> getAllUsersName();
 
 	List<UsersInfo> getUsersInfoByInfo(Map<String, Object> params);
+	
+	public UsersInfo unameCheck(String usersName);
+	
+	public UsersInfo emailCheck(String usersEmail);
+	
+	public UsersInfo telCheck(String usersTel);
+	
+	public UsersInfo idCardCheck(String usersIdCard);
+	
+	public UsersInfo findUserByUsersInfo(UsersInfo users);
 }

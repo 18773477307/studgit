@@ -27,4 +27,6 @@ public interface GoodsService {
 	
 	public int updateGoodsInfo(Goods goods);
 	
+	public List<Goods> getIndexGoodsInfo();
+	
 }

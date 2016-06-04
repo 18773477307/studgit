@@ -1,7 +1,9 @@
 package com.xiaomi.web.action;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,9 +11,10 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.service.UsersInfoService;
+import com.xiaomi.utils.SessionAttributeKey;
 
 @Controller("userAction")
-public class UserAction implements ModelDriven<UsersInfo> {
+public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 	@Autowired
 	private UsersInfoService usersInfoService;
 	private UsersInfo usersInfo;
@@ -19,6 +22,8 @@ public class UserAction implements ModelDriven<UsersInfo> {
 	private int page;
 	private int rows;
 	private String usersIds;
+	
+	private Map<String, Object> session;
 
 	public JsonObject<UsersInfo> getJsonObject() {
 		return jsonObject;
@@ -55,9 +60,8 @@ public class UserAction implements ModelDriven<UsersInfo> {
 
 
 	public String addUsersInfo(){
-		//	System.out.println(Users+"sds ");
+		System.out.println(usersInfo);
 		int result=usersInfoService.addUsersInfo(usersInfo);
-		//	System.out.println(result+"====");
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";
@@ -79,18 +83,61 @@ public class UserAction implements ModelDriven<UsersInfo> {
 		return "success";
 	}
 
+	public String unameCheck() {
+		System.out.println("unameCheck  :" + usersInfo);
+		int result = usersInfoService.unameCheck(usersInfo.getUsersName());
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	public String emailCheck() {
+		System.out.println("emailCheck  :" + usersInfo);
+		int result = usersInfoService.unameCheck(usersInfo.getUsersEmail());
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	public String telCheck() {
+		System.out.println("telCheck  :" + usersInfo);
+		int result = usersInfoService.unameCheck(usersInfo.getUsersTel());
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	public String idCardCheck() {
+		System.out.println("idCardCheck  :" + usersInfo);
+		int result = usersInfoService.unameCheck(usersInfo.getUsersIDCard());
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
 	public String getAllUsersName(){
 		List<UsersInfo> usersName = usersInfoService.getAllUserNames();
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setRows(usersName);
 		return "success";
 	}
-
+	
+	public String findUserByUsersInfo() {
+		UsersInfo users = usersInfoService.findUserByUsersInfo(usersInfo);
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setObject(users);
+		session.put(SessionAttributeKey.LOGIN_USER, users);
+		return "success";
+	}
 
 	@Override
 	public UsersInfo getModel() {
 		usersInfo = new UsersInfo();
 		return usersInfo;
+	}
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 
 }
