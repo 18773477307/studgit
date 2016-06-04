@@ -19,7 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			//$("img").css({left:"center",top:"center"});
 			$.post("goodsServlet",{op:"getIndexGoodsInfo"},function(){
 				location.href="front/Main.jsp";
-			});   
+			});
+			//$.post("front/");
 		});
 	</script>
 	

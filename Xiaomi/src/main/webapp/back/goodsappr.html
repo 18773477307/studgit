@@ -9,7 +9,7 @@
 			
 		$.post("back/product_getAllProductName.action",function(data){
 		
-			var statusObj=[{tsid:0,tsname:'不显示'},{tsid:1,tsname:'显示'}];
+			var statusObj=[{tsid:0,tsname:'差评'},{tsid:1,tsname:'中评'},{tsid:2,tsname:'好评'}];
 			
 			goodsObj=data.rows;
 			

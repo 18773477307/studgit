@@ -4,7 +4,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ReplyMapper" >
+	<!--  -->
 	<insert id="addReplyInfo" parameterType="Reply">
 		insert into reply values (seq_reply_replyId.nextval,#{usersId},#{apprId},#{repCont},TO_DATE(#{repDate},'yyyy-mm-dd hh24:mi:ss'),'','')
 	</insert>
+	
+	<!-- 获取所有的官方回复信息 -->
+	<select id="getAllReplyInfo" parameterType="map" resultType="Reply">
+		select * from (select a.*,rownum rn from (select * from reply order by replyId)a where #{pageNo} >= rownum )b where rn>#{pageSize}	
+	</select>
+	
+	<!-- 获取总的记录数 -->
+	<select id="getTotal" resultType="int">
+		select count(replyId) from reply
+	</select>
+	
+	<!-- 根据replyId查询具体的官方回复信息 -->
+	<select id="findReplyInfoByReplyId" parameterType="int" resultType="Reply">
+		select r.*,u.usersId,u.usersName,p.ptId,g.goodsName from reply r,usersInfo u,product p,ptcomment pt,goods g 
+		where r.usersId = u.usersId and pt.apprId = r.apprId and pt.ptId = p.ptId and p.goodsId = g.goodsId and replyId = #{replyId}
+	</select>
 </mapper>

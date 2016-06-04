@@ -9,8 +9,14 @@ public class Reply implements Serializable {
 	private int replyId;
 
     private int usersId;
+    
+    private String usersName;
 
     private int apprId;
+    
+    private int ptId;
+    
+    private String goodsName;
 
     private String repCont;
 
@@ -34,6 +40,30 @@ public class Reply implements Serializable {
 
 	public void setUsersId(int usersId) {
 		this.usersId = usersId;
+	}
+
+	public String getUsersName() {
+		return usersName;
+	}
+
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
+
+	public int getPtId() {
+		return ptId;
+	}
+
+	public void setPtId(int ptId) {
+		this.ptId = ptId;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
 	}
 
 	public int getApprId() {

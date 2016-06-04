@@ -52,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 
 			}else{
-							location.href="front/shopcar.jsp";
+				location.href="front/shopcar.jsp";
 			}
 		}
 	

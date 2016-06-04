@@ -5,17 +5,16 @@
 		var editRow=undefined;
 		var op;
 		var flag;
-		$.post("../usersServlet",{op:"getAllUsersName"},function(datad){
+		$.post("back/user_getAllUsersName.action",function(datad){
 			
-		$.post("../goodsServlet",{op:"getAllGoodsName"},function(data){
+		$.post("back/product_getAllProductName.action",function(data){
 		
 			goodsObj=data.rows;
 			usersObj=datad.rows;
 		
 			var statusObj=[{tsid:0,tsname:'未回复'},{tsid:1,tsname:'已回复'}];
 			datagrid=$('#reply_info').datagrid({
-				url:'../replyServlet',
-				queryParams:{op:"getPageReplyInfo"},
+				url:'back/reply_getAllReplyInfo',
 				fitColumns:true,
 				striped:true,
 				loadMsg:"数据加载中...",
@@ -173,12 +172,12 @@
 <script>
 //官方回复
 function reply(replyId){
-	$.post("../replyServlet",{op:"findReplyById",replyId:replyId},function(data){
-		var reply =data.rows;
+	$.post("back/reply_findReplyInfoByReplyId",{replyId:replyId},function(data){
+		var reply =data.object;
 		$("#replyId_show").val(reply.replyId);
 		$("#usersId_show").val(reply.usersId);
 		$("#usersName_show").val(reply.usersName);
-		$("#goodsId_show").val(reply.goodsId);
+		$("#goodsId_show").val(reply.ptId);
 		$("#goodsName_show").val(reply.goodsName);
 		var date=new Date();
 		var year=date.getFullYear();
