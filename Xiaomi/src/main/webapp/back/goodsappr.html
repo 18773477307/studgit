@@ -277,7 +277,9 @@ function goreply(apprId){
 
 function doreply(){
 	var usersId=$("#usersId_show").val();
-	var goodsId=$("#goodsId_show").val();
+	//var goodsId=$("#goodsId_show").val();
+	var apprId=$("#apprId_show").val();
+	//alert(apprId);
 	var date=new Date();
 	var year=date.getFullYear();
 	var month=date.getMonth()+1;
@@ -288,7 +290,7 @@ function doreply(){
 	var str=year+'-'+month+'-'+days+' '+hour+':'+minute+':'+second;
 	var repDate=str;
 	var repCont=$("#reply_Info").val();
-	$.post("back/reply_addReplyInfo",{usersId:usersId,goodsId:goodsId,repDate:repDate,repCont:repCont},function(data){
+	$.post("back/reply_addReplyInfo.action",{usersId:usersId,apprId:apprId,repDate:repDate,repCont:repCont},function(data){
 		//data=parseInt($.trim(data));
 		if(data.total==1){  //添加成功
 			$("#reply_Info").val("");

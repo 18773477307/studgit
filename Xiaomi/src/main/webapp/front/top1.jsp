@@ -12,7 +12,7 @@
             <div class="xmsj-show">  
             	<div class="xmsj-show1">
             		<c:forEach items="${allPhone }" var="item">
-                		<c:if test="${item.reserve12 eq '顶部小米1' }">
+                		<c:if test="${item.goodsPlace eq '顶部小米1' }">
 		                	<div class="xmsj-show-img">
 			                	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
 			                		<img id="testimg" src="../${fn:substring(item.goodsPic,0,fn:indexOf(item.goodsPic, ','))}"/>
@@ -26,7 +26,7 @@
                 <div class="top1-line"></div>
                 <div class="xmsj-show2">
                		<c:forEach items="${allPhone }" var="item">
-               			<c:if test="${item.reserve12 eq '顶部小米2' }">
+               			<c:if test="${item.goodsPlace eq '顶部小米2' }">
 		                	<div  class="xmsj-show-img">
 		                		<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
 	
@@ -41,7 +41,7 @@
                 <div class="top1-line"></div>
                 <div class="xmsj-show3">
                		<c:forEach items="${allPhone }" var="item">
-               			<c:if test="${item.reserve12 eq '顶部小米3' }">
+               			<c:if test="${item.goodsPlace eq '顶部小米3' }">
 		                	<div  class="xmsj-show-img">
 		                		<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
 	
@@ -60,7 +60,7 @@
             <div class="hongmi-show">
             	<div class="hongmi-show1">
                 	<c:forEach items="${allPhone }" var="item">
-                		<c:if test="${item.reserve12 eq '顶部红米1' }">
+                		<c:if test="${item.goodsPlace eq '顶部红米1' }">
 		                	<div class="xmsj-show-img">
 			                	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
 			                		<img id="testimg" src="../${fn:substring(item.goodsPic,0,fn:indexOf(item.goodsPic, ','))}"/>

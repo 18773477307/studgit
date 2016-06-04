@@ -80,5 +80,46 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 		params.put("usersEmail", usersEmail);
 		return  usersInfoMapper.getUsersInfoByInfo(params);
 	}
+	
+	@Override
+	public int unameCheck(String usersName) {
+		if (usersInfoMapper.unameCheck(usersName) != null)
+		return 1;
+		else {
+			return 0;
+		}
+	}
+	
+	@Override
+	public int emailCheck(String usersEmail) {
+		if (usersInfoMapper.emailCheck(usersEmail) != null)
+		return 1;
+		else {
+			return 0;
+		}
+	}
+	
+	@Override
+	public int telCheck(String usersTel) {
+		if (usersInfoMapper.telCheck(usersTel) != null)
+		return 1;
+		else {
+			return 0;
+		}
+	}
+	
+	@Override
+	public int idCardCheck(String usersIdCard) {
+		if (usersInfoMapper.idCardCheck(usersIdCard) != null)
+		return 1;
+		else {
+			return 0;
+		}
+	}
+	@Override
+	public UsersInfo findUserByUsersInfo(UsersInfo users) {
+		
+		return usersInfoMapper.findUserByUsersInfo(users);
+	}
 
 }

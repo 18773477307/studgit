@@ -33,4 +33,6 @@ public interface GoodsService {
 	 */
 	public List<Goods> getallgoodname();
 	
+	public List<Goods> getIndexGoodsInfo();
+	
 }

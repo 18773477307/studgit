@@ -46,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="header">
     	<div class="container">
             <div class="header-logo">
-            	<a><img src="front/images/logo.png"/></a>
+            	<a><img src="front/images/logo.png" style="border-left: 5px;"/></a>
             </div>
             
             <div class="header-title">
