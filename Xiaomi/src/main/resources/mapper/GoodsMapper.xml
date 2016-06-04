@@ -51,4 +51,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </if>
 		 	where goodsId=#{goodsId}
 	</update>
+	
+	<select id="findallgoods" resultType="Goods">
+		select goodsId,goodsName from goods
+	</select>
 </mapper>

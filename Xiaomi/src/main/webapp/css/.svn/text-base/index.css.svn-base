@@ -1,0 +1,68 @@
+#copyright p{
+	color:#B0810B;
+	font-size:14px;
+	font-weight:bold;
+	text-align:center;
+	padding:10px 0px;
+	margin:0px;
+	color:#666;
+}
+#copyright a{
+	height:32px;
+	line-height:32px;
+	text-decoration:none;
+	display:inline-block;
+	color:#666;
+	font-size:14px;
+	font-weight:bold;
+	padding-left:30px;
+}
+#newslogo{
+	background:#B3DFDA url("../images/logo.png") no-repeat;
+	background-size:contain;
+	padding:0px;
+	margin:0px;
+	height:100px;
+}
+#newslogo #time{
+	float:left;
+	width:85%;
+	height:100%;
+}
+#newslogo #time #mytext{
+	float:right;
+	margin-top:70px;
+	text-align:center;
+	width:220px;
+	font-size:14px;
+	line-height:22px;
+}
+#newslogo #zxanddl{
+	float:left;
+	width:15%;
+	height:100%;
+}
+#newslogo a{
+	color:#EB4F38;
+	height:32px;
+	font-size:16px;
+	line-height:32px;
+	text-align:center;
+	text-decoration:none;
+}
+
+#newslogo a strong{
+	font-size:16px;
+	top:17px;
+	position:absolute;
+}
+
+#newslogo a img{
+	margin-left:80px;
+	margin-top:20px;
+	width:22px;
+	height:22px;
+}
+#index_content{
+	background:#CCC;
+}

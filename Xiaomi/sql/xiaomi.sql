@@ -199,17 +199,17 @@ create table goods(
        typesId int         	--商品类型编号，引入外键
                constraint FK_goods_typegoods_typesId references typegoods(typesId),
        goodsName varchar2(20),      	--商品名字
-       goodsminPrice number(8,2),     		--商品折扣价格
+       goodsminPrice number(8,2),     	--商品折扣价格
        goodsVersion varchar2(2000), 	--商品简介 如科技与时尚的完美结合
        goodsminPic varchar2(2000),   	--商品小图片
        goodsmaxPic varchar2(4000),   	--商品大图片
        goodsPlace varchar2(20),       	--位置
-	   goodsSta int			    	--商品状态	0:下架	1：上架
+	   goodsSta int			    		--商品状态	0:下架	1：上架
 );
 create sequence seq_goods_goodsId start with 1001 increment by 1;
 --插入--------------------------------------------------------------------------------------------
-insert into goods values (seq_goods_goodsId.nextval,1001,'小米4s',1169,'小米4s真的不错呢','','','顶部1',1);
-insert into goods values (seq_goods_goodsId.nextval,1002,'小米平板',799,'小米平板评价','','','顶部2',1);
+insert into goods values (seq_goods_goodsId.nextval,1001,'小米4s',1699,'小米4s真的不错呢','','','顶部1',1);
+insert into goods values (seq_goods_goodsId.nextval,1002,'小米平板',999,'小米平板评价','','','顶部2',1);
 --查询--------------------------------------------------------------------------------------------
 select * from goods;
 select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId =
@@ -350,21 +350,24 @@ drop table orderdetail;
 create table resources(
        resId int primary key,                    --视频资源编号
        resName varchar2(100),                    --视频名
-       resCont clob,                             --视频资源
+       resCont varchar2(400),                    --视频资源路径
        resWords clob,                            --视频描述  
        resDate date,                             --发布时间  暂定
+       resViews int,							 --浏览次数
        goodsId int                               --商品编号（字符串拼接：只供查看）
                constraint FK_resources_goods_goodsId references goods(goodsId),
-       reserve21 varchar2(20),					 --备用字段 是否可用  0：不可用  1:可用
+       resSta int,								 --视屏状态：是否可用  2：不可用  1:可用
+       reserve21 varchar2(20),					 --备用字段
 	   reserve22 varchar2(20)                    --备用字段
      
 );
 create sequence seq_resources_resId start with 1001 increment by 1;
 --插入--------------------------------------------------------------------------
 
-insert into resources values (1001,1001,'','很实用的产品',TO_DATE('2016-01-05 08:22:23','yyyy-mm-dd hh24:mi:ss'),1001,1,'');
+insert into resources values (seq_resources_resId.nextval,'小米平板2','video.mp4','很实用的产品',TO_DATE('2016-06-04','yyyy-mm-dd'),0,1002,1,'','');
 --查询---------------------------------------------------------------------------
 select * from resources;
+select resId,resName,resCont,resWords,resDate,resViews,resSta,re.goodsId,goodsName from resources re,goods g where g.goodsId=re.goodsId
 ---删除-------------------------------------------------------------------------
 drop table resources;
 drop sequence seq_resources_resId
@@ -388,26 +391,15 @@ create table article(
 create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
-<<<<<<< HEAD
+
 ---插入--------------------------------------------------------------------------------------------------
 insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
 select * from article;
-=======
----插入--------------------------------------------------------------------------------------------------
-insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');=======
-insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
-select * from article;
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 select b.* from (select a.*,rownum rn from 
-<<<<<<< HEAD
 		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
 select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
-		--删除-------------------------------------------------------------------------------------------------
-=======
-		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
 --删除-------------------------------------------------------------------------------------------------
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 drop table article;
 delete article;
 drop sequence seq_article_artId

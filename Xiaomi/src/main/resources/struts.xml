@@ -32,7 +32,9 @@
 		findallArticle,ArticleByartId,AddArticleInfo,updateArticleInfo,delarticleInfo,ArticleByData,
 		getAllProductName,
 		getAllPtcomment,findPtcommentByApprId,
-		addReplyInfo
+		addReplyInfo,
+		goodsNames,
+		GetAllResources,findResourcesByInfo
 		</global-allowed-methods>
 
     	<action name="*_*" class="{1}Action" method="{2}">

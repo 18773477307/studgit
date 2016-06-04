@@ -1,0 +1,77 @@
+package com.xiaomi.entity;
+
+public class TypeGoods {
+	private String typesId;
+	private String typesName;
+	private int typesSta;
+	private String reserve7;
+	private String reserve8;
+	
+	
+	//商品类型编号
+	public String getTypesId() {
+		return typesId;
+	}
+	
+	public void setTypesId(String typesId) {
+		this.typesId = typesId;
+	}
+	
+	//商品类型名
+	public String getTypesName() {
+		return typesName;
+	}
+	
+	public void setTypesName(String typesName) {
+		this.typesName = typesName;
+	}
+	
+	//商品类型状态
+	public int getTypesSta() {
+		return typesSta;
+	}
+	
+	public void setTypesSta(int typesSta) {
+		this.typesSta = typesSta;
+	}
+	
+	//备用字段
+	public String getReserve7() {
+		return reserve7;
+	}
+	
+	public void setReserve7(String reserve7) {
+		this.reserve7 = reserve7;
+	}
+	
+	public String getReserve8() {
+		return reserve8;
+	}
+	
+	public void setReserve8(String reserve8) {
+		this.reserve8 = reserve8;
+	}
+
+	public TypeGoods(String typesId, String typesName, int typesSta,
+			String reserve7, String reserve8) {
+		super();
+		this.typesId = typesId;
+		this.typesName = typesName;
+		this.typesSta = typesSta;
+		this.reserve7 = reserve7;
+		this.reserve8 = reserve8;
+	}
+
+	public TypeGoods() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "TypeGoods [typesId=" + typesId + ", typesName=" + typesName
+				+ ", typesSta=" + typesSta + ", reserve7=" + reserve7
+				+ ", reserve8=" + reserve8 + "]";
+	}
+	
+	
+}

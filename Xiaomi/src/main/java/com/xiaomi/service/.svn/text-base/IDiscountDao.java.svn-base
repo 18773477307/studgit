@@ -1,0 +1,62 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.xiaomi.entity.Discount;
+
+public interface IDiscountDao {
+	/**
+	 * 添加数据
+	 * @param add要添加的数据
+	 * @return
+	 */
+	public int addDiscount(Discount discount);
+	
+	/**
+	 * 删除数据
+	 * @param disId 要删除的优惠编号
+	 * @return
+	 */
+	
+	public int del(String disId);
+	/**
+	 * 修改优惠
+	 * @param goodsAppr
+	 * @return
+	 */
+	public int updateDiscount(Discount discount);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查优惠活动信息
+	 * @param pageNo  要查询的页数,如果是null，则查询全部
+	 * @param pageSize  页面显示的条数
+	 * @return
+	 */
+	public List<Discount> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 组合查询
+	 * @param disPrice
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Discount> find(double disPrice,Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 组合totol查询
+	 * @param disPrice
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public int finds(double disPrice,Integer pageNo, Integer pageSize);
+
+}

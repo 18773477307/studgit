@@ -1,0 +1,56 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.Reply;
+
+public interface IReplyDao {
+	/**
+	 * 添加数据
+	 * @param add要添加的数据
+	 * @return
+	 */
+	public int addReply(Reply reply);
+	
+	
+	/**
+	 * 删除数据
+	 * @param repId 要删除的商品评论编号
+	 * @return
+	 */
+	
+	public int del(String repId);
+	/**
+	 * 修改官方回复
+	 * @param Reply
+	 * @return
+	 */
+	public int updateReply(Reply reply);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查官方回复表信息
+	 * @param pageNo  要查询的页数,如果是null，则查询全部
+	 * @param pageSize  页面显示的条数
+	 * @return
+	 */
+	public List<Reply> find(Integer pageNo,Integer pageSize);
+	
+	
+	public Reply find(String repId);
+	/**
+	 * 回复商品评价信息 插入数据到官方回复表
+	 * @param usersId 用户账号
+	 * @param goodsId 商品编号
+	 * @param repDate 回复日期
+	 * @param repCont 回复内容
+	 * @return
+	 */
+	public int add(String usersId,String goodsId,String repDate,String repCont);
+
+}

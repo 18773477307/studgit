@@ -1,0 +1,109 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.xiaomi.entity.Article;
+
+
+public interface IArticleDao {
+	/**
+	 * 添加文章
+	 * @param admin:要添加的新闻
+	 * @return
+	 */
+	public int addArticle(Article article);
+	
+	/**
+	 * 修改文章
+	 * @param admin:要修改的新闻
+	 * @return
+	 */
+	public int updateArticle(Article article);
+	
+	/**
+	 * 删除文章
+	 * @param admin:要删除的文章编号，如果要同时删除多个，则用逗号隔开
+	 * @return
+	 */
+	public int del(String artId);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询文章信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<Article> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的新闻信息
+	 * @param nid:要查询的文章编号
+	 * @return
+	 */
+	public Article find(String artId);
+		
+	/**
+	 * 根据编号修改文章权重
+	 * @param artId:要查询的编号
+	 * @return
+	 */
+	public int updateWeight(int artId);
+	
+	/**
+	 * 观看次数
+	 * @param artId:要查询的编号
+	 * @return
+	 */
+	public int updateViews(int artId);
+	
+	/**
+	 * 首页查询
+	*/
+	public List<Article> findIndex(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 条件组合查询
+	 * @param artTitle:文章标题
+	 * @param artStaTime:文章发布日期
+	 * @param artEndTime:文章最后修改日期
+	 * @param map
+	 * @param pageNo:要查询的页数
+	 * @param pageSize:每页显示的条数
+	 * @return
+	 */
+	public List<Article> find(String artTitle,String artAuth,String artStaTime,Map<String,String> map,Integer pageNo,Integer pageSize);
+	/**
+	 * 条件组合查询
+	 * @param artTitle:文章标题
+	 * @param artAuth:作者
+	 * @param artStaTime:文章发布时间
+	 * @param map
+	 * @param pageNo:要查询的页数
+	 * @param pageSize:每页显示的条数
+	 * @return
+	 */
+	public int finds(String artTitle,String artAuth,String artStaTime,Map<String,String> map,Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询所有数据
+	 * @return
+	 */
+	public List<Article> finds();
+	
+	/**
+	 * 按不同的权重查询不同板块的信息
+	 * @param artWeight
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Article> findindex(String artWeight);
+
+}

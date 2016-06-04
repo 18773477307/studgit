@@ -1,0 +1,177 @@
+package com.xiaomi.entity;
+
+public class ArtComment {
+	private String comId;
+	private String artId;
+	private String usersId;
+	private String comCont;
+	private String comDate;
+	private String reserve27;  //文章状态
+	private String reserve28;
+	private String artTitle;
+	private String usersName;
+	
+	
+	public String getArtTitle() {
+		return artTitle;
+	}
+	public void setArtTitle(String artTitle) {
+		this.artTitle = artTitle;
+	}
+	public String getUsersName() {
+		return usersName;
+	}
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
+	
+	//评论编号
+	public String getComId() {
+		return comId;
+	}
+	public String getComIds() {
+		return comId;
+	}
+	public void setComId(String comId) {
+		this.comId = comId;
+	}
+	//文章编号
+	public String getArtId() {
+		return artId;
+	}
+	public void setArtId(String artId) {
+		this.artId = artId;
+	}
+	//用户编号
+	public String getUsersId() {
+		return usersId;
+	}
+	public void setUsersId(String usersId) {
+		this.usersId = usersId;
+	}
+	//评论内容
+	public String getComCont() {
+		return comCont;
+	}
+	public void setComCont(String comCont) {
+		this.comCont = comCont;
+	}
+	//评论日期
+	public String getComDate() {
+		return comDate;
+	}
+	public String getComDates() {
+		if(comDate!=null && comDate.length()>19){
+			return comDate.substring(0,19);
+		}
+		return comDate;
+	}
+	public void setComDate(String comDate) {
+		this.comDate = comDate;
+	}
+	//备用字段27
+	public String getReserve27() {
+		return reserve27;
+	}
+	public void setReserve27(String reserve27) {
+		this.reserve27 = reserve27;
+	}
+	//备用字段28
+	public String getReserve28() {
+		return reserve28;
+	}
+	public void setReserve28(String reserve28) {
+		this.reserve28 = reserve28;
+	}
+	
+	// toString 方法
+	@Override
+	public String toString() {
+		return "ArtComment [comId=" + comId + ", artId=" + artId + ", usersId="
+				+ usersId + ", comCont=" + comCont + ", comDate=" + comDate
+				+ ", reserve27=" + reserve27 + ", reserve28=" + reserve28 + "]";
+	}
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((artId == null) ? 0 : artId.hashCode());
+		result = prime * result + ((comCont == null) ? 0 : comCont.hashCode());
+		result = prime * result + ((comDate == null) ? 0 : comDate.hashCode());
+		result = prime * result + ((comId == null) ? 0 : comId.hashCode());
+		result = prime * result
+				+ ((reserve27 == null) ? 0 : reserve27.hashCode());
+		result = prime * result
+				+ ((reserve28 == null) ? 0 : reserve28.hashCode());
+		result = prime * result + ((usersId == null) ? 0 : usersId.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArtComment other = (ArtComment) obj;
+		if (artId == null) {
+			if (other.artId != null)
+				return false;
+		} else if (!artId.equals(other.artId))
+			return false;
+		if (comCont == null) {
+			if (other.comCont != null)
+				return false;
+		} else if (!comCont.equals(other.comCont))
+			return false;
+		if (comDate == null) {
+			if (other.comDate != null)
+				return false;
+		} else if (!comDate.equals(other.comDate))
+			return false;
+		if (comId == null) {
+			if (other.comId != null)
+				return false;
+		} else if (!comId.equals(other.comId))
+			return false;
+		if (reserve27 == null) {
+			if (other.reserve27 != null)
+				return false;
+		} else if (!reserve27.equals(other.reserve27))
+			return false;
+		if (reserve28 == null) {
+			if (other.reserve28 != null)
+				return false;
+		} else if (!reserve28.equals(other.reserve28))
+			return false;
+		if (usersId == null) {
+			if (other.usersId != null)
+				return false;
+		} else if (!usersId.equals(other.usersId))
+			return false;
+		return true;
+	}
+	
+	
+	public ArtComment(String comId, String artId, String usersId,
+			String comCont, String comDate, String reserve27, String reserve28) {
+		super();
+		this.comId = comId;
+		this.artId = artId;
+		this.usersId = usersId;
+		this.comCont = comCont;
+		this.comDate = comDate;
+		this.reserve27 = reserve27;
+		this.reserve28 = reserve28;
+	}
+	//无参构造方法
+	public ArtComment() {
+		super();
+	}
+	
+	
+
+}

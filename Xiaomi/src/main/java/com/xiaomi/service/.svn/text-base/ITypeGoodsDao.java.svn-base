@@ -1,0 +1,63 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.TypeGoods;
+
+
+public interface ITypeGoodsDao {
+	/**
+	 * 添加商品类型
+	 * @param typeGoods:要添加的商品类型
+	 * @return
+	 */
+	public int addTypeGoods(TypeGoods typeGoods);
+	
+	/**
+	 * 修改商品类型
+	 * @param typeGoods:要修改的商品类型
+	 * @return
+	 */
+	public int updateTypeGoods(TypeGoods typeGoods);
+	
+	/**
+	 * 删除商品类型
+	 * @param typesId:要删除的商品类型编号，如果要同时删除多个，则用逗号隔开
+	 * @return
+	 */
+	public int del(String typesId);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询商品类型信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<TypeGoods> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的商品类型信息
+	 * @param typesId:要查询的商品类型编号
+	 * @return
+	 */
+	public TypeGoods find(String typesId);
+	
+	/**
+	 * 查询指定的商品类型信息
+	 * @param typesName:要查询的商品类型的名称
+	 * @return
+	 */
+	public TypeGoods findName(String typesName);
+	
+	/**
+	 * 查询所有的商品类型
+	 * @return
+	 */
+	public List<TypeGoods> finds();
+}

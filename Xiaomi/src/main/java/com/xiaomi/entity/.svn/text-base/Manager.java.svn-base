@@ -1,0 +1,120 @@
+package com.xiaomi.entity;
+
+public class Manager {
+	private String manaId;
+	private String manaName;
+	private int manaSex;
+	private String manaPwd;
+	private String reserve5;
+	private String reserve6;
+	
+	
+	//管理员编号
+	public String getManaId() {
+		return manaId;
+	}
+	
+	//管理员编号
+	public String getManaIds() {
+		return manaId;
+	}
+	
+	public void setManaId(String manaId) {
+		this.manaId = manaId;
+	}
+	
+	//管理员姓名
+	public String getManaName() {
+		return manaName;
+	}
+	
+	public void setManaName(String manaName) {
+		this.manaName = manaName;
+	}
+	
+	//管理员性别
+	public int getManaSex() {
+		return manaSex;
+	}
+
+	public void setManaSex(int manaSex) {
+		this.manaSex = manaSex;
+	}
+	
+	//管理员密码
+	public String getManaPwd() {
+		return manaPwd;
+	}
+	
+	
+
+	public void setManaPwd(String manaPwd) {
+		this.manaPwd = manaPwd;
+	}
+	
+	//备用字段
+	public String getReserve5() {
+		return reserve5;
+	}
+	
+	public void setReserve5(String reserve5) {
+		this.reserve5 = reserve5;
+	}
+	
+	public String getReserve6() {
+		return reserve6;
+	}
+	
+	public void setReserve6(String reserve6) {
+		this.reserve6 = reserve6;
+	}
+
+	public Manager() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Manager [manaId=" + manaId + ", manaName=" + manaName
+				+ ", manaSex=" + manaSex + ", manaPwd=" + manaPwd
+				+ ", reserve5=" + reserve5 + ", reserve6=" + reserve6 + "]";
+	}
+
+	public Manager(String manaId, String manaName, int manaSex, String manaPwd,
+			String reserve5, String reserve6) {
+		super();
+		this.manaId = manaId;
+		this.manaName = manaName;
+		this.manaSex = manaSex;
+		this.manaPwd = manaPwd;
+		this.reserve5 = reserve5;
+		this.reserve6 = reserve6;
+	}
+
+	public Manager(String manaName, int manaSex, String manaPwd, String reserve5) {
+		super();
+		this.manaName = manaName;
+		this.manaSex = manaSex;
+		this.manaPwd = manaPwd;
+		this.reserve5 = reserve5;
+	}
+
+	public Manager(String manaId, String manaName, int manaSex, String manaPwd,
+			String reserve5) {
+		super();
+		this.manaId = manaId;
+		this.manaName = manaName;
+		this.manaSex = manaSex;
+		this.manaPwd = manaPwd;
+		this.reserve5 = reserve5;
+	}
+	
+	public Manager(String manaName, String manaPwd) {
+		super();
+		this.manaName = manaName;
+		this.manaPwd = manaPwd;
+	}
+	
+	
+
+}

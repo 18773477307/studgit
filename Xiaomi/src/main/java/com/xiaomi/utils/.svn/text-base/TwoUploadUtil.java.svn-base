@@ -1,0 +1,133 @@
+package com.xiaomi.utils;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import javax.servlet.ServletException;
+import javax.servlet.jsp.PageContext;
+
+import com.jspsmart.upload.File;
+import com.jspsmart.upload.Files;
+import com.jspsmart.upload.Request;
+import com.jspsmart.upload.SmartUpload;
+
+public class TwoUploadUtil {
+	public static  String PATH="images";
+	private static final String ALLOWED="gif,png,jpg,jpeg";
+	private static final String DENIED="exe,bat,jsp,com,jsp";
+	private static final int SINGLEFILESIZE=1024*1024;
+	private static final int TOTALSIZE=1024*1024*20;
+	
+	public Map<String,String> upload(PageContext pagecontext) throws Exception{
+		Map<String,String> map=new HashMap<String,String>();
+		SmartUpload su=new SmartUpload();
+		String[] onepath=null;
+		String[] twopath=null;
+		//String[] threepath=null;
+		
+		//初始化
+		su.initialize(pagecontext);
+		su.setAllowedFilesList(ALLOWED);
+		su.setDeniedFilesList(DENIED);
+		su.setMaxFileSize(SINGLEFILESIZE);
+		su.setTotalMaxFileSize(TOTALSIZE);
+		su.setCharset("utf-8");
+		
+		su.upload();
+		
+		Request request=su.getRequest();
+		
+		System.out.println("request:"+request);
+		
+		//获取所有表单元素的值
+		
+		Enumeration<String> enums=request.getParameterNames();
+		String fieldName;
+		while(enums.hasMoreElements()){
+			fieldName=enums.nextElement();
+			if(fieldName.equals("onepath")){
+				onepath=request.getParameter(fieldName).split(",");
+			}else if(fieldName.equals("twopath")){
+				twopath=request.getParameter(fieldName).split(",");
+			}else{
+				map.put(fieldName, request.getParameter(fieldName));
+			}
+			
+			/*else if(fieldName.equals("threepath")){
+				threepath=request.getParameter(fieldName).split(",");
+			}*/
+		}
+		Files files=su.getFiles();//获取所有要上传的文件
+		String onephoto="";
+		String twophoto="";
+		//String threephoto="";
+		if(files!=null &&files.getCount()>0){
+			String fileName;
+			Collection<File> list=files.getCollection();
+			for(File fl:list){
+				if(!fl.isMissing()){
+					for(int i=0;i<onepath.length;i++){
+						if(onepath[i].equals(fl.getFilePathName())){
+							fileName=PATH+"/"+System.currentTimeMillis()+new Random().nextInt(100000)+"."+fl.getFileExt();
+							//保存到服务器
+							fl.saveAs(fileName,SmartUpload.SAVE_VIRTUAL);
+							onephoto+=fileName+",";
+							break;
+						}
+					}
+					
+				}
+			}
+			
+			for(File fl:list){
+				if(!fl.isMissing()){
+					for(int y=0;y<twopath.length;y++){
+						if(twopath[y].equals(fl.getFilePathName())){
+							fileName=PATH+"/"+System.currentTimeMillis()+new Random().nextInt(100000)+"."+fl.getFileExt();
+							//保存到服务器
+							fl.saveAs(fileName,SmartUpload.SAVE_VIRTUAL);
+							twophoto+=fileName+",";
+							break;
+						}
+					}
+				}
+			}
+					
+				
+			/*for(File fl:list){
+				if(!fl.isMissing()){
+					for(int n=0;n<threepath.length;n++){
+						if(threepath[n].equals(fl.getFilePathName())){
+							fileName=PATH+"/"+System.currentTimeMillis()+new Random().nextInt(100000)+"."+fl.getFileExt();
+							//保存到服务器
+							fl.saveAs(fileName,SmartUpload.SAVE_VIRTUAL);
+							threephoto+=fileName+",";
+							break;
+						}
+					}
+				}
+			}*/
+			
+			
+			if(onephoto.indexOf(",")>=0){
+				onephoto=onephoto.substring(0,onephoto.lastIndexOf(","));
+			}
+			if(twophoto.indexOf(",")>=0){
+				twophoto=twophoto.substring(0,twophoto.lastIndexOf(","));
+			}
+			/*if(threephoto.indexOf(",")>=0){
+				threephoto=threephoto.substring(0,threephoto.lastIndexOf(","));
+			}*/
+		}
+		map.put("onephoto", onephoto);
+		map.put("twophoto", twophoto);
+		//map.put("threephoto", threephoto);
+		return map;
+	}
+	
+}

@@ -1,0 +1,196 @@
+<table id="discount_info" data-options="fit:true"></table>
+<script>
+	$(function(){
+		var datagrid;
+		var editRow=undefined;
+		var op;
+		var flag;
+		$.post("../goodsServlet",{op:"getAllGoodsName"},function(data){
+			goodsObj=data.rows;
+			var disstaObj=[{dsid:0,dsname:'不可用'},{dsid:1,dsname:'可用'}];
+			datagrid=$('#discount_info').datagrid({
+				url:'../discountServlet',
+				queryParams:{op:"getPageDiscountInfo"},
+				fitColumns:true,
+				striped:true,
+				loadMsg:"数据加载中...",
+				pagination:true,
+				rownumbers:true,
+				sortName:'disId',
+				sortOrder:'asc',
+				remoteSort:false,
+				columns:[[
+					{field:'disIds',title:'选择',width:100,align:'center',checkbox:true},
+					{field:'disId',title:'优惠商品编号',width:100,align:'center',sortable:true},
+					{field:'goodsId',title:'商品名称',width:100,align:'center',editor:{type:"combobox",options:{
+						required:true,valueField:'goodsId',textField:'goodsName',data:goodsObj}},
+						formatter:function(value,row,index){
+							for(var i=0;i<goodsObj.length;i++){
+								if(goodsObj[i].goodsId==value){
+									return goodsObj[i].goodsName;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'disStartTimes',title:'优惠开始时间',width:100,align:'center',editor : {type : "datebox",options : {request : true}}},
+					{field:'disEndTimes',title:'优惠结束时间',width:100,align:'center',editor : {type : "datebox",options : {request : true}}},
+					{field:'disPrice',title:'折扣',width:100,align:'center',editor : {type : "text",options : {request : true}}},
+					{field:'disSta',title:'状态',width:100,align:'center',editor:{type:"combobox",options:{
+						required:true,valueField:'dsid',textField:'dsname',data:disstaObj}},
+						formatter:function(value,row,index){
+							for(var i=0;i<disstaObj.length;i++){
+								if(disstaObj[i].dsid==value){
+									return disstaObj[i].dsname;
+								}
+							}
+							return value;
+						}
+					}
+				]],
+				toolbar: [{
+					text : "添加",
+					iconCls : 'icon-add',
+					handler : function() {
+						op = "addDiscountInfo"; // 当前的操作
+						//先判断有没有正在编辑的行
+						if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
+							datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
+							datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
+							editRow = undefined;
+						} else { //在表格的最前面添加一行
+							datagrid.datagrid("insertRow", {index : 0,row : {}});
+	
+							//打开编辑器
+							datagrid.datagrid("beginEdit",0);
+							editRow = 0; //记录当前正在编辑的行
+						}
+					}
+				}, {
+					text:"修改",
+					iconCls:'icon-edit',
+					handler:function(){
+						flag = "修改";
+						//获取要修改的行
+						var rows = datagrid.datagrid("getChecked")[0];
+						if (rows == undefined) {
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请选择你要修改的数据...',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						} else {
+							op = "updateDiscountInfo";
+							//先判断有没有正在编辑的行
+							if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
+								datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
+								datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
+								editRow = undefined;
+							} else {
+								//获取当前选择行的索引
+								var index = datagrid.datagrid("getRowIndex",rows);
+								
+								datagrid.datagrid("updateRow", {index:index,row:rows});
+								
+								//打开编辑器
+								datagrid.datagrid("beginEdit",index);
+								editRow = index; //记录当前正在编辑的行
+							}
+						}
+						
+					}
+				},{
+					text:"删除",
+					iconCls:'icon-remove',
+					handler:function(){
+						//获取所有选中的行
+						flag="删除"
+						var rows=datagrid.datagrid("getChecked");
+						console.info(rows);
+						if(rows.length<=0){
+							$.messager.show({
+								title:"温馨提示",
+								msg:"请选择您要删除的数据...",
+								timeout:2000,
+								showType:'slide'
+							});
+						}else{
+							$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
+								if(r){
+									var disIds="";
+									for(var i=0;i<rows.length-1;i++){
+										disIds+=rows[i].disId+",";
+									}
+									disIds+=rows[i].disId;
+									
+									//将要删除的aid信息发送到服务器
+									$.post("../discountServlet",{op:"delDiscountInfo",disIds:disIds},function(data){
+										if(data==1){
+											$.messager.show({
+												title:'删除提示',
+												msg:'商品评价信息'+flag+'成功...',
+												timeout:2000,
+												showType:'slide'
+											});
+											datagrid.datagrid("reload");	//重新加载数据一次
+										}else{
+											$.messager.alert('失败提示','商品评价信息'+flag+'失败...','error');
+										}
+									});
+								}
+							});
+						}
+					}
+				},{
+					text:"保存",
+					iconCls:'icon-save',
+					handler:function(){
+						datagrid.datagrid("endEdit",editRow);//关闭当前正在编辑的行
+					
+						//获取当前被修改的数据
+						var rows=datagrid.datagrid("getChanges")[0];
+						console.info(rows);
+						if(rows==undefined){
+							datagrid.datagrid("rejectChanges");
+							datagrid.datagrid("unselectAll");
+							editRow=undefined;
+						}else{
+							rows["op"]=op;
+							
+							$.post("../discountServlet",rows,function(data){
+								data=parseInt( $.trim(data) );
+								if(data==1){
+									$.messager.show({
+										title:'成功提示',
+										msg:'优惠商品'+flag+'成功...',
+										timeout:2000,
+										showType:'slide'
+									});
+								}else{
+									$.messager.alert('失败提示','优惠商品'+flag+'失败...','error');
+								}
+								rows=null;
+								datagrid.datagrid("reload");	//重新加载数据一次
+								editRow=undefined;
+								datagrid.datagrid("rejectChanges");
+								datagrid.datagrid("unselectAll");
+							});
+						}
+						
+					}
+				},{
+					text:"撤销",
+					iconCls:'icon-redo',
+					handler:function(){
+						datagrid.datagrid("rejectChanges");
+						datagrid.datagrid("endEdit",editRow);
+						editRow=undefined;
+					}
+				}]
+	
+			});
+		},"json");
+	});
+</script>
+	

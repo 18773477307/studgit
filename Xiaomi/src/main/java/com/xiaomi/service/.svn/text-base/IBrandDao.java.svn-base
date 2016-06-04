@@ -1,0 +1,62 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.Brand;
+
+public interface IBrandDao {
+	/**
+	 * 添加商品品牌
+	 * @param brand:要添加的商品品牌
+	 * @return
+	 */
+	public int addBrand(Brand brand);
+	
+	/**
+	 * 修改商品品牌
+	 * @param brand:要修改的商品品牌
+	 * @return
+	 */
+	public int updateBrand(Brand brand);
+	
+	/**
+	 * 删除商品品牌
+	 * @param brandId:要删除的商品品牌编号，如果要同时删除多个，则用逗号隔开
+	 * @return
+	 */
+	public int del(String brandId);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询商品品牌信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<Brand> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的商品品牌信息
+	 * @param brandId:要查询的商品品牌编号
+	 * @return
+	 */
+	public Brand find(String brandId);
+	
+	/**
+	 * 查询指定的商品品牌信息
+	 * @param brandName:要查询的商品品牌的名称
+	 * @return
+	 */
+	public Brand findName(String brandName);
+	
+	/**
+	 * 查询所有的商品品牌
+	 * @return
+	 */
+	public List<Brand> finds();
+}

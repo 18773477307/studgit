@@ -1,0 +1,91 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.UsersInfo;
+
+public interface IUsersInfoDao {
+	/**
+	 * 用户登录
+	 * @param users:要登录的用户
+	 * @return
+	 */
+	public UsersInfo login(UsersInfo users);
+	
+
+	/**
+	 * 修改用户信息
+	 * @param users:要修改的用户
+	 * @return
+	 */
+	public int updateUsersInfo(UsersInfo users);
+	
+	/**
+	 * 添加会员
+	 * @param users:要添加的会员
+	 * @return
+	 */
+	public int addUsersInfo(UsersInfo users);
+	
+	/**
+	 * 修改密码
+	 * @param usersId:要修改的会员编号
+	 * @param oldPwd:旧密码
+	 * @param newPwd:新密码
+	 * @return
+	 */
+	public int updatePwd(String usersId,String oldPwd,String newPwd);
+	
+	/**
+	
+	 * @param usersId:要删除的会员编号，如果要同时删除多个，则用逗号隔开
+	 * @return
+	 */
+	public int del(String usersId);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询会员信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<UsersInfo> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的会员信息
+	 * @param usersId:要查询的会员编号
+	 * @return
+	 */
+	
+	/**
+	 * 查询指定的会员信息
+	 * @param usersTel:要查询的用户电话
+	 * @return
+	 */
+	public UsersInfo findUsersTel(String usersTel);
+	
+	/**
+	 * 查询指定的会员信息
+	 * @param usersEmail:要查询的用户邮箱
+	 * @return
+	 */
+	public UsersInfo findEmail(String usersEmail);
+	//查找所有会员
+	public List<UsersInfo> finds();
+	
+	public int unameCheck(String usersName);
+	
+	public int emailCheck(String usersEmail);
+	
+	public int telCheck(String usersTel);
+	
+	public int idCardCheck(String usersIdCard);
+	
+	public List<UsersInfo> usersLogin(String usersTel,String usersEmail,String usersPwd);
+}

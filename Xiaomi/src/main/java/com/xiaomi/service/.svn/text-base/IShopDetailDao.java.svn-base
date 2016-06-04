@@ -1,0 +1,107 @@
+package com.xiaomi.dao;
+
+import java.util.List;
+
+import com.xiaomi.entity.ShopDetail;
+import com.xiaomi.entity.Shop_Goods_Car;
+
+public interface IShopDetailDao {
+	/**
+	 * 添加商品
+	 * @param goods:要添加的新闻
+	 * @return
+	 */
+	public int addShopDetail(ShopDetail goods);
+	
+	/**
+	 * 修改商品
+	 * @param goods:要修改的商品
+	 * @return
+	 */
+	public int updateShopDetail(ShopDetail goods);
+	
+	/**
+	 * 修改商品数量
+	 * @param goods
+	 * @return
+	 */
+	public int updategoods(ShopDetail goods);
+	
+	/**
+	 * 修改商品状态reserve18为1
+	 * @param goods
+	 * @return
+	 */
+	public int updateShopstate(String goodsId, String usersId);
+	
+	/**
+	 * 修改商品状态reserve17为3
+	 * @param goods
+	 * @return
+	 */
+	public int updateShopstate3(String usersId, String goodsId);
+	
+	/**
+	 * 总记录数
+	 * @return
+	 */
+	public int total();
+	
+	/**
+	 * 分页查询商品信息
+	 * @param pageNo:要查询的页数，如果为null，则查询全部
+	 * @param pageSize:页面显示的条数
+	 * @return
+	 */
+	public List<ShopDetail> find(Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 查询指定的商品信息
+	 * @param goodsId:要查询的商品编号
+	 * @return
+	 */
+	public ShopDetail find(String goodsId);
+	
+	/**
+	 * 根据商品类型分页查询
+	 * @param goodsId:要查询的商品编号
+	 * @param pageNo:要查询的页数
+	 * @param pageSize:每页显示的条数
+	 * @return
+	 */
+	public List<ShopDetail> findShopDetailId(String goodsId,Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 根据商品类型分页查询
+	 * @param goodsName：要查询的商品名称
+	 * @param pageNo：要查询的页数
+	 * @param pageSize：每页显示的条数
+	 * @return
+	 */
+	
+	/**
+	 * 查询结算页面信息
+	 * @param usersId
+	 * @return
+	 */
+	public List<Shop_Goods_Car> findsShopInfo(String usersId);
+	
+	public List<ShopDetail> find(String goodsName,Integer pageNo,Integer pageSize);
+	
+	public List<ShopDetail> finds(String usersId);
+	
+	public String findName(String goodsId);
+	
+	public List<ShopDetail> find(String goodsId, String usersName, String goodsName,Integer pageNo, Integer pageSize);
+	//根据用户名查找购物车表是否有该商品
+	public List<ShopDetail> findShopInfo(String usersId,String goodsId);
+	
+	public List<Shop_Goods_Car> findsShopDetailInfo(String usersId);
+
+	public int del(String usersId, String goodsId);
+
+	public int addNumber(String usersId, String goodsId);
+
+	public int jjNumber(String usersId, String goodsId);
+
+}

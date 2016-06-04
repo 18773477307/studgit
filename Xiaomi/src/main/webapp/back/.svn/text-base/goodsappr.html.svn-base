@@ -1,0 +1,318 @@
+<table id="goodsAppr_info" data-options="fit:true"></table>
+<script>
+	$(function(){
+		var datagrid;
+		var editRow=undefined;
+		var op;
+		var flag;
+		$.post("../usersServlet",{op:"getAllUsersName"},function(datad){
+			
+		$.post("../goodsServlet",{op:"getAllGoodsName"},function(data){
+		
+		
+		
+		//getAllUsersName
+			var statusObj=[{tsid:0,tsname:'不显示'},{tsid:1,tsname:'显示'}];
+			
+			goodsObj=data.rows;
+			
+			
+			usersObj=datad.rows;
+			
+			datagrid=$('#goodsAppr_info').datagrid({
+				url:'../goodsApprServlet',
+				queryParams:{op:"getPageGoodsApprInfo"},
+				fitColumns:true,
+				striped:true,
+				loadMsg:"数据加载中...",
+				pagination:true,
+				rownumbers:true,
+				sortName:'apprId',
+				sortOrder:'asc',
+				remoteSort:false,
+				columns:[[
+					{field:'apprIds',title:'选择',width:50,align:'center',checkbox:true},
+					{field:'apprId',title:'商品评价编号',width:80,align:'center',sortable:true},
+					{field:'goodsId',title:'商品名称',width:60,align:'center',
+						formatter:function(value,row,index){
+							for(var i=0;i<goodsObj.length;i++){
+								if(goodsObj[i].goodsId==value){
+									return goodsObj[i].goodsName;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'usersId',title:'用户名称',width:60,align:'center',
+						 formatter:function(value,row,index){
+							for(var i=0;i<usersObj.length;i++){
+								if(usersObj[i].usersId==value){
+									return usersObj[i].usersName;
+								}
+							}
+							return value;
+						}
+					},
+					
+					{field:'apprDate',title:'评论时间',width:100,align:'center'},
+					{field:'apprSta',title:'状态',width:60,align:'center',editor:{type:"combobox",options:{
+						required:true,valueField:'tsid',textField:'tsname',data:statusObj}},
+						formatter:function(value,row,index){
+							for(var i=0;i<statusObj.length;i++){
+								if(statusObj[i].tsid==value){
+									return statusObj[i].tsname;
+								}
+							}
+							return value;
+						}
+					},
+					{field:'_operate',title:'操作',width:80,align:'center',
+			        	formatter: function(value,rowData,index){
+			        		//console.info(rowData);
+			        		//console.info(JSON.stringify(rowData));
+			        		//console.info( JSON.parse(rowData) );
+			        		
+							return '<a class="icon-search1 icon-padding" href="javascript:showGoodsApprDetail('+rowData.apprId+')">详细</a>';
+							
+						}
+					},
+					{field:'_goreply',title:'回复',width:80,align:'center',
+			        	formatter: function(value,rowData,index){
+			        		//console.info(rowData);
+			        		//console.info(JSON.stringify(rowData));
+			        		//console.info( JSON.parse(rowData) );
+			        		
+							return '<a class="icon-reply icon-padding" href="javascript:goreply('+rowData.apprId+')">回复</a>';
+							
+						}
+					}
+				]],
+				toolbar: [{
+					text:"修改",
+					iconCls:'icon-edit',
+					handler:function(){
+						flag = "修改";
+						//获取要修改的行
+						var rows = datagrid.datagrid("getChecked")[0];
+						if (rows == undefined) {
+							$.messager.show({
+								title : '温馨提示',
+								msg : '请选择你要修改的数据...',
+								timeout : 2000,
+								showType : 'slide'
+							});
+						} else {
+							op = "updateGoodsApprInfo";
+							//先判断有没有正在编辑的行
+							if (editRow != undefined) { //则说明有行正在被编辑，则还原当前的修改
+								datagrid.datagrid("rejectChanges"); //回滚自创建以来或上次调用AcceptChanges，所有的变化数据
+								datagrid.datagrid("endEdit",editRow); //关闭当前正在被编辑的行
+								editRow = undefined;
+							} else {
+								//获取当前选择行的索引
+								var index = datagrid.datagrid("getRowIndex",rows);
+								
+								datagrid.datagrid("updateRow", {index:index,row:rows});
+								
+								//打开编辑器
+								datagrid.datagrid("beginEdit",index);
+								editRow = index; //记录当前正在编辑的行
+							}
+						}
+						
+					}
+				},{
+					text:"删除",
+					iconCls:'icon-remove',
+					handler:function(){
+						//获取所有选中的行
+						flag="删除"
+						var rows=datagrid.datagrid("getChecked");
+						if(rows.length<=0){
+							$.messager.show({
+								title:"温馨提示",
+								msg:"请选择您要删除的数据...",
+								timeout:2000,
+								showType:'slide'
+							});
+						}else{
+							$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
+								if(r){
+									var apprIds="";
+									for(var i=0;i<rows.length-1;i++){
+										apprIds+=rows[i].apprId+",";
+									}
+									apprIds+=rows[i].apprId;
+									
+									//将要删除的aid信息发送到服务器
+									$.post("../goodsApprServlet",{op:"delGoodsApprInfo",apprIds:apprIds},function(data){
+										if(data==1){
+											$.messager.show({
+												title:'删除提示',
+												msg:'商品评价信息'+flag+'成功...',
+												timeout:2000,
+												showType:'slide'
+											});
+											datagrid.datagrid("reload");	//重新加载数据一次
+										}else{
+											$.messager.alert('失败提示','商品评价信息'+flag+'失败...','error');
+										}
+									});
+								}
+							});
+						}
+						
+					}
+				},{
+					text:"保存",
+					iconCls:'icon-save',
+					handler:function(){
+						datagrid.datagrid("endEdit",editRow);//关闭当前正在编辑的行
+					
+						//获取当前被修改的数据
+						var rows=datagrid.datagrid("getChanges")[0];
+						if(rows==undefined){
+							datagrid.datagrid("rejectChanges");
+							datagrid.datagrid("unselectAll");
+							editRow=undefined;
+						}else{
+							rows["op"]=op;
+							
+							$.post("../goodsApprServlet",rows,function(data){
+								data=parseInt( $.trim(data) );
+								if(data==1){
+									$.messager.show({
+										title:'成功提示',
+										msg:'商品评价'+flag+'成功...',
+										timeout:2000,
+										showType:'slide'
+									});
+								}else{
+									$.messager.alert('失败提示','商品评价'+flag+'失败...','error');
+								}
+								rows=null;
+								datagrid.datagrid("reload");	//重新加载数据一次
+								editRow=undefined;
+								datagrid.datagrid("rejectChanges");
+								datagrid.datagrid("unselectAll");
+							});
+						}
+						
+					}
+				},{
+					text:"撤销",
+					iconCls:'icon-redo',
+					handler:function(){
+						datagrid.datagrid("rejectChanges");
+						datagrid.datagrid("endEdit",editRow);
+						editRow=undefined;
+					}
+				}]
+	
+			});
+		},"json");
+		},"json");
+	});
+	
+	
+</script>
+
+<!-- 商品评价详情 -->
+<div id="show_goodsApprInfo" class="easyui-dialog" title="商品评价详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>商品评价编号:</label><input type="text" id="goodsAppr_apprId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品名称:</label><input type="text" name="goodsName" id="goodsAppr_goodsName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>用户名称:</label><input name="usersName" id="goodsAppr_usersName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>评价时间:</label><input type="text" name="apprDate" id="goodsAppr_apprDate_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>评论内容:</label>
+		<div id="goodsAppr_content_show" style="width:600px;height:auto;">
+			
+		</div><br/><br/>
+	</form>
+</div>
+
+<!-- 回复商品评价 -->
+<div id="reply_goodsApprInfo" class="easyui-dialog" title="回复商品评价" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block;">
+		<label>商品评价编号:</label><input type="text" id="apprId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品编号:</label><input name="goodsId" id="goodsId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>商品名称:</label><input type="text" name="goodsName" id="goodsName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>用户编号:</label><input type="text" name="usersId" id="usersId_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>用户名称:</label><input name="usersName" id="usersName_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>评价时间:</label><input type="text" name="apprDate" id="apprDate_show" class="myinput" readonly="readonly"/><br /><br />
+		<label>评论内容:</label>
+		<div id="content_show" style="width:500px;height:auto; min-height:200px; border:1px solid #ccc">
+			
+		</div>
+		
+	</form>
+	<div id="reply_div" style="float:right; width:380px;margin-right:40px; margin-top:20px; display: inline-block;">
+		<label style="font-size: 16px;">官方回复：</label><br>
+		<textarea rows="20" cols="50" style="border:1px solid #ccc" id="reply_Info"></textarea><br>
+		<a href="javascript:doreply()" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" style="display:inline-block;" id="edit">回复</a>
+	</div>
+</div>
+
+<script>
+//查看商品评价信息详情
+function showGoodsApprDetail(apprId){
+	$.post("../goodsApprServlet",{op:"findGoodsApprByApprId",apprId:apprId},function(data){
+		var goodsAppr =data.rows;
+		$("#goodsAppr_apprId_show").val(goodsAppr.apprId);
+		$("#goodsAppr_goodsName_show").val(goodsAppr.goodsName);
+		$("#goodsAppr_usersName_show").val(goodsAppr.usersName);
+		$("#goodsAppr_apprDate_show").val(goodsAppr.apprDate);
+		$("#goodsAppr_content_show").html(goodsAppr.apprCont);
+		$("#show_goodsApprInfo").dialog("open");
+	},"json");
+}
+
+
+//官方回复
+function goreply(apprId){
+	$.post("../goodsApprServlet",{op:"findGoodsApprByApprId",apprId:apprId},function(data){
+		var goodsAppr =data.rows;
+		$("#apprId_show").val(goodsAppr.apprId);
+		$("#goodsId_show").val(goodsAppr.goodsId);
+		$("#goodsName_show").val(goodsAppr.goodsName);
+		$("#usersId_show").val(goodsAppr.usersId);
+		$("#usersName_show").val(goodsAppr.usersName);
+		$("#apprDate_show").val(goodsAppr.apprDate);
+		$("#content_show").html(goodsAppr.apprCont);
+		$("#reply_goodsApprInfo").dialog("open");
+	},"json");
+}
+
+function doreply(){
+	var usersId=$("#usersId_show").val();
+	var goodsId=$("#goodsId_show").val();
+	var date=new Date();
+	var year=date.getFullYear();
+	var month=date.getMonth()+1;
+	var days=date.getDate();
+	var hour=date.getHours();
+	var minute=date.getMinutes();
+	var second=date.getSeconds();
+	var str=year+'-'+month+'-'+days+' '+hour+':'+minute+':'+second;
+	var repDate=str;
+	//var repDate=$("#repDate_show").val();
+	var repCont=$("#reply_Info").val();
+	//alert(usersId+goodsId+repDate+repCont);
+	$.post("../replyServlet",{op:"addReplyInfo",usersId:usersId,goodsId:goodsId,repDate:repDate,repCont:repCont},function(data){
+		data=parseInt($.trim(data));
+		
+			if(data==1){  //添加成功
+				$("#reply_Info").val("");
+				$("#reply_goodsApprInfo").dialog("close");
+				$.messager.show({
+					title:'成功提示',
+					msg:'回复成功...',
+					timeout:2000,
+					showType:'slide'
+				});
+			}else{
+				$.messager.alert('失败信息','回复失败....','error');
+			}
+	});
+}
+</script>

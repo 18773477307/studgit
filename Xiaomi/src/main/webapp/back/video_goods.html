@@ -1,0 +1,87 @@
+<table id="video_goods_show" data-options="fit:true"></table>
+<div id="show_Resources_info" style="width:100%,text-align:left">
+	&nbsp;&nbsp;<span>视屏名:</span><input type="text" name="resName" id="show_resources_resName"/>
+	&nbsp;&nbsp;<span>发布日期:</span><input type="text" name="resDate" id="show_resources_resDate" class="easyui-datebox myinput" required/>
+	&nbsp;&nbsp;<span>商品名:</span><select name="goodsName" id="show_resources_goodsId"><option value="">全部</option></select>
+	&nbsp;&nbsp;<a href="javascript:findResourcesByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+</div>
+<script>
+
+	var resStaObj=[{Sta:2,sname:'不可用'},{Sta:1,sname:'可用'}];
+	$.post("back/goods_goodsNames.action",function(data){
+		var goods=data.rows;
+		for(var i = 0; i < goods.length; i++)
+		{
+			$("#show_resources_goodsId").append("<option value='"+ goods[i].goodsId +"'>" + goods[i].goodsName+ "</option>");
+		}
+	},"json");
+		
+	datagrid=$('#video_goods_show').datagrid({
+		url:'back/resources_GetAllResources.action',
+		fitColumns:true,
+		striped:true,
+		loadMsg:"数据加载中...",
+		pagination:true,
+		rownumbers:true,
+		sortName:'resId',
+		sortOrder:'asc',
+		remoteSort:false,
+		columns:[[
+			{field:'resIds',title:'选择',width:100,align:'center',checkbox:true},
+			{field:'resId',title:'视频编号',width:100,align:'center',sortable:true},
+			{field:'resName',title:'视频名',width:100,align:'center',sortable:true},
+			{field:'resWords28',title:'视屏简介',width:400,align:'center',sortable:true},
+			{field:'goodsName',title:'商品名',width:200,align:'center',sortable:true},
+			{field:'resDates',title:'发布时间',width:100,align:'center',editor : {type : "datebox",options : {request : true}}},
+			{field:'resViews',title:'浏览次数',width:100,align:'center',sortable:true},
+			{field:'resSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
+				required:true,valueField:'Sta',textField:'sname',resStaObj}},
+	        	  formatter:function(value,row,index){
+	        		  for(var i=0;i<resStaObj.length;i++){
+	        			  if(resStaObj[i].Sta==value){
+	        				  return resStaObj[i].sname;
+	        			  }
+	        		  }
+	        		  return value;
+	        	  }
+	       },
+	       {field:'_operate',title:'操作',width:100,align:'center',
+	        	  formatter:function(value,rowData,index){
+	        		  return '<a class="icon-search1 icon-padding" href="javascript:playResources(\''+rowData.resCont+'\')">播放</a>';
+	        	  }
+	       }
+		]],
+		toolbar:"#show_Resources_info"
+	});
+		
+	
+	function findResourcesByInfo(){
+		var resName=$.trim($("#show_resources_resName").val());
+		var resDate=$("#show_resources_resDate").datebox('getValue');
+		var goodsId=$.trim($("#show_resources_goodsId").val());
+		$('#video_goods_show').datagrid({
+			url:'back/resources_findResourcesByInfo.action',
+			queryParams:{resName:resName,resDate:resDate,goodsId:goodsId}
+		});
+	}
+	
+	function playResources(resCont){
+		$("#videoplaying").dialog("open");
+		if(resCont!=null&&resCont!=""){
+			$("#trymedia").css("display","block");
+			$("#trymedia").attr("src","../video/"+resCont);//设置视频路径，标签中不需要添加src属性
+			$("#trymedia").load();//video重新加载
+		}else{
+			$("#trymedia").css("display","none");
+		}
+	}
+	
+	$("#videoplaying").dialog({  
+	    onClose: function () {  
+	    	$("video")[0].pause();
+	    }  
+	}); 
+</script>
+<div id="videoplaying" class="easyui-dialog" title="视屏播放" style="width:494px;height:360px;padding:10px" data-options="iconCls:'icon-tip',resizable:true,modal:true,closed:true" onclose="closeshen()">
+	<video id="trymedia"  controls="ture" loop="loop" autoplay="autoplay" height="100%" width="100%" preload="none"  >浏览器不支持</video>
+</div>	

@@ -17,6 +17,7 @@ public class GoodsAction implements ModelDriven<Goods> {
 	@Autowired
 	private GoodsService goodsService;
 	private Goods goods;
+	private List<Goods> goodsNames; //要响应的数据
 	private JsonObject<Goods> jsonObject;
 	private int page;
 	private int rows;
@@ -68,6 +69,9 @@ public class GoodsAction implements ModelDriven<Goods> {
 	public JsonObject<Goods> getJsonObject() {
 		return jsonObject;
 	}
+	public List<Goods> getGoodsNames() {
+		return goodsNames;
+	}
 	public void setPage(int page) {
 		this.page = page;
 	}
@@ -118,6 +122,15 @@ public class GoodsAction implements ModelDriven<Goods> {
 		System.out.println(result);
 		jsonObject = new JsonObject<Goods>();
 		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	public String goodsNames(){
+		System.out.println("获取所有的商品名");
+		List<Goods> goodsNames=goodsService.getallgoodname();
+		System.out.println(goodsNames);
+		jsonObject = new JsonObject<Goods>();
+		jsonObject.setRows(goodsNames);
 		return "success";
 	}
 	

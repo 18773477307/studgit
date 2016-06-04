@@ -1,0 +1,349 @@
+package com.xiaomi.dao;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import com.xiaomi.utils.LogUtil;
+
+
+
+/**
+ * DBHelper
+ * @author rdz
+ *
+ */
+public class DBHelper {
+	private Connection con=null;
+	private PreparedStatement pstmt=null;
+	private ResultSet rs=null;
+	
+	
+	public Connection getConnection(){
+		try { 
+			Context ctx=new InitialContext();
+			DataSource ds=(DataSource) ctx.lookup("java:comp/env/jdbc/userInfo");
+			con=ds.getConnection();						
+		}catch (NamingException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		}catch (SQLException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		} 
+		
+		return con;
+	}
+	
+
+	public void closeAll(Connection con,PreparedStatement pstmt,ResultSet rs){
+		if(rs!=null){
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				LogUtil.log.error(e.toString());
+				e.printStackTrace();
+			}
+		}
+		
+		if(pstmt!=null){
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				LogUtil.log.error(e.toString());
+				e.printStackTrace();
+			}
+		}
+		
+		if(con!=null){
+			try {
+				con.close();
+			} catch (SQLException e) {
+				LogUtil.log.error(e.toString());
+				e.printStackTrace();
+			}
+		}
+	}
+	
+
+	public void setValue(PreparedStatement pstmt,List<Object> params) throws SQLException{
+		if(params!=null && params.size()>0){
+			Object obj=null;
+			String type="";
+			for(int i=0;i<params.size();i++){
+				obj=params.get(i);
+				if(obj!=null){
+					type=obj.getClass().getName();
+					if("[B".equals(type)){
+						pstmt.setBytes(i+1, (byte[]) obj);
+					} else{
+						pstmt.setString(i+1, String.valueOf(obj));
+					}
+				} else{
+					pstmt.setString(i+1,String.valueOf(obj) );
+				}
+			}
+		}
+	}
+	
+
+	public int update(String sql,List<Object> params){
+		int result=0;
+		
+		try {
+			con=this.getConnection();	
+			pstmt=con.prepareStatement(sql);
+			
+			this.setValue(pstmt, params);
+			
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		} finally{
+			this.closeAll(con, pstmt, null);
+		}
+		return result;
+	}
+	
+
+	public List<Map<String, Object> > select(String sql,List<Object> params){
+		List<Map<String, Object> > list=new ArrayList<Map<String, Object> >();
+		Map<String, Object> map=null;
+		
+		try {
+			con=this.getConnection();
+			pstmt=con.prepareStatement(sql);
+			
+			this.setValue(pstmt, params);
+			
+			rs=pstmt.executeQuery();
+			
+			ResultSetMetaData rsmd= rs.getMetaData();
+			
+			String[] colNames=new String[ rsmd.getColumnCount() ];;
+			for(int i=0;i<colNames.length;i++){
+				colNames[i]=rsmd.getColumnName(i+1);
+			}
+			
+			while(rs.next()){
+				map=new HashMap<String, Object>();
+				Object obj=null;
+				String type;
+				if(colNames!=null && colNames.length>0){
+					for(String s:colNames){
+						obj=rs.getObject(s);
+						if(obj!=null){
+							type=obj.getClass().getName();
+							if("oracle.sql.BLOB".equals(type)){
+								Blob blob=rs.getBlob(s);
+								byte[] bt=null;
+								InputStream is=blob.getBinaryStream();
+								if(is!=null){
+									bt=new byte[(int) blob.length()];
+									try {
+										is.read(bt);
+									} catch (IOException e) {
+										e.printStackTrace();
+									} finally{
+										if(is!=null){
+											try {
+												is.close();
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										}
+									}
+									map.put(s, bt);
+								} else{
+									map.put(s, null);
+								}
+							} else{
+								map.put(s,String.valueOf(obj));
+							}
+						} else{
+							map.put(s, null);
+						}
+					}
+				}
+				list.add(map);
+			}
+		} catch (SQLException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		} finally{
+			this.closeAll(con, pstmt, rs);
+		}
+		return list;
+	}
+	
+	public double selectPloymer(String sql,List<Object> params){
+		double result=0;
+		
+		con=this.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			this.setValue(pstmt, params);
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()){
+				result=rs.getDouble(1);
+			}
+			
+		} catch (SQLException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		} finally{
+			this.closeAll(con, pstmt, rs);
+		}
+		
+		return result;
+	}
+	
+	public List<Double> selectPloymers(String sql,List<Object> params){
+		List<Double> result=new ArrayList<Double>();;
+		
+		con=this.getConnection();
+		try {
+			pstmt=con.prepareStatement(sql);
+			this.setValue(pstmt, params);
+			
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()){
+				for(int i=0;i<rs.getMetaData().getColumnCount();i++){
+					result.add(rs.getDouble(i+1));
+				}
+			}
+			
+		} catch (SQLException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		} finally{
+			this.closeAll(con, pstmt, rs);
+		}
+		
+		return result;
+	}
+	
+
+	public boolean createOp(String sql){
+		boolean bl=false;
+		
+		try {
+			con=this.getConnection();
+			pstmt=con.prepareStatement(sql);
+			bl=pstmt.execute();
+			
+		} catch (SQLException e) {
+			LogUtil.log.error(e.toString());
+			e.printStackTrace();
+		} finally{
+			this.closeAll(con, pstmt, rs);
+		}
+		return bl;
+	}
+	
+	
+	public <T> List<T> find(String  sql,List<Object> params,Class<T> c){
+		List<T> list=new ArrayList<T>();
+		
+		try {
+			con=this.getConnection();  //获取连接
+			pstmt=con.prepareStatement(sql);
+			this.setValue(pstmt, params);
+			rs=pstmt.executeQuery();
+			
+			//获取返回的结果集中的所以列的列名
+			ResultSetMetaData rsmd=rs.getMetaData();   //获取元数据，包含类的名称，类型等信息
+			
+			String[] colsName=new String[rsmd.getColumnCount()];
+			
+			//循环取出每一个列的列名存入到colsName数组中
+			for(int i=0;i<colsName.length;i++){
+				colsName[i]=rsmd.getColumnName(i+1);
+				
+			}
+			//System.out.println("FASDFAF");
+			//System.out.println(Arrays.toString(colsName));
+			//获取给定的类的所以公有的方法
+			Method[] methods=c.getMethods();
+			//for(Method m:methods){
+		 //		System.out.println(m.getName());
+			//}
+			
+			
+			//set+列名 与给定的类中的方法忽略大小写循环比较，如果能匹配的上，则激活该方法将当前列的值注入到对象的对应属性中
+			
+			T t; //实例化对象
+			String methodName=null;   //方法名
+			String colName=null;      //列名
+			String typeName=null;		//参数的类型名
+			Object val=null;            //当前循环的列的值
+			
+			while(rs.next()){
+				t= c.newInstance();  //实例化一个类的对象
+				for(int i=0;i<colsName.length;i++){
+					//获取当前循环的列的列名
+					colName=colsName[i];
+					
+					//根剧列名取出当前列的值
+					val =rs.getObject(colName);
+					//System.out.println(val);
+					for(Method md:methods){  //循环跟方法名比较
+						methodName=md.getName();
+						if(("set"+colName).equalsIgnoreCase(methodName) && val!=null){
+							//获取返回值的类型
+							typeName=val.getClass().getName();
+//							System.out.println("set"+colName);
+//							System.out.println(typeName);
+//							System.out.println(colName);
+							if("java.math.BigDecimal".equals(typeName)){
+								//激活当前方法的注值
+								try {
+									md.invoke(t, rs.getDouble(colName));
+								} catch (Exception e) {
+									md.invoke(t, rs.getInt(colName));
+								}
+							}else{
+								md.invoke(t, rs.getString(colName));
+							}
+						}
+					}
+				}
+				list.add(t);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		//System.out.println(list);			
+		return list;
+		
+	}
+}
