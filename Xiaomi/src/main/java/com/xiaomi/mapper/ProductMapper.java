@@ -23,4 +23,8 @@ public interface ProductMapper {
 
 	List<Product> getProductInfoByPtId(int ptId);
 
+	int addProductInfo(Product product);
+
+	int updateProductInfo(Product product);
+
 }
