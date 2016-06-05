@@ -905,7 +905,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	<c:forEach items="${allPhone }" var="itemm">
                 	<div class="goods_item" id="${itemm.goodsId }">
                         <div class="figure_img">
-                       		<a><img id="sdsd" width="200" height="200" src="../${fn:substring(itemm.goodsPic,0,fn:indexOf(itemm.goodsPic, ','))}"></a>
+                       		<a><img id="sdsd" width="200" height="200" src="../${fn:substring(itemm.goodsminPic,0,fn:indexOf(itemm.goodsminPic, ','))}"></a>
                         </div>
                         <p class="desc"></p>
                         <h2 class="title"><a>${itemm.goodsName }</a></h2>
@@ -916,7 +916,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <div class="thumbs">
                             <ul class="thumb-list clearfix">
                                 <li>
-                                    <img width="34" height="34" src="../${fn:substring(itemm.goodsPic,0,fn:indexOf(itemm.goodsPic, ','))}">
+                                    <img width="34" height="34" src="../${fn:substring(itemm.goodsminPic,0,fn:indexOf(itemm.goodsminPic, ','))}">
                                 </li>
                             </ul>
                         </div>

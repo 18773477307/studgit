@@ -150,7 +150,7 @@ public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 	public String getIndexGoodsInfo() {
 		List<Goods> indexGoodsInfo = goodsService.getIndexGoodsInfo();
 		List<Goods> indexGoodsName = goodsService.getIndexGoodsInfo();
-		System.out.println(indexGoodsInfo);
+//		System.out.println(indexGoodsInfo);
 		jsonObject = new JsonObject<Goods>();
 		jsonObject.setRows(indexGoodsInfo);
 		

@@ -5,10 +5,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ProductMapper" >
   <select id="getAllProduct" resultType="Product">
-  	 select * from (select a.*,rownum rn from 
-	(select p.*,g.goodsName from product p,goods g,datadict d 
-	where g.goodsId=p.goodsId and p.ptformat=d.dirId order by ptId)
-		 a where #{pageNo}>=rownum)b where rn>#{pageSize}
+	select * from(select j.*,rownum rn from (select a.*,i.goodsName,b.dirName as formats,c.dirName as colors,d.dirName as nets,e.dirName as versions,f.dirName as memorys,g.dirName as sizes,h.dirName as batterys 
+	from product a
+	left join datadict b on a.ptformat=b.dirId 
+	left join datadict c on a.ptcolor = c.dirId
+	left join datadict d on a.ptnet = d.dirId
+	left join datadict e on a.ptversions = e.dirId
+	left join datadict f on a.ptmemory = f.dirId
+	left join datadict g on a.ptsize = g.dirId
+	left join datadict h on a.ptbattery = h.dirId
+	left join goods i on a.goodsId = i.goodsId order by ptId) j where #{pageNo}>=rownum) where rn>#{pageSize}
   </select>
   
   <select id="getTotalProduct" resultType="int">
@@ -22,6 +28,63 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(ptId) from product
 	</select>
 	<select id="getProductInfoByPtId" resultType="Product" parameterType="int">
-		select p.*,goodsName from product p,goods g where p.goodsId = g.goodsId and ptId=#{ptId}
+	select a.*,i.goodsName,b.dirName as formats,c.dirName as colors,d.dirName as nets,e.dirName as versions,f.dirName as memorys,g.dirName as sizes,h.dirName as batterys 
+	from product a
+	left join datadict b on a.ptformat=b.dirId 
+	left join datadict c on a.ptcolor = c.dirId
+	left join datadict d on a.ptnet = d.dirId
+	left join datadict e on a.ptversions = e.dirId
+	left join datadict f on a.ptmemory = f.dirId
+	left join datadict g on a.ptsize = g.dirId
+	left join datadict h on a.ptbattery = h.dirId
+	left join goods i on a.goodsId = i.goodsId where ptId=#{ptId}
 	</select>	
+	
+	<insert id="addProductInfo" parameterType="Product">
+		insert into product values(seq_product_ptId.nextval,#{ptPrice},#{ptPic},#{ptNum},
+		#{goodsId},#{ptformat},#{ptcolor},#{ptnet},#{ptversions},#{ptmemory},#{ptsize},#{ptbattery},1)
+	</insert>
+	
+	<update id="updateProductInfo" parameterType="Product">
+		update product
+		<set>
+			<if test="ptPrice != null and ptPrice != ''" >
+		        ptPrice=#{ptPrice},
+		    </if>
+		    <if test="ptPic != null and ptPic != ''" >
+		        ptPic=#{ptPic},
+		    </if>
+		    <if test="ptNum != null and ptNum != ''" >
+		        ptNum=#{ptNum},
+		    </if>
+		    <if test="goodsId != null and goodsId != ''" >
+		        goodsId=#{goodsId},
+		    </if>
+		    <if test="ptformat != null and ptformat != ''" >
+		        ptformat=#{ptformat},
+		    </if>
+		    <if test="ptcolor != null and ptcolor != ''" >
+		        ptcolor=#{ptcolor},
+		    </if>
+		    <if test="ptnet != null and ptnet != ''" >
+		        ptnet=#{ptnet},
+		    </if>
+		    <if test="ptversions != null and ptversions != ''" >
+		        ptversions=#{ptversions},
+		    </if>
+		    <if test="ptmemory != null and ptmemory != ''" >
+		        ptmemory=#{ptmemory},
+		    </if>
+		    <if test="ptsize != null and ptsize != ''" >
+		        ptsize=#{ptsize},
+		    </if>
+		    <if test="ptbattery != null and ptbattery != ''" >
+		        ptbattery=#{ptbattery},
+		    </if>
+		    <if test="ptSta != null and ptSta != ''" >
+		        ptSta=#{ptSta}
+		    </if>
+		</set>
+		where ptId=#{ptId}
+	</update>
 </mapper>

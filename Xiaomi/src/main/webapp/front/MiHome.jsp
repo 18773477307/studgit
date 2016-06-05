@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script>
 		$(function lianjie() {
 			//$("img").css({left:"center",top:"center"});
-			$.post("front/goods_getIndexGoodsInfo",function(){
+			$.post("front/goods_getIndexGoodsInfo.action",function(){
 				location.href="front/Main.jsp";
 			});
 			//$.post("front/");

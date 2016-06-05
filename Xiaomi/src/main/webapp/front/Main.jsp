@@ -93,175 +93,267 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div id="home">
 	<div class="home_top">
         <div class="left_pro_list">
-            <ul>	
+            <ul>
                 <li style="margin-top:20px;" class="item1"><a>手机 平板 电话卡<span>></span></a></li>
                 	<div class="list-show-hidden1">
                     	<div class="children-list">
-                        	<div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/minote.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米Note</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/mi4.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米手机4</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/mi4c.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米手机4c</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/note2.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>红米Note2</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/note.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>红米Note 电信版</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/hongmi2.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>红米手机2</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
+                    	<c:forEach items="${allPhone }" var="item">
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1左1' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1左2' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1左3' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>  
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">  
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1左4' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if> 
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">   
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1左5' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if> 
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">   
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1左6' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if> 
+                        </c:forEach>   
                         </div>
                     	<div class="children-list">
-                        	<div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/hongmi2a.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>红米手机2A</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/mipad.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米平板</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/telcom.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>电信版</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/heyue.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>合约机</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/zhongxin.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>中信特权</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/compare.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>对比手机</span></a>
-                                </div>
-                                <div class="xuangou">&nbsp;&nbsp;选购</div>
-                            </div>
-                        </div>
-                    </div>
-                	
-                    
-                    
-                <li class="item2"><a>电视 盒子<span>></span></a></li>
-                	<div class="list-show-hidden2">
-                    	<div class="children-list">
-                        	<div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/tv40.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米电视 40英寸</span></a>
-                                </div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/tv48.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米电视 48英寸</span></a>
-                                </div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/tv49.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米电视 49英寸</span></a>
-                                </div>                              
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/tv3-55.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米电视 55英寸</span></a>
-                                </div>     
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/tv60.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米电视 60英寸</span></a>
-                                </div>                               
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/hezis.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米盒子3</span></a>
-                                </div>
-                            </div>
-                        </div>
-                    	<div class="children-list">
-                        	<div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/hezimini.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米盒子mini</span></a>
-                                </div>
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/tvzj.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米电视主机</span></a>
-                                </div>                               
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/diyinpao.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>小米低音炮</span></a>
-                                </div>                             
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/shb.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>蓝牙手柄</span></a>
-                                </div>                              
-                            </div>
-                            <div class="lists">
-                            	<div class="imgAndtitle">
-                                	<a class="imgAndtitle-img"><img src="front/images/dianshipeijian.jpg"/></a>
-                                    <a class="imgAndtitle-title"><span>电视盒子配件</span></a>
-                                </div> 
-                            </div>                            
+                    	<c:forEach items="${allPhone }" var="item">
+	                    	<c:if test="${item.goodsPlace eq '顶滚1,顶滚1右1' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+                            <c:if test="${item.goodsPlace eq '顶滚1,顶滚1右2' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item"> 
+                            <c:if test="${item.goodsPlace eq '顶滚1,顶滚1右3' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item"> 
+                            <c:if test="${item.goodsPlace eq '顶滚1,顶滚1右4' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">     
+                            <c:if test="${item.goodsPlace eq '顶滚1,顶滚1右5' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">     
+                            <c:if test="${item.goodsPlace eq '顶滚1,顶滚1右6' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                                <div class="xuangou">&nbsp;&nbsp;选购</div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
                         </div>
                     </div>
                 
+                
+                	
+                <li class="item2"><a>电视 盒子<span>></span></a></li>
+                
+                	<div class="list-show-hidden2">
+                    	<div class="children-list">
+                    		<c:forEach items="${allPhone }" var="item">	
+	                    	<c:if test="${item.goodsPlace eq '顶滚2,顶滚2左1' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+	                        </c:forEach>
+	                        <c:forEach items="${allPhone }" var="item">	    
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左2' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                            </c:forEach>
+                            <c:forEach items="${allPhone }" var="item">	
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左2' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                            </c:forEach>
+                            <c:forEach items="${allPhone }" var="item">	
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左4' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                            </c:forEach>
+                            <c:forEach items="${allPhone }" var="item">	
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左5' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                            </c:forEach>
+                            <c:forEach items="${allPhone }" var="item">	
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左6' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                            </c:forEach>
+                        </div>
+                    	<div class="children-list">
+                    	<c:forEach items="${allPhone }" var="item">
+                        	<c:if test="${item.goodsPlace eq '顶滚2,顶滚2右1' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2右2' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2右3' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2右4' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if>
+                        </c:forEach>
+                        <c:forEach items="${allPhone }" var="item">    
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2右5' }">
+	                        	<div class="lists">
+	                            	<div class="imgAndtitle">
+	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>
+	                                    <a class="imgAndtitle-title"><span>${item.goodsName }</span></a>
+	                                </div>
+	                            </div>
+	                        </c:if> 
+                        </c:forEach>                               
+                        </div>
+                    </div>
                 
                 <li class="item3"><a>路由器 智能硬件<span>></span></a></li>
                 	<div class="list-show-hidden3">
