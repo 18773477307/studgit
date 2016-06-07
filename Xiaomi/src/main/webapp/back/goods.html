@@ -1,6 +1,7 @@
 
 <table id="goods_info" data-options="fit:true"></table>
 
+
 <script>
 	var opt;
 	$.post("back/typegoods_findAllType.action",function(data){
@@ -281,22 +282,6 @@
 		var goodsminPrice=$("#goodsminPrice").val();
 		var goodsVersion=$("#goods_version").val();
 		var goodsSta=$("#goods_status").val();
-		/* var one=document.getElementById("goods_pic");
-		var two=document.getElementById("goodsdescr_pic");
-<<<<<<< HEAD
-		//var three=document.getElementById("goodsrepr_pic");
-		var onepath="";
-		var twopath="";
-		for(var i=0;i<one.files.length;i++){
-			if(i==one.files.length-1){
-				onepath+=one.files[i].name;
-			}else{
-				onepath+=one.files[i].name+",";
-			}
-		}
-=======
-		var goodsminPic=one.files.name;
-		var goodsmaxPic=two.files.name; */
 		
 		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
 			url:"back/goods_addGoodsInfo.action",	//上传处理程序地址。
@@ -332,64 +317,8 @@
 			}
 		});
 	}
-	for(var i=0;i<two.files.length;i++){
-		if(i==two.files.length-1){
-			twopath+=two.files[i].name;
-		}else{
-			twopath+=two.files[i].name+",";
-		}
-	}
-	/*for(var i=0;i<three.files.length;i++){
-		if(i==three.files.length-1){
-			threepath+=three.files[i].name;
-		}else{
-			threepath+=three.files[i].name+",";
-		}
-	}*/
-	//console.info(onepath+"====="+twopath+"======="+threepath);
-	
-	$.ajaxFileUpload({	//异步上传文件的jQuery插件。
-		url:"../goodsServlet?op=addGoodsInfo",	//上传处理程序地址。
-		secureuri:false,	//是否启用安全提交，默认为false。 
-		fileElementId:["goods_pic","goodsdescr_pic"],	//需要上传的文件域的ID，即<input type="file">的ID。
-		//,"goodsrepr_pic"
-		dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-		data:{onepath:onepath,twopath:twopath,brandId:brandId,goodsName:goodsName,goodsPrice:goodsPrice,gformat:gformat,gcolor:gcolor,gmemory:gmemory,gversions:gversions,goodsVersion:goodsVersion,goodsNum:goodsNum,goodsHot:goodsHot,goodsSta:goodsSta,weizhi:weizhi},
-		//gversions:gversions,threepath:threepath,
-		success:function(data,status){
-			if(parseInt($.trim(data))==1){
-				$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
-				$("#goods_add").dialog("close");
-				$("#goods_info").datagrid("reload");
-				//$("#goods_brand").val("");
-				$("#goods_name").val("");
-				$("#goods_price").val("0");
-				$("#goods_pic").val("");
-				$("#goods_pic_show").html("");
-				//$("#goods_format").val("");
-				//$("#goods_color").val("");
-				//$("#goods_memory").val("");
-				//$("#goods_versions").val("");
-				$("#goods_version").val("");
-				$("#goods_num").val("0");
-				$("#goods_hot").val("");
-				$("#goods_status").val("");
-				$("#goodsdescr_pic").val("");
-				$("#goodsdescr_pic_show").html("");
-				//$("#goodsrepr_pic").val("");
-				//$("#goodsrepr_pic_show").html("");
-				//$("#weizhi").val("");
-			}else{
-				$.messager.alert("失败提示","商品信息添加失败...","error");
-			}
-		},
-		error:function(data,status,e){
-			$.messager.alert("错误提示","商品信息添加错误...\n"+e,"error");
-		}
-	});
 	
 	
-////////////////////////////////////////////////////////////////////////////////////////////////	
 	//查看商品详细情况 完成
 	function showGoodsDetail(goodsId){
 		$("#goods_show").dialog("open");
@@ -426,7 +355,6 @@
 		},"json");
 	}
 	
-////////////////////////////////////////////////////////////////////////////////////////////////	
 	//修改商品信息的方法
 	function updateGoodsInfo(goodsId){
 		var typesId=$("#goods_type_update").val();
@@ -435,7 +363,6 @@
 		var goodsVersion=$("#goods_version_update").val();
 		var goodsSta=$("#goods_status_update").val();
 		var goodsPlace = $("#p1").val() +","+ $("#c1").val();
-		//alert(goodsId);
 		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
 			url:"back/goods_updateGoodsInfo.action",	//上传处理程序地址。
 			secureuri:false,	//是否启用安全提交，默认为false。 
@@ -462,9 +389,6 @@
 					$("#goods_status_update").val("");
 					$("#goodsdescr_pic").val("");
 					$("#goodsdescr_pic_update_show").html("");
-					//$("#goodsrepr_pic_update").val("");
-					//$("#goodsrepr_pic_update_show").html("");
-					//var weizhi = $("#weizhi_update").val("");
 				}else{
 					$.messager.alert("失败提示","商品信息修改失败...","error");
 				}
@@ -474,7 +398,6 @@
 			}
 		});
 	}
-//////////////////////////////////////////////////////////////////////////////////	
 	
 
 	//打开dialog时  给下拉框赋值
@@ -484,7 +407,7 @@
 		p = document.getElementById("p");   //创建id`p的对象
 		p.options.length=0;   //设置id`p的下拉框的长度为0
 		array["无"] = new Array("无");
-		array["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3");    //创建二维数组
+		array["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3","平板1","平板2","电视1","电视2","电视3","路由器1","路由器2","路由器3","智能硬件1","智能硬件2","智能硬件3");    //创建二维数组
 		array["顶滚1"]=new Array("顶滚1左1","顶滚1左2","顶滚1左3","顶滚1左4","顶滚1左5","顶滚1左6","顶滚1右1","顶滚1右2","顶滚1右3","顶滚1右4","顶滚1右5","顶滚1右6");
 		array["顶滚2"]=new Array("顶滚2左1","顶滚2左2","顶滚2左3","顶滚2左4","顶滚2左5","顶滚2左6","顶滚2右1","顶滚2右2","顶滚2右3","顶滚2右4","顶滚2右5");
 		array["顶滚3"]=new Array("顶滚3左1","顶滚3左2","顶滚3左3","顶滚3左4","顶滚3左5","顶滚3左6");
@@ -517,7 +440,7 @@
 		p1 = document.getElementById("p1");   //创建id`p的对象
 		p1.options.length=0;   //设置id`p的下拉框的长度为0
 		array1["无"] = new Array("无");
-		array1["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3");    //创建二维数组
+		array1["顶部"]=new Array("小米1","小米2","小米3","红米1","红米2","红米3","平板1","平板2","电视1","电视2","电视3","路由器1","路由器2","路由器3","智能硬件1","智能硬件2","智能硬件3");    //创建二维数组
 		array1["顶滚1"]=new Array("顶滚1左1","顶滚1左2","顶滚1左3","顶滚1左4","顶滚1左5","顶滚1左6","顶滚1右1","顶滚1右2","顶滚1右3","顶滚1右4","顶滚1右5","顶滚1右6");
 		array1["顶滚2"]=new Array("顶滚2左1","顶滚2左2","顶滚2左3","顶滚2左4","顶滚2左5","顶滚2左6","顶滚2右1","顶滚2右2","顶滚2右3","顶滚2右4","顶滚2右5");
 		array1["顶滚3"]=new Array("顶滚3左1","顶滚3左2","顶滚3左3","顶滚3左4","顶滚3左5","顶滚3左6");

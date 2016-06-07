@@ -2,6 +2,7 @@ package com.xiaomi.service;
 
 import java.util.List;
 
+import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
 
 public interface UsersInfoService {
@@ -74,5 +75,12 @@ public interface UsersInfoService {
 	public int idCardCheck(String usersIdCard);
 	
 	public UsersInfo findUserByUsersInfo(UsersInfo users);
+
+	/**
+	 * 查找某个用户购物车的数量
+	 * @param usersId 用户Id
+	 * @return
+	 */
+	public int findCountOfUser(int usersId);
 
 }

@@ -1,25 +1,108 @@
 <table id="goodsDetail_info" data-options="fit:true"></table>
-
-
+<style>
+	.myinput{
+		width:200px;
+		border:1px solid #F63;
+	}
+	
+	label{
+		padding-right:10px;
+	}
+	.tagDiv{
+		width: 330px;
+		float: left;
+		height: 60px;
+	}
+</style>
 <script>
 var opt;
-/* $.post("../goodsServlet",{op:"getAllGoodsDetailName"},function(data){
+/* 获取所有的已经存在在商品表的商品的名字 */
+$.post("back/goods_getAllGoodsName.action",function(data){
 	var obj_name=$("#goods_name");
 	var obj_name_update=$("#goods_name_update");
+	document.getElementById("goods_name").options.length = 0; 
+	document.getElementById("goods_name_update").options.length = 0;
 	$.each(data.rows,function(index,item){
-		opt="<option value='"+item.goodsName+"'>"+item.goodsName+"</option>";
+		opt="<option value='"+item.goodsId+"'>"+item.goodsName+"</option>";
 		obj_name.append($(opt));
 		obj_name_update.append($(opt));
 	});
-},"json"); */
-var dirObj =[{Sta:1,sname:'可用'},{Sta:2,sname:'不可用'}];
-var dirObj1=[{Sta:1,sname:'标准版'},{Sta:2,sname:'女神版'},{Sta:3,sname:'顶配版'},{Sta:4,sname:'无'}];
+},"json");
+
+function cleanOption(){
+	document.getElementById("ptformat").options.length = 0; 
+	document.getElementById("ptformat_update").options.length = 0; 
+	document.getElementById("ptcolor").options.length = 0; 
+	document.getElementById("ptcolor_update").options.length = 0; 
+	document.getElementById("ptnet").options.length = 0; 
+	document.getElementById("ptnet_update").options.length = 0; 
+	document.getElementById("ptmemory").options.length = 0; 
+	document.getElementById("ptmemory_update").options.length = 0; 
+	document.getElementById("ptversions").options.length = 0; 
+	document.getElementById("ptversions_update").options.length = 0; 
+	document.getElementById("ptsize").options.length = 0; 
+	document.getElementById("ptsize_update").options.length = 0; 
+	document.getElementById("ptbattery").options.length = 0; 
+	document.getElementById("ptbattery_update").options.length = 0; 
+}
+$.post("back/datadict_findAllDatadict.action",function(data){
+	var obj_ptformat=$("#ptformat");
+	var obj_ptformat_update=$("#ptformat_update");//型号
+	var obj_ptcolor=$("#ptcolor");
+	var obj_ptcolor_update=$("#ptcolor_update");//颜色
+	var obj_ptnet=$("#ptnet");
+	var obj_ptnet_update=$("#ptnet_update");//网络
+	var obj_ptversions=$("#ptversions");
+	var obj_ptversions_update=$("#ptversions_update");//运营商
+	var obj_ptmemory=$("#ptmemory");
+	var obj_ptmemory_update=$("#ptmemory_update");//内存大小
+	var obj_ptsize=$("#ptsize");
+	var obj_ptsize_update=$("#ptsize_update");//尺寸电视
+	var obj_ptbattery=$("#ptbattery");
+	var obj_ptbattery_update=$("#ptbattery_update");//电池型号
+	cleanOption();
+	$.each(data.rows,function(index,item){
+		if(item.dirType==1){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptformat.append($(opt));
+			obj_ptformat_update.append($(opt));
+		}else if(item.dirType==2){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptcolor.append($(opt));
+			obj_ptcolor_update.append($(opt));
+		}else if(item.dirType==3){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptnet.append($(opt));
+			obj_ptnet_update.append($(opt));
+		}else if(item.dirType==4){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptversions.append($(opt));
+			obj_ptversions_update.append($(opt));
+		}else if(item.dirType==5){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptmemory.append($(opt));
+			obj_ptmemory_update.append($(opt));
+		}else if(item.dirType==6){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptsize.append($(opt));
+			obj_ptsize_update.append($(opt));
+		}else if(item.dirType==7){
+			opt="<option value='"+item.dirId+"'>"+item.dirName+"</option>";
+			obj_ptbattery.append($(opt));
+			obj_ptbattery_update.append($(opt));
+			
+		}
+	});
+},"json");
+
+var dirObj =[{Sta:1,sname:'可用'},{Sta:0,sname:'不可用'}];
+/* var dirObj1=[{Sta:1,sname:'标准版'},{Sta:2,sname:'女神版'},{Sta:3,sname:'顶配版'},{Sta:4,sname:'无'}];
 var dirObj2=[{Sta:5,sname:'竹纹'},{Sta:6,sname:'白色'},{Sta:7,sname:'黑色'},{Sta:8,sname:'粉色'},{Sta:9,sname:'蓝色'},{Sta:10,sname:'金色'},{Sta:11,sname:'无'}];
 var dirObj3=[{Sta:12,sname:'双网通'},{Sta:13,sname:'全网通'},{Sta:14,sname:'移动'},{Sta:15,sname:'联通'},{Sta:16,sname:'电信'},{Sta:17,sname:'无'}];
 var dirObj4=[{Sta:18,sname:'2G'},{Sta:19,sname:'3G'},{Sta:20,sname:'4G'},{Sta:21,sname:'5G'},{Sta:22,sname:'无'}];
 var dirObj5=[{Sta:23,sname:'2G'},{Sta:24,sname:'4G'},{Sta:25,sname:'8G'},{Sta:26,sname:'16G'},{Sta:27,sname:'32G'},{Sta:28,sname:'64G'},{Sta:29,sname:'128G'},{Sta:30,sname:'无'}];
 var dirObj6=[{Sta:31,sname:'42寸'},{Sta:32,sname:'48寸'},{Sta:33,sname:'62寸'},{Sta:34,sname:'无'}];
-var dirObj7=[{Sta:35,sname:'5号'},{Sta:36,sname:'7号'},{Sta:37,sname:'无'}];
+var dirObj7=[{Sta:35,sname:'5号'},{Sta:36,sname:'7号'},{Sta:37,sname:'无'}]; */
 
 datagrid=$('#goodsDetail_info').datagrid({
 	url:'back/product_getAllProduct.action',
@@ -31,98 +114,35 @@ datagrid=$('#goodsDetail_info').datagrid({
 	remoteSort:false,
 	columns:[[
 		{field:'ptIds',title:'选择',width:100,align:'center',checkbox:true},
-		{field:'ptId',title:'编号',width:100,align:'center',sortable:true},
+		{field:'ptId',title:'编号',width:70,align:'center',sortable:true},
 		{field:'ptPrice',title:'产品原价',width:100,align:'center'},
-		{field:'ptPic',title:'产品详情图片',width:100,align:'center',
+		{field:'ptPic',title:'产品详情图片',width:120,align:'center',
 			formatter:function(value,row,index){
 				var photo="";
 				if(row.ptPic == null || row.ptPic =="" ){
 					photo ="<img src='images/zanwu.jpg' alt='暂无图片' height=60px width=60px style='border-radius:80px;'>";
 				}else{
-					photo ="<img src='../upload/"+row.ptPic+"height=80px style='border-radius:80px;'";
+					if(row.ptPic.contains(",")){
+						var onepics=row.ptPic.split(",");
+						for(var i=0;i<onepics.length;i++){
+							photo +="<img src='../uploadpic/"+onepics[i]+"' height=80px style='border-radius:80px;'";
+						}
+					}else{
+						photo ="<img src='../uploadpic/"+row.ptPic+"' height=80px style='border-radius:80px;'";
+					}
 				}
       		  	return photo;
       	  	}
 		},
 		{field:'ptNum',title:'产品库存',width:100,align:'center'},
 		{field:'goodsName',title:'商品名称',width:100,align:'center'},
-		{field:'ptformat',title:'型号',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj1}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj1.length;i++){
-	      			  if(dirObj1[i].Sta==value){
-	      				  return dirObj1[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},	
-		{field:'ptcolor',title:'颜色',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj2}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj2.length;i++){
-	      			  if(dirObj2[i].Sta==value){
-	      				  return dirObj2[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},	
-		{field:'ptnet',title:'网络制式',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj3}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj3.length;i++){
-	      			  if(dirObj3[i].Sta==value){
-	      				  return dirObj3[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},	
-		{field:'ptversions',title:'网络版本',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj4}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj4.length;i++){
-	      			  if(dirObj4[i].Sta==value){
-	      				  return dirObj4[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},	
-		{field:'ptmemory',title:'内存大小',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj5}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj5.length;i++){
-	      			  if(dirObj5[i].Sta==value){
-	      				  return dirObj5[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},	
-		{field:'ptsize',title:'电视尺寸',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj6}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj6.length;i++){
-	      			  if(dirObj6[i].Sta==value){
-	      				  return dirObj6[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},	
-		{field:'ptbattery',title:'电池型号',width:100,align:'center',editor : {type:"combobox",options:{
-			required:true,valueField:'Sta',textField:'sname',data:dirObj7}},
-	      	  formatter:function(value,row,index){
-	      		  for(var i=0;i<dirObj7.length;i++){
-	      			  if(dirObj7[i].Sta==value){
-	      				  return dirObj7[i].sname;
-	      			  }
-	      		  }
-	      		  return value;
-	      	  }
-		},
+		{field:'formats',title:'型号',width:100,align:'center'},	
+		{field:'colors',title:'颜色',width:100,align:'center'},	
+		{field:'nets',title:'网络制式',width:100,align:'center'},	
+		{field:'versions',title:'网络版本',width:100,align:'center'},	
+		{field:'memorys',title:'内存大小',width:100,align:'center'},	
+		{field:'sizes',title:'电视尺寸',width:100,align:'center'},	
+		{field:'batterys',title:'电池型号',width:100,align:'center'},
 		{field:'ptSta',title:'状态',width:100,align:'center',editor : {type:"combobox",options:{
 			required:true,valueField:'Sta',textField:'sname',data:dirObj}},
 	      	  formatter:function(value,row,index){
@@ -136,7 +156,7 @@ datagrid=$('#goodsDetail_info').datagrid({
 		},
 		{field:'_operate',title:'操作',width:100,align:'center',
 			formatter:function(value,rowData,index){
-				return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetailInfo(\''+rowData.goodsName+'\')">详情</a>';
+				return '<a class="icon-search1 icon-padding" href="javascript:showGoodsDetailInfo(\''+rowData.ptId+'\')">详情</a>';
 			}
 		}
 	]],
@@ -157,30 +177,35 @@ datagrid=$('#goodsDetail_info').datagrid({
 				$.messager.show({title:'温馨提示',msg:'请选择您要修改的数据...',timeout:2000,showType:'slide'});
 				
 			}else{
-				var goodsName=rows.goodsName;
+				var ptId=rows.ptId;
 				$("#goodsDetail_update").dialog("open");
-				$("#update_goodsDetail").attr("href","javascript:updateGoodsDetail("+goodsName+")");
-				$.post("../goodsDetailServlet",{op:"findGoodsDetailByGoodsName",goodsName:goodsName},function(data){
-					$("#goods_name_show").val(goodsDetail.goodsName);
-					$("#processorinfo_show").val(goodsDetail.goodsProcessor);
-					$("#memoryinfo_show").val(goodsDetail.goodsMemory);
-					$("#cellinfo_show").val(goodsDetail.goodsCell);
+				$("#update_goodsDetail").attr("href","javascript:updateGoodsDetail("+ptId+")");
+				$.post("back/product_findProductInfoByPtId",{ptId:ptId},function(data){
+					
+					var goodsDetail = data.rows[0];
+					$("#goods_name_update option:selected").text(goodsDetail.goodsName);
+					$("#ptPrice_update").val(goodsDetail.ptPrice);
+					$("#ptNum_update").val(goodsDetail.ptNum);
+					$("#ptformat_update").get(0).value =goodsDetail.ptformat;
+					$("#ptcolor_update").get(0).value =goodsDetail.ptcolor;
+					$("#ptnet_update").get(0).value =goodsDetail.ptnet;
+					$("#ptversions_update").get(0).value =goodsDetail.ptversions;
+					$("#ptmemory_update").get(0).value =goodsDetail.ptmemory;
+					$("#ptsize_update").get(0).value =goodsDetail.ptsize;
+					$("#ptbattery_update").get(0).value =goodsDetail.ptbattery;
+					$("#ptSta_update").get(0).value =goodsDetail.ptSta;
 					
 					var str="";
-					var str1="";
-					
-					var onepics=goods.goodsPic.split(",");
-					for(var i=0;i<onepics.length;i++){
-						str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
+					if(goodsDetail.ptPic != null && goodsDetail.ptPic　!= ""){
+						var onepics=goodsDetail.ptPic.split(",");
+						for(var i=0;i<onepics.length;i++){
+							str+="<img src='../uploadpic/"+onepics[i]+"' width='100px'>&nbsp;";
+						}
+					}else{
+						str="<img src='images/zanwu.jpg' alt='暂无图片' width='100px'>";
 					}
-					$("#goodsdetailinfo_pic_show").html($(str));
+					$("#ptPic_update_show").html($(str));
 					
-					
-					var twopics=goods.goodsdescr.split(",");
-					for(var i=0;i<twopics.length;i++){
-						str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
-					}
-					$("#goodsdetailplay_pic_show").html($(str1));
 				},"json");
 			}
 		}
@@ -188,43 +213,59 @@ datagrid=$('#goodsDetail_info').datagrid({
 
 });
 </script>
-
-
-<style>
-	.myinput{
-		width:200px;
-		border:1px solid #F63;
+<script type="text/javascript">
+function nameOption(){
+	var name = $("#goods_name option:selected").text();
+	if(name.contains("手机")||name.contains("小米4")){
+		$("#ptsize").get(0).value=34;
+		$("#ptbattery").get(0).value=37;
+	}else if(name.contains("电池")){
+		$("#ptformat").get(0).value=4;
+		$("#ptnet").get(0).value=17;
+		$("#ptversions").get(0).value=22;
+		$("#ptmemory").get(0).value=30;
+	}else if(name.contains("平板") || name.contains("服")){
+		$("#ptformat").get(0).value=4;
+		$("#ptnet").get(0).value=17;
+		$("#ptversions").get(0).value=22;
+		$("#ptbattery").get(0).value=37;
 	}
-	
-	label{
-		padding-right:10px;
-	}
-</style>
-
+}
+</script>
 
 <!-- 添加商品界面 -->
-
 <div id="goodsDetail_add" class="easyui-dialog" title="添加商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
-	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>商品名字： </label>
-		<select name="goods_name" id="goods_name" class="myinput">
-		
-		</select><br /><br />
-		<label>处理器参数：</label><input type="text" name="processorinfo" id="processorinfo" class="myinput"/><br /><br />
-		<label>内存参数：</label><input type="text" name="memoryinfo" id="memoryinfo" class="myinput"/><br /><br />
-		<label>电池参数：</label><input type="text" name="cellinfo" id="cellinfo" class="myinput"/><br /><br />
-		<label>商品详情图片：</label><input type="file" name="goodsinfo_pic" id="goodsinfo_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsinfo_pic_show')"/><br /><br />
-		<label>商品轮播图片：</label><input type="file" name="goodsplay_pic" id="goodsplay_pic" multiple="multiple" onchange="previewMultipleImage(this,'goodsplay_pic_show')"/><br /><br />
+	<form action="" style="padding:20px;float:left;display:inline-block; width:700px;height: 400px;">
+		<div class="tagDiv"><label>商品名字： </label>
+		<select name="goods_name" id="goods_name" class="myinput" onchange="nameOption()"></select></div>
+		<div class="tagDiv"><label>商品原价：</label><input type="text" name="ptPrice" id="ptPrice" class="myinput"/></div>
+		<div class="tagDiv"><label>产品库存：</label><input type="text" name="ptNum" id="ptNum" class="myinput"/></div>
+		<div class="tagDiv"><label>商品详情图片：</label><input type="file" name="ptPics" id="ptPic" multiple="multiple" onchange="previewMultipleImage(this,'ptPic_show')"/></div>
+		<div id="phoneOnly" style="float: left;">
+			<div class="tagDiv"><label>商品型号： </label>
+			<select name="ptformat" id="ptformat" class="myinput"></select></div>
+			<div class="tagDiv"><label>网络制式： </label>
+			<select name="ptnet" id="ptnet" class="myinput"></select></div>
+			<div class="tagDiv"><label>网络版本： </label>
+			<select name="ptversions" id="ptversions" class="myinput"></select></div>
+			<div class="tagDiv"><label>内存大小： </label>
+			<select name="ptmemory" id="ptmemory" class="myinput"></select></div>
+			<div class="tagDiv"><label>商品颜色： </label>
+			<select name="ptcolor" id="ptcolor" class="myinput"></select></div>
+		</div>
+		<div id="tvOnly">
+			<div class="tagDiv"><label>尺寸大小(TV/PAD/CLOTHES)： </label>
+			<select name="ptsize" id="ptsize" class="myinput"></select></div>
+		</div>
+		<div id="batteryOnly">
+			<div class="tagDiv"><label>型号(电池)： </label>
+			<select name="ptbattery" id="ptbattery" class="myinput"></select></div>
+		</div>
 		<a href="javascript:addGoodsDetailInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
 	</form>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsinfo_pic_show">
+	<div style="float:right;width:380px;margin-right:50px;margin-top:30px;">
+		<fieldset id="ptPic_show">
 			<legend>商品详情图片预览</legend>
-		</fieldset>
-	</div>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsplay_pic_show">
-			<legend>商品轮播图片预览</legend>
 		</fieldset>
 	</div>
 </div>
@@ -232,50 +273,72 @@ datagrid=$('#goodsDetail_info').datagrid({
 
 
 <!-- 查看商品详情的界面 -->
-
 <div id="goodsDetail_show" class="easyui-dialog" title="查看商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
-	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>商品名字： </label><input type="text" id="goods_name_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>处理器参数：</label><input type="text" id="processorinfo_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>内存参数：</label><input type="text" id="memoryinfo_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>电池参数： </label><input type="text" id="cellinfo_show" class="myinput" readonly="readonly"/><br /><br />
+	<form action="" style="padding:20px;float:left;display:inline-block; width:700px;height: 400px;">
+		<div class="tagDiv"><label>商品名字： </label><input type="text" name="goods_name" id="goods_name_show" class="myinput" readonly/></div>
+		<div class="tagDiv"><label>商品原价：</label><input type="text" name="ptPrice" id="ptPrice_show" class="myinput" readonly/></div>
+		<div class="tagDiv"><label>产品库存：</label><input type="text" name="ptNum" id="ptNum_show" class="myinput" readonly/></div>
+		<div id="phoneOnly" style="float: left;">
+			<div class="tagDiv"><label>商品型号： </label><input type="text" name="ptformat" id="ptformat_show" class="myinput" readonly/></div>
+			<div class="tagDiv"><label>商品颜色： </label><input type="text" name="ptcolor" id="ptcolor_show" class="myinput" readonly/></div>
+			<div class="tagDiv"><label>网络制式： </label><input type="text" name="ptnet" id="ptnet_show" class="myinput" readonly/></div>
+			<div class="tagDiv"><label>网络版本： </label><input type="text" name="ptversions" id="ptversions_show" class="myinput" readonly/></div>
+			<div class="tagDiv"><label>内存大小： </label><input type="text" name="ptmemory" id="ptmemory_show" class="myinput" readonly/></div>
+		</div>
+		<div id="tvOnly">
+			<div class="tagDiv"><label>尺寸(TV)： </label><input type="text" name="ptsize" id="ptsize_show" class="myinput" readonly/></div>
+		</div>
+		<div id="batteryOnly">
+			<div class="tagDiv"><label>型号(电池)： </label><input type="text" name="ptbattery" id="ptbattery_show" class="myinput" readonly/></div>
+		</div>
 	</form>
 	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
 		<fieldset id="goodsdetailinfo_pic_show">
 			<legend>商品详情图片预览</legend>
 		</fieldset>
 	</div>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsdetailplay_pic_show">
-			<legend>商品轮播图片预览</legend>
-		</fieldset>
-	</div>
 </div>
 
 
 <!-- 修改商品界面 -->
-
-<div id="goodsDetail_update" class="easyui-dialog" title="修改商品详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
-	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>商品名字： </label>
-		<select name="goods_name" id="goods_name_update" class="myinput">
-		
-		</select><br /><br />
-		<label>处理器参数：</label><input type="text" name="processorinfo" id="processorinfo_update" class="myinput"/><br /><br />
-		<label>内存参数：</label><input type="text" name="memoryinfo" id="memoryinfo_update" class="myinput"/><br /><br />
-		<label>电池参数：</label><input type="text" name="cellinfo" id="cellinfo_update" class="myinput"/><br /><br />
-		<label>商品详情图片：</label><input type="file" name="goodsinfo_pic" id="goodsinfo_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsinfo_pic_update_show')"/><br /><br />
-		<label>商品轮播图片：</label><input type="file" name="goodsplay_pic" id="goodsplay_pic_update" multiple="multiple" onchange="previewMultipleImage(this,'goodsplay_pic_update_show')"/><br /><br />
-		<a href="javascript:updateGoodsDetail(0)" id="update_goodsDetail" class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
+<div id="goodsDetail_update" class="easyui-dialog" title="修改商品详情" data-options="fit:true,iconCls:'icon-edit',resizable:true,modal:true,closed:true">
+	<form action="" style="padding:20px;float:left;display:inline-block; width:700px;height: 400px;">
+		<div class="tagDiv"><label>商品名字： </label>
+		<select name="goods_name" id="goods_name_update" class="myinput"></select></div>
+		<div class="tagDiv"><label>商品原价：</label><input type="text" name="ptPrice" id="ptPrice_update" class="myinput"/></div>
+		<div class="tagDiv"><label>产品库存：</label><input type="text" name="ptNum" id="ptNum_update" class="myinput"/></div>
+		<div class="tagDiv"><label>商品详情图片：</label><input type="file" name="ptPics" id="ptPic_update" multiple="multiple" onchange="previewMultipleImage(this,'ptPic_update_show')"/></div>
+		<div id="phoneOnly" style="float: left;">
+			<div class="tagDiv"><label>商品型号： </label>
+			<select name="ptformat" id="ptformat_update" class="myinput"></select></div>
+			<div class="tagDiv"><label>网络制式： </label>
+			<select name="ptnet" id="ptnet_update" class="myinput"></select></div>
+			<div class="tagDiv"><label>网络版本： </label>
+			<select name="ptversions" id="ptversions_update" class="myinput"></select></div>
+			<div class="tagDiv"><label>内存大小： </label>
+			<select name="ptmemory" id="ptmemory_update" class="myinput"></select></div>
+			<div class="tagDiv"><label>商品颜色： </label>
+			<select name="ptcolor" id="ptcolor_update" class="myinput"></select></div>
+		</div>
+		<div id="tvOnly">
+			<div class="tagDiv"><label>尺寸(TV)： </label>
+			<select name="ptsize" id="ptsize_update" class="myinput"></select></div>
+		</div>
+		<div id="batteryOnly">
+			<div class="tagDiv"><label>型号(电池)： </label>
+			<select name="ptbattery" id="ptbattery_update" class="myinput"></select></div>
+		</div>
+		<div class="tagDiv"><label>状态： </label>
+			<select name="ptSta" id="ptSta_update" class="myinput">
+			<option value="1">可用</option>
+			<option value="0">不可用</option>
+			</select>
+		</div>
+		<a href="javascript:updateGoodsDetail(0)" id="update_goodsDetail" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
 	</form>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsinfo_pic_update_show">
+	<div style="float:right;width:380px;margin-right:50px;margin-top:30px;">
+		<fieldset id="ptPic_update_show">
 			<legend>商品详情图片预览</legend>
-		</fieldset>
-	</div>
-	<div style="float:right;width:380px;margin-right:20px;margin-top:0px;">
-		<fieldset id="goodsplay_pic_update_show">
-			<legend>商品轮播图片预览</legend>
 		</fieldset>
 	</div>
 </div>
@@ -284,141 +347,130 @@ datagrid=$('#goodsDetail_info').datagrid({
 
 	//添加商品详情的方法
 	function addGoodsDetailInfo(){
-		var goodsName=$("#goods_name").val();
-		var goodsProcessor=$("#processorinfo").val();
-		var goodsMemory=$("#memoryinfo").val();
-		var goodsCell=$("#cellinfo").val();
+		var goodsId=$("#goods_name").get(0).value;
+		var ptPrice = $("#ptPrice").val();
+		var ptNum = $("#ptNum").val();
+		var ptformat = $("#ptformat").get(0).value;
+		var ptcolor = $("#ptcolor").get(0).value;
+		var ptnet = $("#ptnet").get(0).value;
+		var ptversions = $("#ptversions").get(0).value;
+		var ptmemory = $("#ptmemory").get(0).value;
+		var ptsize = $("#ptsize").get(0).value;
+		var ptbattery = $("#ptbattery").get(0).value;
 		
 		
-		var one=document.getElementById("goodsinfo_pic");
-		var two=document.getElementById("goodsplay_pic");
-		
-		var onepath="";
-		var twopath="";
-		
-		for(var i=0;i<one.files.length;i++){
-			if(i==one.files.length-1){
-				onepath+=one.files[i].name;
-			}else{
-				onepath+=one.files[i].name+",";
-			}
-		}
-		for(var i=0;i<two.files.length;i++){
-			if(i==two.files.length-1){
-				twopath+=two.files[i].name;
-			}else{
-				twopath+=two.files[i].name+",";
-			}
-		}
-		
-		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
-			url:"../goodsDetailServlet?op=addGoodsDetailInfo",	//上传处理程序地址。
+		 $.ajaxFileUpload({	//异步上传文件的jQuery插件。
+			url:"back/product_addProductInfo.action",	//上传处理程序地址。
 			secureuri:false,	//是否启用安全提交，默认为false。 
-			fileElementId:["goodsinfo_pic","goodsplay_pic"],	//需要上传的文件域的ID，即<input type="file">的ID。
+			fileElementId:"ptPic",	//需要上传的文件域的ID，即<input type="file">的ID。
 			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-			data:{onepath:onepath,twopath:twopath,goodsName:goodsName,goodsProcessor:goodsProcessor,goodsMemory:goodsMemory,goodsCell:goodsCell},
+			data:{
+				ptPrice:ptPrice,
+				ptNum:ptNum,
+				goodsId:goodsId,
+				ptformat:ptformat,
+				ptcolor:ptcolor,
+				ptnet:ptnet,
+				ptversions:ptversions,
+				ptmemory:ptmemory,
+				ptsize:ptsize,
+				ptbattery:ptbattery},
 			success:function(data,status){
-				if(parseInt($.trim(data))==1){
-					$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
+				if(parseInt($.trim(data.total))==1){
+					$.messager.show({title:'成功提示',msg:'商品详情信息添加成功...',timeout:2000,showType:'slide'});
 					$("#goodsDetail_add").dialog("close");
 					$("#goodsDetail_info").datagrid("reload");
 					
-					$("#processorinfo").val("");
-					$("#memoryinfo").val("");
-					$("#cellinfo").val("");
+					$("#ptPrice").val("");
+					$("#ptNum").val("");
 				}else{
-					$.messager.alert("失败提示","商品信息添加失败...","error");
+					$.messager.alert("失败提示","商品详情信息添加失败...","error");
 				}
 			},
 			error:function(data,status,e){
-				$.messager.alert("错误提示","商品信息添加错误...\n"+e,"error");
+				$.messager.alert("错误提示","商品信息添加错误...\n未选择上传文件","error");
 			}
-		});
+		}); 
 	}
-	
-	
-	
-	//查看商品详细情况
-	function showGoodsDetailInfo(goodsName){
-		$("#goodsDetail_show").dialog("open");
-		$.post("../goodsDetailServlet",{op:"findGoodsDetailByGoodsName",goodsName:goodsName},function(data){
-			var goodsDetail=data.rows;
-			$("#goods_name_show").val(goodsDetail.goodsName);
-			$("#processorinfo_show").val(goodsDetail.goodsProcessor);
-			$("#memoryinfo_show").val(goodsDetail.goodsMemory);
-			$("#cellinfo_show").val(goodsDetail.goodsCell);
-			
-			var str="";
-			var str1="";
-			
-			var onepics=goodsDetail.goodsPics.split(",");
-			console.info(goodsDetail);
-			for(var i=0;i<onepics.length;i++){
-				str+="<img src='../"+onepics[i]+"' width='100px'>&nbsp;";
-			}
-			$("#goodsdetailinfo_pic_show").html($(str));
-			
-			
-			var twopics=goodsDetail.goodsPlaypic.split(",");
-			for(var i=0;i<twopics.length;i++){
-				str1+="<img src='../"+twopics[i]+"' width='100px'>&nbsp;";
-			}
-			$("#goodsdetailplay_pic_show").html($(str1));
-			
-		},"json");
-		
-	}
-	
 	
 	//修改商品信息的方法
-	function updateGoodsDetail(goodsName){
-		var goodsName=$("#goods_name_update").val();
-		var goodsProcessor=$("#processorinfo_update").val();
-		var goodsMemory=$("#memoryinfo_update").val();
-		var goodsCell=$("#cellinfo_update").val();
-		
-		
-		var one=document.getElementById("goodsinfo_pic_update");
-		var two=document.getElementById("goodsplay_pic_update");
-		
-		var onepath="";
-		var twopath="";
-		
-		for(var i=0;i<one.files.length;i++){
-			if(i==one.files.length-1){
-				onepath+=one.files[i].name;
-			}else{
-				onepath+=one.files[i].name+",";
-			}
-		}
-		for(var i=0;i<two.files.length;i++){
-			if(i==two.files.length-1){
-				twopath+=two.files[i].name;
-			}else{
-				twopath+=two.files[i].name+",";
-			}
-		}
-		
-		
+	function updateGoodsDetail(ptId){
+		var goodsId=$("#goods_name_update").get(0).value;
+		var ptPrice = $("#ptPrice_update").val();
+		var ptNum = $("#ptNum_update").val();
+		var ptformat = $("#ptformat_update").get(0).value;
+		var ptcolor = $("#ptcolor_update").get(0).value;
+		var ptnet = $("#ptnet_update").get(0).value;
+		var ptversions = $("#ptversions_update").get(0).value;
+		var ptmemory = $("#ptmemory_update").get(0).value;
+		var ptsize = $("#ptsize_update").get(0).value;
+		var ptbattery = $("#ptbattery_update").get(0).value;
+		var ptSta = $("#ptSta_update").get(0).value;
 		
 		
 		$.ajaxFileUpload({	//异步上传文件的jQuery插件。
-			url:"../goodsDetailServlet?op=updateGoodsDeatil",	//上传处理程序地址。
+			url:"back/product_updateProductInfo.action",	//上传处理程序地址。
 			secureuri:false,	//是否启用安全提交，默认为false。 
-			fileElementId:["goodsinfo_pic_update","goodsplay_pic_update"],	//需要上传的文件域的ID，即<input type="file">的ID。
+			fileElementId:"ptPic_update",	//需要上传的文件域的ID，即<input type="file">的ID。
 			dataType:"json",	//服务器返回的数据类型。可以为xml,script,json,html。如果不填写，jQuery会自动判断。
-			data:{onepath:onepath,twopath:twopath,goodsName:goodsName,goodsProcessor:goodsProcessor,goodsMemory:goodsMemory,goodsCell:goodsCell},
+			data:{
+				ptId:ptId,
+				ptPrice:ptPrice,
+				ptNum:ptNum,
+				goodsId:goodsId,
+				ptformat:ptformat,
+				ptcolor:ptcolor,
+				ptnet:ptnet,
+				ptversions:ptversions,
+				ptmemory:ptmemory,
+				ptsize:ptsize,
+				ptbattery:ptbattery,
+				ptSta:ptSta},
 			success:function(data,status){
-				if(parseInt($.trim(data))==1){
+				if(parseInt($.trim(data.total))==1){
+					$("#goodsDetail_update").dialog("close");
+					$("#goodsDetail_info").datagrid("reload");
 					$.messager.show({title:'成功提示',msg:'商品详细信息修改成功...',timeout:2000,showType:'slide'});
-					
 				}else{
 					$.messager.alert("失败提示","商品详细信息修改失败...","error");
 				}
 			},
 			error:function(data,status,e){
-				$.messager.alert("错误提示","商品详细信息修改错误...\n"+e,"error");
+				$.messager.alert("错误提示","商品详细信息修改错误...\n未选择上传文件","error");
 			}
 		});
 	}
+	
+	//查看商品详细情况
+	function showGoodsDetailInfo(ptId){
+		$("#goodsDetail_show").dialog("open");
+		$.post("back/product_findProductInfoByPtId",{ptId:ptId},function(data){
+			var goodsDetail = data.rows[0];
+			$("#goods_name_show").val(goodsDetail.goodsName);
+			$("#ptPrice_show").val(goodsDetail.ptPrice);
+			$("#ptNum_show").val(goodsDetail.ptNum);
+			
+			$("#ptformat_show").val(goodsDetail.formats);
+			$("#ptcolor_show").val(goodsDetail.colors);
+			$("#ptnet_show").val(goodsDetail.nets);
+			$("#ptversions_show").val(goodsDetail.versions);
+			$("#ptmemory_show").val(goodsDetail.memorys);
+			$("#ptsize_show").val(goodsDetail.sizes);
+			$("#ptbattery_show").val(goodsDetail.batterys);
+			
+			var str="";
+			if(goodsDetail.ptPic != null && goodsDetail.ptPic　!= ""){
+				var onepics=goodsDetail.ptPic.split(",");
+				for(var i=0;i<onepics.length;i++){
+					str+="<img src='../uploadpic/"+onepics[i]+"' width='100px'>&nbsp;";
+				}
+			}else{
+				str="<img src='images/zanwu.jpg' alt='暂无图片' width='100px'>";
+			}
+			$("#goodsdetailinfo_pic_show").html($(str));
+		},"json");
+	}
+	
+	
+	
 </script>

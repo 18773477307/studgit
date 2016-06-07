@@ -232,7 +232,7 @@ function userslogin(){
 	var usersTel=$.trim($("#txuser_name").val());
 	var usersPwd=$.trim($("#txpwd").val());
 	var usersName=$.trim($("#txuser_name").val());
-	$.post("front/user_findUserByUsersInfo.action",{op:"usersLogin",usersEmail:usersEmail,usersTel:usersTel,usersPwd:usersPwd,usersName:usersName/* ,arg:arg */},function(data){
+	$.post("front/user_findUserByUsersInfo.action",{usersEmail:usersEmail,usersTel:usersTel,usersPwd:usersPwd,usersName:usersName},function(data){
 	//console.info("发送了登录请求");
 		/* if(parseInt($.trim(data))){
 			alert("用户名或密码错误");
@@ -250,8 +250,9 @@ function userslogin(){
 		} */
 		
 		if (data.object != null && data.object.usersName != null) {
+			//alert(data.object.usersName)
 			//console.info(data);
-			str1='<a href="#" style="text-decoration: none; color:#ccc;"> '+data+'</a>&nbsp;&nbsp;';
+			str1='<a href="#" style="text-decoration: none; color:#ccc;"> '+data.object.usersName+'</a>&nbsp;&nbsp;';
 			str2='<a href="javascript:loginOut()"><font color="#ccc" size="2"> 注销</font></a>';
 			$("#top_login").html(str1);
 			$("#zhuxiao").html(str2);

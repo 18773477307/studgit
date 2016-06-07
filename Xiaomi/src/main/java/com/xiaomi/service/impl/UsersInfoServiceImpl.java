@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.mapper.UsersInfoMapper;
 import com.xiaomi.service.UsersInfoService;
@@ -83,43 +84,46 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 	
 	@Override
 	public int unameCheck(String usersName) {
-		if (usersInfoMapper.unameCheck(usersName) != null)
-		return 1;
-		else {
+		if (usersInfoMapper.unameCheck(usersName) != null){
+			return 1;
+		}else {
 			return 0;
 		}
 	}
 	
 	@Override
 	public int emailCheck(String usersEmail) {
-		if (usersInfoMapper.emailCheck(usersEmail) != null)
-		return 1;
-		else {
+		if (usersInfoMapper.emailCheck(usersEmail) != null){
+			return 1;
+		}else {
 			return 0;
 		}
 	}
 	
 	@Override
 	public int telCheck(String usersTel) {
-		if (usersInfoMapper.telCheck(usersTel) != null)
-		return 1;
-		else {
+		if (usersInfoMapper.telCheck(usersTel) != null){
+			return 1;
+		}else {
 			return 0;
 		}
 	}
 	
 	@Override
 	public int idCardCheck(String usersIdCard) {
-		if (usersInfoMapper.idCardCheck(usersIdCard) != null)
-		return 1;
-		else {
+		if (usersInfoMapper.idCardCheck(usersIdCard) != null){
+			return 1;
+		}else {
 			return 0;
 		}
 	}
 	@Override
 	public UsersInfo findUserByUsersInfo(UsersInfo users) {
-		
 		return usersInfoMapper.findUserByUsersInfo(users);
+	}
+	@Override
+	public int findCountOfUser(int usersId) {
+		return usersInfoMapper.findCountOfUser(usersId);
 	}
 
 }

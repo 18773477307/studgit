@@ -29,25 +29,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$(".lydia_close3").slideToggle(200);
 			});
 		});
+		
 	</script>
     <script>
 		//window.location.href="front/MiHome.jsp";
 		 function loginOut(){
 				if(window.confirm('您确定要注销登录吗？')){
-					$.post("usersServlet?d="+new Date(),{op:"usersOut"},function(data){
-						if(parseInt($.trim(data))==1){
+					$.post("front/user_usersOut.action",function(data){
+						if(parseInt($.trim(data.total))==1){
 						alert("注销成功");
-						location.href="front/Main.jsp";
 						$("#end i").html("0");
-					// 这种方法也可以
-						var str1='<a id="top_login" href="front/login.html?shop" style="text-decoration: none; color:#ccc;">登录</a>';
-						var str2='<a id="zhuxiao" href="front/login.html" style="text-decoration: none; color:#ccc;">注册</a>';
-						$(".zc").html(str2);
-						$(".dl").html(str1);
+						// 这种方法也可以
+							var str1='<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>';
+							var str2='<a id="zhuxiao" href="front/login.jsp" style="text-decoration: none; color:#ccc;">注册</a>';
+							$(".zc").html(str2);
+							$(".dl").html(str1);
 						}
 					});
 				}
 			}
+		 
+		 function goShopCar(){
+			var car_count=$("#end i").html();
+			var usersId = $("#Id_hidden").val();
+			$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(data){
+				if(data.total==1){
+					location.href="front/shopcar.jsp";
+				}
+			});	
+		 }
 	</script>
     <script>
 	$(function(){
@@ -118,11 +128,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="question"><a>问题反馈</a></div>
 		        <div class="dl">
 		        	<c:if test="${not empty loginUsers }">
-		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录：${loginUsers.usersName }</a>
-		        		
+		        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
+		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录:${loginUsers.usersName }</a>
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
-		   				<a id="top_login" href="front/login.html?shop" style="text-decoration: none; color:#ccc;">登录</a>
+		   				<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>
 		   			</c:if>
 		        </div><div class="line"></div>
 		        <div class="zc">
@@ -130,10 +140,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        		<a id="zhuxiao" href="javascript:loginOut()" style="text-decoration: none; color:#ccc;">退出</a>
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
-		   				<a id="zhuxiao" href="front/login.html" style="text-decoration: none; color:#ccc;">注册</a>
+		   				<a id="zhuxiao" href="front/login.jsp" style="text-decoration: none; color:#ccc;">注册</a>
 		   			</c:if>
 		        </div>
-		        <div class="shop_car"><a href="front/shopcar.jsp"><img src="front/images/shop_car.png"/><span id="end">购物车(<i>${sums }</i>)</span></a></div>
+		        <div class="shop_car"><a href="javascript:goShopCar()"><img src="front/images/shop_car.png"/><span id="end">购物车(<i>${sums }</i>)</span></a></div>
 		</div>
     
     <div class="site_header">
@@ -146,415 +156,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	<ul class="nav_list">
                 	<li class="link nav_category">
                     	<a><span class="text">全部商品分类</span></a> 
-                        
-                        <div class="left_pro_list">
-                            <ul class="left_list">
-                            	<li class="item item1"><a class="title1">手机 平板 电话卡<span>></span></a>
-                                
-                                	<div class="children_col1 children_co-2">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                    <img class="thumb" width="40" height="40" alt="" src="front/images/minote.jpg"/>
-                                                    <span class="xmtext">小米Note</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                	<img class="thumb" width="40" height="40" alt="" src="front/images/mi4.jpg"/>
-                                                    <span class="xmtext">小米手机4</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                	<img class="thumb" width="40" height="40" alt="" src="front/images/mi4c.jpg"/>
-                                                    <span class="xmtext">小米手机4c</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                	<img class="thumb" width="40" height="40" alt="" src="front/images/note2.jpg"/>
-                                                    <span class="xmtext">红米Note 3</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                	<img class="thumb" width="40" height="40" alt="" src="front/images/note2.jpg"/>
-                                                    <span class="xmtext">红米Note 2</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                	<img class="thumb" width="40" height="40" alt="" src="front/images/note.jpg"/>
-                                                    <span class="xmtext">红米Note 电信版</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-										</ul>
-										<ul class="children_list_col">
-                                        	<li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                   <img class="thumb" width="40" height="40" alt="" src="front/images/hongmi2.jpg"/>
-                                                   <span class="xmtext">红米手机2</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                  <img class="thumb" width="40" height="40" alt="" src="front/images/hongmi2a.jpg"/>
-                                                   <span class="xmtext">红米手机2A</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                	<img class="thumb" width="40" height="40" alt="" src="front/images/mipad.jpg"/>
-                                                    <span class="xmtext">小米平板2</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                    <img class="thumb" width="40" height="40" alt="" src="front/images/telcom.jpg"/>
-                                                    <span class="xmtext">电信版</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                    <img class="thumb" width="40" height="40" alt="" src="front/images/heyue.jpg"/>
-                                                    <span class="xmtext">合约机</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/zhongxin.jpg"/>
-                                                 <span class="xmtext">中信特权</span>
-                                                </a>
-                                                <p class="xuangou">选购</p>
-                                            </li>
-										</ul>
-									</div>
-                                </li>
-                                  
-                                <li class="item item2"><a class="title1">电视 盒子<span>></span></a>
-                                	<div class="children_col2 children_co-2">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tv40.jpg"/>
-                                                 <span class="xmtext">小米电视 40英寸</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tv48.jpg"/>
-                                                 <span class="xmtext">小米电视 48英寸</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tv49.jpg"/>
-                                                 <span class="xmtext">小米电视 49英寸</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tv3-55.jpg"/>
-                                                 <span class="xmtext">小米电视 55英寸</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tv60.jpg"/>
-                                                 <span class="xmtext">小米电视 60英寸</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/hezis.jpg"/>
-                                                 <span class="xmtext">小米盒子3</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <ul class="children_list_col">
-                                        	<li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                <img class="thumb" width="40" height="40" alt="" src="front/images/hezimini.jpg"/>
-                                                <span class="xmtext">小米盒子mini</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                <img class="thumb" width="40" height="40" alt="" src="front/images/tvzj.jpg"/>
-                                                <span class="xmtext">小米电视主机</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                <img class="thumb" width="40" height="40" alt="" src="front/images/diyinpao.jpg"/>
-                                                <span class="xmtext">小米低音炮</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/shb.jpg"/>
-                                                 <span class="xmtext">蓝牙手柄</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/dianshipeijian.jpg"/>
-                                                 <span class="xmtext">电视盒子配件</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                	</div>
-                                </li>
-                                
-                                <li class="item item3"><a class="title1">路由器 智能硬件<span>></span></a>
-                                	<div class="children_col3 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/miwifi.jpg"/>
-                                                 <span class="xmtext">路由器</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/scooter.jpg"/>
-                                                 <span class="xmtext">9号平衡车</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/shouhuan.jpg"/>
-                                                 <span class="xmtext">手环及配件</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/scale.jpg"/>
-                                                 <span class="xmtext">体重秤</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/ihealthbluetooth.jpg"/>
-                                                 <span class="xmtext">血压计</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/zhinengtaozhuang.jpg"/>
-                                                 <span class="xmtext">智能家庭套装</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                	</div>
-                            	</li>
-                            
-                            	<li class="item item4"><a class="title1">移动电源 插线板<span>></span></a>
-                                	<div class="children_col4 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/dianyuan.jpg"/>
-                                                 <span class="xmtext">小米移动电源</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/yidongdianyuan.jpg"/>
-                                                 <span class="xmtext">品牌移动电源</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/powerscript.jpg"/>
-                                                 <span class="xmtext">小米插线板</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/dianyuanfujian.jpg"/>
-                                                 <span class="xmtext">移动电源附件</span>
-                                                </a>
-                                            </li>
-										</ul>                                           
-                                	</div>
-                                </li>
-                                
-                                <li class="item item5"><a class="title1">耳机 音箱<span>></span></a>
-                                	<div class="children_col5 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/headphone.jpg"/>
-                                                 <span class="xmtext">小米头戴式耳机</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/quantie.jpg"/>
-                                                 <span class="xmtext">小米铁圈耳机</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/huosai.jpg"/>
-                                                 <span class="xmtext">小米活塞耳机 标准版</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/xuancai.jpg"/>
-                                                 <span class="xmtext">小米活塞耳机 炫彩版</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/bluetoothheadset.jpg"/>
-                                                 <span class="xmtext">小米蓝牙耳机</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/erji.jpg"/>
-                                                 <span class="xmtext">品牌耳机</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                	</div>
-                                </li>
-                                
-                                <li class="item item6"><a class="title1">电池 存储卡<span>></span></a>
-                                	<div class="children_col6 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/rainbow80.jpg"/>
-                                                 <span class="xmtext">彩虹5号电池</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/chongdian.jpg"/>
-                                                 <span class="xmtext">充电器</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/xiancai.jpg"/>
-                                                 <span class="xmtext">线材</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/cunchu.jpg"/>
-                                                 <span class="xmtext">存储卡</span>
-                                                </a>
-                                            </li>
-										</ul>
-                                	</div>
-                                </li>
-                                
-                                <li class="item item7"><a class="title1">保护套 后盖<span>></span></a>
-                                	<div class="children_col7 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/hougai.jpg"/>
-                                                 <span class="xmtext">后盖</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/baohu.jpg"/>
-                                                 <span class="xmtext">保护套/保护壳</span>
-                                                </a>
-                                            </li>
-                                         </ul>
-                                	</div>
-                                </li>
-                                
-                                <li class="item item8"><a class="title1">贴膜 其他配件<span>></span></a>
-                                	<div class="children_col8 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/zhijia.jpg"/>
-                                                 <span class="xmtext">手机支架</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                <img class="thumb" width="40" height="40" alt="" src="front/images/zipaigan.jpg"/>
-                                                <span class="xmtext">自拍杆</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tiemo.jpg"/>
-                                                 <span class="xmtext">贴膜</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/tizhi.jpg"/>
-                                                 <span class="xmtext">贴纸</span>
-                                                </a>
-                                            </li>
-										</ul>   
-                                	</div>
-                                </li>
-                                
-                                <li class="item item9"><a class="title1">米兔 服装<span>></span></a>
-                                	<div class="children_col9 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/mitu.jpg"/>
-                                                 <span class="xmtext">米兔</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/fuzhuang.jpg"/>
-                                                 <span class="xmtext">服装</span>
-                                                </a>
-                                            </li>
-                                         </ul>
-                                	</div>
-                                </li>
-                                
-                                <li class="item item10"><a class="title1">箱包 其他周边<span>></span></a>
-                                	<div class="children_col10 children_co-1">
-                                        <ul class="children_list_col">
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/wan.jpg"/>
-                                                 <span class="xmtext">酷玩产品</span>
-                                                </a>
-                                            </li>
-                                            <li class="star-goods">
-                                                <a class="imgAndtitle">
-                                                 <img class="thumb" width="40" height="40" alt="" src="front/images/shubiaodian.jpg"/>
-                                                 <span class="xmtext">小米鼠标垫</span>
-                                                </a>
-                                            </li>
-                                         </ul>
-                                	</div>
-                                </li>
-                            </ul>	
-                        </div>  
                     </li>
                     <li class="link nav-item xmsj">
 					<a><span class="text">小米手机</span></a>
@@ -891,7 +492,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <li><a class="active">推荐</a></li>
                     <li><a>新品</a></li>
                     <li class="up"><a>价格</a></li>
-                    <li><a>评论最多</a></li>
                 </ul>
                 <ul class="type_list">
                     <li><a><span class="checkbox checkbox-checked"></span>查看评价</a></li>
@@ -905,18 +505,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	<c:forEach items="${allPhone }" var="itemm">
                 	<div class="goods_item" id="${itemm.goodsId }">
                         <div class="figure_img">
-                       		<a><img id="sdsd" width="200" height="200" src="../${fn:substring(itemm.goodsPic,0,fn:indexOf(itemm.goodsPic, ','))}"></a>
+                       		<a><img id="sdsd" width="200" height="200" src="../uploadpic/${fn:substring(itemm.goodsmaxPic,0,fn:indexOf(itemm.goodsmaxPic, ','))}"></a>
                         </div>
                         <p class="desc"></p>
                         <h2 class="title"><a>${itemm.goodsName }</a></h2>
                         <p class="price">
-                            ${itemm.goodsPrice }
+                            ${itemm.goodsminPrice }元
                         </p>
                         
                         <div class="thumbs">
                             <ul class="thumb-list clearfix">
                                 <li>
-                                    <img width="34" height="34" src="../${fn:substring(itemm.goodsPic,0,fn:indexOf(itemm.goodsPic, ','))}">
+                                    <img width="34" height="34" src="../uploadpic/${fn:substring(itemm.goodsminPic,0,fn:indexOf(itemm.goodsminPic, ','))}">
                                 </li>
                             </ul>
                         </div>
@@ -933,7 +533,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                        <div style="color:#fff;width:275px;height:40px;background-color: #78BA43; position: relative; top:-415px; line-height: 40px; display: none;" class="msg">
                         	成功加入购物车</div>
                     </div>
-                    </c:forEach>
+               </c:forEach>
                     
                      <script>
 					$(function() {
@@ -964,10 +564,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							});
 							var goodsId=$(this).parent().parent().attr('id');
 							console.info(goodsId);
-							$.post("shopDetailServlet?d="+new Date(),{op:"toCarFind",goodsId:goodsId},function(data){
-								if(parseInt($.trim(data))!=1){
-									$.post("shopDetailServlet?d="+new Date(),{op:"toCarAdd"},function(data){
-										if(parseInt($.trim(data))==1){
+							$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
+								if(parseInt($.trim(data.total))!=1){
+									$.post("front/shopCar_toCarAdd.action",function(data){
+										if(parseInt($.trim(data.total))==1){
 											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 											count++;
 											$("#end i").html(count);
@@ -976,8 +576,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										}
 									});
 								}else{
-									$.post("shopDetailServlet?d="+new Date(),{op:"toCarUpdate"},function(data){
-										if(parseInt($.trim(data))==1){
+									$.post("front/shopCar_toCarUpdate.action",function(data){
+										if(parseInt($.trim(data.total))==1){
 											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 											count++;
 											$("#end i").html(count);

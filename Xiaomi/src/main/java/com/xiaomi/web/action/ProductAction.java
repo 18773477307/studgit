@@ -1,5 +1,6 @@
 package com.xiaomi.web.action;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,30 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 	private int page;
 	private int rows;
 	private Map<String, Object> session;
+	//处理文件的三个属性   多个文件上传使用数组
+	private File[] ptPics;
+	private String[] ptPicsFileName;
+	private String[] ptPicsContentType;
 	
+	
+	public File[] getPtPics() {
+		return ptPics;
+	}
+	public void setPtPics(File[] ptPics) {
+		this.ptPics = ptPics;
+	}
+	public String[] getPtPicsFileName() {
+		return ptPicsFileName;
+	}
+	public void setPtPicsFileName(String[] ptPicsFileName) {
+		this.ptPicsFileName = ptPicsFileName;
+	}
+	public String[] getPtPicsContentType() {
+		return ptPicsContentType;
+	}
+	public void setPtPicsContentType(String[] ptPicsContentType) {
+		this.ptPicsContentType = ptPicsContentType;
+	}
 	public JsonObject<Product> getJsonObject() {
 		return jsonObject;
 	}
@@ -37,6 +61,7 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 		int total = productService.getTotalProduct();
 		jsonObject = new JsonObject<Product>();
 		jsonObject.setRows(products);
+		//jsonObject.setObject(object);
 		jsonObject.setTotal(total);
 		return "success";
 	}
@@ -46,6 +71,27 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 		//System.out.println(productNames);
 		jsonObject=new JsonObject<Product>();
 		jsonObject.setRows(productNames);
+		return "success";
+	}
+	
+	public String findProductInfoByPtId(){
+		List<Product> products = productService.findProductInfoByPtId(product.getPtId());
+		jsonObject=new JsonObject<Product>();
+		jsonObject.setRows(products);
+		return "success";
+	}
+	
+	public String addProductInfo(){
+		int result = productService.addProductInfo(product,ptPics,ptPicsFileName,ptPicsContentType);
+		jsonObject = new JsonObject<Product>();
+		jsonObject.setTotal(result);
+		return "success";
+	}
+	
+	public String updateProductInfo(){
+		int result = productService.updateProductInfo(product,ptPics,ptPicsFileName,ptPicsContentType);
+		jsonObject = new JsonObject<Product>();
+		jsonObject.setTotal(result);
 		return "success";
 	}
 

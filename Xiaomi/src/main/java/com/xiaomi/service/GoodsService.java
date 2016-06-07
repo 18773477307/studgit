@@ -26,6 +26,8 @@ public interface GoodsService {
 	public int updateGoodsInfo(Goods goods, Map<String, Object> map);
 	
 	public int updateGoodsInfo(Goods goods);
+
+	public List<Goods> getAllGoodsName();
 	
 	/**
 	 * 查询所有的商品名

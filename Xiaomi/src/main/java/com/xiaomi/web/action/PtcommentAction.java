@@ -52,7 +52,7 @@ public class PtcommentAction implements ModelDriven<Ptcomment>,SessionAware {
 	public String findPtcommentByApprId(){
 		int apprId = ptcomment.getApprId();
 		Ptcomment ptcom = ptcommentService.find(apprId);
-		System.out.println("获取到的评论详情："+ptcom);
+		//System.out.println("获取到的评论详情："+ptcom);
 		jsonObject.setObject(ptcom);
 		return "success";
 	}

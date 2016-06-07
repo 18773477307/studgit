@@ -52,7 +52,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 	where goodsId=#{goodsId}
 	</update>
 	
-
+	<select id="getAllGoodsName" resultType="Goods">
+		select goodsId,goodsName from goods
+	</select>
+	
 	<select id="findallgoods" resultType="Goods">
 		select goodsId,goodsName from goods
 	</select>

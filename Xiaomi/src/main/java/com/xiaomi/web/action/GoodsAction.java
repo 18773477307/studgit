@@ -129,7 +129,15 @@ public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 		return "success";
 	}
 	
-
+	public String getAllGoodsName(){
+		List<Goods> goods = goodsService.getAllGoodsName();
+		System.out.println(goods);
+		jsonObject = new JsonObject<Goods>();
+		jsonObject.setRows(goods);
+		return "success";
+	}
+	
+	//与上面的重复
 	public String goodsNames(){
 		System.out.println("获取所有的商品名");
 		List<Goods> goodsNames=goodsService.getallgoodname();
@@ -142,7 +150,7 @@ public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 	public String getIndexGoodsInfo() {
 		List<Goods> indexGoodsInfo = goodsService.getIndexGoodsInfo();
 		List<Goods> indexGoodsName = goodsService.getIndexGoodsInfo();
-		System.out.println(indexGoodsInfo);
+//		System.out.println(indexGoodsInfo);
 		jsonObject = new JsonObject<Goods>();
 		jsonObject.setRows(indexGoodsInfo);
 		
@@ -150,6 +158,10 @@ public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 		session.put("goName", indexGoodsName);
 
 		return "success";
+	}
+	
+	public String goToMiHome(){
+		return "MiHome";
 	}
 	
 	@Override

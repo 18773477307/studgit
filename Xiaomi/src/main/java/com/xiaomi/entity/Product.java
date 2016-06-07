@@ -21,7 +21,59 @@ public class Product implements Serializable {
     private int ptSta;    //状态
     private int dirName;	//数据字典里面对应的名字
     private String goodsName;
+    
+    private String formats;//1型号 标配版
+    private String colors;//商品颜色
+    private String nets;//网络制式 3G 4G
+    private String versions;//网络运营商 电信 全网通等
+    
+    private String memorys;//内存大小 2G -128G
+    private String sizes; //电视机尺寸
+    private String batterys;	//电池型号
+    
 	
+	public String getFormats() {
+		return formats;
+	}
+	public void setFormats(String formats) {
+		this.formats = formats;
+	}
+	public String getColors() {
+		return colors;
+	}
+	public void setColors(String colors) {
+		this.colors = colors;
+	}
+	public String getNets() {
+		return nets;
+	}
+	public void setNets(String nets) {
+		this.nets = nets;
+	}
+	public String getVersions() {
+		return versions;
+	}
+	public void setVersions(String versions) {
+		this.versions = versions;
+	}
+	public String getMemorys() {
+		return memorys;
+	}
+	public void setMemorys(String memorys) {
+		this.memorys = memorys;
+	}
+	public String getSizes() {
+		return sizes;
+	}
+	public void setSizes(String sizes) {
+		this.sizes = sizes;
+	}
+	public String getBatterys() {
+		return batterys;
+	}
+	public void setBatterys(String batterys) {
+		this.batterys = batterys;
+	}
 	public String getGoodsName() {
 		return goodsName;
 	}

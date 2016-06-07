@@ -212,6 +212,7 @@ insert into goods values (seq_goods_goodsId.nextval,1001,'小米4s',1699,'小米
 insert into goods values (seq_goods_goodsId.nextval,1002,'小米平板',999,'小米平板评价','','','顶部2',1);
 --查询--------------------------------------------------------------------------------------------
 select * from goods;
+select goodsName from goods;
 select g.*,t.typesName from goods g,typegoods t where g.typesId=t.typesId and goodsId =
 select distinct(goodsName) from goods;
 
@@ -266,7 +267,7 @@ create table product (
 );
 create sequence seq_product_ptId start with 1000 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
+insert into product values(seq_product_ptId.nextval,1899,'minote.jpg',100,1001,1,5,12,18,23,34,37,1);
 insert into product values(seq_product_ptId.nextval,999,'',100,1002,4,6,17,22,30,34,37,1);
 --查询---------------------------------------------------------------------------------
 select * from product;
@@ -292,11 +293,20 @@ create table shopCar(
 );
 create sequence seq_shopCar_shopId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'');
-insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,1,1,'');
+select * from usersinfo;
+select * from product;
+select * from goods;
+select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId;
+select count(1) from shopCar where usersId=1011
+insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'','');
+insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1001,2,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,2,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
 --查询---------------------------------------------------------------------------------
-select * from shopCar where usersId=1001
+select * from shopCar where usersId=1011
 select * from shopCar;
+select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
 --跟新---------------------------------------------------------------------------------
 update shopCar set shopSta=2 where shopId=1
 --删除---------------------------------------------------------------------------------
@@ -396,16 +406,16 @@ create table article(
 create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
+select * from article;
+select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
 ---插入--------------------------------------------------------------------------------------------------
 insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
 select * from article;
 
 ---插入--------------------------------------------------------------------------------------------------
-select * from article;
-select b.* from (select a.*,rownum rn from 
-		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
-select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
+insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');=======
+insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
 --删除-------------------------------------------------------------------------------------------------
 drop table article;
 delete article;
@@ -452,8 +462,8 @@ create table ptcomment(
                constraint FK_ptcomment_usersinfo_usersId references usersinfo(usersId),
        apprCont clob,                          --评价内容
        apprDate date,                          --评价时间
-       apprSta int,                            --评价状态(1：差评2：中评3：好评)
-       reserve27 varchar2(20),	               --备用字段
+       apprSta int,                            --评价状态(0：差评1：中评2：好评)
+       reserve27 varchar2(20),	               --备用字段，改为官方回复状态
 	   reserve28 varchar2(20)                  --备用字段
 );
 create sequence seq_ptcomment_apprId start with 1001 increment by 1;
@@ -478,7 +488,7 @@ create table reply(
              constraint seq_ptcomment_apprId references goodsappr(apprId),
        repCont varchar2(500),             --回复内容
        repDate date,             		  --回复日期 
-       reserve29 varchar2(20),	          --备用字段
+       reserve29 varchar2(20),	          --备用字段，改为回复状态，0 未回复，1 已回复
 	   reserve30 varchar2(20)             --备用字段
 );
 create sequence seq_reply_replyId start with 1 increment by 1;
@@ -487,6 +497,8 @@ insert into reply values (seq_reply_replyId.nextval,1001,1001,'官方回复内�
 insert into reply values (seq_reply_replyId.nextval,1002,1002,'官方回复内容官方回复内容',TO_DATE('2016-01-04','yyyy-mm-dd'),1,'');
 ---查询------------------------------------------------------------------------------------------------
 select * from reply;
+select r.*,u.usersId,u.usersName,p.ptId,g.goodsName from reply r,usersInfo u,product p,ptcomment pt,goods g 
+	where r.usersId = u.usersId and pt.apprId = r.apprId and pt.ptId = p.ptId and p.goodsId = g.goodsId and replyId = 2;
 ---删除------------------------------------------------------------------------------------------------
 drop table reply;
 drop sequence seq_reply_replyId
