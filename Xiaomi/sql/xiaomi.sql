@@ -292,11 +292,20 @@ create table shopCar(
 );
 create sequence seq_shopCar_shopId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'');
-insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,1,1,'');
+select * from usersinfo;
+select * from product;
+select * from goods;
+select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId;
+select count(1) from shopCar where usersId=1011
+insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'','');
+insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1001,2,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,2,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
 --查询---------------------------------------------------------------------------------
-select * from shopCar where usersId=1001
+select * from shopCar where usersId=1011
 select * from shopCar;
+select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
 --跟新---------------------------------------------------------------------------------
 update shopCar set shopSta=2 where shopId=1
 --删除---------------------------------------------------------------------------------
