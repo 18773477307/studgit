@@ -7,7 +7,8 @@
 
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
 	<constant name="struts.devMode" value="false" />
-	
+	 <!-- 设置文件上传最大值 -->
+    <constant name="struts.multipart.maxSize" value="100000000" /> 
 	 <!-- 把struts的action对象交给spring容器管理 -->
 	<constant name="struts.objectFactory" value="spring" />
 
@@ -35,7 +36,7 @@
 		getAllPtcomment,findPtcommentByApprId,
 		addReplyInfo,
 		goodsNames,
-		GetAllResources,findResourcesByInfo
+		GetAllResources,findResourcesByInfo,addResources,delresources,updataResources
 		</global-allowed-methods>
 
     	<action name="*_*" class="{1}Action" method="{2}">
