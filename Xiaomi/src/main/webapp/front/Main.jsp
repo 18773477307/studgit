@@ -30,14 +30,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	//window.location.href="front/MiHome.jsp";
 	 function loginOut(){
 			if(window.confirm('您确定要注销登录吗？')){
-				$.post("usersServlet?d="+new Date(),{op:"usersOut"},function(data){
-					if(parseInt($.trim(data))==1){
+				$.post("front/user_usersOut.action",function(data){
+					if(parseInt($.trim(data.total))==1){
 					alert("注销成功");
-					//location.href="front/Main.jsp";
 					$("#end i").html("0");
 					// 这种方法也可以
-						var str1='<a id="top_login" href="front/login.html" style="text-decoration: none; color:#ccc;">登录</a>';
-						var str2='<a id="zhuxiao" href="front/login.html" style="text-decoration: none; color:#ccc;">注册</a>';
+						var str1='<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>';
+						var str2='<a id="zhuxiao" href="front/login.jsp" style="text-decoration: none; color:#ccc;">注册</a>';
 						$(".zc").html(str2);
 						$(".dl").html(str1);
 					}
@@ -46,14 +45,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		function goshopcar(){
 			var car_count=$("#end i").html();
-			if(car_count==0 || car_count==null){
-				if(window.confirm('您的购物车中没有商品，去商城购物吧！')){
-				location.href="front/shop.jsp";
+			var usersId = $("#Id_hidden").val();
+			$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(data){
+				if(data.total==1){
+					location.href="front/shopcar.jsp";
 				}
-
-			}else{
-				location.href="front/shopcar.jsp";
-			}
+			});		
 		}
 	
 </script>
@@ -71,11 +68,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="question"><a>问题反馈</a></div>
         <div class="dl">
         	<c:if test="${not empty loginUsers }">
+        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
         		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录：${loginUsers.usersName }</a>
-        		
         	</c:if>
         	<c:if test="${empty loginUsers }">
-   				<a id="top_login" href="front/login.html" style="text-decoration: none; color:#ccc;">登录</a>
+   				<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>
    			</c:if>
         </div><div class="line"></div>
         <div class="zc">
@@ -83,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         		<a id="zhuxiao" href="javascript:loginOut()" style="text-decoration: none; color:#ccc;">退出</a>
         	</c:if>
         	<c:if test="${empty loginUsers }">
-   				<a id="zhuxiao" href="front/login.html" style="text-decoration: none; color:#ccc;">注册</a>
+   				<a id="zhuxiao" href="front/login.jsp" style="text-decoration: none; color:#ccc;">注册</a>
    			</c:if>
         </div>
         <div class="shop_car"><a href="javascript:goshopcar()"><img src="front/images/shop_car.png"/><span id="end" style="color:#ccc;">购物车(<i>${sums }</i>)</span></a></div>

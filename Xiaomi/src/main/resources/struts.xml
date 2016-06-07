@@ -17,6 +17,7 @@
     		<result type="json">
     			<param name="root">jsonObject</param>
     		</result>
+    		<result name="MiHome">/front/MiHome.jsp</result>
 <!--    		<result name="loginSuccess">/main.jsp</result>
     		<result name="loginFail">/index.jsp</result>
  -->            

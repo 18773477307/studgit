@@ -74,26 +74,75 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     
     <div class="main">
-    	<%@include file="cardbox.jsp" %>
+    	<%-- <%@include file="cardbox.jsp" %> --%>
+    	<c:if test="${not empty shopCarInfo }">
+    	<table id="carbox" >
+    		<thead id="list_head">
+    			<tr>
+    				<td>商品名称</td>
+    				<td>商品图片</td>
+    				<td>单价</td>
+    				<td>数量</td>
+    				<td>小计</td>
+    				<td>操作</td>
+    			</tr>
+    		</thead>
+    		<tbody class="">
+    			<c:forEach items="${shopCarInfo }" var="shopCarItem">
+    			<tr>
+    				<td><div class="pro-names">
+		         		<p class="pro-name">${shopCarItem.goodsName }</p>
+		         		</div>
+		         	</td>
+    				<td><div class="col-img"><img src="../uploadpic/${shopCarItem.goodsminPic }"/></div></td>
+    				<td><div class="pro-price"><span>${shopCarItem.ptPrice }</span>元</div></td>
+    				<td><div class="pro-num">
+				         	<a id="numdec"><span class="num-" onclick="numDec()">-</span></a>
+				             <input class="goodsNum"  data-num="1" value="${shopCarItem.shopNum }" type="text" readonly="readonly" >
+				             <a id="numinc"><span class="num+" onclick="numInc()">+</span></a>
+				         </div>
+		         	</td>
+    				<td><div class="pro-total"><span>${shopCarItem.ptPrice * shopCarItem.shopNum }</span>元</div></td>
+    				<td><div class="pro-action"><span title="删除" onclick="delete_car(${shopCarItem.shopId })">&nbsp;×&nbsp;</span></div></td>
+    			</tr>
+    			</c:forEach>
+    			
+    		</tbody>
+    	</table>
+    	<div class="list-footer">
+	    	<div class="section-left">
+	        	<a class="back-shopping" href="">继续购物　</a>
+	            <span>共 <i class="total-number"> 1 </i> 件商品</span>
+	        </div>
+	        <div class="section-right">
+	        	<div class="pay-total"><span>合计（不含运费）: <span  id="zongjimoney" class="total-price">35.9</span> 元</span></div>
+	            <div class="gopays"><a class="gopay" id="jiesuan" href="javascript:void(0)" onclick="gojiesuan()">去结算</a></div>
+	        </div>
+	    </div>
+	    </c:if>
+	    
+	    <c:if test="${empty shopCarInfo }">
+	    	<div class="main_empty"  id="main_empty">
+		        <div id="main_content">
+		            <img src="front/images/2015-11-18_202559.png" style="float:left;"/>
+		            <span id="noneCar">您的购物车还是空的!</span>
+		            <a id="gouwu" href="front/shop.jsp" style="margin-left: 100px;">马上去购物</a>
+		        </div>
+		    </div>
+	    </c:if>
     </div>
     
-    
-     <div class="main_empty" style="display: none;">
-        <div id="main_content">
-            <img src="front/images/2015-11-18_202559.png" style="float:left;"/>
-            <span id="noneCar">您的购物车还是空的!</span>
-            <span id="nind">登陆后将显示您之前加入的商品</span>
-            <a id="denglu" href="front/login.html">立即登陆</a>
-            <a id="gouwu" href="front/shop.jsp">马上去购物</a>
-        </div>
-    </div>
-    <div class="main_empty" style="display: none;" id="main_empty">
-        <div id="main_content">
-            <img src="front/images/2015-11-18_202559.png" style="float:left;"/>
-            <span id="noneCar">您的购物车还是空的!</span>
-            <a id="gouwu" href="front/shop.jsp" style="margin-left: 100px;">马上去购物</a>
-        </div>
-    </div>
+    <c:if test="${empty loginUsers }">
+	     <div class="main_empty">
+	        <div id="main_content">
+	            <img src="front/images/2015-11-18_202559.png" style="float:left;"/>
+	            <span id="noneCar">您的购物车还是空的!</span>
+	            <span id="nind">登陆后将显示您之前加入的商品</span>
+	            <a id="denglu" href="front/login.jsp">立即登陆</a>
+	            <a id="gouwu" href="front/shop.jsp">马上去购物</a>
+	        </div>
+	    </div>
+    </c:if>
     
     
     
@@ -208,7 +257,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$(".main_empty").css("display","block");
 			$("#main_empty").css("display","none");
 		}else{
-			$.post("shopDetailServlet?d="+new Date(),{op:"shopCarShow"},function(data){
+			/* $.post("shopCar_shopCarShow.action",function(data){
 				var str = data;
 				$(".testlist").html(str);
 				size=$(".testlist").children().size();
@@ -226,7 +275,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$(".total-number").html(totalnumber);
 				$(".total-price").html(totalPrice); 
 			
-			});
+			}); */
 		}
 	});
 	

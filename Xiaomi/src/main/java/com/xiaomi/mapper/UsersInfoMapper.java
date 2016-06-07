@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
 @Repository("usersInfoMapper")
 public interface UsersInfoMapper {
@@ -32,4 +33,6 @@ public interface UsersInfoMapper {
 	public UsersInfo idCardCheck(String usersIdCard);
 	
 	public UsersInfo findUserByUsersInfo(UsersInfo users);
+
+	int findCountOfUser(int usersId);
 }

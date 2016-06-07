@@ -82,7 +82,7 @@ body{
 	height:auto;
 }
 #carbox{
-	width:1226px;
+	width:1200px;
 	height:auto;
 	background:#FFF;
 	float:left;
@@ -91,8 +91,9 @@ body{
 	font-size:15px;
 	border-bottom:1px solid #CCC;
 	margin-bottom: 50px;
+	text-align: center;
 }
-.check{
+/* .check{
 	width:110px;
 	float:left;
 	line-height:80px;
@@ -110,57 +111,50 @@ body{
     vertical-align: -2px;
     width: 18px;
 	margin-left:15px;
-}
+} */
 
 .col-img{
  	height: 80px;
     overflow: hidden;
-    padding-right: 40px;
-    width: 80px;
-	float:left;
-	margin-right: 10px;
+    width: 150px;
 }
 .col-img img{
 	width: 50px;
 	height: 50px;
 	overflow: hidden;
-	padding: 15px;
+	padding: 20px;
 }
 .col-name{
-	width:360px;
+	width:320px;
 	float:left;
 	line-height:80px;
 	height:80px;
 }
 .col-price{
-	width:165px;
-	float:left;
 	line-height:80px;
 	height:80px;
-	text-align:center;
 }
 .col-num{
-	width:165px;
-	float:left;
 	line-height:80px;
 	height:80px;
 	text-align:center;
 }
 .col-total{
 	width:150px;
-	float:left;
 	line-height:80px;
 	height:80px;
 	text-align:center;
 }
 .col-action{
 	width:120px;
-	float:left;
 	line-height:80px;
 	height:80px;
 	text-align:center;
 }
-
+#list_head{
+	height: 40px;
+	border-bottom: 2px solid #CCC;
+}
 .list-body{
 	width:1226px;
 	height:100px;
@@ -177,42 +171,38 @@ body{
 	height:80px;
 }
 .pro-name{
-	float:left;
 	height:80px;
 	line-height: 80px;
 }
 
 .pro-price{
-	width:165px;
-	float:left;
-	line-height:90px;
+	width:140px;
+	line-height:80px;
 	height:80px;
 	text-align:center;
 }
 .pro-num{
-	width:145px;
-	float:left;
-	line-height:40px;
-	height:40px;
+	width:150px;
 	text-align:center;
-	margin-top:25px;
-	margin-right:5px;
-	margin-left:15px;
 	border:1px solid #CCC;
+	height: 40px;
 }
 
 .goodsNum{
-	width:64px;
+	width:60px;
+	height: 40px;
+	line-height:40px;
+	float:left;
 	border:none;
 	font-size:18px;
 	font-family:"楷体";
-	float:left;
 	text-align:center;
-	margin-top:10px;
 }
 .pro-num a{
 	float:left;
-	width:40.5px;
+	width:45px;
+	height: 40px;
+	line-height:40px;
 	font-size:24px;
 	font-family:"楷体";
 	transition:linear 0.3s;
@@ -223,16 +213,13 @@ body{
 }
 
 .pro-total{
-	width:150px;
-	float:left;
-	line-height:90px;
+	width:180px;
+	line-height:80px;
 	height:80px;
-	text-align:center;
 }
 .pro-action{
 	width:120px;
-	float:left;
-	line-height:90px;
+	line-height:80px;
 	height:80px;
 	text-align:center;
 }
@@ -252,8 +239,10 @@ body{
 	float:left;
 	height:50px;
 	width:1226px;
+	margin-left:60px;
 	background:#fff;
 	border-top: 20px solid #F5F5F5;
+	margin-bottom: 20px;
 }
 .section-left{
 	width:770px;
