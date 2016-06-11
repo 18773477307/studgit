@@ -5,6 +5,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ShopCarMapper" >
   	<select id="getShopCarInfoByUsers" resultType="shop_Goods_Car" parameterType="int">
-  		select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=#{usersId}
+  		select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=#{usersId} and shopSta=1
   	</select>
+  	
+  	<update id="delByShopId" parameterType="shop_Goods_Car">
+  		update shopCar set shopSta = 0 where shopId=#{shopId}
+  	</update>
 </mapper>

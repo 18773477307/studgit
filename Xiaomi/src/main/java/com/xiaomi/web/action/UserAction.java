@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.xiaomi.entity.Address;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
@@ -127,9 +128,9 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 		UsersInfo users = usersInfoService.findUserByUsersInfo(usersInfo);
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setObject(users);
-		int sum = 0;
 		int usersId=users.getUsersId();
 		System.out.println(usersId);
+		int sum = 0;
 		sum = usersInfoService.findCountOfUser(usersId);//从购物车表里面查
 		
 		//把这个人购物车所有商品数量存入session
@@ -145,6 +146,17 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 		session.put("sums", 0);
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(1);
+		return "success";
+	}
+	
+	public String findAddrInfoById(){
+		List<Address> addresseInfo = usersInfoService.findAddrInfoById(usersInfo.getUsersId());
+		session.put("addresseInfo", addresseInfo);
+		jsonObject = new JsonObject<UsersInfo>();
+		System.out.println(addresseInfo);
+		if(addresseInfo!=null && !addresseInfo.equals("")){
+			jsonObject.setTotal(1);
+		}
 		return "success";
 	}
 

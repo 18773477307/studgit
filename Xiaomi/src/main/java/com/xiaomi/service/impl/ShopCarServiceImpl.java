@@ -19,4 +19,9 @@ public class ShopCarServiceImpl implements ShopCarService {
 		return shopCarMapper.getShopCarInfoByUsers(usersId);
 	}
 
+	@Override
+	public int delByShopId(int shopId) {
+		return shopCarMapper.delByShopId(shopId);
+	}
+
 }

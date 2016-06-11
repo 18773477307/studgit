@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xiaomi.entity.Address;
 import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.mapper.UsersInfoMapper;
@@ -124,6 +125,10 @@ public class UsersInfoServiceImpl implements UsersInfoService{
 	@Override
 	public int findCountOfUser(int usersId) {
 		return usersInfoMapper.findCountOfUser(usersId);
+	}
+	@Override
+	public List<Address> findAddrInfoById(int usersId) {
+		return usersInfoMapper.findAddrInfoById(usersId);
 	}
 
 }

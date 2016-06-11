@@ -2,6 +2,7 @@ package com.xiaomi.service;
 
 import java.util.List;
 
+import com.xiaomi.entity.Address;
 import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
 
@@ -82,5 +83,8 @@ public interface UsersInfoService {
 	 * @return
 	 */
 	public int findCountOfUser(int usersId);
+
+
+	public List<Address> findAddrInfoById(int usersId);
 
 }

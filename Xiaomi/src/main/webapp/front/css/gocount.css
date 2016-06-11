@@ -182,18 +182,21 @@ body{
 	color: #999;
 	text-decoration: none;
 }
-
+#carbox{
+	width: 1150px;
+}
 .section-body{
 	width: 92%;
 	float: left;
 	margin-left: 50px;
-	height: 65px;
+	height: auto;
 	border-bottom: 1px solid #CCC;
 }
-.goods-list{
-	list-style: none;
-	height: 60px;
+.goodsminPic{
+	width: 50px;
+	height: 50px;
 }
+
 .clearfix div{
 	float: left;
 	height: 60px;
@@ -204,7 +207,6 @@ body{
 }
 .col-name{
 	width: 58%;
-
 }
 .col-name a{
 	text-decoration: none;
@@ -322,7 +324,7 @@ body{
 
 .list-body{
 	width: 92%;
-	height:100px;
+	height:auto;
 	float: left;
 	margin-left:50px;
 	line-height: 80px;
@@ -602,5 +604,12 @@ body{
 	background: #999;
 	border: 1px solid #999;
 }
+
+#mytable{
+	width:1120px;
+	height: auto;
+}
+
+
 
 

@@ -5,8 +5,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.AddressMapper" >
   	<insert id="addAddress" parameterType="Address" >
-<!-- 	insert into address values(seq_address_addrId.nextval,#{manaName},#{manaSex},#{manaPwd},1,'','')-->	
+  		insert into address values (seq_address_addrId.nextval,#{usersId},
+  		#{province},#{city},#{county},#{detailAddr},#{addrTel},0,#{postcode},#{recipient},'','')
 	</insert>
+	
+	<select id="findAddrInfoById" parameterType="int" resultType="Address">
+		select * from address where usersId = #{usersId}
+	</select>
 	
 	<select id="selectTotalAddress" resultType="int">
 		select count(1) from address

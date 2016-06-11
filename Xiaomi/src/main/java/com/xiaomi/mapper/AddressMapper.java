@@ -21,4 +21,6 @@ public interface AddressMapper {
 	int selectTotalAddress();
 
 	List<Address> findAddressByInfo(Map<String, Object> params);
+
+	List<Address> findAddrInfoById(int usersId);
 }
