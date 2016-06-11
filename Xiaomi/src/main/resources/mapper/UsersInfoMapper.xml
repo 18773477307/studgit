@@ -65,6 +65,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="findCountOfUser" parameterType="int" resultType="int">
-		select count(1) from shopCar where usersId=#{usersId}
+		select count(1) from shopCar where usersId=#{usersId} and shopSta=1
+	</select>
+	
+	<select id="findAddrInfoById" parameterType="int" resultType="Address">
+		select * from address where usersId = #{usersId}
 	</select>
 </mapper>

@@ -38,6 +38,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}
+		
+		$(function(){
+			
+		});
 	</script>
 	</head>
   
@@ -58,11 +62,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             	<span class="user">
 	            	<c:if test="${not empty loginUsers }">
 		        		<a class="user-name"  style="text-decoration: none; color:#666;" >
+		        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
 		        		<span class="name">当前登录：${loginUsers.usersName }</span>
 		        		<span class="iconfont">&or;</span></a>
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
-		   				<a class="user-name" href="front/login.html"  style="text-decoration: none; color:#666;">
+		   				<a class="user-name" href="front/login.jsp"  style="text-decoration: none; color:#666;">
 		   				<span class="name">登录</span>
 		   				<span class="iconfont">&or;</span></a>
 		   			</c:if>
@@ -75,10 +80,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <div class="main">
     	<%-- <%@include file="cardbox.jsp" %> --%>
-    	<c:if test="${not empty shopCarInfo }">
+    <c:if test="${not empty shopCarInfo }">
+    	<form action="front/shopcar_goCount.action">
     	<table id="carbox" >
     		<thead id="list_head">
     			<tr>
+    				<td>选择</td>
     				<td>商品名称</td>
     				<td>商品图片</td>
     				<td>单价</td>
@@ -87,41 +94,213 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				<td>操作</td>
     			</tr>
     		</thead>
-    		<tbody class="">
+    		<tbody class="tbody">
     			<c:forEach items="${shopCarInfo }" var="shopCarItem">
-    			<tr>
+    			<tr>	
+    				<td><input type="checkbox" value="${shopCarItem.ptId }" checked="checked" name="newslist" id="newslist-1" class="newslist"></td>
     				<td><div class="pro-names">
 		         		<p class="pro-name">${shopCarItem.goodsName }</p>
 		         		</div>
 		         	</td>
     				<td><div class="col-img"><img src="../uploadpic/${shopCarItem.goodsminPic }"/></div></td>
-    				<td><div class="pro-price"><span>${shopCarItem.ptPrice }</span>元</div></td>
+    				<td><div class="pro-price"><span id="price${shopCarItem.goodsId }">${shopCarItem.ptPrice }</span>元</div></td>
     				<td><div class="pro-num">
-				         	<a id="numdec"><span class="num-" onclick="numDec()">-</span></a>
-				             <input class="goodsNum"  data-num="1" value="${shopCarItem.shopNum }" type="text" readonly="readonly" >
-				             <a id="numinc"><span class="num+" onclick="numInc()">+</span></a>
+				         	<a id="numdec"><span style="padding:6px 12px;" class="num-" onclick="numDec(${shopCarItem.goodsId })">-</span></a>
+				             <input class="goodsNum" id="${shopCarItem.goodsId }"  data-num="1" value="${shopCarItem.shopNum }" type="text" readonly="readonly" >
+				             <a id="numinc"><span style="padding:6px 12px;" class="num+" onclick="numInc(${shopCarItem.goodsId })">+</span></a>
 				         </div>
 		         	</td>
-    				<td><div class="pro-total"><span>${shopCarItem.ptPrice * shopCarItem.shopNum }</span>元</div></td>
+    				<td><div class="pro-total"><span id="priceTotal${shopCarItem.goodsId }">${shopCarItem.ptPrice * shopCarItem.shopNum }</span>元</div></td>
     				<td><div class="pro-action"><span title="删除" onclick="delete_car(${shopCarItem.shopId })">&nbsp;×&nbsp;</span></div></td>
     			</tr>
     			</c:forEach>
-    			
     		</tbody>
     	</table>
+    	
     	<div class="list-footer">
 	    	<div class="section-left">
-	        	<a class="back-shopping" href="">继续购物　</a>
-	            <span>共 <i class="total-number"> 1 </i> 件商品</span>
+	        	<a class="back-shopping" href="front/shop.jsp">继续购物　</a><%-- ${sessionScope.shopNumTotal } --%>
+	            <span>共 <i class="total-number">  ${sessionScope.shopNumTotal } </i> 件商品</span>
 	        </div>
 	        <div class="section-right">
-	        	<div class="pay-total"><span>合计（不含运费）: <span  id="zongjimoney" class="total-price">35.9</span> 元</span></div>
+	        	<div class="pay-total"><span>合计: <span  id="zongjimoney" class="total-price">${sessionScope.ptPriceTotal }<%-- ${sessionScope.ptPriceTotal } --%></span> 元</span></div>
 	            <div class="gopays"><a class="gopay" id="jiesuan" href="javascript:void(0)" onclick="gojiesuan()">去结算</a></div>
 	        </div>
 	    </div>
-	    </c:if>
+	    </form>	
+	 </c:if>
+	 
+<script type="text/javascript">
+	 var shopNum=0;
+	 var ptPrice=0;
+	 var totalPrice=0;//小计
+	 var totalNumber=0;
+	
+	 function numInc(id){
+		 shopNum = $("#"+id+"").val();
+		 ptPrice =$("#price"+id+"").html();
+		 
+		 shopNum =parseInt(shopNum) + 1;
+		 totalPrice =  parseInt(shopNum) * parseInt(ptPrice);
+		 
+		 $("#"+id+"").val(shopNum);
+		 $("#priceTotal"+id+"").html(parseInt(totalPrice).toFixed(1));
+		 setTotal();
+		 GetCount();
+	 }
+	 function numDec(id){
+		 shopNum = $("#"+id+"").val();
+		 ptPrice =$("#price"+id+"").html();
+		 
+		 shopNum =parseInt(shopNum) - 1;
+		 if(shopNum<=0){
+			 shopNum=0;
+		 }
+		 totalPrice =  parseInt(shopNum) * parseInt(ptPrice);
+		 $("#"+id+"").val(shopNum);
+		 $("#priceTotal"+id+"").html(parseInt(totalPrice).toFixed(1));
+		 setTotal();
+		 GetCount();
+	 }
+	 
+	 function setTotal(){
+		var len = $(".pro-total span");
+		var len1 = $(".goodsNum");
+		var totalMoney = 0;
+		var totalCount = 0;
+		for (var i = 0; i < len.length; i++) {
+			totalMoney = totalMoney + parseInt($(len[i]).text());
+		}
+		for (var i = 0; i < len1.length; i++) {
+			totalCount = totalCount + parseInt($(len1[i]).val());
+		}
+		$(".total-number").text(parseInt(totalCount));
+		$("#zongjimoney").text(parseInt(totalMoney).toFixed(1));
+	 }
+	 
+	 function GetCount() {
+		var totalMoney = 0;
+		var totalCount = 0;
+		$(".tbody input[name=newslist]").each(function () {
+			if($(this).attr("checked")) {
+				for (var i = 0; i < $(this).length; i++) {
+					//alert( parseInt($(this).parent().parent().find(".pro-total span").html()))
+					totalMoney += parseInt($(this).parent().parent().find(".pro-total span").text());
+					totalCount += parseInt($(this).parent().parent().find(".goodsNum").val());
+				//	totalCount = totalCount + parseInt($(len1[i]).val());
+				}
+			}
+		});
+		$(".total-number").text(totalCount);
+		$("#zongjimoney").text(parseInt(totalMoney).toFixed(1));
+	}
+			
+	// 所有复选(:checkbox)框点击事件 
+	$(".tbody input[name=newslist]").click(function () {
+		if ($(this).attr("checked")) {
+			$(this).attr("checked", false);
+			//alert($("[name='newslist']:checkbox:checked").length);
+		} else {
+			$(this).attr("checked", true);
+		}
+		GetCount();
+	});
+	
+	//删除操作
+	function delete_car(num){
+		//var divId=$("#list-body"+num);
+		var shopId = num;
+		//var goodsId=$("#delete_car"+num).parent().attr("id");
+		var usersId = $("#Id_hidden").val();
+		//alert(shopId)
+		if(window.confirm('您确定要删除此商品吗？')){
+			$.post("front/shopCar_delByShopId.action",{shopId:shopId,usersId:usersId},function(data){
+				if(parseInt($.trim(data.total))==1){
+					alert("删除成功");
+					document.location.reload();//页面重新加载
+				}
+			},'json'); 
+		} 
+	}
+</script>
+<script type="text/javascript">
+
+	var maxNum;  //购买的最大数目
+	var count; //数量
+	var danjia; //单价
+	var totalnumber = 0; //总数量
+	var totalPrice=0;  //总价
+	var total;  //单个商品的小计
+	var need_pay;
+	var list_objecta;
+	var size;
+	var loginname;	
+	
+	function gojiesuan() {
+		var str="";
+		var choosedNum =$("[name='newslist']:checkbox:checked");
+		if(choosedNum.length==0){
+			alert("请选择您需要购买的商品");
+		}else{
+			for(var i=0;i<choosedNum.length-1;i++){
+				str+=choosedNum[i].value+",";
+			}
+			str+=choosedNum[i].value;
+		}
+		var totalNum = $(".total-number").text();
+		var zongjimoney = $("#zongjimoney").text();
+		//alert(str);
+		var trnodes = $(".tbody").children("tr");
+		var trlength = $(".tbody").children("tr").length;	//tr的长度
+		var infos = "";
+		for(var i=0;i<trlength;i++){
+			if(trnodes.eq(i).children().find(".newslist").attr('checked')){
+				var ptId = trnodes.eq(i).children().find(".newslist").val();
+				var goodsName = trnodes.eq(i).children().find(".pro-names .pro-name").text();
+				var goodsminPic = trnodes.eq(i).children().find(".col-img img").attr("src");
+				var ptPrice = trnodes.eq(i).children().find(".pro-price span").text();
+				var goodsNum = trnodes.eq(i).children().find(".goodsNum").val();
+				var totalPrice = trnodes.eq(i).children().find(".pro-total span").text();
+				infos += ptId + "," + goodsName + "," + goodsminPic + "," + ptPrice + ","+goodsNum+","+totalPrice+";";
+			}
+		}
+		console.info(infos)
+		$.post("front/shopCar_getPayInfo.action",{str:str,infos:infos,totalNum:totalNum,zongjimoney:zongjimoney},function(data){
+			location.href="front/gocount.jsp";
+		});
+		
+		var usersId = $("#Id_hidden").val();
+		$.post("front/user_findAddrInfoById.action",{usersId:usersId},function(data){
+			 if(data.total<0){
+				 alert("请添加一个收获地址");
+			}
+		},'json');
+	}
+	
+	/* function gopay(){
+		var bbb= $("#mytable").children("tbody").children("tr");
+		var coun = $("#mytable").children("tbody").children("tr").length;
+		var song ="";
+		for(var i=0;i<coun;i++){
+			if($("#mytable").children("tbody").children("tr").eq(i).children(".fi").children("#checkeded").children(".list").attr('checked')){
+				var kaka = $("#mytable").children("tbody").children("tr").eq(i).children(".fi").children("#checkeded").children(".list");
+				song+=kaka.val()+","+$("#mytable").children("tbody").children("tr").eq(i).children(".fi").children(".pname_product").children("a").html()
+					+","+$("#mytable").children("tbody").children("tr").eq(i).find(".price_product").html()+","
+					+$("#mytable").children("tbody").children("tr").eq(i).find(".counts_product").val()+","
+					+$("#mytable").children("tbody").children("tr").eq(i).find(".small_product").html()+","
+					+$("#mytable").children("tbody").children("tr").eq(i).find(".pname_product").find("img").attr("src")+";";
+			}
+		}
+		$.post("shopCar_saveshopcar.action?song="+song,function(){
+			window.location.href="boqi_paymoney.action";
+		});
+	} */
+	
+	
+	
+</script>
 	    
-	    <c:if test="${empty shopCarInfo }">
+	    <c:if test="${empty shopCarInfo && not empty loginUsers  }">
 	    	<div class="main_empty"  id="main_empty">
 		        <div id="main_content">
 		            <img src="front/images/2015-11-18_202559.png" style="float:left;"/>
@@ -132,7 +311,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </c:if>
     </div>
     
-    <c:if test="${empty loginUsers }">
+    <c:if test="${empty loginUsers && empty shopCarInfo }">
 	     <div class="main_empty">
 	        <div id="main_content">
 	            <img src="front/images/2015-11-18_202559.png" style="float:left;"/>
@@ -237,198 +416,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	
-	<script type="text/javascript">
-
-	var maxNum;  //购买的最大数目
-	var count; //数量
-	var danjia; //单价
-	var totalnumber = 0; //总数量
-	var totalPrice=0;  //总价
-	var total;  //单个商品的小计
-	var need_pay;
-	var list_objecta;
-	var size;
-	var loginname;	
-	$(function(){
-		loginname=$(".name").html();
-		
-		if(loginname=="登录"){
-			$(".main").css("display","none");
-			$(".main_empty").css("display","block");
-			$("#main_empty").css("display","none");
-		}else{
-			/* $.post("shopCar_shopCarShow.action",function(data){
-				var str = data;
-				$(".testlist").html(str);
-				size=$(".testlist").children().size();
-				maxNum=10;
-				
-				list_objecta = $(".testlist").children();
-				
-				for (var i = 0; i < list_objecta.size(); i ++) {
-					var countss = $(list_objecta[i]).children().find($(".pro-num .goodsNum")).val(); //数量
-					var danjia=$(list_objecta[i]).children().find($(".pro-total span")).html(); //单价
-					totalnumber += parseInt(countss);
-					totalPrice +=parseInt(danjia);
-				}
-				
-				$(".total-number").html(totalnumber);
-				$(".total-price").html(totalPrice); 
-			
-			}); */
-		}
-	});
-	
-	
-	function gojiesuan() {
-		/*var test = $(".testlist").children();
-		alert(test    + "   "   +  test.size()  )
-		var str="";
-		for (var i = 0; i < test.size(); i ++) {
-			str += "[" + "{\"colimg\":\""+$(list_objecta[i]).children().find($(".col-img img")).attr('src')
-				+"\",\"proname\":\""+$(list_objecta[i]).children().find($(".pro-names p")).html()
-				+"\",\"proprice\":\""+$(list_objecta[i]).children().find($(".pro-price span")).html()
-				+"\",\"number\":\""+$(list_objecta[i]).children().find($(".pro-num input")).val()
-				+"\",\"prototal\":\""+$(list_objecta[i]).children().find($(".pro-total span")).html() +"\"}" + "]"  +","
-		}
-		$.post("shopDetailServlet",{op:"getInfo",str:str},function(data){
-			ajaxobj = eval("("+data+")")
-			//alert(data)
-			alert(ajax.info.size)
-			alert(ajaxobj.info[0].proname);
-		});
-		console.info(str);*/
-		
-		var totmoney = $("#zongjimoney").html();
-		var totgoods = $(".total-number").html();
-		//alert($("#total-number").html())
-		$.post("shopDetailServlet",{op:"getInfo",totmoney:totmoney,totgoods:totgoods},function(data){
-			location.href="front/gocount.jsp";
-		});
-	}
-	
-	
-	/*function numInc(num){
-		//var
-		
-		//var nums = parseInt(num);
-		//alert(nums);
-		//alert(${shopcarsid[num+0].usersId});
-		//console.info(num);
-		//console.info(${shopcarsid[0].goodsId})
-		//console.info(${shopcarsid[1].goodsId})
-		//console.info(${shopcarsid[num+1-1].goodsId});
-		//console.info(${shopcarsid[num+1-1].goodsId});
-		//var adduid;
-		//var addgid;
-		//for (var i = 0; i < $(".testlist").children().size(); i ++) {
-			//if (i == num) {
-				//var adduid = ${shopcarsid[i].usersId};
-				//var addgid = ${shopcarsid[i].goodsId};
-			//}
-		//}
-		 //= ss.usersId;
-		// = ss.goodsId;
-		//console.info(adduid)
-		//console.info(addgid)
-		//console.info(num+0)
-		count = $("#number_"+num).val();  //数量
-		danjia = $("#price"+num).html(); //单价
-		 if (count >= maxNum) {
-		 	$("#number_"+num).val(maxNum);
-			total=parseFloat(danjia)*maxNum;
-			$("#pro-total"+num).html(total.toFixed(2));
-			alert("对不起！此宝贝购买数量一次不能超过10件！谢谢您的厚爱！");
-		 } else{
-			count ++;
-			totalnumber ++;
-			total=parseFloat(danjia)*count;
-			totalPrice =parseFloat(totalPrice)+parseFloat(danjia);
-			//$.post("shopDetailServlet?d="+new Date(),{op:"btadd",adduid:adduid,addgid:addgid},function(data){
-			//	if (parseInt(data) > 0) {
-					$("#number_"+num).val(count);
-					$(".total-number").html(totalnumber);
-					
-					$("#pro-total"+num).html(total.toFixed(2));
-					$(".total-price").html(totalPrice.toFixed(2));
-				//} else {
-				//	alert("增加商品失败...")
-				//}
-			//});
-			
-		}
-	}*/
-	
-	/*function numDec(num){
-		count = $("#number_"+num).val();  //数量
-		danjia = $("#price"+num).html(); //单价
-		//console.info("数量"+count);
-	 	if(count>1){
-			count--;  //数量
-			totalnumber--; //总件数
-			total=parseFloat(danjia)*count;
-			totalPrice =parseFloat(totalPrice)-parseFloat(danjia);
-			//console.info(totalPrice);
-			$("#number_"+num).val(count);
-			$(".total-number").html(totalnumber);
-			$("#pro-total"+num).html(total.toFixed(2));
-			$(".total-price").html(totalPrice.toFixed(2));
-		}else{
-			delete_car(num);
-		}	
-	}*/
-	
-	function delete_car(num){
-		var divId=$("#list-body"+num);
-		var goodsId=$("#delete_car"+num).parent().attr("id");
-		if(window.confirm('您确定要删除此商品吗？')){
-			//console.info(goodsId);
-			$.post("shopDetailServlet?d="+new Date(),{op:"delByUidGid",goodsId:goodsId},function(data){
-				if(parseInt($.trim(data))==1){
-					$(divId).css("display","none");
-					totalPrice=totalPrice-parseFloat($("#pro-total"+num).html());
-					totalnumber=totalnumber-parseFloat($("#number_"+num).val());
-					$(".total-number").html(totalnumber);
-					$(".total-price").html(totalPrice.toFixed(2));
-					size--;
-					//console.info(size);
-					if(size==0){
-						$("#main_empty").show();
-						$(".main_empty").css("display","none");
-						$(".main").css("display","none");
-					}
-				}
-			}); 
-			
-			
-		}
-	}
-		/*
-		function selected_all(){
-			var quanxuan=$(".checked_all").html();
-			var choose1=$(".checkbox-checked").html();
-			if(quanxuan==""){
-				$(".checked_all").html("√");
-				
-				if(choose1=="" && choose1!="√"){
-					$(".checkbox-checked").html("√");
-				}
-			}else if(quanxuan!="" && quanxuan=="√"){
-				$(".checked_all").html("");
-				$(".checkbox-checked").html("");
-			}
-		}	
-		function selected_single(){
-			var choose1=$(".checkbox-checked").html();
-			if(choose1==""){
-				$(".checkbox-checked").html("√");
-			}else if(choose1!=""){
-				$(".checkbox-checked").html("");
-			}
-		}
-		*/
-	
-	
-	</script>
 </body>
 </html>

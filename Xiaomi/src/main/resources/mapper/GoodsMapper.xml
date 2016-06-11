@@ -61,6 +61,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getIndexGoodsInfo" resultType="Goods">
-		select * from goods
+		select * from goods where goodsSta=1
 	</select>
 </mapper>

@@ -47,9 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var car_count=$("#end i").html();
 			var usersId = $("#Id_hidden").val();
 			$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(data){
-				if(data.total==1){
-					location.href="front/shopcar.jsp";
-				}
+				location.href="front/shopcar.jsp";
 			});		
 		}
 	

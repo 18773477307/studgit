@@ -8,4 +8,6 @@ public interface ShopCarService {
 
 	List<Shop_Goods_Car> getShopCarInfoByUsers(int usersId);
 
+	int delByShopId(int shopId);
+
 }

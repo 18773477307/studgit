@@ -18,8 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script type="text/javascript" src="front/js/jquery.cityselect.js"></script>
 		<script src="front/js/gocount.js" type="text/javascript"></script>
 		
-		
 		<script>
+		 
 			function goorder(){
 				$.post("ordersServlet?d="+new Date(),{op:"findorderesbyuserId"},function(data){
 					if(parseInt($.trim(data))==0){
@@ -31,6 +31,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 				});
 			}
+			$(function(){
+				var usersId = $("#Id_hidden").val();
+				$.post("front/user_findAddrInfoById.action",{usersId:usersId},function(data){
+					 if(data.total<0){
+						 alert("请添加一个收获地址");
+					}
+				},'json');
+				//订单信息显示出来
+				addinfo();
+			});	
+			
+			//添加信息
+			function addinfo(){
+				var infofo = "${goCountInfo}";
+				var shu = infofo.split(";");
+				var shing = "";
+				for(var i=0;i<shu.length-1;i++){
+					var shu2 = shu[i].split(",");
+					$("#mytables").append("<tr class='infos'><td class='product_ptId'><input type='hidden' name='ptId' id='ptId_hidden' value='"+shu2[0]+"'/></td>"
+							+"<td class='goodsName'>"+shu2[1]+"</td><td class='img_order'><img src='"+shu2[2]+"' alt='图片暂时为空' class='goodsminPic'/></td><td class='ptPrice' id='price'>"+shu2[3]+"元</td>"
+							+"<td class='goodsNum' id='num'>"+shu2[4]+"件</td><td class='totalPrice' id='toprice'>"+shu2[5]+"元</td></tr>");
+					//sum+= parseInt(shu2[4]);
+				}
+				//$(".yingfumoney").html(sum);
+			}
+			
 		</script>
   </head>
   
@@ -50,6 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <div class="topbar-info">
 		            	<c:if test="${not empty loginUsers }">
 			        		<a class="user-name" style="text-decoration: none; color:#666;" >
+			        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
 			        		<span class="name">当前登录：${loginUsers.usersName }</span>
 			        		<span class="iconfont">&or;</span></a>
 			        	</c:if>
@@ -64,53 +91,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		         </div> 
 			</div>
 
-			<script type="text/javascript">
-				$(function(){
-				
-				loginname=$(".name").html();
-		
-				if(loginname=="登录"){
-					location.href="front/MiHome.jsp";
-				}else{
-					$.post("addressServlet?d="+new Date(),{op:"findAddrInfoById"},function(data){
-						if(data!=0){
-							var str="<p class='addr_title'>收货地址</p>";
-							var info=data.list;
-							for(var i=0;i<info.length;i++){
-								str+="<div class='addr_detail have addrdiv"+i+"' onmouseover='showUpdate("+i+")'  onmouseout='clearUpdate("+i+")' onclick='usersAddr1("+i+")' onblur='usersAddr2("+i+")' id='"+info[i].addrId+"'>";
-								str+="<p><span class='username'>"+info[i].reserve4+"</span><span class='addr small'>"+info[i].reserve3+"</span></p>";
-								str+="<p class='tel'>"+info[i].addrTel+"</p>";
-								str+="<p class='addr big'><span class='big1'>"+info[i].province+"</span><span class='big2'>"+info[i].city+"</span><span class='big3'>"+info[i].county+"</span></p>";
-								str+="<p class='addr middle'>"+info[i].detailAddr+" </p>";
-								str+="<p><a class='change' id='change"+i+"' onclick='updateClick("+i+")'>修改</a></p></div>";
-								
-							}
-							//console.info(str);
-							$("#address").html(str);
-						}else{
-							alert("请添加一个收获地址");
-							
-						}
-					},'json');
-				}
-			});		
-			
-			
-				
-				
-			</script>
-
-			
 			<div id="body">
 				<div id="main">
+					<p class='addr_title'>收货地址</p>
 					<div id="address">
-						<!-- <div class="addr_detail have" onmouseover="showUpdate()" onmouseout="clearUpdate()" onclick="usersAddr()" style="" id="addr1">
-							<p><span class="username">收货人姓名</span><span class="addr small">421002</span></p>
-							<p class="tel">18976651252</p>
-							<p class="addr big"><span class="big1">湖南</span><span class="big2">衡阳</span><span class="big3">珠晖区</span></p>
-							<p class="addr middle">衡花路18号 湖南工学院 </p>
-							<p><a class="change" id="change1">修改</a></p>
-						</div> -->
+						<c:forEach items="${addresseInfo }" var="addrItem">
+						<c:if test="${addrItem.defaultaddr eq 1 }">
+						<div class="addr_detail have" style="background: url(front/images/1BG.png);" onclick="sureAddr(${addrItem.addrId })" onmouseover="showUpdate(${addrItem.addrId })" onmouseout="clearUpdate(${addrItem.addrId })" id="${addrItem.addrId }">
+							<p><span class="username">${addrItem.recipient }</span><span class="postcode" style="margin-left: 100px;">${addrItem.postcode }</span></p>
+							<p class="tel">${addrItem.addrTel }</p>
+							<p class="addr big"><span class="big1">${addrItem.province }</span><span class="big2">${addrItem.city }</span><span class="big3">${addrItem.county }</span></p>
+							<p class="addr middle">${addrItem.detailAddr } </p>
+							<p><a class="change" id="change${addrItem.addrId }" class="${addrItem.addrId }" onclick="updateClick(${addrItem.addrId })">修改</a></p>
+						</div>
+						</c:if>
+						<c:if test="${addrItem.defaultaddr eq 0 }">
+							<div class="addr_detail have" style="background: url(front/images/3.png);" onclick="sureAddr(${addrItem.addrId })" onmouseover="showUpdate(${addrItem.addrId })" onmouseout="clearUpdate(${addrItem.addrId })" id="${addrItem.addrId }">
+							<p><span class="username">${addrItem.recipient }</span><span class="postcode" style="margin-left: 100px;">${addrItem.postcode }</span></p>
+							<p class="tel">${addrItem.addrTel }</p>
+							<p class="addr big"><span class="big1">${addrItem.province }</span><span class="big2">${addrItem.city }</span><span class="big3">${addrItem.county }</span></p>
+							<p class="addr middle">${addrItem.detailAddr } </p>
+							<p><a class="change" id="change${addrItem.addrId }" class="${addrItem.addrId }" onclick="updateClick(${addrItem.addrId })">修改</a></p>
+						</div>
+						</c:if>
+						</c:forEach>
 					</div>
 					<div class="no" style="margin-left:50px; width:250px; height: 70px; float: left; border: 1px solid #f0f0f0;">
 						<div id="add">
@@ -126,90 +130,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<p><a class="return_car">返回购物车<span class="iconfont"><</span></a></p>
 								<script type="text/javascript">
 									$(".return_car").click(function () {
-										$.post("ordersServlet?d="+new Date(),{op:"goblackcar"},function(data){
-											if(parseInt($.trim(data))==0){
-												if(window.confirm('您的购物车中没有商品，去商城购物吧！')){
-													location.href="front/shop.jsp";
-												}
-											}else if(parseInt($.trim(data))==1){
-												location.href="front/shopcar.jsp";
-											}
-										});
+										var usersId = $("#Id_hidden").val();
+										$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(data){
+											location.href="front/shopcar.jsp";
+										});	
 									});
 								</script>
 							</div>
 						</div>
-						<%-- <div class="section-body">
-                    		<ul class="goods-list" id="">
-                                <li class="clearfix">
-                                	<div class="col col-img">
-                                		<img src="front/images/dianyuan.jpg" width="30" height="30">
-                            		</div>
-                            		<div class="col col-name">
-                                    </div>
-                            		<div class="col col-price">${totgoods }</div>
-                            		<div class="col col-total">${totmoney }</div>
-                        		</li>
-                            </ul>
-                		</div> --%>
-                		<!--
-                        	作者：刘娟
-                        	时间：2016-01-08
-                        	描述：结算详情
-                        -->
-                        
-                        <div id="carbox">
-				        	<div class="order_detail">
-				            	<div id="spPic"> </div>
-				                <div id="spName">商品名称</div>
-				                <div id="danjia">单价</div>
-				                <div id="shuliang">数量</div>
-				            </div>
-				            <c:if test="${not empty shopaccount }">
-	      	     				<c:forEach items="${shopaccount }" var="itemms">
-	      	     					<div class="list-body">
-						            	<div class="col-img"><img src="${itemms.goodsPic }"/></div>
-						                <div class="pro-names">
-						                	<p class="pro-name"> ${itemms.goodsName } </p>
-						                </div>
-						                <div class="priceSingle">${itemms.goodsPrice }</div>
-						                <div class="pro-num">
-						                	<span>${itemms.goodsNum }</span> 件
-						                </div>
-				           			</div>
-	      	     				</c:forEach>
-	     					</c:if>
-				       	</div>
+						<div class="section-body">
+							<table id="carbox" >
+					    		<thead id="list_head">
+					    			<tr>
+					    				<td></td>
+					    				<td>商品名称</td>
+					    				<td>商品图片</td>
+					    				<td>单价</td>
+					    				<td>数量</td>
+					    				<td>小计</td>
+					    			</tr>
+					    		</thead>
+					    		<tbody class="tbody" id="mytables">
+					    		</tbody>
+					    	</table>
+                		</div>
 				       	
                 		<div class="money-box" id="">
 		                    <ul>
 		                        <li class="clearfix">
 		                            <label>商品件数：</label>
-		                            <span class="val">${totgoods }</span>
+		                            <span class="val">${totalNum } 件</span>
 		                        </li>
 		                        <li class="clearfix">
 		                            <label>金额合计：</label>
-		                            <span id="money" class="val">${totmoney }</span>
+		                            <span id="money" class="val">${zongjimoney } 元</span>
 		                        </li>
 		                    </ul>
 		                </div>
-		                
-		                
-		                <!-- <div class="addr_detail have" onclick="usersAddr()" style="margin-left: 450px; margin-top: 10px;">
-							<p><span class="username">收货人姓名</span><span class="addr small">421002</span></p>
-							<p class="tel">18973416802</p>
-							<p class="addr big">湖南  衡阳  珠晖区</p>
-							<p class="addr middle">衡花路18号 湖南工学院 </p>
-							<p><a class="change" id="change2">修改</a></p>
-						</div> -->
 					</div>
 					
 					
 					<div id="main_footer">
-						<div class="count"><input id="buy" class="buy" type="button" value="去结算" ></div>						
+						<div class="count"><input id="buy" class="buy" type="button" value="提交订单" ></div>						
 					</div>
 					<script type="text/javascript">
-						var money=${totmoney }
+						var money=${zongjimoney }
 						$(".buy").click(function () {
 							$.post("ordersServlet?d="+new Date(),{op:"AddorderesInfo",money:money},function(data){
 								if(parseInt($.trim(data.substring(0,1)))==0){
@@ -242,7 +207,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="order_post_message">
 						<h2>订单提交成功 ！去付款咯~</h2>
-						<p>应付总额：<span class="pay_money">${totmoney }元</span></p>
+						<p>应付总额：<span class="pay_money">${zongjimoney }元</span></p>
 					</div>
 					<a class="look_order" title="查看订单详情"><img src="front/images/look_order.jpg"></a>
 					<div class="order_post_detail">

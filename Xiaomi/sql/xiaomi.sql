@@ -51,10 +51,14 @@ create table  address(
 	   reserve3 varchar2(20),	   --备用字段
 	   reserve4 varchar2(20)       --备用字段
 );
+select a.*,u.usersName from address a,usersinfo u where a.usersId = u.usersId and a.usersId =1011
+
 create sequence seq_address_addrId start with 1001 increment by 1;
 select u.usersName,province,city,county,detailAddr,reserve4,addrTel from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=10)b,usersInfo u where rn>0 and b.usersId=u.usersId
-insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳','珠晖','湖南工学院','18773477307',1,'421002','彭健','','');
-update address set province='湖南' ,city = '衡阳市',county='珠晖区' where usersId=1007
+insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳市','珠晖区','湖南工学院','18773477307',1,'421002','彭健','','');
+insert into address values (seq_address_addrId.nextval,1011,'湖南','湘潭市','雨湖区','易俗河镇','18973416800',0,'411208','刘娟','','');
+insert into address values (seq_address_addrId.nextval,1011,'湖南','衡阳市','珠晖区','湖南工学院','13273219584',0,'421002','傻妞','','');
+update address set province='湖南' ,city = '衡阳市',county='珠晖区',defaultaddr=0 where usersId=1011
 ---------------------------------------------------------------------------------------------
 select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9
 select u.usersName,province,city,county from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9)b,usersInfo u where rn>0 and b.usersId=u.usersId and usersName like '%2%'
@@ -295,6 +299,12 @@ create sequence seq_shopCar_shopId start with 1001 increment by 1;
 select * from usersinfo;
 select * from product;
 select * from goods;
+
+select *
+from goods where goodsSta=1
+
+select count(1) from product p,goods g where p.goodsId=g.goodsId and g.goodsId= 1001
+
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId;
 select count(1) from shopCar where usersId=1011
 insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'','');
@@ -304,10 +314,11 @@ insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
 --查询---------------------------------------------------------------------------------
 select * from shopCar where usersId=1011
+select count(1) from shopCar where usersId=1011 and shopSta=1
 select * from shopCar;
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
 --跟新---------------------------------------------------------------------------------
-update shopCar set shopSta=2 where shopId=1
+update shopCar set shopSta=1 where shopId=1002
 --删除---------------------------------------------------------------------------------
 drop table shopCar;
 drop sequence seq_shopCar_shopId

@@ -9,4 +9,6 @@ import com.xiaomi.entity.Shop_Goods_Car;
 public interface ShopCarMapper {
 
 	List<Shop_Goods_Car> getShopCarInfoByUsers(int usersId);
+
+	int delByShopId(int shopId);
 }
