@@ -252,7 +252,7 @@
                     </div>
                 </div>
             <li class="fuwu"><a target="_blank" href="front/shop.jsp">商城</a></li>
-            <li class="shequ"><a target="_blank" href="articleServlet?op=indexDataInfo">社区</a></li>
+            <li class="shequ"><a target="_blank" href="front/article_getIndexArticleInfo.action">社区</a></li>
         </ul>
     </div>
     

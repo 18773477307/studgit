@@ -97,7 +97,6 @@
 							for(var i=0;i<rows.length;i++){
 								resIds.push(rows[i].resId);
 							}
-							alert(resIds.length);
 							//将要删除aid发到服务器
 							$.post("back/resources_delresources.action",{resIds:resIds},function(data){
 								if(data.total==1){//删除添加

@@ -8,6 +8,7 @@ public class Artcomment implements Serializable {
 	private int comId;
     private int artId;
     private int usersId;
+    private String usersName;
     private String comCont;
     private String comDate;
     private String comSta;
@@ -30,6 +31,13 @@ public class Artcomment implements Serializable {
 	}
 	public void setUsersId(int usersId) {
 		this.usersId = usersId;
+	}
+	
+	public String getUsersName() {
+		return usersName;
+	}
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
 	}
 	public String getComCont() {
 		return comCont;
@@ -61,19 +69,24 @@ public class Artcomment implements Serializable {
 	public void setReserve26(String reserve26) {
 		this.reserve26 = reserve26;
 	}
+	
 	@Override
 	public String toString() {
 		return "Artcomment [comId=" + comId + ", artId=" + artId + ", usersId="
-				+ usersId + ", comCont=" + comCont + ", comDate=" + comDate
-				+ ", comSta=" + comSta + ", reserve25=" + reserve25
-				+ ", reserve26=" + reserve26 + "]";
+				+ usersId + ", usersName=" + usersName + ", comCont=" + comCont
+				+ ", comDate=" + comDate + ", comSta=" + comSta
+				+ ", reserve25=" + reserve25 + ", reserve26=" + reserve26 + "]";
 	}
-	public Artcomment(int comId, int artId, int usersId, String comCont,
-			String comDate, String comSta, String reserve25, String reserve26) {
+	
+	
+	public Artcomment(int comId, int artId, int usersId, String usersName,
+			String comCont, String comDate, String comSta, String reserve25,
+			String reserve26) {
 		super();
 		this.comId = comId;
 		this.artId = artId;
 		this.usersId = usersId;
+		this.usersName = usersName;
 		this.comCont = comCont;
 		this.comDate = comDate;
 		this.comSta = comSta;

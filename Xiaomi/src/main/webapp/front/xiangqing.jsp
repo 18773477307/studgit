@@ -15,14 +15,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<link type="text/css" href="front/css/sq_right.css" rel="stylesheet"/>
 	<link type="text/css" href="front/css/sq_footer.css" rel="stylesheet"/>
 	<script type="text/javascript" src="front/js/jquery-1.11.3.js"></script>
-	
 	<script type="text/javascript" src="front/js/sq.js"></script>
 	
 	<script>
 		//注销
 		function loginOut(){
 			if(window.confirm('您确定要注销登录吗？')){
-				$.post("usersServlet?d="+new Date(),{op:"usersOut"},function(data){
+				$.post("front/user_usersOut.action",function(data){
 				console.info(data);
 					if(parseInt($.trim(data))==1){
 						var str='<li><a href="front/login.html">登录&nbsp;</a></li>';
@@ -35,9 +34,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		//插入评论
 	 	function publish(){
 	 		var text=$.trim($("#text").val());
-	 		var url=document.location.href;
-			var artId=url.split("?")[1];
-	 		$.post("artCommentServlet?d="+new Date(),{op:"addArtComment",text:text,artId:artId},function(data){
+			var artId=$.trim($("#artId").val());
+	 		$.post("front/article_addArtComment.action",{text:text,artId:artId},function(data){
 	 			if(parseInt($.trim(data))>=1){
 					$("#text").val("");
 					//重写评论次数
@@ -47,58 +45,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 	 		});
 		}
-		//插入评论
-		function publish1(){
-	 		var text=$.trim($("#text1").val());
-	 		var url=document.location.href;
-			var artId=url.split("?")[1];
-	 		$.post("artCommentServlet?d="+new Date(),{op:"addArtComment",text:text,artId:artId},function(data){
-	 			if(parseInt($.trim(data))>=1){
-					$("#text1").val("");
-					//重写评论次数
-					document.getElementById("count").innerHTML=data;
-				}else{
-					alert("您的评论失败，谢谢您的参与");
-				}
-	 		});
-		}
-		//模拟一个请求到服务器拿数据，拿到数据后重写内容区
-  		var xmlHttp;
-  		//创建一个请求
-  		function createXMLHttpRequest(){
-  			if(window.XMLHttpRequest){
-  				xmlHttp=new XMLHttpRequest();
-  			}else{
-  				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
-  			}
-  		}
-  		
-  		//发送请求
-  		function startRequest(){
-  			createXMLHttpRequest();
-  			//当前状态值发生改变是时候，调用后的函数进行处理
-  			xmlHttp.onreadystatechange=function(){
-  				if(xmlHttp.readyState==4){
-  					if(xmlHttp.status==200){
-  						//alert(xmlHttp.responseText);
-  						document.getElementById("comment_top").innerHTML=xmlHttp.responseText; 					
-  					}
-  				}
-  			}
-  			//重新打开评论区
-  			xmlHttp.open("GET","front/docontent.jsp");
-  			xmlHttp.send(null);
-  		}
-  		window.setInterval("startRequest()", 1000);
-  		//评论分页
-  		function pageInfo(op){
-  			var url=document.location.href;
-			var artId=url.split("?")[1];
-			$.post("pageServlet?t="+new Date(),{op:op,artId:artId},function(data){},"json");
-		}
-		$(function(){
-			pageInfo(1);
-		});
 	</script>
 </head>
 
@@ -138,46 +84,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div> <!--导航栏部分结束-->
     
     
-    
-    
-    
     <div id="main_contain">  
     	<div  class="contain_left">
         	<div class="contain_left_topic">
                 <div id="topic_top">
                     <h2>
-                    	<c:if test="${not empty xiangqing }">
+                    	<c:if test="${not empty article }">
                     		<img src="front/images/topic_typle_fx.png">
-							<span id="title">${xiangqing.artTitle }</span>
+							<span id="title">${article.artTitle}</span>
 						</c:if>
                    </h2>
                 </div>
                 
-                
                 <div class="reply fixed absolute" >
                     <input type="text" id="text" class="txt"  placeholder="发表你的看法" >
-                    <c:if test="${not empty loginUsers }">
-                		<span id="replyKey" class="btn btnlineLight" onclick="publish()">发表</span>
-		        	</c:if>
-		        	<c:if test="${empty loginUsers }">
-		   				<a href="front/login.html"><span id="replyKey" class="btn btnlineLight">发表</span></a>
-		   			</c:if>
+                	<span id="publish1" class="btn btnlineLight" onclick="publish()">发表</span>
                 </div>
                 
                 
                 <div id=counts>
+                	<input type="hidden" id="artId" value="${article.artId }"/>
 	                <p class="text"><span></span>
-	                	<img src="front/images/see.png">
-			            	<c:if test="${not empty xiangqing }">
-				        		${xiangqing.artViews }
-				        	</c:if>　
-	                	<img src="front/images/msg.png"><a id="count">${sessionScope.commoncounts }</a>
+	                	<img src="front/images/see.png">${article.artViews }
+	                	<img src="front/images/msg.png"><a id="count">${article.commentsCount }</a>
 	                </p>
                 </div>
                 
                 <div id="topic_body">
-                    <c:if test="${not empty xiangqing }">
-						${xiangqing.artCont }
+                    <c:if test="${not empty article }">
+						${article.artCont }
 					</c:if>
                     
                 
@@ -186,20 +121,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <img src="front/images/reply_user.gif">
                         </a>
                         <input id="text1" class="txt" placeholder="说说你的看法" type="text">
-                        <c:if test="${not empty loginUsers }">
-                			<span id="publish" class="btn" onclick="publish1()">发表</span>
-			        	</c:if>
-			        	<c:if test="${empty loginUsers }">
-			   				<a href="front/login.html"><span id="publish" class="btn">发表</span></a>
-			   			</c:if>
+                        <span id="publish2" class="btn" onclick="publish()">发表</span>
                     </div>
                 </div>
             </div>    
             
             <div id="left_topic_comment">
-            
             	<div id="comment_top" class="comment"> <!-- 评论的内容 -->
-            		<%@include file="content.jsp"%>
+            		<div id="comment_top" class="comment"> <!-- 评论的内容 -->
+            		<div class="reply_con">    <!-- 评论的主要块 -->
+				        <div class="reply_title">
+				            <span class="reply_nav"><a>最新评论　</a><span>|</span><a class="orderby">　正序排列</a></span>
+				        </div>
+				              
+			           <ul class="reply_list">
+				     	   <c:if test="${not empty article.artcomments }">
+				      	      <c:forEach items="${article.artcomments }" var="itemms">
+				      		    <li>
+				                   	<div class="reply_list_img">
+				                       <img src="front/images/reply_list_img1.jpg">
+				                    </div>
+				                    <div class="reply_list_con">
+				                    	<div class="user_info">
+				                        	<a>${itemms.usersName }</a> <span>发布于　</span><span>${itemms.comDate }</span><span id="reply_floor"></span>
+				                        </div>
+				                        <div class="main_con">
+				                        	${itemms.comCont }
+				                        </div>                           	
+				                     </div>
+				                 </li>
+				               </c:forEach>
+				     		</c:if>
+			           </ul>
+					</div>
                 </div>
                 
                 
@@ -214,12 +168,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         </ul>
                     </div>
                 </div>
-            
-            </div>
-        </div>  <!--左边部分结束-->
-        
-        
-        
+             </div>
+           </div>
+        </div> <!--左边部分结束-->
         
         <div class="contain_right">
             <div class="topic-auth">

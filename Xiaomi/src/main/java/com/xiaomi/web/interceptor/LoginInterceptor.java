@@ -24,6 +24,7 @@ public class LoginInterceptor extends MethodFilterInterceptor {
 		Map<String,Object> session=ActionContext.getContext().getSession();//取到session的封装对象
 		Object obj=session.get(SessionAttributeKey.LOGIN_USER);
 		if(obj==null){
+			System.out.println(obj);
 			session.put(SessionAttributeKey.ERROR_MSG, "请登入后再进行操作!!!!");
 			return "login";
 		}

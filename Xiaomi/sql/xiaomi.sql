@@ -402,7 +402,6 @@ create table article(
 	   reserve23 varchar2(20),               --备用字段
 	   reserve24 varchar2(20)               --备用字段                     
 );
-
 create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
@@ -440,8 +439,8 @@ create table artcomment(
 );
 create sequence seq_artcomment_comId start with 1001 increment by 1;
 ---插入------------------------------------------------------------------------------------------------
-insert into artcomment values (seq_artcomment_comId.nextval,1006,1001,'文章评论内容',TO_DATE('2016-02-02 14:22:23','yyyy-mm-dd hh24:mi:ss'),1,'');
-insert into artcomment values (seq_artcomment_comId.nextval,1007,1002,'文章评论内容文章评论内容文章评论内容',TO_DATE('2016-01-02','yyyy-mm-dd'),1,'');
+insert into artcomment values (seq_artcomment_comId.nextval,1001,1001,'文章评论内容',sysdate,1,'','');
+insert into artcomment values (seq_artcomment_comId.nextval,1007,1002,'文章评论内容',TO_DATE('2016-01-02','yyyy-mm-dd'),1,'');
 ---查询------------------------------------------------------------------------------------------------
 select * from artcomment;
 ---删除----------------------------------------------------------------------------------------------
@@ -449,8 +448,9 @@ drop table artcomment;
 drop sequence seq_artcomment_comId
 -----------------------------------------------------------------------------------------------------
 select * from article;
-select * from goods;
+select * from artcomment;
 select * from usersInfo;
+select comId,artId,usersId,usersName,comCont,comDate from artcomment a,usersInfo where a.usersId=u.usersId and artId=#{artId}
 --14--------------------------------------------------------------------------------------------------
 --商品评价表    
 --要添加约束：一个产品编号和用户编号唯一

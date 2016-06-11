@@ -53,5 +53,25 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	void updateartSta(ArticleBean articleBean);
+	
+	/**
+	 * 社区首页信息
+	 * @return
+	 */
+	List<ArticleBean> findindexArticle();
+	
+	/**
+	 * 文章详情页面信息
+	 * @param articleBean
+	 * @return
+	 */
+	ArticleBean findarticlebyInfo(ArticleBean articleBean);
+	
+	/**
+	 * 浏览次数加1
+	 * @param articleBean
+	 * @return
+	 */
+	int updateViews(ArticleBean articleBean);
 
 }
