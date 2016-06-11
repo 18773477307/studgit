@@ -1,5 +1,6 @@
 --blob:二进制lob，为二进制数据，最长可达4GB，存贮在数据库中。
 --clob:字符lob,字符数据,最长可以达到4GB,存贮在数据库中。
+commit;
 --1-------------------------------------------------------------------------------------------------------------------------------------
 --用户信息表
 create table usersInfo(
@@ -392,6 +393,8 @@ insert into resources values (seq_resources_resId.nextval,'小米平板2','video
 select * from resources;
 select resId,resName,resCont,resWords,resDate,resViews,resSta,re.goodsId,goodsName from resources re,goods g where g.goodsId=re.goodsId
 ---删除-------------------------------------------------------------------------
+delete resources;
+delete from resources where resId=1002 
 drop table resources;
 drop sequence seq_resources_resId
 --12-----------------------------------------------------------------------------
@@ -414,30 +417,16 @@ create table article(
 create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
-<<<<<<< HEAD
-
+select * from article;
+select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
 ---插入--------------------------------------------------------------------------------------------------
 insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
 select * from article;
-=======
+
 ---插入--------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
 insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');=======
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
-select * from article;
-select b.* from (select a.*,rownum rn from 
-=======
-select * from article;
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
-select b.* from (select a.*,rownum rn from 
-<<<<<<< HEAD
->>>>>>> branch 'master' of git@github.com:18773477307/studgit.git
-		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
-select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
-=======
-		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 --删除-------------------------------------------------------------------------------------------------
 drop table article;
 delete article;

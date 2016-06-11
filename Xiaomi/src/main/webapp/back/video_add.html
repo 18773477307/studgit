@@ -1,6 +1,13 @@
 <table id="video_add_show" data-options="fit:true"></table>
 <script>
 	var resStaObj=[{Sta:2,sname:'不可用'},{Sta:1,sname:'可用'}];
+	$.post("back/goods_goodsNames.action",function(data){
+		var goods=data.rows;
+		for(var i = 0; i < goods.length; i++)
+		{
+			$("#resources_goodsId").append("<option value='"+ goods[i].goodsId +"'>" + goods[i].goodsName+ "</option>");
+		}
+	},"json");
 	datagrid=$('#video_add_show').datagrid({
 		url:'back/resources_GetAllResources.action',
 		fitColumns:true,
@@ -42,13 +49,6 @@
 			iconCls:'icon-add',
 			handler:function(){
 				$("#resources_add_videoInfo").dialog("open");
-				$.post("back/goods_goodsNames.action",function(data){
-					var goods=data.rows;
-					for(var i = 0; i < goods.length; i++)
-					{
-						$("#resources_goodsId").append("<option value='"+ goods[i].goodsId +"'>" + goods[i].goodsName+ "</option>");
-					}
-				},"json");
 			}
 		},{
 			text:"修改",
@@ -65,25 +65,15 @@
 					});
 				}else{
 					var resId=rows.resId;
-					$("#resources_update_newsInfo").dialog("open");
-					$("#update_artice_info").attr("href","javascript:updateresourcesInfo("+artId+")");
-					$.post("back/resources_resourcesByartId.action",{artId:artId},function(data){
+					$("#resources_updata_videoInfo").dialog("open");
+					$("#updata_video").attr("href","javascript:updataresourcesInfo("+resId+")");
+					$.post("back/resources_findResourcesByInfo.action",{resId:resId},function(data){
 						var resources=data.rows;
-						$("#update_artTitle").val(resources[0].artTitle);
-						$("#update_artStaTime").datebox('setValue',resources[0].artStaTimes);
-						$("#update_artAuth").val(resources[0].artAuth);
-						$("#update_artWeight").val(resources[0].artWeight);
-						$("#update_fileinfo").val(resources[0].fileinfo);
-						$("#update_artSta").val(resources[0].artSta);
-						
-						var artCont=resources[0].artCont;
-						ue2.ready(function(){  
-					        ue2.setContent(artCont);  
-					    });  
-						var str="";
-						var pics=resources[0].artPic;
-						str+="<img src='../uploadpic/"+pics+"' width='100px'>&nbsp;";
-						$("#update_resources_artPic_show").html($(str));
+						$("#updata_resName").val(resources[0].resName);
+						$("#updata_resDate").datebox('setValue',resources[0].resDates);
+						$("#updata_goodsId").append("<option value='"+ resources[0].goodsId +"'>" + resources[0].goodsName+ "</option>");
+						$("#updata_resWords").val(resources[0].resWords);
+						$("#updata_vid").attr("src","../video/"+resources[0].resCont);//设置视频路径，标签中不需要添加src属性
 					},"json");
 				}
 			}
@@ -103,13 +93,13 @@
 				}else{
 					$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
 						if(r){
-							var artIds="";
-							for(var i=0;i<rows.length-1;i++){
-								artIds+=rows[i].artId+",";
+							var resIds = new Array();
+							for(var i=0;i<rows.length;i++){
+								resIds.push(rows[i].resId);
 							}
-							artIds+=rows[i].artId;
+							alert(resIds.length);
 							//将要删除aid发到服务器
-							$.post("back/resources_delresourcesInfo.action",{artIds:artIds},function(data){
+							$.post("back/resources_delresources.action",{resIds:resIds},function(data){
 								if(data.total==1){//删除添加
 									$.messager.show({
 										title:'删除提示',
@@ -130,41 +120,95 @@
 	});
 		
 	
-	function findResourcesByInfo(){
-		var resName=$.trim($("#show_resources_resName").val());
-		var resDate=$("#show_resources_resDate").datebox('getValue');
-		var goodsId=$.trim($("#show_resources_goodsId").val());
-		$('#video_goods_show').datagrid({
-			url:'back/resources_findResourcesByInfo.action',
-			queryParams:{resName:resName,resDate:resDate,goodsId:goodsId}
-		});
-	}
-	
 	function playResources(resCont){
 		$("#videoplaying").dialog("open");
 		if(resCont!=null&&resCont!=""){
-			$("#trymedia").css("display","block");
-			$("#trymedia").attr("src","../video/"+resCont);//设置视频路径，标签中不需要添加src属性
-			$("#trymedia").load();//video重新加载
+			$("#try_play").css("display","block");
+			$("#try_play").attr("src","../video/"+resCont);//设置视频路径，标签中不需要添加src属性
+			$("#try_play").load();//video重新加载
 		}else{
-			$("#trymedia").css("display","none");
+			$("#try_play").css("display","none");
 		}
 	}
 	
 	$("#videoplaying").dialog({  
 	    onClose: function () {  
-	    	$("video")[0].pause();
+	    	$("#try_play")[0].pause();
 	    }  
 	}); 
 	
+	//视屏预览
 	function previewMultipleVideo(file) {
 		var videos=file.files;
 		var videoPath=window.URL.createObjectURL(videos[0]);
-		$("#vid").attr("src",videoPath);//设置视频路径，标签中不需要添加src属性
+		$("#add_vid").attr("src",videoPath);//设置视频路径，标签中不需要添加src属性
+	}
+	//添加视屏
+	function addresourcesInfo() {
+		var resName=$.trim($("#resources_resName").val());
+		var resDate=$("#resources_resDate").datebox('getValue');
+		var goodsId=$.trim($("#resources_goodsId").val());
+		var resWords=$.trim($("#resources_resWords").val());
+		$.ajaxFileUpload({
+			url:"back/resources_addResources.action",
+			secureuri:false,
+			fileElementId:"resources_resCont",
+			dataType:"json",
+			data:{resName:resName,resDate:resDate,goodsId:goodsId,resWords:resWords},
+			success:function(data,status){
+				if(parseInt($.trim(data.total))==1){//说明是成功的
+					$("#add_vid")[0].pause();//关闭播放的视屏
+					$.messager.show({title:'成功提示',msg:'新闻信息添加成功1',timeout:2000,showType:'slide'});
+					$("#resources_add_videoInfo").dialog("close");
+					$("#video_add_show").datagrid("reload");//页面刷新
+					
+					$("#resources_resName").val("");
+					$("#resources_resDate").datebox('setValue','');
+					$("#resources_resWords").val("");
+				}else{
+					$.messager.alert("失败提示","文章信息添加失败2。。。","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","文章信息添加有误3。。。\n"+e,"error");
+			}
+		});
+	}
+	//修改视屏
+	function updataresourcesInfo(resId) {
+		var resName=$.trim($("#updata_resName").val());
+		var resDate=$("#updata_resDate").datebox('getValue');
+		var goodsId=$.trim($("#updata_goodsId").val());
+		var resSta=$.trim($("#update_resSta").val());
+		var resWords=$.trim($("#updata_resWords").val());
+		$.ajaxFileUpload({
+			url:"back/resources_updataResources.action",
+			secureuri:false,
+			fileElementId:"updata_resCont",
+			dataType:"json",
+			data:{resId:resId,resName:resName,resDate:resDate,goodsId:goodsId,resSta:resSta,resWords:resWords},
+			success:function(data,status){
+				if(parseInt($.trim(data.total))==1){//说明是成功的
+					$("#updata_vid")[0].pause();//关闭播放
+					$.messager.show({title:'成功提示',msg:'新闻信息添加成功1',timeout:2000,showType:'slide'});
+					$("#resources_updata_videoInfo").dialog("close");
+					$("#video_add_show").datagrid("reload");//页面刷新
+					
+					$("#updata_resName").val("");
+					$("#updata_resDate").datebox('setValue','');
+					$("#updata_resWords").val("");
+				}else{
+					$.messager.alert("失败提示","文章信息添加失败2。。。","error");
+				}
+			},
+			error:function(data,status,e){
+				$.messager.alert("错误提示","文章信息添加有误3。。。\n"+e,"error");
+			}
+		});
 	}
 </script>
 <div id="videoplaying" class="easyui-dialog" title="视屏播放" style="width:494px;height:360px;padding:10px" data-options="iconCls:'icon-tip',resizable:true,modal:true,closed:true" onclose="closeshen()">
-	<video id="trymedia"  controls="ture" loop="loop" autoplay="autoplay" height="100%" width="100%" preload="none"  >浏览器不支持</video>
+	<video id="try_play"  controls="ture" loop="loop" autoplay="autoplay" height="100%" width="100%" preload="none"  >浏览器不支持</video>
 </div>
 
 <!-- 添加视屏 -->
@@ -200,7 +244,55 @@
 	<div id="resources_resCont_show" style="float:right;width:480px;height:320px;margin-right:20px;margin-top:20px;">
 		<fieldset id="video_show">
 			<legend>视屏预览</legend>
-			<video id="vid" height="100%" width="100%" controls="controls">您的浏览器不支持html5<video>标签！</video>
+			<video id="add_vid" height="100%" width="100%" controls="controls">您的浏览器不支持html5<video>标签！</video>
 		</fieldset>
 	</div>
 </div>	
+
+<!-- 修改视屏 -->
+<div id="resources_updata_videoInfo" class="easyui-dialog" title="修改视屏" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true" onclose="closeshen()">
+	<form id="updataResourcesForm" action="" style="padding:0px;float:left;display:inline-block;">
+		<table>
+			<tr>
+				<td>视频名字：</td>
+				<td><input name="resName" id="updata_resName" class="myinput"></td>
+			</tr>
+			<tr>
+				<td>商品名字：</td>
+				<td><select name="goodsName" id="updata_goodsId"></select></td>
+			</tr>
+			<tr>
+				<td>视频状态：</td>
+				<td><select name="resSta" id="update_resSta" class="myinput">
+						<option value="1">可用</option>
+						<option value="2">不可用</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>发布日期：</td>
+				<td><input name="resDate" id="updata_resDate" class="easyui-datebox myinput"></td>
+			</tr>
+			<tr>
+				<td>资源路径：</td>
+				<td><input type="file" name="upload" id="updata_resCont" multiple="multiple" onchange="previewMultipleVideo(this)"></td>
+			</tr>
+			<tr>
+				<td>视频简介：</td>
+				<td><textarea name="resWords" id="updata_resWords" style="width:600px;height:100px;"></textarea></td>
+			</tr>
+			<tr>
+				<td>请确认：</td>
+				<td><a href="javascript:updataresourcesInfo(0)" id="updata_video" class="easyui-linkbutton" data-options="iconCls:'icon-add'">修改</a></td>
+			</tr>
+		</table>	
+	</form>
+	<div id="updata_resCont_show" style="float:right;width:480px;height:320px;margin-right:20px;margin-top:20px;">
+		<fieldset id="updata_video_show">
+			<legend>视屏预览</legend>
+			<video id="updata_vid" height="100%" width="100%" controls="controls">您的浏览器不支持html5<video>标签！</video>
+		</fieldset>
+	</div>
+</div>	
+
+ 
