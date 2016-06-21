@@ -64,6 +64,21 @@ public interface ArticleService {
 	 * @return
 	 */
 	boolean updateArtSta(ArticleBean articleBean, String[] artIds);
+	
+	/**
+	 * 社区首页信息
+	 * @return
+	 */
+	List<ArticleBean> indexArticle();
+	
+	/**
+	 * 文章详情页
+	 * @param articleBean
+	 * @return
+	 */
+	ArticleBean findarticlebyInfo(ArticleBean articleBean);
+
+	int updateViews(ArticleBean articleBean);
 
 	
 }

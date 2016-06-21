@@ -266,7 +266,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<br>
 						<input type="button" class="linebank" onClick="online()" value="在线支付"/>
 						<input type="button" class="balance" onClick="fukuan()" value="余额付款"/>
-					<form action="front/orders_payOnline.action" method="post">
+					<form action="front/orderInfoBean_payOnline.action" method="post">
 						<input type="hidden" class="ordId" name="ordId" value="${ordId}"/>
 						<table style="width: 100%;" >
 							<tr><td><br/></td></tr>
@@ -280,21 +280,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</tr>
 							<tr class="br1"><td><br/></td></tr>
 							<tr class="onlineBank" style="display: none;">
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="CMBCHINA-NET"><img alt="招商银行" src="front/bank_img/cmb.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="ICBC-NET"><img alt="工商银行" src="front/bank_img/gongShang.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="ABC-NET"><img alt="农业银行" src="front/bank_img/abc.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="CCB-NET"><img alt="建设银行" src="front/bank_img/ccb.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="CMBC-NET"><img alt="中国民生银行总行" src="front/bank_img/cmbc.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="CEB-NET" ><img alt="光大银行" src="front/bank_img/guangda.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CMBCHINA-NET-B2C"><img alt="招商银行" name="CMBCHINA-NET-B2C" src="front/bank_img/cmb.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="ICBC-NET-B2C"><img alt="工商银行" name="ICBC-NET-B2C" src="front/bank_img/gongShang.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="ABC-NET-B2C"><img alt="农业银行" name="ABC-NET-B2C" src="front/bank_img/abc.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CCB-NET-B2C"><img alt="建设银行" name="CCB-NET-B2C" src="front/bank_img/ccb.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CMBC-NET-B2C"><img alt="中国民生银行" name="CMBC-NET-B2C" src="front/bank_img/cmbc.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CEB-NET-B2C" ><img alt="光大银行" name="CEB-NET-B2C" src="front/bank_img/guangda.bmp"></td>
 							</tr>
 							<tr class="br2"><td><br/></td></tr>
 							<tr class="onlineBank" style="display: none;">
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="BOCO-NET"><img alt="交通银行" src="front/bank_img/bcc.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="SDB-NET"><img alt="深圳发展银行" src="front/bank_img/sfz.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="BCCB-NET"><img alt="北京银行" src="front/bank_img/bj.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="CIB-NET"><img alt="兴业银行" src="front/bank_img/cib.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="SPDB-NET"><img alt="上海浦东发展银行 " src="front/bank_img/shpd.bmp"></td>
-							  <td><INPUT TYPE="radio" NAME="pd_FrpId" value="ECITIC-NET"><img alt="中信银行 " src="front/bank_img/zx.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="BOCO-NET-B2C"><img alt="交通银行" name="BOCO-NET-B2C" src="front/bank_img/bcc.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="SDB-NET-B2C"><img alt="深圳发展银行" name="SDB-NET-B2C" src="front/bank_img/sfz.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="BCCB-NET-B2C"><img alt="北京银行" name="BCCB-NET-B2C" src="front/bank_img/bj.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CIB-NET-B2C"><img alt="兴业银行" name="CIB-NET-B2C" src="front/bank_img/cib.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="SPDB-NET-B2C"><img alt="上海浦东发展银行 " name="SPDB-NET-B2C" src="front/bank_img/shpd.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="ECITIC-NET-B2C"><img alt="中信银行 " name="ECITIC-NET-B2C" src="front/bank_img/zx.bmp"></td>
 							</tr>
 							<tr><td><br/></td></tr>
 							<tr class="pay1" style="display: none;">
@@ -312,9 +312,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			<script type="text/javascript">
 			//在线支付
-			function payOnline(){
+			/* function payOnline(){
 				
-			}
+			} */
 			
 			//余额支付
 			function goPay(){

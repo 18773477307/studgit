@@ -174,7 +174,7 @@ public class OrderInfoBeanAction implements ModelDriven<Orders>,SessionAware,Ser
 			ordersService.updateDetaSta(ordIds);
 			System.out.println("获取到的ID+====" + ordIds);
 			if (r9_BType.equals("1")) { // r9_BType:交易结果返回类型，1.服务器重定向 2.服务器点对点通讯
-				request.setAttribute("code", "error");
+				request.setAttribute("code", "success");
 				request.setAttribute("msg", "恭喜您，支付成功！");
 				System.out.println("支付成功！！");
 				return "msg";

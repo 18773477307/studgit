@@ -37,5 +37,14 @@ public class ArticleServiceImplTest {
 		System.out.println(articles);
 		assertNotNull(articles);
 	}
+	
+	@Test
+	public void testFindarticlebyInfo() {
+		ArticleBean articleBean=new ArticleBean();
+		articleBean.setArtId(1004);
+		ArticleBean article=articleService.findarticlebyInfo(articleBean);
+		System.out.println(article);
+		assertNotNull(article);
+	}
 
 }

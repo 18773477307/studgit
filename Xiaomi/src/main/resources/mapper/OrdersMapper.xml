@@ -23,4 +23,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	<select id="getOrdersId" parameterType="map" resultType="int">
   		select ordId from orders where usersId=#{usersId} and ordDate=to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss')
   	</select>
+  	
+  	<update id="updateOrdSta" parameterType="int">
+  		update orders set ordSta=2 where ordId = #{ordId}
+  	</update>
+  	
+  	<update id="updateDetaSta" parameterType="int">
+  		update orderdetail set detaSta=2 where ordId = #{ordId}
+  	</update>
 </mapper>

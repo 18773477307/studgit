@@ -69,6 +69,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 			}
 			return true;
 		}
+		resources.setResId(Integer.parseInt(resIds[0]));
 		return delresources(resources);
 	}
 

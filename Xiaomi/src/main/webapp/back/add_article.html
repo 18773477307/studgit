@@ -97,12 +97,11 @@ $(function(){
 				});
 			}else{
 				$.messager.confirm('信息确认','您确定要删除选中的数据吗？',function(r){
-					if(r){
-						var artIds="";
-						for(var i=0;i<rows.length-1;i++){
-							artIds+=rows[i].artId+",";
+					if(r){					
+						var artIds = new Array();
+						for(var i=0;i<rows.length;i++){
+							artIds.push(rows[i].artId);
 						}
-						artIds+=rows[i].artId;
 						//将要删除aid发到服务器
 						$.post("back/article_delarticleInfo.action",{artIds:artIds},function(data){
 							if(data.total==1){//删除添加

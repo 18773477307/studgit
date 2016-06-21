@@ -77,13 +77,13 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public void updateOrdSta(int ordIds) {
-		ordersMapper.updateOrdSta(ordIds);
+	public void updateOrdSta(int ordId) {
+		ordersMapper.updateOrdSta(ordId);
 	}
 
 	@Override
-	public void updateDetaSta(int ordIds) {
-		ordersMapper.updateDetaSta(ordIds);
+	public void updateDetaSta(int ordId) {
+		ordersMapper.updateDetaSta(ordId);
 	}
 
 

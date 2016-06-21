@@ -15,7 +15,7 @@ public interface OrdersMapper {
 
 	int getOrdersId(Map<String, Object> maps);
 
-	void updateOrdSta(int orderids);
+	void updateOrdSta(int ordId);
 
-	void updateDetaSta(int ordIds);
+	void updateDetaSta(int ordId);
 }
