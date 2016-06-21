@@ -139,7 +139,7 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 		return "success";
 	}
 	/*
-	 * 前台用户注销
+在线支付银行	 * 前台用户注销
 	 */
 	public String usersOut(){
 		session.put(SessionAttributeKey.LOGIN_USER, "");

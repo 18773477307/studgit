@@ -4,5 +4,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.OrdersMapper" >
-  
+  	<!-- <insert id="addToOrders" parameterType="OrderInfoBean">
+  		insert into orders values(seq_orders_ordId.nextval,#{addrId},#{usersId},to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss'),#{ordTatol},1,'','')
+  	</insert> -->
+  	
+  	<!-- 添加一个订单 -->
+	<insert id="addToOrders" parameterType="Orders">
+		<selectKey keyColumn="ordId" keyProperty="ordId" resultType="int" order="BEFORE">
+			select seq_orders_ordId.nextval ordId from dual
+		</selectKey>
+  		insert into orders values(#{ordId},#{addrId},#{usersId},to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss'),#{ordTatol},1,'','')
+	</insert>
+  	
+  	<insert id="addOrderDetail" parameterType="map">
+  		insert into orderdetail values(#{ordId},#{ptId},#{detaPrice},#{detaNum},1,'','')
+  	</insert>
+  	
+  	<select id="getOrdersId" parameterType="map" resultType="int">
+  		select ordId from orders where usersId=#{usersId} and ordDate=to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss')
+  	</select>
 </mapper>

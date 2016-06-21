@@ -1,6 +1,7 @@
 package com.xiaomi.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,7 @@ public interface ShopCarMapper {
 	List<Shop_Goods_Car> getShopCarInfoByUsers(int usersId);
 
 	int delByShopId(int shopId);
+
+	//修改购物车中已购买商品的状态
+	void updateStaByUidPid(Map<String, Object> map2);
 }

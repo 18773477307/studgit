@@ -9,6 +9,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   		#{province},#{city},#{county},#{detailAddr},#{addrTel},0,#{postcode},#{recipient},'','')
 	</insert>
 	
+	<update id="updateAddress" parameterType="Address" >
+		update address set
+		<if test="usersId != null and usersId != ''" >
+	        usersId=#{usersId},
+	    </if>
+	    <if test="province != null and province != ''" >
+	        province=#{province},
+	    </if>
+	    <if test="city != null and city != ''" >
+	        city=#{city},
+	    </if>
+	    <if test="county != null and county != ''" >
+	        county=#{county},
+	    </if>
+	    <if test="detailAddr != null and detailAddr != ''" >
+	        detailAddr=#{detailAddr},
+	    </if>
+	    <if test="addrTel != null and addrTel != ''" >
+	        addrTel=#{addrTel},
+	    </if>
+	    <if test="defaultaddr != null and defaultaddr != ''" >
+	        defaultaddr=#{defaultaddr},
+	    </if>
+	    <if test="postcode != null and postcode != ''" >
+	        postcode=#{postcode},
+	    </if>
+	    <if test="recipient != null and recipient != ''" >
+	        recipient=#{recipient}
+	    </if>
+		 	where addrId=#{addrId}
+	</update>
+	
 	<select id="findAddrInfoById" parameterType="int" resultType="Address">
 		select * from address where usersId = #{usersId}
 	</select>
