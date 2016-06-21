@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ModelDriven;
 import com.xiaomi.entity.Address;
 import com.xiaomi.entity.JsonObject;
-import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.service.AddressService;
 @Controller("addressAction")
 public class AddressAction implements ModelDriven<Address> ,SessionAware{
@@ -43,7 +42,7 @@ public class AddressAction implements ModelDriven<Address> ,SessionAware{
 	
 	public String findAddressByInfo(){
 		List<Address> addresses = addressService.findAddressByInfo(page, rows,address.getProvince(),address.getCity(),address.getCounty(),address.getUsersName());
-		System.out.println(addresses.size());
+	//	System.out.println(addresses.size());
 		jsonObject = new JsonObject<Address>();
 		jsonObject.setRows(addresses);
 		jsonObject.setTotal(addresses.size());
@@ -53,7 +52,19 @@ public class AddressAction implements ModelDriven<Address> ,SessionAware{
 	//前台地址添加
 	public String addAddr(){
 		int result = addressService.addAddress(address);
-		System.out.println(address);
+		//System.out.println(address);
+		if(result>0){
+			List<Address> addresseInfo = addressService.findAddrInfoById(address.getUsersId());
+			session.put("addresseInfo", addresseInfo);
+			jsonObject = new JsonObject<Address>();
+			System.out.println(addresseInfo);
+			jsonObject.setTotal(result);
+		}
+		return "success";
+	}
+	
+	public String updateAddr(){
+		int result = addressService.updateAddress(address);
 		if(result>0){
 			List<Address> addresseInfo = addressService.findAddrInfoById(address.getUsersId());
 			session.put("addresseInfo", addresseInfo);

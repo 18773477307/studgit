@@ -15,7 +15,7 @@ create table usersInfo(
        usersPhoto varchar2(100),          --用户头像
        usersbalance varchar2(10),         --用户余额 
        usersSta int,                      --用户状态 (0表示冻结；1表示可用)
-	   reserve1 varchar2(20),		  	  --备用字段
+	   reserve1 varchar2(20),		  	  --备用字段 
 	   reserve2 varchar2(20)          	  --备用字段
 );
 create sequence seq_usersinfo_usersId start with 1001 increment by 1;
@@ -35,6 +35,8 @@ select * from usersinfo;
 drop sequence seq_usersinfo_usersId
 delete from usersInfo where usersId=1001,usersId=1002,usersId=1003
 drop table usersinfo;
+
+update usersinfo set  usersSta=1 where usersId = 1010
 --2----------------------------------------------------------------------------------------------------
 --用户收获地址
 create table  address(
@@ -278,6 +280,7 @@ select * from product;
 select * from goods;
 --跟新---------------------------------------------------------------------------------
 update product set ptPrice=1499 where ptId=1
+update product set ptNum=68 where ptId=1004
 --删除---------------------------------------------------------------------------------
 select * from goods
 drop table product;
@@ -301,18 +304,24 @@ select * from usersinfo;
 select * from product;
 select * from goods;
 
-select *
+select distinct(sc.usersId),u.usersName,
+(select count(1) from shopCar where usersId = sc.usersId) countGoods
+from shopCar sc,usersinfo u where sc.usersId = u.usersId
+
 from goods where goodsSta=1
 
 select count(1) from product p,goods g where p.goodsId=g.goodsId and g.goodsId= 1001
 
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId;
 select count(1) from shopCar where usersId=1011
-insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'','');
-insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1001,1001,1,1,'','');
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1001,2,1,'',''); a2
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,2,1,'',''); test
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1004,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1005,1,1,'',''); nihao
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1004,1,1,'',''); nihao
 --查询---------------------------------------------------------------------------------
 select * from shopCar where usersId=1011
 select count(1) from shopCar where usersId=1011 and shopSta=1
@@ -358,7 +367,7 @@ create table orderdetail(
            constraint FK_orderdetail_product_ptId references product(ptId),
        detaPrice number(10,2),               	--购买价
        detaNum int,                				--数量
-       detaSta int,                 			--状态(1存在，0取消)
+       detaSta int,                 			--状态(  0 取消订单		1 未支付		2 已支付)
        reserve19 varchar2(20),					--备用字段
 	   reserve20 varchar2(20)                   --备用字段
 );
@@ -380,7 +389,7 @@ create table resources(
        resViews int,							 --浏览次数
        goodsId int                               --商品编号（字符串拼接：只供查看）
                constraint FK_resources_goods_goodsId references goods(goodsId),
-       resSta int,								 --视屏状态：是否可用  2：不可用  1:可用
+       resSta int,								 --视频状态：是否可用  2：不可用  1:可用
        reserve21 varchar2(20),					 --备用字段
 	   reserve22 varchar2(20)                    --备用字段
      

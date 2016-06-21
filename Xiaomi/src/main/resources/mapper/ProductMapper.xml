@@ -87,4 +87,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 		where ptId=#{ptId}
 	</update>
+	
+	<update id="updatePtNum" parameterType="map">
+		update product set ptNum=ptNum-#{detaNum} where ptId=#{ptId}
+	</update>
 </mapper>

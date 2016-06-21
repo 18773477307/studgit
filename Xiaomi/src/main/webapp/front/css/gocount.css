@@ -221,7 +221,7 @@ body{
 
 
 .money-box{
-	width: 92%;
+	width: 40%;
 	min-width: 220px;
 	float: left;
 	margin-left:50px;
@@ -237,7 +237,7 @@ body{
 }
 .money-box ul li .val{
 	color: #f60;
-	margin-left: 940px;
+	margin-left: 170px;
 }
 
 #J_totalPrice{
@@ -247,9 +247,10 @@ body{
 
 
 #addr_show{
-	width: 500px;
-	float: right;
-	margin-top: 60px;
+	width: 400px;
+	float:left;
+	margin-top: 10px;
+	border:1px solid #ccc;
 }
 #addr_show ul li{
 	list-style: none;
@@ -365,7 +366,7 @@ body{
 
 /*订单提交*/
 #order_post{
-	display: none;
+	display: block;
 	background: #f5f5f5;
 	width: 100%;
 	height:auto;
@@ -414,21 +415,34 @@ body{
 .order_post_detail{
 	display: none;
 	float: left;
-	width: 300px;
+	width: 400px;
 	height: 150px;
 }
 .order_post_detail ul li{
-	height: 30px;
-	line-height: 30px;
-	margin-top: 15px;
 	list-style: none;
+	font-weight: bold;
 }
-
+.order_post_detail ul li span{
+	font-weight: normal;
+}
+.showInfos{
+	color: #ccc;
+}
+.li01{
+	margin-top: 15px;
+	height: 30px;
+}
+.li02{
+	height: 60px;
+}
+.li01{
+	height: 30px;
+}
 
 /*支付方式*/
 #pay{
 	width: 92%;
-	height: 200px;
+	height: auto;
 	padding-top: 20px;
 	background: #fff;
 	float: left;
@@ -453,6 +467,26 @@ body{
 	height: 40px;
 	margin-top: 20px;
 	margin-bottom: 10px;
+}
+
+.linebank,.balance{
+	background:url(../bank_img/bg.png) center;
+	height: 31px;
+	width: 100px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	cursor:pointer;	
+	color: #eee;												
+}
+.linebank:hover,.balance:hover{
+	background:url(../bank_img/bghover.png) center;
+	color: #fff;	
 }
 
 
