@@ -92,16 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findindexArticle" resultType="ArticleBean">
     	select artId,artTitle,artAuth,artStaTime,fileinfo,artViews,artPic,artWeight,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae where ae.artWeight=1 and artSta=1 and 5>rownum order by artStaTime
    </select>
-  
-   <!-- <select id="findarticlebyInfo" resultType="ArticleBean">
-    	select artId,artTitle,artAuth,artStaTime,artCont,artPic,artViews,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae
-  		<where>		 
-		      <if test="artId != null and artId != ''">
-	        	and ae.artId=#{artId}
-		      </if>
-	      </where>
-   </select> -->
-   
+    
    
    <resultMap type="ArticleBean" id="ArticleBeanMap">
 		<id property="artId" column="artId"/>
@@ -119,7 +110,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getArtcommentByArtId" parameterType="int" resultType="Artcomment">
-		select comId,artId,a.usersId,usersName,comCont,comDate from artcomment a,usersInfo u where a.usersId=u.usersId and artId=#{artId} and 6>rownum order by comDate desc 
+		select b.*,rownum rn from (select comId,artId,a.usersId,usersName,comCont,comDate from artcomment a,usersInfo u where a.usersId=u.usersId and artId=#{artId} order by comDate desc)b where 5>=rownum
 	</select>
 	
    <update id="updateViews" parameterType="ArticleBean">

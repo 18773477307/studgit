@@ -170,10 +170,6 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 		}
 		return "community";
 	}
-	public String addArtComment(){
-		System.out.println("拦截器没起作用");
-		return "community11";
-	}
 	
 	@Override
 	public ArticleBean getModel() {
