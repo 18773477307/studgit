@@ -73,6 +73,7 @@ a:hover {color:#FF6600; text-decoration: underline;}
 		<br/>
 		<br/>
 		<span style="margin-left:50px;font-size:20px;"><a target="_top" href="<c:url value='/front/shop.jsp'/>">继续购物</a></span>
+		<span style="margin-left:50px;font-size:20px;"><a target="_top" href="<c:url value='/front/myorder.jsp'/>">查看订单</a></span>
 	  </div>
 	</div>
 </div>

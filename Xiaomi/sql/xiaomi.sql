@@ -13,7 +13,7 @@ create table usersInfo(
        usersSex int,					  --性别  0：男    1:女
        usersBirth date,                   --用户生日
        usersPhoto varchar2(100),          --用户头像
-       usersbalance varchar2(10),         --用户余额 
+       usersbalance number(8,2),         --用户余额   这里改了  注意
        usersSta int,                      --用户状态 (0表示冻结；1表示可用)
 	   reserve1 varchar2(20),		  	  --备用字段 
 	   reserve2 varchar2(20)          	  --备用字段
@@ -26,7 +26,8 @@ insert into usersinfo values (seq_usersinfo_usersId.nextVal,'aa','15111523256','
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'bb','18222252125','45123@qq.cn','aaaaaa','543673337844334444',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'dd','18852052125','5643@qq.cn','aaaaaa','543673745844378454',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 
-
+alter table usersinfo modify(usersbalance number(8,2))
+select usersbalance from usersInfo where usersId = 1011
 select b.* from (select a.*,rownum rn from 
 		(select * from usersInfo order by usersId) a where 10>=rownum)b where rn>0 order by usersId asc
 --查询--------------------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ drop sequence seq_usersinfo_usersId
 delete from usersInfo where usersId=1001,usersId=1002,usersId=1003
 drop table usersinfo;
 
-update usersinfo set  usersSta=1 where usersId = 1010
+update usersinfo set  usersbalance=5000 where usersId = 1011
 --2----------------------------------------------------------------------------------------------------
 --用户收获地址
 create table  address(
@@ -327,8 +328,8 @@ select * from shopCar where usersId=1011
 select count(1) from shopCar where usersId=1011 and shopSta=1
 select * from shopCar;
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
---跟新---------------------------------------------------------------------------------
-update shopCar set shopSta=1 where shopId=1002
+--更新---------------------------------------------------------------------------------
+update shopCar set shopSta=1 where shopId=1004
 --删除---------------------------------------------------------------------------------
 drop table shopCar;
 drop sequence seq_shopCar_shopId

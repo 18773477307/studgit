@@ -14,5 +14,10 @@ public interface OrdersService {
 	//支付成功改变订单详情的状态
 	void updateDetaSta(int ordId);
 
+	//余额付款
+	int payByBanlance(Orders ordersInfo);
+
+	//查询用户余额
+	double getBanlance(int usersId);
 
 }

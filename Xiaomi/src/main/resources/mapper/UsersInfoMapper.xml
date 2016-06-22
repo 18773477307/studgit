@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.UsersInfoMapper" >
   	<insert id="addUsersInfo" parameterType="UsersInfo" >
-	   insert into usersInfo values (seq_usersinfo_usersId.nextval,#{usersName},#{usersTel},#{usersEmail},#{usersPwd},#{usersIDCard},#{usersSex},'','','',1,'','')
+	   insert into usersInfo values (seq_usersinfo_usersId.nextval,#{usersName},#{usersTel},#{usersEmail},#{usersPwd},#{usersIDCard},#{usersSex},'','',0,1,'','')
 	</insert>
 	
 	<select id="selectTotalUsers" resultType="int">

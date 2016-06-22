@@ -31,4 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	<update id="updateDetaSta" parameterType="int">
   		update orderdetail set detaSta=2 where ordId = #{ordId}
   	</update>
+  	
+  	<update id="payByBanlance" parameterType="Orders">
+  		update usersInfo set usersbalance = usersbalance - #{ordTatol} where usersId=#{usersId}
+  	</update>
+  	
+  	<select id="getBanlance" parameterType="Orders" resultType="double">
+  		select usersbalance from usersInfo where usersId = #{usersId}
+  	</select>
 </mapper>

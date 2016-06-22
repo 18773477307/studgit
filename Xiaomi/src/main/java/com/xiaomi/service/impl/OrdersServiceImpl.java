@@ -76,15 +76,23 @@ public class OrdersServiceImpl implements OrdersService {
 		ordersMapper.addOrderDetail(map2);
 	}
 
-	@Override
+	@Override @Transactional
 	public void updateOrdSta(int ordId) {
 		ordersMapper.updateOrdSta(ordId);
 	}
 
-	@Override
+	@Override @Transactional
 	public void updateDetaSta(int ordId) {
 		ordersMapper.updateDetaSta(ordId);
 	}
-
-
+	//余额付款
+	@Override
+	public int payByBanlance(Orders orders) {
+		return ordersMapper.payByBanlance(orders);
+	}
+	//查询用户余额
+	@Override
+	public double getBanlance(int usersId) {
+		return ordersMapper.getBanlance(usersId);
+	}
 }

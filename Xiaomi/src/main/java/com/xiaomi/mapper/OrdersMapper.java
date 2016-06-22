@@ -18,4 +18,8 @@ public interface OrdersMapper {
 	void updateOrdSta(int ordId);
 
 	void updateDetaSta(int ordId);
+
+	int payByBanlance(Orders orders);
+
+	double getBanlance(int usersId);
 }

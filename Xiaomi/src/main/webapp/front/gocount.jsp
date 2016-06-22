@@ -135,7 +135,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<script type="text/javascript">
 									$(".return_car").click(function () {
 										var usersId = $("#Id_hidden").val();
-										$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(data){
+										$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(){
 											location.href="front/shopcar.jsp";
 										});	
 									});
@@ -320,16 +320,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			function goPay(){
 				var payMoney = $(".pay_money").html();
 				var totalPay = parseFloat(payMoney);
+				var usersId = $("#Id_hidden").val();
 				console.info(totalPay);
-				/* $.post("front/orders_payOrderes.action",{totalPay:totalPay},function(data){
-					if(parseInt($.trim(data))==1){
-						if(window.confirm('恭喜您支付成功，去主页逛逛吧！')){
-							location.href="front/MiHome.jsp";
-						}
-					}else {
-						alert("支付失败....");
-					}
-				}); */
+				$.post("front/orderInfoBean_payOrderes.action",{ordTatol:totalPay,usersId:usersId},function(data){
+					// alert(data.total);
+					if(parseInt($.trim(data.total))==2){
+						alert('账户余额不足，支付失败...\n请选择在线支付');
+					}else{
+						window.location.href = "front/msg.jsp";
+					} 
+				});
 			}
 			
 			function fukuan() {

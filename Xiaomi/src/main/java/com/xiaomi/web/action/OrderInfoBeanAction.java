@@ -186,6 +186,28 @@ public class OrderInfoBeanAction implements ModelDriven<Orders>,SessionAware,Ser
 	}
 	
 	
+	public String payOrderes(){
+		double balance = ordersService.getBanlance(ordersInfo.getUsersId());
+		if(balance < ordersInfo.getOrdTatol()){  //用户余额少于订单总价
+			session.put("code", "error");
+			session.put("msg", "账户余额不足，支付失败...!");
+			jsonObject = new JsonObject<Orders>();
+			jsonObject.setTotal(2);
+			return "success";
+		}else {
+			int result = ordersService.payByBanlance(ordersInfo);
+			System.out.println(result+"result");
+			if(result == 1){
+				session.put("code", "success");
+				session.put("msg", "恭喜您，支付成功！");
+				jsonObject = new JsonObject<Orders>();
+				jsonObject.setTotal(result);
+				return "success";
+			}
+		}
+		return "success";
+	}
+	
 
 	@Override
 	public void setSession(Map<String, Object> session) {

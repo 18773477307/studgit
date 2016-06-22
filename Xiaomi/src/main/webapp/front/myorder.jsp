@@ -28,21 +28,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script type="text/javascript">
 			//返回购物车
 			function goshopcar(){
-				var car_count=$("#end i").html();
-				if(car_count==0 || car_count==null){
-					if(window.confirm('您的购物车中没有商品，去商城购物吧！')){
-					location.href="front/shop.jsp";
-					}
-				}else{
+				var usersId = $("#Id_hidden").val();
+				$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(data){
 					location.href="front/shopcar.jsp";
-	
-				}
+				});	
 			}
-			
 								
 			//订单分页
 	  		function pageInfo(op){
-				$.post("orderpageServlet?t="+new Date(),{op:op},function(data){
+				$.post("front/orderpage_getOrderInfo.action",{op:op},function(data){
 					var str="";
 					
 					var order=data.yeorders[0];//上面是循环读取，下面是一条一条读取
@@ -78,6 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="question"><a>问题反馈</a></div>
 		        <div class="dl">
 		        	<c:if test="${not empty loginUsers }">
+		        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
         				<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录：${loginUsers.usersName }</a>
 		        	</c:if>
 		        </div><div class="line"></div>
