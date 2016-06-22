@@ -12,7 +12,7 @@
 	 <!-- 把struts的action对象交给spring容器管理 -->
 	<constant name="struts.objectFactory" value="spring" />
 
-	<package name="default" namespace="/front" extends="json-default">
+	<package name="xmFront" namespace="/front" extends="json-default">
 		<!--拦截器  -->
 		<interceptors>
 			<interceptor name="loginInterceptor" class="com.xiaomi.web.interceptor.LoginInterceptor"/>
@@ -31,7 +31,8 @@
 		<global-allowed-methods>
 		<!--一排一个表的操作  -->
 		goToMiHome,unameCheck,emailCheck,telCheck,idCardCheck,findUserByUsersInfo,addUsersInfo,getIndexGoodsInfo,
-		getIndexArticleInfo,ArticleByInfo,addArtComment
+		getIndexArticleInfo,ArticleByInfo,
+		addArtComment,PageArtComment
 		</global-allowed-methods>
 		
     	<action name="*_*" class="{1}Action" method="{2}">

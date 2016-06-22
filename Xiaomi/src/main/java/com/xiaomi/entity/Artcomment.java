@@ -72,7 +72,7 @@ public class Artcomment implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Artcomment [comId=" + comId + ", artId=" + artId + ", usersId="
+		return "\nArtcomment [comId=" + comId + ", artId=" + artId + ", usersId="
 				+ usersId + ", usersName=" + usersName + ", comCont=" + comCont
 				+ ", comDate=" + comDate + ", comSta=" + comSta
 				+ ", reserve25=" + reserve25 + ", reserve26=" + reserve26 + "]";

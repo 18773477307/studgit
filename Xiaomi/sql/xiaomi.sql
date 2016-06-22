@@ -464,7 +464,10 @@ insert into artcomment values (seq_artcomment_comId.nextval,1001,1001,'文章评
 insert into artcomment values (seq_artcomment_comId.nextval,1007,1002,'文章评论内容',TO_DATE('2016-01-02','yyyy-mm-dd'),1,'');
 ---查询------------------------------------------------------------------------------------------------
 select * from artcomment;
+select comId,artId,a.usersId,usersName,comCont,comDate from artcomment a,usersInfo u where a.usersId=u.usersId and artId=1002 and 6>rownum order by comDate desc 
+select b.* from (select a.*,rownum rn from (select * from artcomment where artId=1002)a where 5>=rownum)b where rn>0
 ---删除----------------------------------------------------------------------------------------------
+delete artcomment;
 drop table artcomment;
 drop sequence seq_artcomment_comId
 -----------------------------------------------------------------------------------------------------

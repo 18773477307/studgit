@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE html>
 <html>
   <head>
-    <base href="<%=basePath%>">
+    <base href="/Xiaomi/">
     <title>小米社区文章详情</title>
 	<link rel="short icon" href="front/iconfont-photo/iconfont-iconmi01.svg"/>
 	<link type="text/css" href="front/css/sq_xq.css" rel="stylesheet"/>
@@ -24,26 +24,79 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$.post("front/user_usersOut.action",function(data){
 				console.info(data);
 					if(parseInt($.trim(data))==1){
-						var str='<li><a href="front/login.html">登录&nbsp;</a></li>';
-						str+='<li class="login_last"><a href="front/login.html">注册</a></li>';
+						var str='<li><a href="front/login.jsp">登录&nbsp;</a></li>';
+						str+='<li class="login_last"><a href="front/login.jsp">注册</a></li>';
 						$(".login_user ul").html(str);	
 					}
 				});
 			}
 		}
 		//插入评论
-	 	function publish(){
-	 		var text=$.trim($("#text").val());
+	 	function publish1(){
+	 		var comCont=$.trim($("#text1").val());	
 			var artId=$.trim($("#artId").val());
-	 		$.post("front/article_addArtComment.action",{text:text,artId:artId},function(data){
-	 			if(parseInt($.trim(data))>=1){
-					$("#text").val("");
-					//重写评论次数
-					document.getElementById("count").innerHTML=data;
+			var usersId=$.trim($("#usersId").val());
+			var str="";
+	 		$.post("front/artcomment_addArtComment.action",{comCont:comCont,artId:artId,usersId:usersId},function(data){
+	 			if(data=='' || data==undefined || data==null){
+	 				window.location.href = 'front/login.jsp';
 				}else{
-					alert("您的评论失败，谢谢您的参与");
+					//重写评论次数
+	 				document.getElementById("count").innerHTML=data.object.commentsCount;
+	 				//重写评论
+	 				var artcomments=data.object.artcomments;
+	 				for(var i=0;i<artcomments.length;i++){
+	 					str+="<li>";
+	 					str+="<div class='reply_list_img'><img src='front/images/reply_list_img1.jpg'></div>";
+	 					str+="<div class='reply_list_con'><div class='user_info'><a>"+artcomments[i].usersName+"</a> <span>发布于</span><span>"+artcomments[i].comDate+"</span><span id='reply_floor'></span></div><div class='main_con'>"+artcomments[i].comCont+"</div></div>";
+	 					str+="</div>";
+					}
+	 				$("#reply_list").html(str);
+	 				$("#text1").val("");
 				}
 	 		});
+		}
+	 	//插入评论
+	 	function publish2(){
+	 		var comCont=$.trim($("#text2").val());	
+			var artId=$.trim($("#artId").val());
+			var usersId=$.trim($("#usersId").val());
+			var str="";
+	 		$.post("front/artcomment_addArtComment.action",{comCont:comCont,artId:artId,usersId:usersId},function(data){
+	 			if(data=='' || data==undefined || data==null){
+	 				window.location.href = 'front/login.jsp';
+				}else{
+					//重写评论次数
+					document.getElementById("count").innerHTML=data.object.commentsCount;
+					//重写评论
+					//重写评论
+	 				var artcomments=data.object.artcomments;
+	 				for(var i=0;i<artcomments.length;i++){
+	 					str+="<li>";
+	 					str+="<div class='reply_list_img'><img src='front/images/reply_list_img1.jpg'></div>";
+	 					str+="<div class='reply_list_con'><div class='user_info'><a>"+artcomments[i].usersName+"</a> <span>发布于</span><span>"+artcomments[i].comDate+"</span><span id='reply_floor'></span></div><div class='main_con'>"+artcomments[i].comCont+"</div></div>";
+	 					str+="</li>";
+					}
+	 				$("#reply_list").html(str);
+	 				$("#text2").val("");
+				}
+	 		});
+		}
+	 	//评论分页
+  		function pageInfo(op){
+  			var url=document.location.href;
+			var artId=url.split("=")[1];
+			var str="";
+			$.post("front/page_PageArtComment.action",{op:op,artId:artId},function(data){
+				var artcomments=data.rows;
+ 				for(var i=0;i<artcomments.length;i++){
+ 					str+="<li>";
+ 					str+="<div class='reply_list_img'><img src='front/images/reply_list_img1.jpg'></div>";
+ 					str+="<div class='reply_list_con'><div class='user_info'><a>"+artcomments[i].usersName+"</a> <span>发布于</span><span>"+artcomments[i].comDate+"</span><span id='reply_floor'></span></div><div class='main_con'>"+artcomments[i].comCont+"</div></div>";
+ 					str+="</li>";
+				}
+ 				$("#reply_list").html(str);
+			},"json");
 		}
 	</script>
 </head>
@@ -75,8 +128,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        		<li><a id="top_login" href="#">当前登录：${loginUsers.usersName }</a></li>
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
-		        		<li class="login_last"><a href="front/login.html">注册</a></li>
-		   				<li><a href="front/login.html">&nbsp;登录</a></li>
+		        		<li class="login_last"><a href="front/login.jsp">注册</a></li>
+		   				<li><a href="front/login.jsp">&nbsp;登录</a></li>
 		   			</c:if>
 		   		</ul>
            </div>
@@ -97,13 +150,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
                 
                 <div class="reply fixed absolute" >
-                    <input type="text" id="text" class="txt"  placeholder="发表你的看法" >
-                	<span id="publish1" class="btn btnlineLight" onclick="publish()">发表</span>
+                    <input type="text" id="text1" class="txt"  placeholder="发表你的看法" >
+                	<span id="publish1" class="btn btnlineLight" onclick="publish1()">发表</span>
                 </div>
                 
                 
                 <div id=counts>
                 	<input type="hidden" id="artId" value="${article.artId }"/>
+                	<input type="hidden" id="usersId" value="${loginUsers.usersId }"/>
 	                <p class="text"><span></span>
 	                	<img src="front/images/see.png">${article.artViews }
 	                	<img src="front/images/msg.png"><a id="count">${article.commentsCount }</a>
@@ -120,8 +174,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         <a target="_blank" class="headportrait">
                             <img src="front/images/reply_user.gif">
                         </a>
-                        <input id="text1" class="txt" placeholder="说说你的看法" type="text">
-                        <span id="publish2" class="btn" onclick="publish()">发表</span>
+                         <input type="text" id="text2" class="txt" placeholder="发表你的看法" >
+                        <span id="publish2" class="btn" onclick="publish2()">发表</span>
                     </div>
                 </div>
             </div>    
@@ -134,7 +188,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				            <span class="reply_nav"><a>最新评论　</a><span>|</span><a class="orderby">　正序排列</a></span>
 				        </div>
 				              
-			           <ul class="reply_list">
+			           <ul class="reply_list" id="reply_list">
 				     	   <c:if test="${not empty article.artcomments }">
 				      	      <c:forEach items="${article.artcomments }" var="itemms">
 				      		    <li>
