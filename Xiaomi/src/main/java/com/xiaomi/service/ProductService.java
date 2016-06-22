@@ -29,4 +29,8 @@ public interface ProductService {
 
 	int updateProductInfo(Product product, File[] ptPics,String[] ptPicsFileName, String[] ptPicsContentType);
 	int updateProductInfo(Product product);
+
+	int findPtnumByGoodsId(int goodsId);
+
+	Product findPtIdByGoodsId(int goodsId);
 }

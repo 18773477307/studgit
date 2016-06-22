@@ -27,4 +27,8 @@ public interface ProductMapper {
 
 	int updateProductInfo(Product product);
 
+	int findPtnumByGoodsId(int goodsId);
+
+	Product findPtIdByGoodsId(int goodsId);
+
 }

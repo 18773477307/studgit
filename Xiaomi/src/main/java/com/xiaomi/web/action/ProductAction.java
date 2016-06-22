@@ -94,6 +94,22 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 		jsonObject.setTotal(result);
 		return "success";
 	}
+	
+	//查看该商品是否有多个产品
+	public String findPtnumByGoodsId(){
+		int ptnum = productService.findPtnumByGoodsId(product.getGoodsId());
+		jsonObject = new JsonObject<Product>();
+		jsonObject.setTotal(ptnum);
+		return "success";
+	}
+	
+	//通过GoodsId查找到对应的PtId
+	public String findPtIdByGoodsId(){
+		Product pro = productService.findPtIdByGoodsId(product.getGoodsId());
+		jsonObject = new JsonObject<Product>();
+		jsonObject.setObject(pro);
+		return "success";
+	}
 
 
 	@Override

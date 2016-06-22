@@ -266,9 +266,10 @@ create table product (
 );
 create sequence seq_product_ptId start with 1000 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into product values(seq_product_ptId.nextval,1899,'minote.jpg',100,1001,1,5,12,18,23,34,37,1);
+insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
 insert into product values(seq_product_ptId.nextval,999,'',100,1002,4,6,17,22,30,34,37,1);
 --查询---------------------------------------------------------------------------------
+select count(*) from product where goodsId=1001;
 select * from product;
 select * from goods;
 --跟新---------------------------------------------------------------------------------
@@ -292,9 +293,10 @@ create table shopCar(
 );
 create sequence seq_shopCar_shopId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into shopCar values(seq_shopCar_shopId.nextVal,100,1001,1,1,'');
-insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,1,1,'');
+insert into shopCar values(seq_shopCar_shopId.nextval,1001,1001,1,1,'','');
+insert into shopCar values(seq_shopCar_shopId.nextval,1002,1002,1,1,'','');
 --查询---------------------------------------------------------------------------------
+select shopNum from shopCar where ptId=1001 and usersId=1001 and shopSta=1;
 select * from shopCar where usersId=1001
 select * from shopCar;
 --跟新---------------------------------------------------------------------------------
