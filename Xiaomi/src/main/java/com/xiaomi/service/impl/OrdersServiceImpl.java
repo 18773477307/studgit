@@ -1,12 +1,15 @@
 package com.xiaomi.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.xiaomi.entity.OrderInfoBean;
+import com.xiaomi.entity.Orderdetail;
 import com.xiaomi.entity.Orders;
 import com.xiaomi.mapper.OrdersMapper;
 import com.xiaomi.mapper.ProductMapper;
@@ -95,4 +98,19 @@ public class OrdersServiceImpl implements OrdersService {
 	public double getBanlance(int usersId) {
 		return ordersMapper.getBanlance(usersId);
 	}
+
+	@Override
+	public List<OrderInfoBean> find(int usersId, int pageNo,int pageSize) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("usersId", usersId);
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		return ordersMapper.selectOrderData(params);
+	}
+
+	@Override
+	public int getTotal(int usersId) {
+		return ordersMapper.getTotal(usersId);
+	}
+
 }

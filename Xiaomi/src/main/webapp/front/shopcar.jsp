@@ -27,21 +27,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="front/js/shopcar.js" type="text/javascript"></script>
 	
 	<script>
-		function goorder(){
-			$.post("ordersServlet?d="+new Date(),{op:"findorderesbyuserId"},function(data){
-				if(parseInt($.trim(data))==0){
-					if(window.confirm('您还没有订单，去主页逛逛吧！')){
-						location.href="front/MiHome.jsp";
-					}
-				}else {
-					location.href="front/myorder.jsp";
-				}
-			});
-		}
-		
-		$(function(){
-			
-		});
 	</script>
 	</head>
   
@@ -73,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		   			</c:if>
                 </span>
                 <span>|</span>
-                <a class="myorder" href="javascript:goorder()">我的订单</a>
+                <a class="myorder" href="front/myorder.jsp">我的订单</a>
             </div>
          </div>    
     </div>

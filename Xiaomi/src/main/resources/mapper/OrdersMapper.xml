@@ -39,4 +39,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	<select id="getBanlance" parameterType="Orders" resultType="double">
   		select usersbalance from usersInfo where usersId = #{usersId}
   	</select>
+  	
+  	<select id="getTotal" parameterType="int" resultType="int">
+  		select count(1) from orders where usersId=#{usersId}
+  	</select>
+  	
+<!--   	<select id="selectOrderData" resultType="OrderInfoBean" parameterType="map">
+  		select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+ 		 <if test="usersId != null and usersId != '' and usersId !=0">
+        	and o.usersId=#{usersId}
+	     </if> 		 
+	     order by ordDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+  	</select>
+  	
+  	<select id="findDetailById" parameterType="int" resultType="Orderdetail">
+  		select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta from 
+			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+			and p.goodsId = g.goodsId and o.ordId = #{ordId}
+  	</select> -->
+  	
+  	
+  	 <resultMap type="OrderInfoBean" id="OrderInfoBeanMap">
+		<id property="ordId" column="ordId"/>
+		<collection property="orderdetails" column="ordId" ofType="Orderdetail" select="getOrderdetailByordId"></collection>
+		
+	</resultMap>
+	
+	<select id="selectOrderData"  parameterType="map" resultMap="OrderInfoBeanMap">
+		select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+ 		 <if test="usersId != null and usersId != '' and usersId !=0">
+        	and o.usersId=#{usersId}
+	     </if> 		 
+	     order by ordDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="getOrderdetailByordId" parameterType="int" resultType="Orderdetail">
+		select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta,p.ptId from 
+			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+			and p.goodsId = g.goodsId and o.ordId = #{ordId}
+	</select>
 </mapper>

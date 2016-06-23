@@ -37,7 +37,7 @@ drop sequence seq_usersinfo_usersId
 delete from usersInfo where usersId=1001,usersId=1002,usersId=1003
 drop table usersinfo;
 
-update usersinfo set  usersbalance=5000 where usersId = 1011
+update usersinfo set  usersbalance=15000 where usersId = 1011
 --2----------------------------------------------------------------------------------------------------
 --用户收获地址
 create table  address(
@@ -318,9 +318,11 @@ select count(1) from shopCar where usersId=1011
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1001,1001,1,1,'','');
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1001,2,1,'',''); a2
---insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,2,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,1,1,'',''); test
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1004,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1005,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1003,1,1,'',''); test
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1005,1,1,'',''); nihao
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1004,1,1,'',''); nihao
 --查询---------------------------------------------------------------------------------
@@ -329,7 +331,7 @@ select count(1) from shopCar where usersId=1011 and shopSta=1
 select * from shopCar;
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
 --更新---------------------------------------------------------------------------------
-update shopCar set shopSta=1 where shopId=1004
+update shopCar set shopSta=1 where shopId in (1001,1002,1003)
 --删除---------------------------------------------------------------------------------
 drop table shopCar;
 drop sequence seq_shopCar_shopId
@@ -344,18 +346,34 @@ create table orders(
                constraint FK_orders_usersinfo_userId references usersinfo(usersId), 
        ordDate date,               			  --订单日期
        ordTatol number(8,2),       			  --订单总价
-       ordSta int,                            --订单状态  0 取消订单		1 未支付		2 已支付
+       ordSta int,                            --订单状态  0 取消订单1 未支付2 已支付等待发货  3已发货  4已签收
 	   reserve17 varchar2(20),				  --备用字段
 	   reserve18 varchar2(20)                 --备用字段
 );
 create sequence seq_orders_ordId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into orders values (seq_orders_ordId.nextval,1001,1001,TO_DATE('2010-01-02 08:22:23','yyyy-mm-dd hh24:mi:ss'),999,2,'','');
-insert into orders values (seq_orders_ordId.nextval,1002,1002,TO_DATE('2016-01-05 08:22:23','yyyy-mm-dd hh24:mi:ss'),340,1,'','');
+--insert into orders values (seq_orders_ordId.nextval,1001,1001,TO_DATE('2010-01-02 08:22:23','yyyy-mm-dd hh24:mi:ss'),999,2,'','');
+--insert into orders values (seq_orders_ordId.nextval,1002,1002,TO_DATE('2016-01-05 08:22:23','yyyy-mm-dd hh24:mi:ss'),340,1,'','');
 --查询---------------------------------------------------------------------------------
 select * from address
-select * from orders;
+select * from orders where ordId=1001;
+select count(1) from orders where usersId=1011
+
+select * from  (select a.*,rownum rn from (select o.*,a.recipient from orders o,address a where a.addrId=o.addrId  
+and o.usersId=1011 and ordSta=2 order by ordDate desc)a where rownum <=10)b where rn>0
+
+select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+        	and o.usersId=1011
+	     order by ordDate desc)a where 10>=rownum)b where rn>0
+	     
+				
+				select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta from 
+				orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+				and p.goodsId = g.goodsId and o.ordId=1002
+				
+				ptformat ptcolor ptnet  versions  int ptmemory    ptsize    ptbattery 
 --删除---------------------------------------------------------------------------------
+drop table orderdetail;
 drop table orders;
 drop sequence seq_orders_ordId
 
@@ -372,6 +390,8 @@ create table orderdetail(
        reserve19 varchar2(20),					--备用字段
 	   reserve20 varchar2(20)                   --备用字段
 );
+
+select ordId,pt
 --插入---------------------------------------------------------------------------------
 insert into orderdetail values (1001,1001,899,1,1,'','');
 --查询---------------------------------------------------------------------------------

@@ -10,11 +10,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
-    	<title>订单</title>
-    	 <link type="text/css" href="front/css/myOrder.css" rel="stylesheet"/>
-        <script src="front/js/jquery-1.11.3.js" type="text/javascript"></script>
-		<script src="front/js/myOrder.js" type="text/javascript"></script>
-		
+   	<title>订单</title>
+   	<link type="text/css" href="front/css/myOrder.css" rel="stylesheet"/>
+   	<link rel="short icon" href="front/iconfont-photo/iconfont-iconmi01.svg"/>
+       <script src="front/js/jquery-1.11.3.js" type="text/javascript"></script>
+	<script src="front/js/myOrder.js" type="text/javascript"></script>
+	
 		
 		<style type="text/css">
 		 	a{
@@ -22,6 +23,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 	}
 		 	#end{
 		 		color: #eee;
+		 	}
+		 	#bigDiv{
+		 		height: auto;
 		 	}
 		</style>
 		
@@ -36,20 +40,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 			//订单分页
 	  		function pageInfo(op){
-				$.post("front/orderpage_getOrderInfo.action",{op:op},function(data){
+				var usersId = $("#Id_hidden").val();
+				$.post("front/orderpage_getOrderInfo.action",{op:op,usersId:usersId},function(data){
+					//alert(data.rows);
+					var myorders=data.rows;
 					var str="";
-					
-					var order=data.yeorders[0];//上面是循环读取，下面是一条一条读取
-					str="<div id='orderInfo' class='orderInfo'><div class='ordertop'><span class='date'>"+order.ordDate+"</span><span>&nbsp|&nbsp</span><span class='shrName'>"+order.reserve4+"</span><span>&nbsp|&nbsp</span><span>订单号:</span><span class='orderId'>"+order.ordId+"</span>&nbsp|&nbsp<span>订单金额：</span><span class='orderPay'>"+order.ordTatol+"</span><span>元</span></div></div>";
-					$("#orderdiv").html(str);
-					
-					//jquery 读取 json
-					$.each(data.yeordersdetail,function(index,item){
-						str+="<div id='prodInfo' class='prodInfo'><div class='imgDiv'><img src="+item.goodsPic+" class='prodPic'/></div><div class='prodList'><p><span class='prodName'>"+item.goodsName+"</p><p><span class='prodPrice'>"+item.detaPrice+"</span><span>元×</span><span class='prodCount'>"+item.detaNum+"</span></p></div></div>";
-					});
-					$("#orderdiv").html($(str));
-
-				
+					for(var i=0;i<myorders.length;i++){
+						var ordSta=myorders[i].ordsta;
+						// 0 取消订单1 未支付2 已支付  3准备发货  4待收货 5已签收
+						if(ordSta==0){
+							var zhuatai="订单取消";
+						}else if(ordSta==1){
+							var zhuatai="未支付";
+						}else if(ordSta==2){
+							var zhuatai="已支付等待发货";
+						}else if(ordSta==3){
+							var zhuatai="待收货";
+						}else if(ordSta==4){
+							var zhuatai="已签收";
+						}
+						str+="<div id='orderdiv'>";
+						
+						str+="<div class='orderInfo'>";
+						str+="<p class='orderSta'>"+zhuatai+"（订单状态）</p>";
+						str+="<div><span class='date'>日期："+myorders[i].ordDate+"　</span><span>|</span>";
+						str+="<span class='shrName>"+myorders[i].recipient+"</span><span>|</span>";
+						str+="<span>订单号:</span><span class='orderId'>　"+myorders[i].ordId+"（订单号）　| </span>　";
+						str+="<span>订单金额：</span><span class='orderPay'>"+myorders[i].ordTatol+"</span><span>元</span>";
+						str+="</div></div>";
+						for(var j=0;j<myorders[i].orderdetails.length;j++){
+							str+="<div class='prodInfo'>";
+							str+="<div class='imgDiv'><img src=../uploadpic/"+myorders[i].orderdetails[j].goodsminPic+" class='prodPic'/></div>";
+							str+="<div class='prodList'><p><span class='prodName'>"+myorders[i].orderdetails[j].goodsName+"</span></p>";
+							str+="<p><span class='prodPrice'>"+myorders[i].orderdetails[j].detaPrice+"</span><span>元　×　</span><span class='prodCount'>"+myorders[i].orderdetails[j].detaNum+"件</span></p></div></div>";
+						}
+						str+="</div>";
+					}
+					$("#bigDiv").html($(str)); 
 				},"json");
 				
 			}
@@ -252,9 +279,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<li>已关闭 </li>
 								</ul>
 							</div>
-							<div id="orderdiv">
-							
+							<div id="bigDiv">
+								
 							</div>
+							
 							
 							<div class="comment_page" >  <!-- 订单的分页信息 -->
 			                	<div class="page_info">

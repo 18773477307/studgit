@@ -172,7 +172,7 @@ public class OrderInfoBeanAction implements ModelDriven<Orders>,SessionAware,Ser
 			ordersService.updateOrdSta(ordIds);
 			// 订单详情表的状态改变
 			ordersService.updateDetaSta(ordIds);
-			System.out.println("获取到的ID+====" + ordIds);
+			//System.out.println("获取到的ID+====" + ordIds);
 			if (r9_BType.equals("1")) { // r9_BType:交易结果返回类型，1.服务器重定向 2.服务器点对点通讯
 				request.setAttribute("code", "success");
 				request.setAttribute("msg", "恭喜您，支付成功！");
@@ -196,7 +196,14 @@ public class OrderInfoBeanAction implements ModelDriven<Orders>,SessionAware,Ser
 			return "success";
 		}else {
 			int result = ordersService.payByBanlance(ordersInfo);
-			System.out.println(result+"result");
+			//System.out.println(result+"result");
+			// 订单表的状态改变
+			int ordIds = (int) request.getSession().getAttribute("ordId");
+			//System.out.println(ordIds+"订单编号");
+			//改变订单状态，已经支付
+			ordersService.updateOrdSta(ordIds);
+			// 订单详情表的状态改变
+			ordersService.updateDetaSta(ordIds);
 			if(result == 1){
 				session.put("code", "success");
 				session.put("msg", "恭喜您，支付成功！");

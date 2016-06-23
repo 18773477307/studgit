@@ -1,9 +1,12 @@
 package com.xiaomi.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.xiaomi.entity.OrderInfoBean;
+import com.xiaomi.entity.Orderdetail;
 import com.xiaomi.entity.Orders;
 
 @Repository("ordersMapper")
@@ -22,4 +25,9 @@ public interface OrdersMapper {
 	int payByBanlance(Orders orders);
 
 	double getBanlance(int usersId);
+
+	List<OrderInfoBean> selectOrderData(Map<String, Object> params);
+
+	int getTotal(int usersId);
+
 }

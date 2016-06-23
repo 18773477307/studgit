@@ -19,6 +19,22 @@ public class Orderdetail implements Serializable {
     private String reserve19;
 
     private String reserve20;
+    
+    private String goodsminPic;
+    private String goodsName;
+    
+	public String getGoodsminPic() {
+		return goodsminPic;
+	}
+	public String getGoodsName() {
+		return goodsName;
+	}
+	public void setGoodsminPic(String goodsminPic) {
+		this.goodsminPic = goodsminPic;
+	}
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
 
 	public int getOrdId() {
 		return ordId;
@@ -76,16 +92,9 @@ public class Orderdetail implements Serializable {
 		this.reserve20 = reserve20;
 	}
 
-	@Override
-	public String toString() {
-		return "Orderdetail [ordId=" + ordId + ", ptId=" + ptId
-				+ ", detaPrice=" + detaPrice + ", detaNum=" + detaNum
-				+ ", detaSta=" + detaSta + ", reserve19=" + reserve19
-				+ ", reserve20=" + reserve20 + "]";
-	}
-
 	public Orderdetail(int ordId, int ptId, int detaPrice, int detaNum,
-			int detaSta, String reserve19, String reserve20) {
+			int detaSta, String reserve19, String reserve20,
+			String goodsminPic, String goodsName) {
 		super();
 		this.ordId = ordId;
 		this.ptId = ptId;
@@ -94,8 +103,17 @@ public class Orderdetail implements Serializable {
 		this.detaSta = detaSta;
 		this.reserve19 = reserve19;
 		this.reserve20 = reserve20;
+		this.goodsminPic = goodsminPic;
+		this.goodsName = goodsName;
 	}
-
+	@Override
+	public String toString() {
+		return "\nOrderdetail [ordId=" + ordId + ", ptId=" + ptId
+				+ ", detaPrice=" + detaPrice + ", detaNum=" + detaNum
+				+ ", detaSta=" + detaSta + ", reserve19=" + reserve19
+				+ ", reserve20=" + reserve20 + ", goodsminPic=" + goodsminPic
+				+ ", goodsName=" + goodsName + "]";
+	}
 	public Orderdetail() {
 		super();
 		// TODO Auto-generated constructor stub

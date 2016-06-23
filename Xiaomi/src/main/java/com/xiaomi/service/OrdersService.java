@@ -1,5 +1,9 @@
 package com.xiaomi.service;
 
+import java.util.List;
+
+import com.xiaomi.entity.OrderInfoBean;
+import com.xiaomi.entity.Orderdetail;
 import com.xiaomi.entity.Orders;
 
 public interface OrdersService {
@@ -19,5 +23,9 @@ public interface OrdersService {
 
 	//查询用户余额
 	double getBanlance(int usersId);
+
+	List<OrderInfoBean> find(int usersId, int pageNo,int pageSize);
+
+	int getTotal(int usersId);
 
 }

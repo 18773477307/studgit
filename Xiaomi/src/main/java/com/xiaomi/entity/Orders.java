@@ -21,13 +21,6 @@ public class Orders implements Serializable {
 
     private String reserve18;
 
-	@Override
-	public String toString() {
-		return "Orders [ordId=" + ordId + ", addrId=" + addrId + ", usersId="
-				+ usersId + ", ordDate=" + ordDate + ", ordTatol=" + ordTatol
-				+ ", ordsta=" + ordsta + ", reserve17=" + reserve17
-				+ ", reserve18=" + reserve18 + "]";
-	}
 
 	public int getOrdId() {
 		return ordId;
@@ -111,7 +104,13 @@ public class Orders implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
     
-    
+	@Override
+	public String toString() {
+		return "\nOrders [ordId=" + ordId + ", addrId=" + addrId + ", usersId="
+				+ usersId + ", ordDate=" + ordDate + ", ordTatol=" + ordTatol
+				+ ", ordsta=" + ordsta + ", reserve17=" + reserve17
+				+ ", reserve18=" + reserve18 + "]";
+	}
 
     
 }

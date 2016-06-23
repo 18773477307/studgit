@@ -90,7 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   				<span class="iconfont">&or;</span></a>
 			   			</c:if>
 		                <span>|</span>
-		                <a class="myorder" href="javascript:goorder()">我的订单</a>
+		                <a class="myorder" href="front/myorder.jsp">我的订单</a>
 		            </div>
 		         </div> 
 			</div>
@@ -321,7 +321,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var payMoney = $(".pay_money").html();
 				var totalPay = parseFloat(payMoney);
 				var usersId = $("#Id_hidden").val();
-				console.info(totalPay);
+				//console.info(totalPay);
 				$.post("front/orderInfoBean_payOrderes.action",{ordTatol:totalPay,usersId:usersId},function(data){
 					// alert(data.total);
 					if(parseInt($.trim(data.total))==2){

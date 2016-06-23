@@ -10,10 +10,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta charset="utf-8">
 <title>小米账号-登录</title>
+<link rel="short icon" href="../front/iconfont-photo/iconfont-iconmi01.svg"/>	
 <link rel="stylesheet" href="css/zhuce.css" />
 <link rel="stylesheet" href="css/denglu.css" />
-<link rel="shortcut icon"
-	href="front/iconfont-photo/iconfont-iconmi01.svg" />
+
 <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
 <script type="text/javascript" src="js/dengluzhuce.js"></script>
 
