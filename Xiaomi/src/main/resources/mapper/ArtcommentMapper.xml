@@ -4,5 +4,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ArtcommentMapper" >
- 
+
+ 	<insert id="insertartcomment" parameterType="Artcomment" >
+	    insert into artcomment values(seq_artcomment_comId.nextval,#{artId},#{usersId},#{comCont},sysdate,1,'','')
+   </insert>
+   
+   <select id="getTotal" parameterType="Artcomment" resultType="int">
+		select count(1) from artcomment
+		 <where>
+	 		 <if test="artId != null and artId != '' and artId !=0">
+	        	artId=#{artId}
+		     </if> 		 
+	     </where>
+	</select>
+	
+   <select id="selectArtcommentData" resultType="Artcomment">
+ 		select b.* from (select a.*,rownum rn from (select comId,artId,a.usersId,usersName,comCont,comDate from artcomment a,usersInfo u where a.usersId=u.usersId
+ 		 <if test="artcomment.artId != null and artcomment.artId != '' and artcomment.artId !=0">
+        	and artId=#{artcomment.artId}
+	     </if> 		 
+	     order by comDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
 </mapper>

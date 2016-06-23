@@ -79,9 +79,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="main">
 	<div class="slider_box">
         <ul class="xm_slider_photo">
-			<c:forEach items="${currentNews}" var="item"> 
-            	<c:if test="${item.artWeight eq '5' }">
-            		<li><a href="articleServlet?op=showArticleByArtId&artId=${item.artId }" target="_blank" title="${item.artTitle30 }"><img src="${item.artPic }"/></a></li>
+			<c:forEach items="${indexarticle}" var="item"> 
+            	<c:if test="${item.artWeight eq '1' }">
+            		<li><a href="front/article_ArticleByInfo.action?artId=${item.artId }" target="_blank" title="${item.artTitle }"><img src="../uploadpic/${item.artPic }"/></a></li>
             	</c:if>
             </c:forEach>
         </ul>
@@ -101,26 +101,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div class="content">
     	<div class="left_box">
         	<div class="topLine">
-        		<c:forEach items="${currentNews}" var="item"> 
-	            	<c:if test="${item.artWeight eq '4' }">
-	            		<div class="toptitle">
-							<p><a href="articleServlet?op=showArticleByArtId&artId=${item.artId }">${item.artTitle30 }</a></p>
-						</div>
-						<div class="topphoto">
-		                	<a href="articleServlet?op=showArticleByArtId&artId=${item.artId }"><img src="${item.artPic }"></a>
-		                </div>
-						<div class="topcontent">
-							${item.reserve26 }
-							| ${item.artStaTimes }
-		                    <span>
-		                        <a href="articleServlet?op=showArticleByArtId&artId=${item.artId }"><em class="views"><img src="front/iconfont-photo/iconfont-13bbcguankanshu.svg">${item.artViews }</em></a>
-		                        <a class="share"><img src="front/iconfont-photo/iconfont-xinlang.svg">分享</a>	
-		                    </span>
-							<p class="topcontent_xia">${item.reserve25 }<a>全文》</a>
-							</p>
-						</div>
-	            	</c:if>
-           		</c:forEach>
+				<div class="toptitle">
+					<p><a>小米新品手机开启淘宝众筹 说出你的猜想赢取新品手机 F码</a></p>
+				</div>
+                <div class="topphoto">
+                	<img src="front/images/topphoto.png">
+                </div>
+				<div class="topcontent">
+					<a>小米Note</a>
+					| 2015年11月06日
+                    <span>
+                        <em class="views"><img src="front/iconfont-photo/iconfont-13bbcguankanshu.svg">1457</em>
+                        <a class="share"><img src="front/iconfont-photo/iconfont-xinlang.svg">分享</a>	
+                    </span>
+					<p class="topcontent_xia">小米双11第四波福利来袭，参与小米下一款手机全民众筹，50张发布会门票免费送！11月11日0点起，前往小米天猫旗舰店，支付1000元众筹款，产品发布后多退少补。并且我们将会在40天内发货，每人限购一台。
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a>全文》</a>
+					</p>
+				</div>
 			</div>
             <div class="subTopLine">
             	<ul>

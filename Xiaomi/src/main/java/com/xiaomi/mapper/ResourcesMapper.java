@@ -25,4 +25,24 @@ public interface ResourcesMapper {
 	 */
 	List<Resources> findResourcesByInfo(Map<String, Object> params);
 
+	/**
+	 * 添加视屏
+	 * @param resources
+	 * @return
+	 */
+	int insertResources(Resources resources);
+	
+	/**
+	 * 删除视屏
+	 * @param resources
+	 */
+	void delresources(Resources resources);
+	
+	/**
+	 * 修改视屏
+	 * @param resources
+	 * @return
+	 */
+	int updataResources(Resources resources);
+
 }

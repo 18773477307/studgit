@@ -16,7 +16,7 @@ public class UsersInfo implements Serializable{
 	private int usersSex;
 	private String usersBirth;
 	private String usersPhoto;
-	private String balance;
+	private double usersbalance;
 	private int usersSta;
 	private String reserve1;
 	private String reserve2;
@@ -115,14 +115,14 @@ public class UsersInfo implements Serializable{
 		this.usersPhoto = usersPhoto;
 	}
 	
-	public String getBalance() {
-		return balance;
+	public double getUsersbalance() {
+		return usersbalance;
 	}
-	
-	public void setBalance(String balance) {
-		this.balance = balance;
+
+	public void setUsersbalance(double usersbalance) {
+		this.usersbalance = usersbalance;
 	}
-	
+
 	public int getUsersSta() {
 		return usersSta;
 	}
@@ -147,24 +147,23 @@ public class UsersInfo implements Serializable{
 		this.reserve2 = reserve2;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "UsersInfo [usersId=" + usersId + ", usersName=" + usersName
 				+ ", usersTel=" + usersTel + ", usersEmail=" + usersEmail
 				+ ", usersPwd=" + usersPwd + ", usersIDCard=" + usersIDCard
 				+ ", usersSex=" + usersSex + ", usersBirth=" + usersBirth
-				+ ", usersPhoto=" + usersPhoto + ", balance=" + balance
-				+ ", usersSta=" + usersSta + ", reserve1=" + reserve1
-				+ ", reserve2=" + reserve2 + ", picCode=" + picCode
+				+ ", usersPhoto=" + usersPhoto + ", usersbalance="
+				+ usersbalance + ", usersSta=" + usersSta + ", reserve1="
+				+ reserve1 + ", reserve2=" + reserve2 + ", picCode=" + picCode
 				+ ", userNameOrTel=" + userNameOrTel + "]";
 	}
 
 	public UsersInfo(int usersId, String usersName, String usersTel,
 			String usersEmail, String usersPwd, String usersIDCard,
-			int usersSex, String usersBirth, String usersPhoto, String balance,
-			int usersSta, String reserve1, String reserve2, String picCode,
-			String userNameOrTel) {
+			int usersSex, String usersBirth, String usersPhoto,
+			double usersbalance, int usersSta, String reserve1,
+			String reserve2, String picCode, String userNameOrTel) {
 		super();
 		this.usersId = usersId;
 		this.usersName = usersName;
@@ -175,7 +174,7 @@ public class UsersInfo implements Serializable{
 		this.usersSex = usersSex;
 		this.usersBirth = usersBirth;
 		this.usersPhoto = usersPhoto;
-		this.balance = balance;
+		this.usersbalance = usersbalance;
 		this.usersSta = usersSta;
 		this.reserve1 = reserve1;
 		this.reserve2 = reserve2;

@@ -17,9 +17,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="front/js/jquery-1.11.3.js" type="text/javascript"></script>
 		<script type="text/javascript" src="front/js/jquery.cityselect.js"></script>
 		<script src="front/js/gocount.js" type="text/javascript"></script>
-		
+		<style type="text/css">
+			
+			
+		</style>
 		
 		<script>
+		 
 			function goorder(){
 				$.post("ordersServlet?d="+new Date(),{op:"findorderesbyuserId"},function(data){
 					if(parseInt($.trim(data))==0){
@@ -31,6 +35,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 				});
 			}
+			$(function(){
+				var usersId = $("#Id_hidden").val();
+				$.post("front/user_findAddrInfoById.action",{usersId:usersId},function(data){
+					 if(data.total<0){
+						 alert("请添加一个收获地址");
+					}
+				},'json');
+				//订单信息显示出来
+				addinfo();
+			});	
+			
+			//添加信息
+			function addinfo(){
+				var infofo = "${goCountInfo}";
+				var shu = infofo.split(";");
+				var shing = "";
+				for(var i=0;i<shu.length-1;i++){
+					var shu2 = shu[i].split(",");
+					$("#mytables").append("<tr class='infos'><td class='product_ptId'><input type='hidden' name='ptId' id='ptId_hidden' value='"+shu2[0]+"'/></td>"
+							+"<td class='goodsName'>"+shu2[1]+"</td><td class='img_order'><img src='"+shu2[2]+"' alt='图片暂时为空' class='goodsminPic'/></td><td class='ptPrice' id='price'>"+shu2[3]+"</td>"
+							+"<td class='goodsNum' id='num'>"+shu2[4]+"</td><td class='totalPrice' id='toprice'>"+shu2[5]+"</td></tr>");
+					//sum+= parseInt(shu2[4]);
+				}
+				//$(".yingfumoney").html(sum);
+			}
+			
 		</script>
   </head>
   
@@ -50,6 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <div class="topbar-info">
 		            	<c:if test="${not empty loginUsers }">
 			        		<a class="user-name" style="text-decoration: none; color:#666;" >
+			        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
 			        		<span class="name">当前登录：${loginUsers.usersName }</span>
 			        		<span class="iconfont">&or;</span></a>
 			        	</c:if>
@@ -59,58 +90,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   				<span class="iconfont">&or;</span></a>
 			   			</c:if>
 		                <span>|</span>
-		                <a class="myorder" href="javascript:goorder()">我的订单</a>
+		                <a class="myorder" href="front/myorder.jsp">我的订单</a>
 		            </div>
 		         </div> 
 			</div>
 
-			<script type="text/javascript">
-				$(function(){
-				
-				loginname=$(".name").html();
-		
-				if(loginname=="登录"){
-					location.href="front/MiHome.jsp";
-				}else{
-					$.post("addressServlet?d="+new Date(),{op:"findAddrInfoById"},function(data){
-						if(data!=0){
-							var str="<p class='addr_title'>收货地址</p>";
-							var info=data.list;
-							for(var i=0;i<info.length;i++){
-								str+="<div class='addr_detail have addrdiv"+i+"' onmouseover='showUpdate("+i+")'  onmouseout='clearUpdate("+i+")' onclick='usersAddr1("+i+")' onblur='usersAddr2("+i+")' id='"+info[i].addrId+"'>";
-								str+="<p><span class='username'>"+info[i].reserve4+"</span><span class='addr small'>"+info[i].reserve3+"</span></p>";
-								str+="<p class='tel'>"+info[i].addrTel+"</p>";
-								str+="<p class='addr big'><span class='big1'>"+info[i].province+"</span><span class='big2'>"+info[i].city+"</span><span class='big3'>"+info[i].county+"</span></p>";
-								str+="<p class='addr middle'>"+info[i].detailAddr+" </p>";
-								str+="<p><a class='change' id='change"+i+"' onclick='updateClick("+i+")'>修改</a></p></div>";
-								
-							}
-							//console.info(str);
-							$("#address").html(str);
-						}else{
-							alert("请添加一个收获地址");
-							
-						}
-					},'json');
-				}
-			});		
-			
-			
-				
-				
-			</script>
-
-			
 			<div id="body">
 				<div id="main">
+					<p class='addr_title'>收货地址</p>
 					<div id="address">
-						<!-- <div class="addr_detail have" onmouseover="showUpdate()" onmouseout="clearUpdate()" onclick="usersAddr()" style="" id="addr1">
-							<p><span class="username">收货人姓名</span><span class="addr small">421002</span></p>
-							<p class="tel">18976651252</p>
-							<p class="addr big"><span class="big1">湖南</span><span class="big2">衡阳</span><span class="big3">珠晖区</span></p>
-							<p class="addr middle">衡花路18号 湖南工学院 </p>
-							<p><a class="change" id="change1">修改</a></p>
-						</div> -->
+						<c:forEach items="${addresseInfo }" var="addrItem">
+						<c:if test="${addrItem.defaultaddr eq 1 }">
+						<div class="addr_detail have" style="background: url(front/images/1BG.png);" onclick="sureAddr(${addrItem.addrId })" onmouseover="showUpdate(${addrItem.addrId })" onmouseout="clearUpdate(${addrItem.addrId })" id="${addrItem.addrId }">
+							<p><span class="username" style="width:150px;">${addrItem.recipient }</span><span class="postcode" >${addrItem.postcode }</span></p>
+							<p class="tel">${addrItem.addrTel }</p>
+							<p class="addr big"><span class="big1">${addrItem.province }</span><span class="big2">${addrItem.city }</span><span class="big3">${addrItem.county }</span></p>
+							<p class="addr middle">${addrItem.detailAddr } </p>
+							<p><a class="change" id="change${addrItem.addrId }" class="${addrItem.addrId }" onclick="updateClick(${addrItem.addrId })">修改</a></p>
+						</div>
+						</c:if>
+						<c:if test="${addrItem.defaultaddr eq 0 }">
+							<div class="addr_detail have" style="background: url(front/images/3.png);" onclick="sureAddr(${addrItem.addrId })" onmouseover="showUpdate(${addrItem.addrId })" onmouseout="clearUpdate(${addrItem.addrId })" id="${addrItem.addrId }">
+								<p><span class="username" style="margin-right: ">${addrItem.recipient }</span><span class="postcode" >${addrItem.postcode }</span></p>
+								<p><span class="tel">${addrItem.addrTel }</span></p>
+								<p class="addr big"><span class="big1">${addrItem.province }</span><span class="big2">${addrItem.city }</span><span class="big3">${addrItem.county }</span></p>
+								<p class="addr"><span class="middle">${addrItem.detailAddr } </span></p>
+								<p><a class="change" id="change${addrItem.addrId }" class="${addrItem.addrId }" onclick="updateClick(${addrItem.addrId })">修改</a></p>
+							</div>
+						</c:if>
+						</c:forEach>
 					</div>
 					<div class="no" style="margin-left:50px; width:250px; height: 70px; float: left; border: 1px solid #f0f0f0;">
 						<div id="add">
@@ -126,106 +134,104 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<p><a class="return_car">返回购物车<span class="iconfont"><</span></a></p>
 								<script type="text/javascript">
 									$(".return_car").click(function () {
-										$.post("ordersServlet?d="+new Date(),{op:"goblackcar"},function(data){
-											if(parseInt($.trim(data))==0){
-												if(window.confirm('您的购物车中没有商品，去商城购物吧！')){
-													location.href="front/shop.jsp";
-												}
-											}else if(parseInt($.trim(data))==1){
-												location.href="front/shopcar.jsp";
-											}
-										});
+										var usersId = $("#Id_hidden").val();
+										$.post("front/shopCar_shopCarShow.action",{usersId:usersId},function(){
+											location.href="front/shopcar.jsp";
+										});	
 									});
 								</script>
 							</div>
 						</div>
-						<%-- <div class="section-body">
-                    		<ul class="goods-list" id="">
-                                <li class="clearfix">
-                                	<div class="col col-img">
-                                		<img src="front/images/dianyuan.jpg" width="30" height="30">
-                            		</div>
-                            		<div class="col col-name">
-                                    </div>
-                            		<div class="col col-price">${totgoods }</div>
-                            		<div class="col col-total">${totmoney }</div>
-                        		</li>
-                            </ul>
-                		</div> --%>
-                		<!--
-                        	作者：刘娟
-                        	时间：2016-01-08
-                        	描述：结算详情
-                        -->
-                        
-                        <div id="carbox">
-				        	<div class="order_detail">
-				            	<div id="spPic"> </div>
-				                <div id="spName">商品名称</div>
-				                <div id="danjia">单价</div>
-				                <div id="shuliang">数量</div>
-				            </div>
-				            <c:if test="${not empty shopaccount }">
-	      	     				<c:forEach items="${shopaccount }" var="itemms">
-	      	     					<div class="list-body">
-						            	<div class="col-img"><img src="${itemms.goodsPic }"/></div>
-						                <div class="pro-names">
-						                	<p class="pro-name"> ${itemms.goodsName } </p>
-						                </div>
-						                <div class="priceSingle">${itemms.goodsPrice }</div>
-						                <div class="pro-num">
-						                	<span>${itemms.goodsNum }</span> 件
-						                </div>
-				           			</div>
-	      	     				</c:forEach>
-	     					</c:if>
-				       	</div>
+						<div class="section-body">
+							<table id="carbox" >
+					    		<thead id="list_head">
+					    			<tr>
+					    				<td></td>
+					    				<td>商品名称</td>
+					    				<td>商品图片</td>
+					    				<td>单价(元)</td>
+					    				<td>数量(件)</td>
+					    				<td>小计(元)</td>
+					    			</tr>
+					    		</thead>
+					    		<tbody class="tbody" id="mytables">
+					    		</tbody>
+					    	</table>
+                		</div>
 				       	
                 		<div class="money-box" id="">
 		                    <ul>
 		                        <li class="clearfix">
 		                            <label>商品件数：</label>
-		                            <span class="val">${totgoods }</span>
+		                            <span class="val">${totalNum } 件</span>
 		                        </li>
 		                        <li class="clearfix">
 		                            <label>金额合计：</label>
-		                            <span id="money" class="val">${totmoney }</span>
+		                            <span id="money" class="val">${zongjimoney }</span>元
 		                        </li>
 		                    </ul>
 		                </div>
 		                
-		                
-		                <!-- <div class="addr_detail have" onclick="usersAddr()" style="margin-left: 450px; margin-top: 10px;">
-							<p><span class="username">收货人姓名</span><span class="addr small">421002</span></p>
-							<p class="tel">18973416802</p>
-							<p class="addr big">湖南  衡阳  珠晖区</p>
-							<p class="addr middle">衡花路18号 湖南工学院 </p>
-							<p><a class="change" id="change2">修改</a></p>
-						</div> -->
+		                <div id="addr_show">
+		                	<font size="4" color="blue">收货地址显示</font>
+		                	<ul>
+		                		<li id="id_show"><input type="hidden" name="addrId" id="addrId_hidden" value=""/></li>
+		                		<li id="name_show"></li>
+		                		<li id="tel_show"></li>
+		                		<li id="addrInfo_show"></li>
+		                	</ul>
+		                </div>
 					</div>
 					
 					
 					<div id="main_footer">
-						<div class="count"><input id="buy" class="buy" type="button" value="去结算" ></div>						
+						<div class="count"><input id="buy" class="buy" type="button" value="提交订单" onclick="handIn()"></div>						
 					</div>
 					<script type="text/javascript">
-						var money=${totmoney }
-						$(".buy").click(function () {
-							$.post("ordersServlet?d="+new Date(),{op:"AddorderesInfo",money:money},function(data){
-								if(parseInt($.trim(data.substring(0,1)))==0){
-									alert("请选择收货地址....");
-								}else if(parseInt($.trim(data.substring(0,1)))==1){
-									alert("未支付订单产生失败....");
-								}else if(parseInt($.trim(data.substring(0,1)))==2){
-									alert("未支付订单插入成功，订单详情插入失败，购物车状态跟新失败...");
-								}else if(parseInt($.trim(data.substring(0,1)))==3){
-									//成功购买后，只能点一次
-									document.getElementById("buy").disabled=true;
-									alert("请选择下面提供的方式付款，谢谢您的支持...");
-									$("#order_post").slideDown();
-								}
-							});
-						});
+						function handIn(){
+							var addrId = $("#addrId_hidden").val(); //地址编号
+							var usersId = $("#Id_hidden").val(); //用户编号
+							var ordTatol = $("#money").text();   //订单总价
+							console.info(ordTatol+"==");
+							var goodsNames = ""; 
+							var list = $(".infos");
+							var orders = "";
+							//console.info(addrId+"=="+usersId+"=="+ordTatol+"=="+money);
+							for(var i=0;i<list.length;i++){
+								var ptId = $(list[i]).children().find("#ptId_hidden").val();//商品id
+								var detaPrice = $(list[i]).children(".ptPrice").html();		//购买价
+								var detaNum = $(list[i]).children(".goodsNum").html();//购买数量
+								var detaNum = $(list[i]).children(".goodsNum").html();//购买数量
+								goodsNames += $(list[i]).children(".goodsName").html()+"  ";//商品名称
+								orders += ptId+","+detaPrice+","+detaNum+";";
+							}
+							console.info(orders+"orders");
+							console.info(goodsNames+"goodsNames");
+							if(addrId == "" || addrId == null){
+								alert("请选择您的收货地址");
+							}else{
+								$.post("front/orderInfoBean_addOrderInfo.action",{addrId:addrId,usersId:usersId,ordTatol:ordTatol,orders:orders},function(data){
+									
+									if(data.total != 1){
+										document.getElementById("buy").disabled=true;//成功购买后，只能点一次
+										$("#order_post").slideDown();
+										var username = $("#name_show").html();
+										var tel = $("#tel_show").html();
+										var addr = $("#addrInfo_show").html();
+										console.info(data.total)
+										$(".orderId").html(data.total);
+										$(".ordId").val(data.total);
+										$(".orderMessage").html("<span class='showInfos'>姓名：</span>"+username+" <span class='showInfos'>联系方式：</span>"+tel
+												+"<br><span class='showInfos'>地址：</span>"+addr+"<br>");
+										$(".orderProName").html(goodsNames);
+									}else{
+										alert("订单提交失败！请稍后再试！");
+									}
+									//console.info(data.total);
+								},"json");
+								//window.location.href="front/orderInfoBean_addOrderInfo.action?addrId="+addrId+"&usersId="+usersId+"&ordTatol="+ordTatol+"&orders="+orders;
+							}
+						}
 					</script>
 				</div>
 			</div>
@@ -242,14 +248,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="order_post_message">
 						<h2>订单提交成功 ！去付款咯~</h2>
-						<p>应付总额：<span class="pay_money">${totmoney }元</span></p>
+						<p>应付总额：<span class="pay_money">${zongjimoney } </span> 元</p>
 					</div>
 					<a class="look_order" title="查看订单详情"><img src="front/images/look_order.jpg"></a>
 					<div class="order_post_detail">
 						<ul>
-							<li>订单编号：<span class="orderId">1002</span></li>
-							<li>收货信息：<span class="orderMessage">名字 手机号码 地址 </span></li>
-							<li>商品名称：<span class="orderProName">USB Type-C 转换头 黑色</span></li>
+							<li class="li01">订单编号：<span class="orderId"></span></li>
+							<li class="li02">收货信息：<span class="orderMessage"></span></li>
+							<li class="li03">商品名称：<span class="orderProName"></span></li>
 						</ul>
 					</div>
 				</div>
@@ -257,28 +263,92 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div id="pay">
 					<div id="choose_way"><p>选择付款方式</p></div>
 					<div id="pay_way">
-						<p class="payways">支付平台</p>
-						<a class="sdsd"><img src="front/images/pay_way_zfb.png"></a>
-						<a class="sdsd"><img src="front/images/pay_way_xmqb.png"></a>
-						<a class="sdsd"><img src="front/images/pay_way_jsyh.png"></a>
-						<a class="sdsd"><img src="front/images/pay_way_yzyh.png"></a>
-						<a class="sdsd"><img src="front/images/pay_way_yl.png"></a>
+						<br>
+						<input type="button" class="linebank" onClick="online()" value="在线支付"/>
+						<input type="button" class="balance" onClick="fukuan()" value="余额付款"/>
+					<form action="front/orderInfoBean_payOnline.action" method="post">
+						<input type="hidden" class="ordId" name="ordId" value="${ordId}"/>
+						<table style="width: 100%;" >
+							<tr><td><br/></td></tr>
+							<tr id="xmBank" style="display: none;">
+							  <td><img alt="小米钱包" src="front/bank_img/xiaomiBank.png"></td>
+							  <td></td>
+							  <td></td>
+							  <td></td>
+							  <td></td>
+							  <td></td>
+							</tr>
+							<tr class="br1"><td><br/></td></tr>
+							<tr class="onlineBank" style="display: none;">
+							  <td><INPUT TYPE="radio" NAME="yh" value="CMBCHINA-NET-B2C"><img alt="招商银行" name="CMBCHINA-NET-B2C" src="front/bank_img/cmb.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="ICBC-NET-B2C"><img alt="工商银行" name="ICBC-NET-B2C" src="front/bank_img/gongShang.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="ABC-NET-B2C"><img alt="农业银行" name="ABC-NET-B2C" src="front/bank_img/abc.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CCB-NET-B2C"><img alt="建设银行" name="CCB-NET-B2C" src="front/bank_img/ccb.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CMBC-NET-B2C"><img alt="中国民生银行" name="CMBC-NET-B2C" src="front/bank_img/cmbc.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CEB-NET-B2C" ><img alt="光大银行" name="CEB-NET-B2C" src="front/bank_img/guangda.bmp"></td>
+							</tr>
+							<tr class="br2"><td><br/></td></tr>
+							<tr class="onlineBank" style="display: none;">
+							  <td><INPUT TYPE="radio" NAME="yh" value="BOCO-NET-B2C"><img alt="交通银行" name="BOCO-NET-B2C" src="front/bank_img/bcc.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="SDB-NET-B2C"><img alt="深圳发展银行" name="SDB-NET-B2C" src="front/bank_img/sfz.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="BCCB-NET-B2C"><img alt="北京银行" name="BCCB-NET-B2C" src="front/bank_img/bj.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="CIB-NET-B2C"><img alt="兴业银行" name="CIB-NET-B2C" src="front/bank_img/cib.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="SPDB-NET-B2C"><img alt="上海浦东发展银行 " name="SPDB-NET-B2C" src="front/bank_img/shpd.bmp"></td>
+							  <td><INPUT TYPE="radio" NAME="yh" value="ECITIC-NET-B2C"><img alt="中信银行 " name="ECITIC-NET-B2C" src="front/bank_img/zx.bmp"></td>
+							</tr>
+							<tr><td><br/></td></tr>
+							<tr class="pay1" style="display: none;">
+							  <td><INPUT TYPE="submit" value="去付款" class="nextOnline"></td>
+							</tr>
+							<tr class="pay2" style="display: none;">
+							  <td><INPUT TYPE="button" value="确认付款" class="next" onclick="goPay()"></td>
+							</tr>
+							<tr><td><br/></td></tr>
+				     	</table>
+				     </form>		
 					</div>
 				</div>
 				
 			</div>
 			<script type="text/javascript">
-				$(".sdsd").click(function () {
-					$.post("ordersServlet?d="+new Date(),{op:"pay_orderes"},function(data){
-						if(parseInt($.trim(data))==1){
-							if(window.confirm('恭喜您支付成功，去主页逛逛吧！')){
-								location.href="front/MiHome.jsp";
-							}
-						}else {
-							alert("支付失败....");
-						}
-					});
+			//在线支付
+			/* function payOnline(){
+				
+			} */
+			
+			//余额支付
+			function goPay(){
+				var payMoney = $(".pay_money").html();
+				var totalPay = parseFloat(payMoney);
+				var usersId = $("#Id_hidden").val();
+				//console.info(totalPay);
+				$.post("front/orderInfoBean_payOrderes.action",{ordTatol:totalPay,usersId:usersId},function(data){
+					// alert(data.total);
+					if(parseInt($.trim(data.total))==2){
+						alert('账户余额不足，支付失败...\n请选择在线支付');
+					}else{
+						window.location.href = "front/msg.jsp";
+					} 
 				});
+			}
+			
+			function fukuan() {
+				$(".onlineBank").css("display", "none");
+				$(".pay1").css("display", "none");
+				$(".br2").css("display", "none");
+				$("#xmBank").css("display", "block");
+				$(".pay2").css("display", "block");
+			};
+			
+			function online() {
+				$(".onlineBank").css("display", "block");
+				$(".pay1").css("display", "block");
+				$("#xmBank").css("display", "none");
+				$(".pay2").css("display", "none");
+				$(".br1").css("display", "none");
+			};
+			
+			
 			</script>
 			    
 			<div class="footer">

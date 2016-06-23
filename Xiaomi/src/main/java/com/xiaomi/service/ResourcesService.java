@@ -2,6 +2,7 @@ package com.xiaomi.service;
 
 import java.util.List;
 
+import com.xiaomi.entity.ArticleBean;
 import com.xiaomi.entity.Resources;
 
 public interface ResourcesService {
@@ -27,5 +28,34 @@ public interface ResourcesService {
 	 * @return
 	 */
 	List<Resources> findResourcesByInfo(Resources resources, Integer pageNo,Integer pageSize);
+	
+	/**
+	 * 添加视屏
+	 * @param resources
+	 * @return
+	 */
+	int addResourcesInfo(Resources resources);
+	
+	/**
+	 * 删除视屏
+	 * @param resources
+	 * @return
+	 */
+	boolean delresources(Resources resources);
+	
+	/**
+	 * 方法重写
+	 * @param resources
+	 * @param resIds
+	 * @return
+	 */
+	boolean delresources(Resources resources, String[] resIds);
+	
+	/**
+	 * 修改视屏
+	 * @param resources
+	 * @return
+	 */
+	int updataResourcesInfo(Resources resources);
 
 }

@@ -99,69 +99,9 @@ function findUsersAddrByInfo() {
 	if(county == '全部'){county='';}
 	
 	$('#users_addr').datagrid({
-			url : 'back/address_findAddressByInfo.action',
-			queryParams:{province:province,city:city,county:county,usersName:usersName},
-			fitColumns : true,
-			striped : true,
-			loadMsg : "数据加载中",
-			pagination : true,
-			rownumbers : true,
-			sortName : 'addrId',
-			remoteSort : false,
-			columns : [ [ {
-				field : 'addrIds',
-				title : '收货地址编号',
-				width : 100,
-				align : 'center',
-				checkbox : true
-			}, {
-				field : 'addrId',
-				title : '收货地址编号',
-				width : 100,
-				align : 'center'
-			}, {
-				field : 'usersName',
-				title : '用户姓名',
-				align : 'center',
-				width : 100
-			}, {
-				field : 'province',
-				title : '省',
-				width : 100,
-				align : 'center'
-			}, {
-				field : 'city',
-				title : '市',
-				width : 100,
-				align : 'center'
-			}, {
-				field : 'county',
-				title : '区/县',
-				width : 100,
-				align : 'center'
-			} ,{
-				field : 'detailAddr',
-				title : '详细地址',
-				width : 400,
-				align : 'center'
-			},{
-				field : 'postcode',
-				title : '邮编',
-				width : 100,
-				align : 'center'
-			} , {
-				field : 'recipient',
-				title : '收件人',
-				width : 100,
-				align : 'center'
-			}, {
-				field : 'addrTel',
-				title : '收件人电话',
-				width : 100,
-				align : 'center'
-			}] ],
-			toolbar : "#show_usersaddr_info_find"
-		});
+		url : 'back/address_findAddressByInfo.action',
+		queryParams:{province:province,city:city,county:county,usersName:usersName},
+	});
 	
 	/* $.post("back/address_findAddressByInfo.action",{province:province,city:city,county:county,usersName:usersName},function(data){
 		//alert(data.total+"data");

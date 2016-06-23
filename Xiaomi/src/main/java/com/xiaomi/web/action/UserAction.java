@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.xiaomi.entity.Address;
 import com.xiaomi.entity.JsonObject;
+import com.xiaomi.entity.ShopCar;
 import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.service.UsersInfoService;
 import com.xiaomi.utils.SessionAttributeKey;
@@ -93,7 +95,7 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 	
 	public String emailCheck() {
 		System.out.println("emailCheck  :" + usersInfo);
-		int result = usersInfoService.unameCheck(usersInfo.getUsersEmail());
+		int result = usersInfoService.emailCheck(usersInfo.getUsersEmail());
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";
@@ -101,7 +103,7 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 	
 	public String telCheck() {
 		System.out.println("telCheck  :" + usersInfo);
-		int result = usersInfoService.unameCheck(usersInfo.getUsersTel());
+		int result = usersInfoService.telCheck(usersInfo.getUsersTel());
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";
@@ -109,7 +111,7 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 	
 	public String idCardCheck() {
 		System.out.println("idCardCheck  :" + usersInfo);
-		int result = usersInfoService.unameCheck(usersInfo.getUsersIDCard());
+		int result = usersInfoService.idCardCheck(usersInfo.getUsersIDCard());
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setTotal(result);
 		return "success";
@@ -126,7 +128,35 @@ public class UserAction implements ModelDriven<UsersInfo>, SessionAware {
 		UsersInfo users = usersInfoService.findUserByUsersInfo(usersInfo);
 		jsonObject = new JsonObject<UsersInfo>();
 		jsonObject.setObject(users);
+		int usersId=users.getUsersId();
+		System.out.println(usersId);
+		int sum = 0;
+		sum = usersInfoService.findCountOfUser(usersId);//从购物车表里面查
+		
+		//把这个人购物车所有商品数量存入session
+		session.put("sums", sum);
 		session.put(SessionAttributeKey.LOGIN_USER, users);
+		return "success";
+	}
+	/*
+在线支付银行	 * 前台用户注销
+	 */
+	public String usersOut(){
+		session.put(SessionAttributeKey.LOGIN_USER, "");
+		session.put("sums", 0);
+		jsonObject = new JsonObject<UsersInfo>();
+		jsonObject.setTotal(1);
+		return "success";
+	}
+	
+	public String findAddrInfoById(){
+		List<Address> addresseInfo = usersInfoService.findAddrInfoById(usersInfo.getUsersId());
+		session.put("addresseInfo", addresseInfo);
+		jsonObject = new JsonObject<UsersInfo>();
+		System.out.println(addresseInfo);
+		if(addresseInfo!=null && !addresseInfo.equals("")){
+			jsonObject.setTotal(1);
+		}
 		return "success";
 	}
 

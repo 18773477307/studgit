@@ -1,5 +1,6 @@
 --blob:二进制lob，为二进制数据，最长可达4GB，存贮在数据库中。
 --clob:字符lob,字符数据,最长可以达到4GB,存贮在数据库中。
+commit;
 --1-------------------------------------------------------------------------------------------------------------------------------------
 --用户信息表
 create table usersInfo(
@@ -12,9 +13,9 @@ create table usersInfo(
        usersSex int,					  --性别  0：男    1:女
        usersBirth date,                   --用户生日
        usersPhoto varchar2(100),          --用户头像
-       usersbalance varchar2(10),         --用户余额 
+       usersbalance number(8,2),         --用户余额   这里改了  注意
        usersSta int,                      --用户状态 (0表示冻结；1表示可用)
-	   reserve1 varchar2(20),		  	  --备用字段
+	   reserve1 varchar2(20),		  	  --备用字段 
 	   reserve2 varchar2(20)          	  --备用字段
 );
 create sequence seq_usersinfo_usersId start with 1001 increment by 1;
@@ -25,7 +26,8 @@ insert into usersinfo values (seq_usersinfo_usersId.nextVal,'aa','15111523256','
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'bb','18222252125','45123@qq.cn','aaaaaa','543673337844334444',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 insert into usersinfo values (seq_usersinfo_usersId.nextVal,'dd','18852052125','5643@qq.cn','aaaaaa','543673745844378454',1,TO_DATE('2010-02-02','yyyy-mm-dd'),'',1500,1,'','');
 
-
+alter table usersinfo modify(usersbalance number(8,2))
+select usersbalance from usersInfo where usersId = 1011
 select b.* from (select a.*,rownum rn from 
 		(select * from usersInfo order by usersId) a where 10>=rownum)b where rn>0 order by usersId asc
 --查询--------------------------------------------------------------------------------------------
@@ -34,6 +36,8 @@ select * from usersinfo;
 drop sequence seq_usersinfo_usersId
 delete from usersInfo where usersId=1001,usersId=1002,usersId=1003
 drop table usersinfo;
+
+update usersinfo set  usersbalance=15000 where usersId = 1011
 --2----------------------------------------------------------------------------------------------------
 --用户收获地址
 create table  address(
@@ -51,10 +55,14 @@ create table  address(
 	   reserve3 varchar2(20),	   --备用字段
 	   reserve4 varchar2(20)       --备用字段
 );
+select a.*,u.usersName from address a,usersinfo u where a.usersId = u.usersId and a.usersId =1011
+
 create sequence seq_address_addrId start with 1001 increment by 1;
 select u.usersName,province,city,county,detailAddr,reserve4,addrTel from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=10)b,usersInfo u where rn>0 and b.usersId=u.usersId
-insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳','珠晖','湖南工学院','18773477307',1,'421002','彭健','','');
-update address set province='湖南' ,city = '衡阳市',county='珠晖区' where usersId=1007
+insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳市','珠晖区','湖南工学院','18773477307',1,'421002','彭健','','');
+insert into address values (seq_address_addrId.nextval,1011,'湖南','湘潭市','雨湖区','易俗河镇','18973416800',0,'411208','刘娟','','');
+insert into address values (seq_address_addrId.nextval,1011,'湖南','衡阳市','珠晖区','湖南工学院','13273219584',0,'421002','傻妞','','');
+update address set province='湖南' ,city = '衡阳市',county='珠晖区',defaultaddr=0 where usersId=1011
 ---------------------------------------------------------------------------------------------
 select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9
 select u.usersName,province,city,county from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=9)b,usersInfo u where rn>0 and b.usersId=u.usersId and usersName like '%2%'
@@ -274,6 +282,7 @@ select * from product;
 select * from goods;
 --跟新---------------------------------------------------------------------------------
 update product set ptPrice=1499 where ptId=1
+update product set ptNum=68 where ptId=1004
 --删除---------------------------------------------------------------------------------
 select * from goods
 drop table product;
@@ -293,14 +302,46 @@ create table shopCar(
 );
 create sequence seq_shopCar_shopId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
+<<<<<<< HEAD
 insert into shopCar values(seq_shopCar_shopId.nextval,1001,1001,1,1,'','');
 insert into shopCar values(seq_shopCar_shopId.nextval,1002,1002,1,1,'','');
+=======
+select * from usersinfo;
+select * from product;
+select * from goods;
+
+select distinct(sc.usersId),u.usersName,
+(select count(1) from shopCar where usersId = sc.usersId) countGoods
+from shopCar sc,usersinfo u where sc.usersId = u.usersId
+
+from goods where goodsSta=1
+
+select count(1) from product p,goods g where p.goodsId=g.goodsId and g.goodsId= 1001
+
+select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId;
+select count(1) from shopCar where usersId=1011
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1001,1001,1,1,'','');
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1001,2,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1004,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1005,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1003,1,1,'',''); test
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1005,1,1,'',''); nihao
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1004,1,1,'',''); nihao
 --查询---------------------------------------------------------------------------------
+<<<<<<< HEAD
 select shopNum from shopCar where ptId=1001 and usersId=1001 and shopSta=1;
 select * from shopCar where usersId=1001
+=======
+select * from shopCar where usersId=1011
+select count(1) from shopCar where usersId=1011 and shopSta=1
+>>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 select * from shopCar;
---跟新---------------------------------------------------------------------------------
-update shopCar set shopSta=2 where shopId=1
+select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
+--更新---------------------------------------------------------------------------------
+update shopCar set shopSta=1 where shopId in (1001,1002,1003)
 --删除---------------------------------------------------------------------------------
 drop table shopCar;
 drop sequence seq_shopCar_shopId
@@ -315,18 +356,34 @@ create table orders(
                constraint FK_orders_usersinfo_userId references usersinfo(usersId), 
        ordDate date,               			  --订单日期
        ordTatol number(8,2),       			  --订单总价
-       ordSta int,                            --订单状态  0 取消订单		1 未支付		2 已支付
+       ordSta int,                            --订单状态  0 取消订单1 未支付2 已支付等待发货  3已发货  4已签收
 	   reserve17 varchar2(20),				  --备用字段
 	   reserve18 varchar2(20)                 --备用字段
 );
 create sequence seq_orders_ordId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into orders values (seq_orders_ordId.nextval,1001,1001,TO_DATE('2010-01-02 08:22:23','yyyy-mm-dd hh24:mi:ss'),999,2,'','');
-insert into orders values (seq_orders_ordId.nextval,1002,1002,TO_DATE('2016-01-05 08:22:23','yyyy-mm-dd hh24:mi:ss'),340,1,'','');
+--insert into orders values (seq_orders_ordId.nextval,1001,1001,TO_DATE('2010-01-02 08:22:23','yyyy-mm-dd hh24:mi:ss'),999,2,'','');
+--insert into orders values (seq_orders_ordId.nextval,1002,1002,TO_DATE('2016-01-05 08:22:23','yyyy-mm-dd hh24:mi:ss'),340,1,'','');
 --查询---------------------------------------------------------------------------------
 select * from address
-select * from orders;
+select * from orders where ordId=1001;
+select count(1) from orders where usersId=1011
+
+select * from  (select a.*,rownum rn from (select o.*,a.recipient from orders o,address a where a.addrId=o.addrId  
+and o.usersId=1011 and ordSta=2 order by ordDate desc)a where rownum <=10)b where rn>0
+
+select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+        	and o.usersId=1011
+	     order by ordDate desc)a where 10>=rownum)b where rn>0
+	     
+				
+				select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta from 
+				orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+				and p.goodsId = g.goodsId and o.ordId=1002
+				
+				ptformat ptcolor ptnet  versions  int ptmemory    ptsize    ptbattery 
 --删除---------------------------------------------------------------------------------
+drop table orderdetail;
 drop table orders;
 drop sequence seq_orders_ordId
 
@@ -339,10 +396,12 @@ create table orderdetail(
            constraint FK_orderdetail_product_ptId references product(ptId),
        detaPrice number(10,2),               	--购买价
        detaNum int,                				--数量
-       detaSta int,                 			--状态(1存在，0取消)
+       detaSta int,                 			--状态(  0 取消订单		1 未支付		2 已支付)
        reserve19 varchar2(20),					--备用字段
 	   reserve20 varchar2(20)                   --备用字段
 );
+
+select ordId,pt
 --插入---------------------------------------------------------------------------------
 insert into orderdetail values (1001,1001,899,1,1,'','');
 --查询---------------------------------------------------------------------------------
@@ -361,7 +420,7 @@ create table resources(
        resViews int,							 --浏览次数
        goodsId int                               --商品编号（字符串拼接：只供查看）
                constraint FK_resources_goods_goodsId references goods(goodsId),
-       resSta int,								 --视屏状态：是否可用  2：不可用  1:可用
+       resSta int,								 --视频状态：是否可用  2：不可用  1:可用
        reserve21 varchar2(20),					 --备用字段
 	   reserve22 varchar2(20)                    --备用字段
      
@@ -374,6 +433,8 @@ insert into resources values (seq_resources_resId.nextval,'小米平板2','video
 select * from resources;
 select resId,resName,resCont,resWords,resDate,resViews,resSta,re.goodsId,goodsName from resources re,goods g where g.goodsId=re.goodsId
 ---删除-------------------------------------------------------------------------
+delete resources;
+delete from resources where resId=1002 
 drop table resources;
 drop sequence seq_resources_resId
 --12-----------------------------------------------------------------------------
@@ -392,34 +453,19 @@ create table article(
 	   reserve23 varchar2(20),               --备用字段
 	   reserve24 varchar2(20)               --备用字段                     
 );
-
 create sequence seq_article_artId start with 1001 increment by 1;
 ---查询------------------------------------------------------------------------------------------------
 select * from article where artWeight=5 union select artId from article where artWeight=2 union select artId from article where artWeight=3 union select artId from article where artWeight=4 union select artId from article where artWeight=5
-<<<<<<< HEAD
-
+select * from article;
+select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
 ---插入--------------------------------------------------------------------------------------------------
 insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
 select * from article;
-=======
+
 ---插入--------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
 insert into article values (seq_article_artId.nextval,'你好','彭建',TO_DATE('2010-01-02','yyyy-MM-dd'),'祝福大家','4564687','',0,1,1,'','');=======
 insert into article values (seq_article_artId.nextval,'新年好','彭建',TO_DATE('2010-01-02','yyyy-mm-dd'),TO_DATE('2010-01-02','yyyy-mm-dd'),'新年好呀 新年好呀 祝福大家新年好','',0,1,1,'','');
-select * from article;
-select b.* from (select a.*,rownum rn from 
-=======
-select * from article;
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
-select b.* from (select a.*,rownum rn from 
-<<<<<<< HEAD
->>>>>>> branch 'master' of git@github.com:18773477307/studgit.git
-		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
-select b.* from (select a.*,rownum rn from (select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae WHERE ae.artTitle like '%明%' and ae.artStaTime>to_date('2016-06-01','yyyy-MM-dd') ) a where 10 >=rownum)b where rn>0
-=======
-		(select artId,artTitle,artAuth,to_char(artStaTime,'yyyy-MM-dd'),artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
->>>>>>> branch 'master' of https://github.com/18773477307/studgit.git
 --删除-------------------------------------------------------------------------------------------------
 drop table article;
 delete article;
@@ -444,17 +490,21 @@ create table artcomment(
 );
 create sequence seq_artcomment_comId start with 1001 increment by 1;
 ---插入------------------------------------------------------------------------------------------------
-insert into artcomment values (seq_artcomment_comId.nextval,1006,1001,'文章评论内容',TO_DATE('2016-02-02 14:22:23','yyyy-mm-dd hh24:mi:ss'),1,'');
-insert into artcomment values (seq_artcomment_comId.nextval,1007,1002,'文章评论内容文章评论内容文章评论内容',TO_DATE('2016-01-02','yyyy-mm-dd'),1,'');
+insert into artcomment values (seq_artcomment_comId.nextval,1001,1001,'文章评论内容',sysdate,1,'','');
+insert into artcomment values (seq_artcomment_comId.nextval,1007,1002,'文章评论内容',TO_DATE('2016-01-02','yyyy-mm-dd'),1,'');
 ---查询------------------------------------------------------------------------------------------------
 select * from artcomment;
+select comId,artId,a.usersId,usersName,comCont,comDate from artcomment a,usersInfo u where a.usersId=u.usersId and artId=1002 and 6>rownum order by comDate desc 
+select b.* from (select a.*,rownum rn from (select * from artcomment where artId=1002)a where 5>=rownum)b where rn>0
 ---删除----------------------------------------------------------------------------------------------
+delete artcomment;
 drop table artcomment;
 drop sequence seq_artcomment_comId
 -----------------------------------------------------------------------------------------------------
 select * from article;
-select * from goods;
+select * from artcomment;
 select * from usersInfo;
+select comId,artId,usersId,usersName,comCont,comDate from artcomment a,usersInfo where a.usersId=u.usersId and artId=#{artId}
 --14--------------------------------------------------------------------------------------------------
 --商品评价表    
 --要添加约束：一个产品编号和用户编号唯一

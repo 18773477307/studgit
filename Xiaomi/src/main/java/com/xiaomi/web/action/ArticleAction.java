@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.xiaomi.entity.Article;
 import com.xiaomi.entity.ArticleBean;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.service.ArticleService;
@@ -26,7 +25,6 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 	private ArticleService articleService;
 	
 	private ArticleBean articleBean;	
-	private Article article;
 	private Map<String, Object> session;
 	private JsonObject<ArticleBean> jsonObject;
 	private int page;
@@ -99,6 +97,7 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 		//String path="C:/tomcat/apache-tomcat-7.0.67/webapps/uploadPic/" + uploadFileName;
 		//存放图片名就ok
 		String path=ServletActionContext.getServletContext().getRealPath("../uploadpic/" + uploadFileName);
+		System.out.println(path);
 		articleBean.setArtPic(uploadFileName);
 		System.out.println(articleBean);
 		int result=articleService.addArticleInfo(articleBean);
@@ -118,11 +117,14 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 	}
 	
 	public String updateArticleInfo(){
+		System.out.println(upload);
+		System.out.println(uploadFileName);
+		System.out.println(articleBean);
 		String path=ServletActionContext.getServletContext().getRealPath("../uploadpic/" + uploadFileName);
 		articleBean.setArtPic(uploadFileName);
 		System.out.println(articleBean);
 		int result=articleService.updateArticle(articleBean);
-		if(result>0){
+		if(result>0&&upload!=null){
 			try {
 				FileUtils.copyFile(upload, new File(path));
 				System.out.println("修改成功");
@@ -138,14 +140,10 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 	}
 	
 	public String delarticleInfo(){
-		String[] artIds=ServletActionContext.getRequest().getParameterValues("artIds");
-		System.out.println("这是1="+artIds.length);
-		String temp=artIds[0];
-		String[] str=temp.split(",");
-		System.out.println("这是2="+str.length);
+		String[] artIds=ServletActionContext.getRequest().getParameterValues("artIds[]");
 		LogManager.getLogger().debug("删除文章取到artIds="+Arrays.toString(artIds));
 		jsonObject=new JsonObject<ArticleBean>();
-		boolean result=articleService.updateArtSta(articleBean,str);
+		boolean result=articleService.updateArtSta(articleBean,artIds);
 		if(result=true){
 			//System.out.println("成功修改状态");
 			jsonObject.setTotal(1);
@@ -155,6 +153,24 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 		return "success";
 	}
 	
+	public String getIndexArticleInfo(){
+		List<ArticleBean> indexarticle=articleService.indexArticle();
+		session.put("indexarticle", indexarticle);
+		return "community";
+	}
+	
+	public String ArticleByInfo(){
+		//观看次数加1
+		int result=articleService.updateViews(articleBean);
+		if(result>0){
+			ArticleBean article=articleService.findarticlebyInfo(articleBean);
+			System.out.println(article);
+			session.put("article", article);
+			return "xiangqing";
+		}
+		return "community";
+	}
+	
 	@Override
 	public ArticleBean getModel() {
 		articleBean=new ArticleBean();
@@ -162,8 +178,9 @@ public class ArticleAction implements SessionAware,ModelDriven<ArticleBean>{
 	}
 
 	@Override
-	public void setSession(Map<String, Object> arg0) {
+	public void setSession(Map<String, Object> session) {
 		this.session=session;
+		
 	}
 
 }

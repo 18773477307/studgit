@@ -95,4 +95,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findPtIdByGoodsId" parameterType="int" resultType="Product">
 		select * from product where goodsId=#{goodsId}
 	</select>
+
+	<update id="updatePtNum" parameterType="map">
+		update product set ptNum=ptNum-#{detaNum} where ptId=#{ptId}
+	</update>
 </mapper>

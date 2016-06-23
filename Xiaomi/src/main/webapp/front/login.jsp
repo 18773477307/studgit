@@ -10,10 +10,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta charset="utf-8">
 <title>小米账号-登录</title>
+<link rel="short icon" href="../front/iconfont-photo/iconfont-iconmi01.svg"/>	
 <link rel="stylesheet" href="css/zhuce.css" />
 <link rel="stylesheet" href="css/denglu.css" />
-<link rel="shortcut icon"
-	href="front/iconfont-photo/iconfont-iconmi01.svg" />
+
 <script type="text/javascript" src="js/jquery-1.11.3.js"></script>
 <script type="text/javascript" src="js/dengluzhuce.js"></script>
 
@@ -125,11 +125,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div id="dlzc">
 						<div class="user_name">
 							<input type="text" id="txuser_name" name="userNameOrTel"
-								placeholder="手机号/用户名" />
+								placeholder="手机号/用户名" value="18773477307"/>
 						</div>
 						<div class="pwd">
 							<input type="password" id="txpwd" name="usersPwd"
-								placeholder="密码" />
+								placeholder="密码" value="pengjian950308"/>
 						</div>
 					</div>
 					<div id="denglu">
@@ -232,7 +232,7 @@ function userslogin(){
 	var usersTel=$.trim($("#txuser_name").val());
 	var usersPwd=$.trim($("#txpwd").val());
 	var usersName=$.trim($("#txuser_name").val());
-	$.post("front/user_findUserByUsersInfo.action",{op:"usersLogin",usersEmail:usersEmail,usersTel:usersTel,usersPwd:usersPwd,usersName:usersName/* ,arg:arg */},function(data){
+	$.post("front/user_findUserByUsersInfo.action",{usersEmail:usersEmail,usersTel:usersTel,usersPwd:usersPwd,usersName:usersName},function(data){
 	//console.info("发送了登录请求");
 		/* if(parseInt($.trim(data))){
 			alert("用户名或密码错误");
@@ -250,8 +250,9 @@ function userslogin(){
 		} */
 		
 		if (data.object != null && data.object.usersName != null) {
+			//alert(data.object.usersName)
 			//console.info(data);
-			str1='<a href="#" style="text-decoration: none; color:#ccc;"> '+data+'</a>&nbsp;&nbsp;';
+			str1='<a href="#" style="text-decoration: none; color:#ccc;"> '+data.object.usersName+'</a>&nbsp;&nbsp;';
 			str2='<a href="javascript:loginOut()"><font color="#ccc" size="2"> 注销</font></a>';
 			$("#top_login").html(str1);
 			$("#zhuxiao").html(str2);

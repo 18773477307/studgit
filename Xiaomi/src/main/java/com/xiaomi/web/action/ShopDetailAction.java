@@ -11,14 +11,15 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.Product;
 import com.xiaomi.entity.ShopCar;
+import com.xiaomi.entity.Shop_Goods_Car;
 import com.xiaomi.service.ShopCarService;
 
 @Controller("shopDetailAction")
-public class ShopDetailAction implements ModelDriven<ShopCar>,SessionAware {
+public class ShopDetailAction implements ModelDriven<Shop_Goods_Car>,SessionAware {
 	@Autowired
 	private ShopCarService shopCarService;
 	
-	private ShopCar shopCar;
+	private Shop_Goods_Car shopCar;
 	private Map<String,Object> session;
 	private JsonObject<ShopCar> jsonObject;
 	
@@ -59,8 +60,8 @@ public class ShopDetailAction implements ModelDriven<ShopCar>,SessionAware {
 	}
 
 	@Override
-	public ShopCar getModel() {
-		shopCar=new ShopCar();
+	public Shop_Goods_Car getModel() {
+		shopCar=new Shop_Goods_Car();
 		return shopCar;
 	}
 

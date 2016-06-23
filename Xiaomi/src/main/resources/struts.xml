@@ -7,16 +7,44 @@
 
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
 	<constant name="struts.devMode" value="false" />
-	
+	 <!-- 设置文件上传最大值 -->
+    <constant name="struts.multipart.maxSize" value="100000000" /> 
 	 <!-- 把struts的action对象交给spring容器管理 -->
 	<constant name="struts.objectFactory" value="spring" />
 
 	<package name="xmFront" namespace="/front" extends="json-default">
-		<global-allowed-methods>unameCheck,emailCheck,telCheck,idCardCheck,findUserByUsersInfo,addUsersInfo,getIndexGoodsInfo</global-allowed-methods>
+		<!--拦截器  -->
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.xiaomi.web.interceptor.LoginInterceptor"/>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="loginInterceptor">
+					<param name="includeMethods">addArtComment</param><!-- 要过滤的请求方法 -->
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<global-results>
+			<result name="login" type="redirect">/front/login.jsp</result>
+		</global-results>
+		
+		<global-allowed-methods>
+		<!--一排一个表的操作  -->
+		goToMiHome,unameCheck,emailCheck,telCheck,idCardCheck,findUserByUsersInfo,addUsersInfo,getIndexGoodsInfo,
+		getIndexArticleInfo,ArticleByInfo,
+		addArtComment,PageArtComment
+		</global-allowed-methods>
+		
     	<action name="*_*" class="{1}Action" method="{2}">
+    		<interceptor-ref name="myStack"/>
     		<result type="json">
     			<param name="root">jsonObject</param>
     		</result>
+    		<result name="MiHome">/front/MiHome.jsp</result>
+    		<result name="community">/front/community.jsp</result>
+    		<result name="xiangqing">/front/xiangqing.jsp</result>
+    		<result name="paysuccess" type="redirect">${needVal}</result>
+    		<result name="msg">/front/msg.jsp</result>
 <!--    		<result name="loginSuccess">/main.jsp</result>
     		<result name="loginFail">/index.jsp</result>
  -->            
@@ -35,7 +63,7 @@
 		getAllPtcomment,findPtcommentByApprId,
 		addReplyInfo,getAllReplyInfo,findReplyInfoByReplyId,
 		goodsNames,
-		GetAllResources,findResourcesByInfo
+		GetAllResources,findResourcesByInfo,addResources,delresources,updataResources
 		</global-allowed-methods>
 
     	<action name="*_*" class="{1}Action" method="{2}">

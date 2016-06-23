@@ -160,6 +160,10 @@ public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 		return "success";
 	}
 	
+	public String goToMiHome(){
+		return "MiHome";
+	}
+	
 	@Override
 	public Goods getModel() {
 		goods = new Goods();

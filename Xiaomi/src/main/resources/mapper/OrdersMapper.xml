@@ -4,5 +4,78 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.OrdersMapper" >
-  
+  	<!-- <insert id="addToOrders" parameterType="OrderInfoBean">
+  		insert into orders values(seq_orders_ordId.nextval,#{addrId},#{usersId},to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss'),#{ordTatol},1,'','')
+  	</insert> -->
+  	
+  	<!-- 添加一个订单 -->
+	<insert id="addToOrders" parameterType="Orders">
+		<selectKey keyColumn="ordId" keyProperty="ordId" resultType="int" order="BEFORE">
+			select seq_orders_ordId.nextval ordId from dual
+		</selectKey>
+  		insert into orders values(#{ordId},#{addrId},#{usersId},to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss'),#{ordTatol},1,'','')
+	</insert>
+  	
+  	<insert id="addOrderDetail" parameterType="map">
+  		insert into orderdetail values(#{ordId},#{ptId},#{detaPrice},#{detaNum},1,'','')
+  	</insert>
+  	
+  	<select id="getOrdersId" parameterType="map" resultType="int">
+  		select ordId from orders where usersId=#{usersId} and ordDate=to_date(#{ordDate},'yyyy-MM-dd HH24:mi:ss')
+  	</select>
+  	
+  	<update id="updateOrdSta" parameterType="int">
+  		update orders set ordSta=2 where ordId = #{ordId}
+  	</update>
+  	
+  	<update id="updateDetaSta" parameterType="int">
+  		update orderdetail set detaSta=2 where ordId = #{ordId}
+  	</update>
+  	
+  	<update id="payByBanlance" parameterType="Orders">
+  		update usersInfo set usersbalance = usersbalance - #{ordTatol} where usersId=#{usersId}
+  	</update>
+  	
+  	<select id="getBanlance" parameterType="Orders" resultType="double">
+  		select usersbalance from usersInfo where usersId = #{usersId}
+  	</select>
+  	
+  	<select id="getTotal" parameterType="int" resultType="int">
+  		select count(1) from orders where usersId=#{usersId}
+  	</select>
+  	
+<!--   	<select id="selectOrderData" resultType="OrderInfoBean" parameterType="map">
+  		select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+ 		 <if test="usersId != null and usersId != '' and usersId !=0">
+        	and o.usersId=#{usersId}
+	     </if> 		 
+	     order by ordDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+  	</select>
+  	
+  	<select id="findDetailById" parameterType="int" resultType="Orderdetail">
+  		select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta from 
+			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+			and p.goodsId = g.goodsId and o.ordId = #{ordId}
+  	</select> -->
+  	
+  	
+  	 <resultMap type="OrderInfoBean" id="OrderInfoBeanMap">
+		<id property="ordId" column="ordId"/>
+		<collection property="orderdetails" column="ordId" ofType="Orderdetail" select="getOrderdetailByordId"></collection>
+		
+	</resultMap>
+	
+	<select id="selectOrderData"  parameterType="map" resultMap="OrderInfoBeanMap">
+		select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+ 		 <if test="usersId != null and usersId != '' and usersId !=0">
+        	and o.usersId=#{usersId}
+	     </if> 		 
+	     order by ordDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="getOrderdetailByordId" parameterType="int" resultType="Orderdetail">
+		select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta,p.ptId from 
+			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+			and p.goodsId = g.goodsId and o.ordId = #{ordId}
+	</select>
 </mapper>

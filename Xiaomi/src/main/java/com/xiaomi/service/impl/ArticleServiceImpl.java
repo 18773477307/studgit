@@ -80,7 +80,23 @@ public class ArticleServiceImpl implements ArticleService {
 			}
 			return true;
 		}
+		articleBean.setArtId(Integer.parseInt(artIds[0]));
 		return updateArtSta(articleBean);
+	}
+
+	@Override
+	public List<ArticleBean> indexArticle() {
+		return articleMapper.findindexArticle();
+	}
+
+	@Override
+	public ArticleBean findarticlebyInfo(ArticleBean articleBean) {
+		return articleMapper.findarticlebyInfo(articleBean);
+	}
+
+	@Override
+	public int updateViews(ArticleBean articleBean) {
+		return articleMapper.updateViews(articleBean);
 	}
 
 }

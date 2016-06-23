@@ -13,8 +13,6 @@ $(function(){
 	});
 	
 	
-	
-	
 	//订单详细那里的点击修改
 	$("#change2").click(function(){
 		$(".addr_box,.addr_box_body").fadeIn("slow");
@@ -30,10 +28,6 @@ $(function(){
 		$("#xxdz").val(smallAddr);
 		$("#yzbm").val(post);
 	});
-	
-
-	
-	
 	
 	
 	/*收货地址那里添加的悬浮事件*/
@@ -59,18 +53,57 @@ $(function(){
 	});
 });
 
-/*收货地址那里修改*/
+/*收货地址那里修改以及背景图片的改变*/
 function showUpdate(dd){
-	$(".addrdiv"+dd).children().find(".change").css("color","#f60");
-	$(".addrdiv"+dd).css("border","1px solid #eee");
+	$("#"+dd).children().find(".change").css("display","block");
+	$("#"+dd).children().find(".change").css("color","#f60");
 } 
 function clearUpdate(dd){
-	$(".addrdiv"+dd).children().find(".change").css("color","#eee");
-	$(".addrdiv"+dd).css("border","1px solid #f0f0f0");
-} 
+	$("#"+dd).children().find(".change").css("color","#eee");
+}
 
+/*
+$("#"+addrId).hover(
+  function () {
+	  $("#"+addrId).children().find(".change").css("color","#f60");
+	  $("#"+addrId).css("background-image","url(front/images/1BG.png)");
+  },
+  function () {
+	  $("#"+addrId).children().find(".change").css("color","#eee");
+	  $("#"+addrId).css("background","url(front/images/3.png)");
+  }
+);
+*/
+
+function sureAddr(addrId){
+	$("#"+addrId).css("background","url(front/images/2.png)");
+	$("#"+addrId).siblings().css("background","url(front/images/3.png)");
+	$("#"+addrId).children().find(".change").css("display","none");
+	$("#"+addrId).hover(
+	  function () {
+		  $("#"+addrId).children().find(".change").css("color","#f60");
+	  },
+	  function () {
+		  $("#"+addrId).children().find(".change").css("display","none");
+	  }
+	)
+	
+	var username=$("#"+addrId).children().find($(".username")).html();
+	var tel=$("#"+addrId).children().find($(".tel")).html();
+	var addr1=$("#"+addrId).children().find($(".big1")).html();
+	var addr2=$("#"+addrId).children().find($(".big2")).html();
+	var addr3=$("#"+addrId).children().find($(".big3")).html();
+	var smallAddr=$("#"+addrId).children().find($(".middle")).html();
+
+	$("#addrId_hidden").val(addrId);
+	$("#name_show").html(username);
+	$("#tel_show").html(tel);
+	$("#addrInfo_show").html(addr1+" "+addr2+" "+addr3+" "+smallAddr);
+	
+	$(".orderMessage").html(username+" "+tel+" "+addr1+" "+addr2+" "+addr3+" "+smallAddr);
+}
+//全局变量
 var tt="";
-
 
 /*点击修改显示地址修改页面*/
 function updateClick(dd){
@@ -81,19 +114,22 @@ function updateClick(dd){
 	var tel=$("#change"+dd).parent().parent().find($(".tel")).html();
 
 	var smallAddr=$("#change"+dd).parent().parent().find($(".middle")).html();
-	var post=$("#change"+dd).parent().parent().find($(".small")).html();
+	var post=$("#change"+dd).parent().parent().find($(".postcode")).html();
 	
 	var addr1=$("#change"+dd).parent().parent().find($(".big1")).html();
 	var addr2=$("#change"+dd).parent().parent().find($(".big2")).html();
-	var addr3=$("#change"+dd).parent().parent().find($(".big3")).html();
+	var addr3=$("#change"+dd).parent().parent().find($(".big3")).text();
 	//console.info(addr1+addr2+addr3)
+	
+	$("#addrId_hidden").val(dd);
 	$("#xm").val(username);
 	$("#sjh").val(tel);
 	
 	$("#select_province").val(addr1);
 	$("#citys").val(addr2);
+	//console.info(addr3)
 	$("#area").val(addr3);
-	
+	//alert(post)
 	$("#xxdz").val(smallAddr);
 	$("#yzbm").val(post);
 }
@@ -113,48 +149,32 @@ $(function(){
 	});
 //添加新地址保存
 $(".addr_increase").click(function(){
-	var name=$("#xm").val();
-	var tel =$("#sjh").val();
-	var addr1=$("#select_province").val();
-	var addr2=$("#citys").val();
-	var addr3=$("#area").val();
-	var addr=addr1+" "+addr2+" "+addr3;
-	var addr_detail=$("#xxdz").val();
-	var post=$("#yzbm").val();
-	
-	//alert(name+tel+addr+addr_detail+post);
+	var recipient=$("#xm").val();//收件人姓名
+	var addrTel =$("#sjh").val();
+	var province=$("#select_province").val();
+	var city=$("#citys").val();
+	var county=$("#area").val();
+	var addr=province+" "+city+" "+county;
+	var detailAddr=$("#xxdz").val();
+	var postcode=$("#yzbm").val();
+	var usersId = $("#Id_hidden").val();
+	console.info(tt+"===");
 	if(tt=="add"){
-		$.post("addressServlet?d="+new Date(),{op:"addAddr",addr1:addr1,addr2:addr2,addr3:addr3,addr_detail:addr_detail,tel:tel,post:post,name:name},function(data){
-			if(parseInt($.trim(data))==1){
-				var str="<div class='addr_detail have' style='float:left;'>" +
-				"<p><span class='username'>"+name+"</span><span class='addr small'>"+post+"</span></p>" +
-				"<p class='tel'>"+tel+"</p>" +
-				"<p class='addr big'>"+addr+"</p>" +
-				"<p class='addr middle'>"+addr_detail+" </p>" +
-				"<p><a class='change'>修改</a></p></div>";
-				$("#address").append($(str));
-				$(this).find($(".username")).html(name);
-				$(this).find($(".tel")).html(tel);
-				$(this).find($(".big")).html(addr);
-				$(this).find($(".middle")).html(addr_detail);
-				$(this).find($(".small")).html(post);
-				$(this).find($(".change")).html("修改");
-				$(".addr_box_body").fadeOut();
-				$(".addr_box").fadeOut();
+		$.post("front/address_addAddr.action",{usersId:usersId,province:province,city:city,county:county,detailAddr:detailAddr,addrTel:addrTel,postcode:postcode,recipient:recipient},function(data){
+			if(parseInt($.trim(data.total))==1){
+				$(".addr_box,.addr_box_body").fadeOut("slow");
+				alert("地址添加成功");
+				document.location.reload();//页面重新加载
 			}
 		});
 	}else{
 		console.info(tt+"地址编号");
 		
-		$.post("addressServlet?d="+new Date(),{op:"updateAddr",addr1:addr1,addr2:addr2,addr3:addr3,addr_detail:addr_detail,tel:tel,post:post,name:name,tt:tt},function(data){
-			if(parseInt($.trim(data))==1){
-				$("#"+tt+"").find(".username").html(name);
-				$("#"+tt+"").find(".tel").html(tel);
-				$("#"+tt+"").find(".big").html(addr);
-				$("#"+tt+"").find(".middle").html(addr_detail);
-				$("#"+tt+"").find($(".small")).html(post);
-				$(".addr_box_body").fadeOut();
-				$(".addr_box").fadeOut();
+		$.post("front/address_updateAddr.action",{usersId:usersId,province:province,city:city,county:county,detailAddr:detailAddr,addrTel:addrTel,postcode:postcode,recipient:recipient,addrId:tt},function(data){
+			if(parseInt($.trim(data.total))==1){
+				$(".addr_box,.addr_box_body").fadeOut();
+				alert("地址修改成功");
+				document.location.reload();//页面重新加载
 			}else{
 				alert("修改地址失败");
 			}
@@ -171,17 +191,5 @@ function usersAddr1(dd) {
 	$.post("ordersServlet?d="+new Date(),{op:"orderesaddIdInfo",thisAddrId:thisAddrId},function(data){});
 	//alert(thisAddrId);
 }
-function usersAddr2(dd) {
-	
-	$(".addrdiv"+dd).css("border","1px solid #eee");
-	function showUpdate(dd){
-		$(".addrdiv"+dd).children().find(".change").css("display","block");
-		$(".addrdiv"+dd).css("border","1px solid #ccc");
-	} 
-	function clearUpdate(dd){
-		$(".addrdiv"+dd).children().find(".change").css("display","none");
-		$(".addrdiv"+dd).css("border","1px solid #f0f0f0");
-	} 
-	
-}
+
 	

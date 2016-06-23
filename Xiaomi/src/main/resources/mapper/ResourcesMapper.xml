@@ -17,7 +17,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="findResourcesByInfo" resultType="Resources">
  		select b.* from (select a.*,rownum rn from (select resId,resName,resCont,resWords,resDate,resViews,resSta,re.goodsId,goodsName from resources re,goods g where g.goodsId=re.goodsId
- 		<if test="resources.resName!= null and resources.resName!= ''" >
+ 		 <if test="resources.resId != null and resources.resId != '' and resources.resId !=0">
+        	and re.resId=#{resources.resId}
+	      </if>
+ 		 <if test="resources.resName!= null and resources.resName!= ''" >
 	        and re.resName like '%${resources.resName}%'
 	      </if>
 	      <if test="resources.resDate != null and resources.resDate != ''">
@@ -29,4 +32,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     )a where #{pageNo} >=rownum)b where rn>#{pageSize}
 	</select>
 	
+	<insert id="insertResources" parameterType="Resources" >
+	    insert into resources values(seq_resources_resId.nextval,#{resName},#{resCont},#{resWords},to_date(#{resDate},'yyyy-MM-dd'),0,#{goodsId},1,'','')
+   </insert>
+   
+   <delete id="delresources" parameterType="Resources">
+		delete from resources where resId=#{resId}
+	</delete>
+	
+	<update id="updataResources" parameterType="Resources">
+		update resources
+		<set>
+			<if test="resName!=null">
+				resName=#{resName},
+			</if>
+			<if test="goodsId!=null">
+				goodsId=#{goodsId},
+			</if>
+			<if test="resDate!=null">
+				resDate=to_date(#{resDate},'yyyy-MM-dd'),
+			</if>
+			<if test="resWords!=null">
+				resWords=#{resWords},
+			</if>
+			<if test="resSta!=null">
+				resSta=#{resSta},
+			</if>
+		</set>
+		<if test="resId!=0">
+			where resId=#{resId}
+		</if>
+	</update>
 </mapper>

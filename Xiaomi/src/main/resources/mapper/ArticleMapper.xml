@@ -35,7 +35,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </select>
   
   <select id="selectArticleByArtId" parameterType="ArticleBean" resultType="ArticleBean">
-    	select artId,artTitle,artAuth,artStaTime,fileinfo,artCont,artPic,artWeight,artSta from article where artId=#{artId}
+    	select artId,artTitle,artAuth,artStaTime,fileinfo,artCont,artPic,artWeight,artSta from article
+  		<where>		 
+		      <if test="artId != null and artId != ''">
+	        	and artId=#{artId}
+		      </if>
+	      </where>
   </select>
   
   <insert id="insertArticle" parameterType="ArticleBean" >
@@ -83,4 +88,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select b.* from (select a.*,rownum rn from 
 		(select artId,artTitle,artAuth,artStaTime,artViews,artWeight,artSta,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae) a where #{pageNo} >=rownum)b where rn>#{pageSize}
 	</select>
+	
+	<select id="findindexArticle" resultType="ArticleBean">
+    	select artId,artTitle,artAuth,artStaTime,fileinfo,artViews,artPic,artWeight,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae where ae.artWeight=1 and artSta=1 and 5>rownum order by artStaTime
+   </select>
+    
+   
+   <resultMap type="ArticleBean" id="ArticleBeanMap">
+		<id property="artId" column="artId"/>
+		<collection property="artcomments" column="artId" ofType="Artcomment" select="getArtcommentByArtId"></collection>
+		
+	</resultMap>
+	
+	<select id="findarticlebyInfo"  parameterType="ArticleBean" resultMap="ArticleBeanMap">
+		select artId,artTitle,artAuth,artStaTime,artCont,artPic,artViews,(select count(1) from artcomment where artId=ae.artId) commentsCount from article ae
+  		<where>		 
+		      <if test="artId != null and artId != ''">
+	        	and ae.artId=#{artId}
+		      </if>
+	      </where>
+	</select>
+	
+	<select id="getArtcommentByArtId" parameterType="int" resultType="Artcomment">
+		select b.*,rownum rn from (select comId,artId,a.usersId,usersName,comCont,comDate from artcomment a,usersInfo u where a.usersId=u.usersId and artId=#{artId} order by comDate desc)b where 5>=rownum
+	</select>
+	
+   <update id="updateViews" parameterType="ArticleBean">
+		update article set artViews=artViews+1 where artId=#{artId}
+	</update>
 </mapper>

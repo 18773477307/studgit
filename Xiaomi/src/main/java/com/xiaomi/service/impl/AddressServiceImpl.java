@@ -71,6 +71,11 @@ public class AddressServiceImpl implements AddressService {
 		return null;
 	}
 
+	@Override
+	public List<Address> findAddrInfoById(int usersId) {
+		return addressMapper.findAddrInfoById(usersId);
+	}
+
 	
 
 }

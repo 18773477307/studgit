@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/xiaomi/entity/Shop_Goods_Car.java=UTF-8
+encoding//src/main/java/com/xiaomi/mapper/ShopCarMapper.java=UTF-8
 encoding//src/main/webapp/back=UTF-8
 encoding//src/main/webapp/back/brand.html=UTF-8
 encoding//src/main/webapp/back/datadict.html=UTF-8

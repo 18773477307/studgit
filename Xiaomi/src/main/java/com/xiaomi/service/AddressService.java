@@ -53,6 +53,8 @@ public interface AddressService {
 
 
 	public List<Address> findAddressByInfo(Integer pageNo, Integer pageSize,String province, String city, String county, String usersName);
-	
+
+
+	public List<Address> findAddrInfoById(int usersId);
 
 }

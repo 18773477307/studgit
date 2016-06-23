@@ -15,4 +15,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateShopCarInfo" parameterType="ShopCar">
 		update shopCar set shopNum=shopNum+1 where usersId=#{usersId} and goodsId=#{goodsId}
 	</update>
+
+  	<select id="getShopCarInfoByUsers" resultType="shop_Goods_Car" parameterType="int">
+  		select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=#{usersId} and shopSta=1
+  	</select>
+  	
+  	<update id="delByShopId" parameterType="shop_Goods_Car">
+  		update shopCar set shopSta = 0 where shopId=#{shopId}
+  	</update>
+  	
+  	<update id="updateStaByUidPid" parameterType="map">
+  		update shopCar set shopSta = 2 where usersId=#{usersId} and ptId=#{ptId}
+  	</update>
 </mapper>

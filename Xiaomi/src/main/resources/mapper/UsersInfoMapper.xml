@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.UsersInfoMapper" >
   	<insert id="addUsersInfo" parameterType="UsersInfo" >
-	   insert into usersInfo values (seq_usersinfo_usersId.nextval,#{usersName},#{usersTel},#{usersEmail},#{usersPwd},#{usersIDCard},#{usersSex},'','','',#{usersSta},'','')
+	   insert into usersInfo values (seq_usersinfo_usersId.nextval,#{usersName},#{usersTel},#{usersEmail},#{usersPwd},#{usersIDCard},#{usersSex},'','',0,1,'','')
 	</insert>
 	
 	<select id="selectTotalUsers" resultType="int">
@@ -37,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<delete id="delUsersInfo" parameterType="int">
-		delete from usersInfo where usersId = #{usersId}
+		update usersInfo set usersSta=0 where usersId = #{usersId}
 	</delete>
 	
 	<select id="getAllUsersName" resultType="UsersInfo">
@@ -61,6 +61,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="findUserByUsersInfo" parameterType="UsersInfo" resultType="UsersInfo">
-		select * from usersInfo where usersTel=#{usersTel} or usersEmail=#{usersEmail} and usersPwd=#{usersPwd}
+		select * from usersInfo where usersTel=#{usersTel} or usersEmail=#{usersEmail} or usersName=#{usersName} and usersPwd=#{usersPwd}
+	</select>
+	
+	<select id="findCountOfUser" parameterType="int" resultType="int">
+		select count(1) from shopCar where usersId=#{usersId} and shopSta=1
+	</select>
+	
+	<select id="findAddrInfoById" parameterType="int" resultType="Address">
+		select * from address where usersId = #{usersId}
 	</select>
 </mapper>
