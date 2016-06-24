@@ -15,14 +15,22 @@ public class Orders implements Serializable {
 
     private double ordTatol;
 
-    private int ordsta;
+    private int ordSta;
 
-    private String reserve17;
+    private String usersName;
 
-    private String reserve18;
-
+    private String province;
+    private String city;
+    private String county;
+    private String detailAddr;
+    private String detailDelivery;	//收货地址的集合
+    private String recipient;   //收货人姓名
 
 	public int getOrdId() {
+		return ordId;
+	}
+	
+	public int getOrdIds() {
 		return ordId;
 	}
 
@@ -62,55 +70,102 @@ public class Orders implements Serializable {
 		this.ordTatol = ordTatol;
 	}
 
-	public int getOrdsta() {
-		return ordsta;
+	public int getOrdSta() {
+		return ordSta;
+	}
+	public void setOrdSta(int ordSta) {
+		this.ordSta = ordSta;
 	}
 
-	public void setOrdsta(int ordsta) {
-		this.ordsta = ordsta;
+	public String getUsersName() {
+		return usersName;
 	}
 
-	public String getReserve17() {
-		return reserve17;
+	public String getProvince() {
+		return province;
 	}
 
-	public void setReserve17(String reserve17) {
-		this.reserve17 = reserve17;
+	public String getCity() {
+		return city;
 	}
 
-	public String getReserve18() {
-		return reserve18;
+	public String getCounty() {
+		return county;
 	}
 
-	public void setReserve18(String reserve18) {
-		this.reserve18 = reserve18;
+	public String getDetailAddr() {
+		return detailAddr;
 	}
 
-	public Orders(int ordId, int addrId, int usersId, String ordDate,
-			double ordTatol, int ordsta, String reserve17, String reserve18) {
-		super();
-		this.ordId = ordId;
-		this.addrId = addrId;
-		this.usersId = usersId;
-		this.ordDate = ordDate;
-		this.ordTatol = ordTatol;
-		this.ordsta = ordsta;
-		this.reserve17 = reserve17;
-		this.reserve18 = reserve18;
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setCounty(String county) {
+		this.county = county;
+	}
+
+	public void setDetailAddr(String detailAddr) {
+		this.detailAddr = detailAddr;
+	}
+	
+	public String getDetailDelivery() {
+		return detailDelivery=province+city+county+detailAddr;
+	}
+
+	public void setDetailDelivery(String detailDelivery) {
+		this.detailDelivery = detailDelivery;
+	}
+
+	
+	
+	
+	
+	public String getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
 	}
 
 	public Orders() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-    
+
+	
 	@Override
 	public String toString() {
-		return "\nOrders [ordId=" + ordId + ", addrId=" + addrId + ", usersId="
+		return "Orders [ordId=" + ordId + ", addrId=" + addrId + ", usersId="
 				+ usersId + ", ordDate=" + ordDate + ", ordTatol=" + ordTatol
-				+ ", ordsta=" + ordsta + ", reserve17=" + reserve17
-				+ ", reserve18=" + reserve18 + "]";
+				+ ", ordSta=" + ordSta + ", usersName=" + usersName
+				+ ", province=" + province + ", city=" + city + ", county="
+				+ county + ", detailAddr=" + detailAddr + "]";
 	}
 
-    
+	public Orders(int ordId, int addrId, int usersId, String ordDate,
+			double ordTatol, int ordSta, String usersName, String province,
+			String city, String county, String detailAddr) {
+		super();
+		this.ordId = ordId;
+		this.addrId = addrId;
+		this.usersId = usersId;
+		this.ordDate = ordDate;
+		this.ordTatol = ordTatol;
+		this.ordSta = ordSta;
+		this.usersName = usersName;
+		this.province = province;
+		this.city = city;
+		this.county = county;
+		this.detailAddr = detailAddr;
+	}
 }

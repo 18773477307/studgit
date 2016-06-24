@@ -1,6 +1,6 @@
 <table id="video_goods_show" data-options="fit:true"></table>
 <div id="show_Resources_info" style="width:100%,text-align:left">
-	&nbsp;&nbsp;<span>视屏名:</span><input type="text" name="resName" id="show_resources_resName"/>
+	&nbsp;&nbsp;<span>视频名:</span><input type="text" name="resName" id="show_resources_resName"/>
 	&nbsp;&nbsp;<span>发布日期:</span><input type="text" name="resDate" id="show_resources_resDate" class="easyui-datebox myinput" required/>
 	&nbsp;&nbsp;<span>商品名:</span><select name="goodsName" id="show_resources_goodsId"><option value="">全部</option></select>
 	&nbsp;&nbsp;<a href="javascript:findResourcesByInfo()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
@@ -30,7 +30,7 @@
 			{field:'resIds',title:'选择',width:100,align:'center',checkbox:true},
 			{field:'resId',title:'视频编号',width:100,align:'center',sortable:true},
 			{field:'resName',title:'视频名',width:100,align:'center',sortable:true},
-			{field:'resWords28',title:'视屏简介',width:400,align:'center',sortable:true},
+			{field:'resWords28',title:'视频简介',width:400,align:'center',sortable:true},
 			{field:'goodsName',title:'商品名',width:200,align:'center',sortable:true},
 			{field:'resDates',title:'发布时间',width:100,align:'center',editor : {type : "datebox",options : {request : true}}},
 			{field:'resViews',title:'浏览次数',width:100,align:'center',sortable:true},
@@ -78,10 +78,10 @@
 	
 	$("#videoplaying").dialog({  
 	    onClose: function () {  
-	    	$("video")[0].pause();
+	    	$("#trymedia")[0].pause();
 	    }  
 	}); 
 </script>
-<div id="videoplaying" class="easyui-dialog" title="视屏播放" style="width:494px;height:360px;padding:10px" data-options="iconCls:'icon-tip',resizable:true,modal:true,closed:true" onclose="closeshen()">
+<div id="videoplaying" class="easyui-dialog" title="视频播放" style="width:494px;height:360px;padding:10px" data-options="iconCls:'icon-tip',resizable:true,modal:true,closed:true" onclose="closeshen()">
 	<video id="trymedia"  controls="ture" loop="loop" autoplay="autoplay" height="100%" width="100%" preload="none"  >浏览器不支持</video>
 </div>	

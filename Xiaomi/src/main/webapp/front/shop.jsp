@@ -575,7 +575,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									});
 								}else if(ptnum==0){
 									$.post("front/product_findPtIdByGoodsId.action",{goodsId:goodsId},function(data){
-										var ptId = data.object.ptId;
+										var ptId = data.object.ptId;f
 										console.info(ptId);
 										
 										$.post("front/shopDetail_toCarFind.action",{ptId:ptId,usersId:usersId},function(datad){

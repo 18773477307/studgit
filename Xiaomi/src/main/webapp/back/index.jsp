@@ -79,15 +79,15 @@
 				<li id="admin_reply">官方回复</li>
 			</ul>   
     	</div>  
-	    <div title="视屏管理">  
+	    <div title="视频管理">  
 	        <ul class="easyui-tree" id="menu-tree5">
-				<li id="admin_video_goods">视屏查看</li>
-				<li id="admin_video_add">视屏维护</li>
+				<li id="admin_video_goods">视频查看</li>
+				<li id="admin_video_add">视频维护</li>
 			</ul>   
 	    </div>  
 	    <div title="订单管理">  
 	        <ul class="easyui-tree" id="menu-tree6">
-	        	<li id="shop_detail">购物车管理</li>
+	        	<!-- <li id="shop_detail">购物车管理</li> -->
 	        	<li id="order_manager">订单管理</li>
 			</ul>   
 	    </div>

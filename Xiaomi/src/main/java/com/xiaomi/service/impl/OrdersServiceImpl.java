@@ -46,7 +46,7 @@ public class OrdersServiceImpl implements OrdersService {
 		}
 		map.put("ordId", orderId);
 		map.put("usersId", ordersInfos.getUsersId());
-		System.out.println("impl查出来的订单号"+orderId);
+		//System.out.println("impl查出来的订单号"+orderId);
 		String[] order = orders.split(";");
 		for(int i=0;i<order.length;i++){
 			String[] os = order[i].split(",");
@@ -112,5 +112,61 @@ public class OrdersServiceImpl implements OrdersService {
 	public int getTotal(int usersId) {
 		return ordersMapper.getTotal(usersId);
 	}
+
+	@Override
+	public List<Orders> getPageOrdersInfo(Integer pageNo, Integer pageSize) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		return  ordersMapper.getPageOrdersInfo(params);
+	}
+
+	@Override
+	public List<Orders> findOrdersInfoByOrdId(int ordId) {
+		return ordersMapper.findOrdersInfoByOrdId(ordId);
+	}
+
+	@Override
+	public List<Orders> findGoodsByInfo(int ordId, String ordDate,Integer pageNo, Integer pageSize) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("ordId", ordId);
+		params.put("ordDate", ordDate);
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		return ordersMapper.findGoodsByInfo(params);
+	}
+
+	@Override
+	public int updateOrdersInfoById(int detaSta, int ordId, int ptId) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("detaSta", detaSta);
+		params.put("ordId", ordId);
+		params.put("ptId", ptId);
+		return ordersMapper.updateOrdersInfoById(params);
+	}
+	
+	@Override
+	public int getOrdSta(int ordId) {
+		return ordersMapper.getOrdSta(ordId);
+	}
+
+	@Override
+	public int updateOrdersInfoById(int ordId, int ordSta) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("ordId", ordId);
+		params.put("ordSta", ordSta);
+		return ordersMapper.updateOrdersInfoById(params);
+	}
+
+	@Override
+	public int updateDetaStaById(int ordId, int ordSta) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("ordId", ordId);
+		params.put("ordSta", ordSta);
+		return ordersMapper.updateDetaStaById(params);
+	}
+	
+	
+	
 
 }

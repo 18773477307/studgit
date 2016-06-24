@@ -3,6 +3,7 @@ package com.xiaomi.web.action;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,7 +23,9 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.xiaomi.entity.JsonObject;
+import com.xiaomi.entity.Orderdetail;
 import com.xiaomi.entity.Orders;
+import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.service.OrdersService;
 import com.xiaomi.service.UsersInfoService;
 import com.xiaomi.utils.PaymentUtil;
@@ -40,7 +43,15 @@ public class OrderInfoBeanAction implements ModelDriven<Orders>,SessionAware,Ser
 	private String orders;
 	private JsonObject<Orders> jsonObject;
 	private String needVal;
-	
+	//后台
+	private int page;
+	private int rows;
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
 	public String getNeedVal() {
 		return needVal;
 	}
@@ -211,6 +222,45 @@ public class OrderInfoBeanAction implements ModelDriven<Orders>,SessionAware,Ser
 				jsonObject.setTotal(result);
 				return "success";
 			}
+		}
+		return "success";
+	}
+	
+	//后台
+	public String getPageOrdersInfo(){
+		List<Orders> orders = ordersService.getPageOrdersInfo(page,rows);
+		int total=orders.size();
+		jsonObject=new JsonObject<Orders>();
+		jsonObject.setRows(orders);
+		jsonObject.setTotal(total);
+		return "success";
+	}
+	
+	public String findOrdersInfoByOrdId(){
+		List<Orders> ordersDetail=ordersService.findOrdersInfoByOrdId(ordersInfo.getOrdId());
+		int ordSta = ordersService.getOrdSta(ordersInfo.getOrdId());
+		jsonObject=new JsonObject<Orders>();
+		jsonObject.setRows(ordersDetail);
+		jsonObject.setTotal(ordSta);
+		System.out.println(jsonObject.getRows());
+		return "success";
+	}
+	
+	public String findGoodsByInfo(){
+		List<Orders> list=ordersService.findGoodsByInfo(ordersInfo.getOrdId(),ordersInfo.getOrdDate(),page,rows);
+		System.out.println(ordersInfo.getOrdDate());
+		jsonObject=new JsonObject<Orders>();
+		jsonObject.setRows(list);
+		jsonObject.setTotal(list.size());
+		return "success";
+	}
+	
+	public String updateOrdersInfoById(){
+		int result = ordersService.updateOrdersInfoById(ordersInfo.getOrdId(),ordersInfo.getOrdSta());
+		int result2 = ordersService.updateDetaStaById(ordersInfo.getOrdId(),ordersInfo.getOrdSta());
+		jsonObject =new JsonObject<Orders>();
+		if(result == 1 && result2 > 0){
+			jsonObject.setTotal(1);
 		}
 		return "success";
 	}

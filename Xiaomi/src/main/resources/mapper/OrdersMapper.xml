@@ -78,4 +78,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
 			and p.goodsId = g.goodsId and o.ordId = #{ordId}
 	</select>
+	
+	
+	<select id="getPageOrdersInfo" parameterType="map" resultType="Orders">
+		select * from (select a.*,rownum rn from (select o.*,usersName,province,city,county,detailAddr,recipient
+		from orders o,usersInfo u,address a where o.usersId=u.usersId and 
+		o.addrId=a.addrId order by ordDate desc) a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="findOrdersInfoByOrdId" parameterType="int" resultType="Orderdetail">
+		select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta,p.ptId from 
+			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+			and p.goodsId = g.goodsId and o.ordId = #{ordId}
+	</select>
+	
+	<select id="findGoodsByInfo" parameterType="map" resultType="Orders">
+		select * from (select a.*,rownum rn from (select o.*,usersName,province,city,county,detailAddr,recipient
+		from orders o,usersInfo u,address a where o.usersId=u.usersId and 
+		o.addrId=a.addrId 
+		<if test="ordId != null and ordId != '' and ordId !=0">
+        	and ordId = #{ordId}
+	     </if> 
+	     <if test="ordDate != null and ordDate != '' ">
+        	 and to_char(ordDate,'yyyy-MM-dd') like #{ordDate}
+	     </if> 
+		order by ordDate desc) a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	
+	<select id="getOrdSta" parameterType="int" resultType="int">
+		select ordSta from orders where ordId = #{ordId}
+	</select>
+	
+	<update id="updateOrdersInfoById" parameterType="map">
+		update orders set ordSta =#{ordSta} where ordId= #{ordId}
+	</update>
+	
+	<update id="updateDetaStaById" parameterType="map">
+		update orderdetail set detaSta =#{ordSta} where ordId= #{ordId}
+	</update>
 </mapper>

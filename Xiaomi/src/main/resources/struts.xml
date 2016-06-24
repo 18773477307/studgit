@@ -34,7 +34,9 @@
 		getIndexArticleInfo,ArticleByInfo,
 		addArtComment,PageArtComment,
 		findPtnumByGoodsId,findPtIdByGoodsId,
-		toCarFind,toCarAdd,toCarUpdate
+		toCarFind,toCarAdd,toCarUpdate,
+		shopCarShow,delByShopId,getPayInfo,payOnline,addOrderInfo,back,payOrderes,getOrderInfo,
+		usersOut,findAddrInfoById
 		</global-allowed-methods>
 		
     	<action name="*_*" class="{1}Action" method="{2}">
@@ -58,14 +60,19 @@
 		<!--一排一个表的操作  -->
 		getAllManager,updateManager,delManager,addManager,
 		getAllUsers,addUsersInfo,updateUsersInfo,delUsersInfo,getAllUsersName,
-		getAllAddress,findAddressByInfo,
+		getAllAddress,findAddressByInfo,findUsersInfoByInfo,
 		getAllDatadict,addDatadict,updateDatadict,delDatadict,
 		findallArticle,ArticleByartId,AddArticleInfo,updateArticleInfo,delarticleInfo,ArticleByData,
 		getAllProductName,
 		getAllPtcomment,findPtcommentByApprId,
 		addReplyInfo,getAllReplyInfo,findReplyInfoByReplyId,
 		goodsNames,
-		GetAllResources,findResourcesByInfo,addResources,delresources,updataResources
+		GetAllResources,findResourcesByInfo,addResources,delresources,updataResources,
+		findOrdersInfoByOrdId,getPageOrdersInfo,findGoodsByInfo,
+		getAllGoodsInfo,findAllType,
+		findAllTypegoods,updateTypegoods,addTypegoods,delTypegoods,
+		getAllProduct,getAllGoodsName,findAllDatadict,findProductInfoByPtId,updateProductInfo,
+		findGoodsByGoodsId,addGoodsInfo,updateGoodsInfo,updateOrdersInfoById
 		</global-allowed-methods>
 
     	<action name="*_*" class="{1}Action" method="{2}">
