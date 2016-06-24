@@ -124,4 +124,14 @@ public class ProductServiceImpl implements ProductService {
 	public int updateProductInfo(Product product) {
 		return productMapper.updateProductInfo(product);
 	}
+
+	@Override
+	public int findPtnumByGoodsId(int goodsId) {
+		return productMapper.findPtnumByGoodsId(goodsId);
+	}
+
+	@Override
+	public Product findPtIdByGoodsId(int goodsId) {
+		return productMapper.findPtIdByGoodsId(goodsId);
+	}
 }

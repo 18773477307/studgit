@@ -126,8 +126,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="question"><a>问题反馈</a></div>
 		        <div class="dl">
 		        	<c:if test="${not empty loginUsers }">
+<<<<<<< HEAD
+		        		<input type="hidden" value="${loginUsers.usersId }" id="hidden_usersId">
+		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录：${loginUsers.usersName }</a>
+		        		
+=======
 		        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
 		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录:${loginUsers.usersName }</a>
+>>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
 		   				<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>
@@ -561,6 +567,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							});
 							var goodsId=$(this).parent().parent().attr('id');
+<<<<<<< HEAD
+							//console.info(goodsId);
+							var usersId=$("#hidden_usersId").val();
+							$.post("product_findPtnumByGoodsId",{goodsId:goodsId},function(data){
+								var ptnum=data.total;
+								alter(data.total);
+								
+								if(ptnum>1){
+									location.href="front/products.jsp";
+								}else if(ptnum==0){
+									$.post("product_findPtIdByGoodsId",{goodsId:goodsId},function(data){
+										var ptId = data.object.ptId;
+										
+										$.post("shopDetail_toCarFind",{ptId:ptId,usersId:usersId},function(datad){
+											alert(datad.total);
+											if(datad.total!=1){
+												
+												$.post("shopDetail_toCarAdd",function(dataa){
+													if(dataa.total==1){
+														addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+														count++;
+														$("#end i").html(count);
+													}else{
+														alert("失败");
+													}
+												});
+											}else{
+												$.post("shopDetail_toCarUpdate",function(dataa){
+													if(dataa.total==1){
+														addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+														count++;
+														$("#end i").html(count);
+													}else{
+														alert("失败");
+													}
+												});
+											}
+										});
+=======
 							console.info(goodsId);
 							$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
 								if(parseInt($.trim(data.total))!=1){
@@ -582,9 +627,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										}else{
 											alert("失败");
 										}
+>>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 									});
 								}
+								
 							});
+							
 						});
 						
 						$(".btn_like").click(function(){

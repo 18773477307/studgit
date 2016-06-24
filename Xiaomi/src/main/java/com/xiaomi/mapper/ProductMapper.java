@@ -29,4 +29,8 @@ public interface ProductMapper {
 	//修改商品的库存
 	void updatePtNum(Map<String, Object> map2);
 
+	int findPtnumByGoodsId(int goodsId);
+
+	Product findPtIdByGoodsId(int goodsId);
+
 }

@@ -4,6 +4,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 使用映射接口的方式， 命名空间的值必须与映射接口的全限定名一致 -->
 <mapper namespace="com.xiaomi.mapper.ShopCarMapper" >
+	<select id="findShopInfoByPtId" parameterType="map" resultType="int">
+		select shopNum from shopCar where ptId=#{ptId} and usersId=#{usersId} and shopSta=1
+	</select>
+	
+	<insert id="addShopCarInfo" parameterType="ShopCar">
+		insert into shopCar values(seq_shopCar_shopId.nextval,#{usersId},#{ptId},1,1,'','');
+	</insert>
+	
+	<update id="updateShopCarInfo" parameterType="ShopCar">
+		update shopCar set shopNum=shopNum+1 where usersId=#{usersId} and goodsId=#{goodsId}
+	</update>
+
   	<select id="getShopCarInfoByUsers" resultType="shop_Goods_Car" parameterType="int">
   		select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=#{usersId} and shopSta=1
   	</select>

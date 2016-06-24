@@ -1,6 +1,8 @@
 package com.xiaomi.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,24 @@ public class ShopCarServiceImpl implements ShopCarService {
 	@Override
 	public int delByShopId(int shopId) {
 		return shopCarMapper.delByShopId(shopId);
+	}
+	
+	@Override
+	public int findShopInfoByPtId(int ptId,int usersId) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("ptId", ptId);
+		params.put("usersId", usersId);
+		return shopCarMapper.findShopInfoByPtId(params);
+	}
+
+	@Override
+	public int addShopCarInfo(Shop_Goods_Car shopCar) {
+		return shopCarMapper.addShopCarInfo(shopCar);
+	}
+	
+	@Override
+	public int updateShopCarInfo(Shop_Goods_Car shopCar) {
+		return shopCarMapper.updateShopCarInfo(shopCar);
 	}
 
 }

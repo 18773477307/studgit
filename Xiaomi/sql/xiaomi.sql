@@ -274,9 +274,10 @@ create table product (
 );
 create sequence seq_product_ptId start with 1000 increment by 1;
 --插入---------------------------------------------------------------------------------
-insert into product values(seq_product_ptId.nextval,1899,'minote.jpg',100,1001,1,5,12,18,23,34,37,1);
+insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
 insert into product values(seq_product_ptId.nextval,999,'',100,1002,4,6,17,22,30,34,37,1);
 --查询---------------------------------------------------------------------------------
+select count(*) from product where goodsId=1001;
 select * from product;
 select * from goods;
 --跟新---------------------------------------------------------------------------------
@@ -301,6 +302,10 @@ create table shopCar(
 );
 create sequence seq_shopCar_shopId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
+<<<<<<< HEAD
+insert into shopCar values(seq_shopCar_shopId.nextval,1001,1001,1,1,'','');
+insert into shopCar values(seq_shopCar_shopId.nextval,1002,1002,1,1,'','');
+=======
 select * from usersinfo;
 select * from product;
 select * from goods;
@@ -326,8 +331,13 @@ select count(1) from shopCar where usersId=1011
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1005,1,1,'',''); nihao
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1004,1,1,'',''); nihao
 --查询---------------------------------------------------------------------------------
+<<<<<<< HEAD
+select shopNum from shopCar where ptId=1001 and usersId=1001 and shopSta=1;
+select * from shopCar where usersId=1001
+=======
 select * from shopCar where usersId=1011
 select count(1) from shopCar where usersId=1011 and shopSta=1
+>>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 select * from shopCar;
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
 --更新---------------------------------------------------------------------------------
