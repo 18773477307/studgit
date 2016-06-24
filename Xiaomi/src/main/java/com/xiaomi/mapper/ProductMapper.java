@@ -33,4 +33,8 @@ public interface ProductMapper {
 
 	Product findPtIdByGoodsId(int goodsId);
 
+	List<Product> findProductByGoodsId(int goodsId);
+
+	Product getProductByPtId(int ptId);
+
 }

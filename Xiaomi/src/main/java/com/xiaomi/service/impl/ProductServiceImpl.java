@@ -134,4 +134,14 @@ public class ProductServiceImpl implements ProductService {
 	public Product findPtIdByGoodsId(int goodsId) {
 		return productMapper.findPtIdByGoodsId(goodsId);
 	}
+
+	@Override
+	public List<Product> findProductByGoodsId(int goodsId) {
+		return productMapper.findProductByGoodsId(goodsId);
+	}
+
+	@Override
+	public Product getProductByPtId(int ptId) {
+		return productMapper.getProductByPtId(ptId);
+	}
 }

@@ -126,14 +126,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="question"><a>问题反馈</a></div>
 		        <div class="dl">
 		        	<c:if test="${not empty loginUsers }">
-<<<<<<< HEAD
 		        		<input type="hidden" value="${loginUsers.usersId }" id="hidden_usersId">
 		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录：${loginUsers.usersName }</a>
-		        		
-=======
-		        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
-		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录:${loginUsers.usersName }</a>
->>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
 		   				<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>
@@ -539,7 +533,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     </div>
                </c:forEach>
                     
-                     <script>
+                <script>
 					$(function() {
 						var offset = $("#end").offset();
 						$(".addcar").click(function(data){ //function hh(event)
@@ -567,24 +561,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								}
 							});
 							var goodsId=$(this).parent().parent().attr('id');
-<<<<<<< HEAD
 							//console.info(goodsId);
 							var usersId=$("#hidden_usersId").val();
-							$.post("product_findPtnumByGoodsId",{goodsId:goodsId},function(data){
+							$.post("front/product_findPtnumByGoodsId.action",{goodsId:goodsId},function(data){
 								var ptnum=data.total;
-								alter(data.total);
+								//alert(ptnum);
 								
 								if(ptnum>1){
-									location.href="front/products.jsp";
+									$.post("front/goods_getGoodsByGoodsId",{goodsId:goodsId},function(data){
+										if(data.rows!=null && data.rows!=""){
+											location.href="front/products.jsp";
+										}
+									});
 								}else if(ptnum==0){
-									$.post("product_findPtIdByGoodsId",{goodsId:goodsId},function(data){
+									$.post("front/product_findPtIdByGoodsId.action",{goodsId:goodsId},function(data){
 										var ptId = data.object.ptId;
+										console.info(ptId);
 										
-										$.post("shopDetail_toCarFind",{ptId:ptId,usersId:usersId},function(datad){
-											alert(datad.total);
+										$.post("front/shopDetail_toCarFind.action",{ptId:ptId,usersId:usersId},function(datad){
+											console.info(datad.total);
 											if(datad.total!=1){
 												
-												$.post("shopDetail_toCarAdd",function(dataa){
+												$.post("front/shopDetail_toCarAdd.action",function(dataa){
 													if(dataa.total==1){
 														addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 														count++;
@@ -594,7 +592,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													}
 												});
 											}else{
-												$.post("shopDetail_toCarUpdate",function(dataa){
+												$.post("front/shopDetail_toCarUpdate.action",function(dataa){
 													if(dataa.total==1){
 														addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 														count++;
@@ -605,46 +603,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												});
 											}
 										});
-=======
-							console.info(goodsId);
-							$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
-								if(parseInt($.trim(data.total))!=1){
-									$.post("front/shopCar_toCarAdd.action",function(data){
-										if(parseInt($.trim(data.total))==1){
-											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-											count++;
-											$("#end i").html(count);
-										}else{
-											alert("失败");
-										}
-									});
-								}else{
-									$.post("front/shopCar_toCarUpdate.action",function(data){
-										if(parseInt($.trim(data.total))==1){
-											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-											count++;
-											$("#end i").html(count);
-										}else{
-											alert("失败");
-										}
->>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 									});
 								}
-								
 							});
-							
-						});
-						
-						$(".btn_like").click(function(){
-							var src=$(this).children().attr('src');
-							if(src=="front/iconfont-photo/iconfont-tubiao.svg"){
-								$(this).children().attr('src','front/iconfont-photo/iconfont-xihuan.svg');
-							}else if(src=="front/iconfont-photo/iconfont-xihuan.svg"){
-								$(this).children().attr('src','front/iconfont-photo/iconfont-tubiao.svg');
-							}
 						});
 					});
-					</script>
+
+				</script>
                   
                 </div>
                 

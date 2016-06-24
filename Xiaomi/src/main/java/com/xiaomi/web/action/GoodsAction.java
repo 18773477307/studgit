@@ -98,6 +98,7 @@ public class GoodsAction implements ModelDriven<Goods>, SessionAware {
 		jsonObject.setRows(good);
 		return "success";
 	}
+
 	
 	public String addGoodsInfo(){
 		Map<String,Object> map=new HashMap<String, Object>();

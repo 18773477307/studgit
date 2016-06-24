@@ -32,7 +32,9 @@
 		<!--一排一个表的操作  -->
 		goToMiHome,unameCheck,emailCheck,telCheck,idCardCheck,findUserByUsersInfo,addUsersInfo,getIndexGoodsInfo,
 		getIndexArticleInfo,ArticleByInfo,
-		addArtComment,PageArtComment
+		addArtComment,PageArtComment,
+		findPtnumByGoodsId,findPtIdByGoodsId,
+		toCarFind,toCarAdd,toCarUpdate
 		</global-allowed-methods>
 		
     	<action name="*_*" class="{1}Action" method="{2}">

@@ -99,4 +99,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updatePtNum" parameterType="map">
 		update product set ptNum=ptNum-#{detaNum} where ptId=#{ptId}
 	</update>
+	
+	<select id="findProductByGoodsId" parameterType="int" resultType="Product">
+		select * from product where goodsId=#{goodsId}
+	</select>
+	
+	<select id="getProductByPtId" parameterType="int" resultType="Product">
+		select * from product where ptId=#{ptId}
+	</select>
 </mapper>

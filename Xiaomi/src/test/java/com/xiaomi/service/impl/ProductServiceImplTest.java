@@ -25,5 +25,18 @@ public class ProductServiceImplTest {
 		System.out.println(productsName);
 		assertNotNull("获取商品名称失败！！！",productsName);
 	}
+	
+	@Test
+	public void testFindPtIdByGoodsId() {
+		Product pro = productService.findPtIdByGoodsId(1002);
+		System.out.println(pro);
+		assertNotNull("获取商品信息失败！！！",pro);
+	}
+	
+	@Test
+	public void testFindProductsByGoodsId() {
+		List<Product> pros = productService.findProductByGoodsId(1001);
+		System.out.println(pros);
+	}
 
 }

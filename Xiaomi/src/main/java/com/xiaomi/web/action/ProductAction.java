@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.xiaomi.entity.Goods;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.Product;
 import com.xiaomi.service.ProductService;
@@ -108,6 +109,19 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 		Product pro = productService.findPtIdByGoodsId(product.getGoodsId());
 		jsonObject = new JsonObject<Product>();
 		jsonObject.setObject(pro);
+		return "success";
+	}
+	
+	//根据GoodsId获取到所有的商品详情
+	public String getProductByGoodsId(){
+		List<Product> pros = productService.findProductByGoodsId(product.getGoodsId());
+		int ptId = pros.get(0).getPtId();
+		System.out.println(ptId);
+		
+		Product prod = productService.getProductByPtId(ptId);
+		
+		jsonObject = new JsonObject<Product>();
+		jsonObject.setRows(pros);
 		return "success";
 	}
 

@@ -24,5 +24,12 @@ public class GoodsServiceImplTest {
 		System.out.println(goodsNames);
 		assertNotNull(goodsNames);
 	}
+	
+	@Test
+	public void testFindGoodsByGoodsId(){
+		List<Goods> good = goodsService.findGoodsByGoodsId(1001);
+		System.out.println(good);
+		assertNotNull("获取信息失败！！！",good);
+	}
 
 }
