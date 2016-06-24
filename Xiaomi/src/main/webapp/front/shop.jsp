@@ -573,9 +573,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											location.href="front/products.jsp";
 										}
 									});
-								}else if(ptnum==0){
+								}else if(ptnum==1){
 									$.post("front/product_findPtIdByGoodsId.action",{goodsId:goodsId},function(data){
-										var ptId = data.object.ptId;f
+										var ptId = data.object.ptId;
 										console.info(ptId);
 										
 										$.post("front/shopDetail_toCarFind.action",{ptId:ptId,usersId:usersId},function(datad){

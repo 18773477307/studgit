@@ -99,6 +99,7 @@ public class ProductAction implements ModelDriven<Product>,SessionAware {
 	//查看该商品是否有多个产品
 	public String findPtnumByGoodsId(){
 		int ptnum = productService.findPtnumByGoodsId(product.getGoodsId());
+		System.out.println(ptnum);
 		jsonObject = new JsonObject<Product>();
 		jsonObject.setTotal(ptnum);
 		return "success";
