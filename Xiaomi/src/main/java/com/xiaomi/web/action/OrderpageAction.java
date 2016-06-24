@@ -8,15 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.xiaomi.entity.Artcomment;
 import com.xiaomi.entity.JsonObject;
 import com.xiaomi.entity.OrderInfoBean;
-import com.xiaomi.entity.Orderdetail;
-import com.xiaomi.entity.Orders;
-import com.xiaomi.entity.UsersInfo;
 import com.xiaomi.service.OrdersService;
 import com.xiaomi.utils.PageUtil;
-import com.xiaomi.utils.SessionAttributeKey;
 @Controller("orderpageAction")
 public class OrderpageAction implements SessionAware,ModelDriven<OrderInfoBean> {
 	@Autowired
@@ -25,7 +20,6 @@ public class OrderpageAction implements SessionAware,ModelDriven<OrderInfoBean> 
 	private OrderInfoBean orderInfoBean;
 	private List<OrderInfoBean> ordersList;
 	private JsonObject<OrderInfoBean> jsonObject;
-	private JsonObject<Orderdetail> jsonObject1;
 	private PageUtil pageUtil;
 	private String op;
 	private Map<String, Object> session;
@@ -77,8 +71,6 @@ public class OrderpageAction implements SessionAware,ModelDriven<OrderInfoBean> 
 		
 		return "success";
 	}
-	
-	
 	
 	@Override
 	public void setSession(Map<String, Object> session) {

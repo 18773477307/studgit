@@ -13,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    	<title>订单</title>
    	<link type="text/css" href="front/css/myOrder.css" rel="stylesheet"/>
    	<link rel="short icon" href="front/iconfont-photo/iconfont-iconmi01.svg"/>
-       <script src="front/js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="front/js/jquery-1.11.3.js" type="text/javascript"></script>
 	<script src="front/js/myOrder.js" type="text/javascript"></script>
 	
 		
@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var str="";
 					for(var i=0;i<myorders.length;i++){
 						var ordSta=myorders[i].ordsta;
-						// 0 取消订单1 未支付2 已支付  3准备发货  4待收货 5已签收
+						// 0 取消订单1 未支付2已支付等待发货 3待收货  4已签收
 						if(ordSta==0){
 							var zhuatai="订单取消";
 						}else if(ordSta==1){
@@ -118,134 +118,132 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    	<ul>
 			    		<li class="log_side"><a href=""></a></li>
 			            <li class="xmsj"><a>小米手机</a></li>
-			            <!--小米手机隐藏的层-->
-			            <div class="xmsj-show">
-			            	<div class="xmsj-show1">
-			                	<div class="xmsj-show-img"><a><img src="front/images/mi4c!160x110.jpg"/></a></div>
-			                	<p><a target="_blank" href="" class="top1-title">小米手机4c</a></p>
-			                    <p><span class="top1-price">1299元起</span></p>
-			                </div>
-			                <div class="top1-line"></div>
-			                <div class="xmsj-show2">
-			                	<div  class="xmsj-show-img"><a><img src="front/images/mi4!160x110.jpg"/></a></div>
-			                	<p><a target="_blank" href="" class="top1-title">小米手机4</a></p>
-			                    <p><span class="top1-price">1299元起</span></p>
-			                </div>
-			                <div class="top1-line"></div>
-			                <div class="xmsj-show3">
-			                	<div  class="xmsj-show-img"><a><img src="front/images/minote!160x110.jpg"/></a></div>
-			                	<p><a target="_blank" href="" class="top1-title">小米Note标准版</a></p>
-			                    <p><span class="top1-price">1799元起</span></p>
-			                </div>
-			            </div>
-			                  
 			            <li class="hongmi"><a>红米</a></li>
-			            <!--红米隐藏的层-->
-			            <div class="hongmi-show">
-			            	<div class="hongmi-show1">
-			                	<div class="hongmi-show-img"><a><img src="front/images/hongmi2!160x110.jpg"/></a></div>
-			                	<p><a target="_blank" href="" class="top1-title">红米手机2</a></p>
-			                    <p><span class="top1-price">599元起</span></p>
-			                </div>
-			                <div class="top1-line"></div>
-			                <div class="hongmi-show2">
-			                	<div  class="hongmi-show-img"><a><img src="front/images/hongmi2a!160x110.jpg"/></a></div>
-			                	<p><a target="_blank" href="" class="top1-title">红米手机2A 增强版</a></p>
-			                    <p><span class="top1-price">特价499元</span></p>
-			                </div>
-			                <div class="top1-line"></div>
-			                <div class="hongmi-show3">
-			                	<div  class="hongmi-show-img"><a><img src="front/images/note!160x110.jpg"/></a></div>
-			                	<p><a target="_blank" href="" class="top1-title">红米Note 电信版</a></p>
-			                    <p><span class="top1-price">699元起</span></p>
-			                </div>
-			            </div>
-			            
 			            <li class="pingban"><a>平板</a></li>
-			            	<!--红米隐藏的层-->
-			                <div class="pingban-show">
-			                    <div class="pingban-show1">
-			                        <div class="pingban-show-img"><a><img src="front/images/mipad16!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">红米手机2</a></p>
-			                        <p><span class="top1-price">599元起</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="pingban-show2">
-			                        <div  class="pingban-show-img"><a><img src="front/images/mipad64!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">红米手机2A 增强版</a></p>
-			                        <p><span class="top1-price">特价499元</span></p>
-			                    </div>
-			                </div>
 			            <li class="tv"><a>电视&middot;盒子</a></li>
-			            	<!--电视盒子隐藏的层-->
-			                <div class="tv-show">
-			                    <div class="tv-show1">
-			                        <div class="tv-show-img"><a><img src="front/images/mitv40!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">小米电视2 40英寸</a></p>
-			                        <p><span class="top1-price">1999元</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="tv-show2">
-			                        <div  class="tv-show-img"><a><img src="front/images/mitv48!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">小米电视2/2S 48/49英寸</a></p>
-			                        <p><span class="top1-price">2999元起</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="tv-show3">
-			                        <div  class="tv-show-img"><a><img src="front/images/mitv3-55!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">小米电视3 55英寸</a></p>
-			                        <p><span class="top1-price">3999元起</span></p>
-			                    </div>
-			                </div>
 			            <li class="luyouqi"><a>路由器</a></li>
-			            	<!--路由器隐藏的层-->
-			                <div class="luyouqi-show">
-			                    <div class="luyouqi-show1">
-			                        <div class="luyouqi-show-img"><a><img src="front/images/miwifi!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">全新小米路由器</a></p>
-			                        <p><span class="top1-price">699元起</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="luyouqi-show2">
-			                        <div  class="luyouqi-show-img"><a><img src="front/images/miwifilite!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">小米路由器 青春版</a></p>
-			                        <p><span class="top1-price">79元</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="luyouqi-show3">
-			                        <div  class="luyouqi-show-img"><a><img src="front/images/miwifimini!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">小米路由器 mini</a></p>
-			                        <p><span class="top1-price">129元</span></p>
-			                    </div>
-			                </div>
 			            <li class="yingjian"><a>智能硬件</a></li>
-			            	<!--智能硬件隐藏的层-->
-			                <div class="yingjian-show">
-			                    <div class="yingjian-show1">
-			                        <div class="yingjian-show-img"><a href="" target="_blank"><img src="front/images/scooter!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">九号平衡车</a></p>
-			                        <p><span class="top1-price">1999元</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="yingjian-show2">
-			                        <div  class="yingjian-show-img"><a href="" target="_blank"><img src="front/images/xiaoyi!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">摄像机</a></p>
-			                        <p><span class="top1-price">149元</span></p>
-			                    </div>
-			                    <div class="top1-line"></div>
-			                    <div class="yingjian-show3">
-			                        <div  class="yingjian-show-img"><a href="" target="_blank"><img src="front/images/yicamera!160x110.jpg"/></a></div>
-			                        <p><a target="_blank" href="" class="top1-title">运动相机</a></p>
-			                        <p><span class="top1-price">399元起</span></p>
-			                    </div>
-			                </div>
 			            <li class="fuwu"><a target="_blank" href="front/shop.jsp">商城</a></li>
-            			<li class="shequ"><a target="_blank" href="articleServlet?op=indexDataInfo">社区</a></li>
+            			<li class="shequ"><a target="_blank" href="front/article_getIndexArticleInfo.action">社区</a></li>
 			        </ul>
 			    </div>
 			</div>
+			<!--小米手机隐藏的层-->
+            <div class="xmsj-show">
+            	<div class="xmsj-show1">
+                	<div class="xmsj-show-img"><a><img src="front/images/mi4c!160x110.jpg"/></a></div>
+                	<p><a target="_blank" href="" class="top1-title">小米手机4c</a></p>
+                    <p><span class="top1-price">1299元起</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="xmsj-show2">
+                	<div  class="xmsj-show-img"><a><img src="front/images/mi4!160x110.jpg"/></a></div>
+                	<p><a target="_blank" href="" class="top1-title">小米手机4</a></p>
+                    <p><span class="top1-price">1299元起</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="xmsj-show3">
+                	<div  class="xmsj-show-img"><a><img src="front/images/minote!160x110.jpg"/></a></div>
+                	<p><a target="_blank" href="" class="top1-title">小米Note标准版</a></p>
+                    <p><span class="top1-price">1799元起</span></p>
+                </div>
+            </div>
+            <!--红米隐藏的层-->
+            <div class="hongmi-show">
+            	<div class="hongmi-show1">
+                	<div class="hongmi-show-img"><a><img src="front/images/hongmi2!160x110.jpg"/></a></div>
+                	<p><a target="_blank" href="" class="top1-title">红米手机2</a></p>
+                    <p><span class="top1-price">599元起</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="hongmi-show2">
+                	<div  class="hongmi-show-img"><a><img src="front/images/hongmi2a!160x110.jpg"/></a></div>
+                	<p><a target="_blank" href="" class="top1-title">红米手机2A 增强版</a></p>
+                    <p><span class="top1-price">特价499元</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="hongmi-show3">
+                	<div  class="hongmi-show-img"><a><img src="front/images/note!160x110.jpg"/></a></div>
+                	<p><a target="_blank" href="" class="top1-title">红米Note 电信版</a></p>
+                    <p><span class="top1-price">699元起</span></p>
+                </div>
+            </div>
+            <!--红米隐藏的层-->
+            <div class="pingban-show">
+                <div class="pingban-show1">
+                    <div class="pingban-show-img"><a><img src="front/images/mipad16!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">红米手机2</a></p>
+                    <p><span class="top1-price">599元起</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="pingban-show2">
+                    <div  class="pingban-show-img"><a><img src="front/images/mipad64!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">红米手机2A 增强版</a></p>
+                    <p><span class="top1-price">特价499元</span></p>
+                </div>
+            </div>
+			<!--电视盒子隐藏的层-->
+            <div class="tv-show">
+                <div class="tv-show1">
+                    <div class="tv-show-img"><a><img src="front/images/mitv40!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">小米电视2 40英寸</a></p>
+                    <p><span class="top1-price">1999元</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="tv-show2">
+                    <div  class="tv-show-img"><a><img src="front/images/mitv48!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">小米电视2/2S 48/49英寸</a></p>
+                    <p><span class="top1-price">2999元起</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="tv-show3">
+                    <div  class="tv-show-img"><a><img src="front/images/mitv3-55!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">小米电视3 55英寸</a></p>
+                    <p><span class="top1-price">3999元起</span></p>
+                </div>
+            </div>                
+			<!--路由器隐藏的层-->
+            <div class="luyouqi-show">
+                <div class="luyouqi-show1">
+                    <div class="luyouqi-show-img"><a><img src="front/images/miwifi!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">全新小米路由器</a></p>
+                    <p><span class="top1-price">699元起</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="luyouqi-show2">
+                    <div  class="luyouqi-show-img"><a><img src="front/images/miwifilite!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">小米路由器 青春版</a></p>
+                    <p><span class="top1-price">79元</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="luyouqi-show3">
+                    <div  class="luyouqi-show-img"><a><img src="front/images/miwifimini!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">小米路由器 mini</a></p>
+                    <p><span class="top1-price">129元</span></p>
+                </div>
+            </div>
+			<!--智能硬件隐藏的层-->
+            <div class="yingjian-show">
+                <div class="yingjian-show1">
+                    <div class="yingjian-show-img"><a href="" target="_blank"><img src="front/images/scooter!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">九号平衡车</a></p>
+                    <p><span class="top1-price">1999元</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="yingjian-show2">
+                    <div  class="yingjian-show-img"><a href="" target="_blank"><img src="front/images/xiaoyi!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">摄像机</a></p>
+                    <p><span class="top1-price">149元</span></p>
+                </div>
+                <div class="top1-line"></div>
+                <div class="yingjian-show3">
+                    <div  class="yingjian-show-img"><a href="" target="_blank"><img src="front/images/yicamera!160x110.jpg"/></a></div>
+                    <p><a target="_blank" href="" class="top1-title">运动相机</a></p>
+                    <p><span class="top1-price">399元起</span></p>
+                </div>
+            </div>
 	        <!--top1结束-->
-			
+		</div>	
 			
 			<div id="body">
 				<p id="bigTitle">交易订单</p>
@@ -267,14 +265,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</ul>
 					</div>
 					
-					<!--右边开始-->
+					<!--右边开始  0 取消订单1 未支付2 已支付等待发货  3已发货待收货  4已签收-->
 					<div id="right">
 						<div id="rightBody">
 							<div class="rightTop">
 								<p class="rightTitle">我的订单</p>
 								<ul>
 									<li>全部有效订单　|</li>
-									<li>待支付　|</li>
+									<li>待发货　|</li>
 									<li>待收货　|</li>
 									<li>已关闭 </li>
 								</ul>
@@ -291,7 +289,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                            <li class="shang"><a href="javascript:pageInfo(2)">上一页</a></li>
 			                            <li class="next"><a href="javascript:pageInfo(3)">下一页</a></li>
 			                            <li class="last"><a href="javascript:pageInfo(4)">末页</a></li>
-			                            <span id="pageInfo"></span>
 			                        </ul>
 			                    </div>
 			                </div>

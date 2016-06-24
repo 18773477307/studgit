@@ -27,5 +27,20 @@ public interface OrdersService {
 	List<OrderInfoBean> find(int usersId, int pageNo,int pageSize);
 
 	int getTotal(int usersId);
+	//后台查询信息
+	List<Orders> getPageOrdersInfo(Integer pageNo,Integer pageSize);
+	//详情
+	List<Orders> findOrdersInfoByOrdId(int ordId);
+	//根据订单编号与日期查询信息
+	List<Orders> findGoodsByInfo(int ordId, String ordDate,Integer pageNo,Integer pageSize);
+
+	
+	int updateOrdersInfoById(int detaSta, int ordId, int ptId);//没
+	//查询这个订单的状态
+	int getOrdSta(int ordId);
+	//后台订单管理状态修改
+	int updateOrdersInfoById(int ordId, int ordSta);
+	int updateDetaStaById(int ordId, int ordSta);
+	
 
 }

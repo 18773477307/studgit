@@ -358,7 +358,7 @@ create sequence seq_orders_ordId start with 1001 increment by 1;
 select * from address
 select * from orders where ordId=1001;
 select count(1) from orders where usersId=1011
-
+select ordSta from orders where ordId=1003
 select * from  (select a.*,rownum rn from (select o.*,a.recipient from orders o,address a where a.addrId=o.addrId  
 and o.usersId=1011 and ordSta=2 order by ordDate desc)a where rownum <=10)b where rn>0
 
@@ -366,12 +366,18 @@ select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o
         	and o.usersId=1011
 	     order by ordDate desc)a where 10>=rownum)b where rn>0
 	     
+	select * from (select a.*,rownum rn from (select o.*,usersName,province,city,county,detailAddr,recipient from orders o,usersInfo u,address a where o.usersId=u.usersId and o.addrId=a.addrId and 
+	to_char(ordDate,'yyyy-MM-dd') like '2016-06-22' order by ordDate desc) a where 10>=rownum)b where rn>0      
 				
 				select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta from 
 				orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
-				and p.goodsId = g.goodsId and o.ordId=1002
+				and p.goodsId = g.goodsId and o.ordId=1003
 				
-				ptformat ptcolor ptnet  versions  int ptmemory    ptsize    ptbattery 
+				ptformat ptcolor ptnet  versions  ptmemory    ptsize    ptbattery 
+				
+	select * from (select a.*,rownum rn from (select o.*,usersName,province,city,county,detailAddr,recipient
+		from orders o,usersInfo u,address a where o.usersId=u.usersId and 
+		o.addrId=a.addrId order by ordDate desc) a where 10>=rownum)b where rn>0
 --删除---------------------------------------------------------------------------------
 drop table orderdetail;
 drop table orders;
@@ -391,6 +397,7 @@ create table orderdetail(
 	   reserve20 varchar2(20)                   --备用字段
 );
 
+update orderdetail set detaSta =2 where ordId=1002 
 select ordId,pt
 --插入---------------------------------------------------------------------------------
 insert into orderdetail values (1001,1001,899,1,1,'','');
@@ -512,11 +519,11 @@ create table ptcomment(
 );
 create sequence seq_ptcomment_apprId start with 1001 increment by 1;
 ---插入-------------------------------------------------------------------------------------------------------
-insert into goodsappr values (seq_ptcomment_apprId.nextval,1001,1001,'嗯呢，不错',TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss'),1,'','');
+insert into ptcomment values (seq_ptcomment_apprId.nextval,1001,1001,'嗯呢，不错',TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss'),1,'','');
 ---跟新------------------------------------------------------------------------------------------------------
-update  goodsappr set apprDate=TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss') where apprId=1001
+update  ptcomment set apprDate=TO_DATE('2010-01-02 14:22:23','yyyy-mm-dd hh24:mi:ss') where apprId=1001
 ---查询------------------------------------------------------------------------------------------------------
-select * from goodsappr;
+select * from ptcomment;
 ---删除------------------------------------------------------------------------------------------------------
 drop table ptcomment;
 drop sequence seq_ptcomment_apprId
@@ -529,7 +536,7 @@ create table reply(
        usersId int      		 --用户编号
              constraint FK_reply_usersInfo_usersId references usersInfo(usersId),
        apprId int                --评价编号
-             constraint seq_ptcomment_apprId references goodsappr(apprId),
+             constraint seq_ptcomment_apprId references ptcomment(apprId),
        repCont varchar2(500),             --回复内容
        repDate date,             		  --回复日期 
        reserve29 varchar2(20),	          --备用字段，改为回复状态，0 未回复，1 已回复

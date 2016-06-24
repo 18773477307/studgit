@@ -107,13 +107,13 @@ $(function(){
 							if(data.total==1){//删除添加
 								$.messager.show({
 									title:'删除提示',
-									msg:'新闻信息删除成功',
+									msg:'文章信息删除成功',
 									timeout:2000,
 									showType:'slide'
 								});
 								datagrid.datagrid("reload");//重新加载数据一次
 							}else{
-								$.messager.alert('失败提示','新闻类型信息删除失败....','error');
+								$.messager.alert('失败提示','文章类型信息删除失败....','error');
 							}
 						});
 					}
@@ -200,8 +200,8 @@ $(function(){
 	</div>
 </div>
 
-<!-- 修改新闻 -->
-<div id="article_update_newsInfo" class="easyui-dialog" title="修改新闻" data-options="fit:true,iconCls:'icon-edit',resizable:true,modal:true,closed:true">
+<!-- 修改文章 -->
+<div id="article_update_newsInfo" class="easyui-dialog" title="修改文章" data-options="fit:true,iconCls:'icon-edit',resizable:true,modal:true,closed:true">
 	<form action="" style="padding:0px;float:left;display:inline-block;">
 		<input type="hidden" name="artId"/>
 		<table>
@@ -293,7 +293,7 @@ $(function(){
 			data:{artTitle:artTitle,artAuth:artAuth,artStaTime:artStaTime,fileinfo:fileinfo,artWeight:artWeight,artCont:artCont},
 			success:function(data,status){
 				if(parseInt($.trim(data.total))==1){//说明是成功的
-					$.messager.show({title:'成功提示',msg:'新闻信息添加成功1',timeout:2000,showType:'slide'});
+					$.messager.show({title:'成功提示',msg:'文章信息添加成功1',timeout:2000,showType:'slide'});
 					$("#article_add_newsInfo").dialog("close");
 					$("#article_info").datagrid("reload");//页面刷新
 					
@@ -332,7 +332,7 @@ $(function(){
 			data:{artId:artId,artTitle:artTitle,artStaTime:artStaTime,artAuth:artAuth,artWeight:artWeight,artSta:artSta,artCont:artCont,fileinfo:fileinfo},
 			success:function(data,status){
 				if(parseInt($.trim(data.total))==1){
-					$.messager.show({title:'成功提示',msg:'新闻信息添加成功...',timeout:2000,showType:'slide'});
+					$.messager.show({title:'成功提示',msg:'文章信息添加成功...',timeout:2000,showType:'slide'});
 					$("#article_update_newsInfo").dialog("close");
 					$("#article_info").datagrid("reload");
 					
@@ -345,11 +345,11 @@ $(function(){
 					$("#update_article_artPic_show").html("");
 					ue2.getContent("");
 				}else{
-					$.messager.alert("失败提示","新闻信息修改失败...","error");
+					$.messager.alert("失败提示","文章信息修改失败...","error");
 				}
 			},
 			error:function(data,status,e){
-				$.messager.alert("错误提示","新闻信息修改错误...\n"+e,"error");
+				$.messager.alert("错误提示","文章信息修改错误...\n"+e,"error");
 			}
 		});
 	}

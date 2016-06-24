@@ -9,12 +9,11 @@
 
 
 <script>
-$(function(){
-	var statusObj=[{sid:0,sname:'无效订单'},{sid:1,sname:'未支付'},{sid:2,sname:'已支付'},{sid:3,sname:'已发货'},{sid:4,sname:'已完成'}];
+$(function(){//0 取消订单1 未支付2已支付等待发货 3待收货  4已签收
+	var statusObj=[{sid:0,sname:'已取消订单'},{sid:1,sname:'未支付'},{sid:2,sname:'已支付待发货'},{sid:3,sname:'已发货'},{sid:4,sname:'已签收'}];
 	
 	$('#orders_info').datagrid({
-		url:'../ordersServlet',
-		queryParams:{op:"getPageOrdersInfo"},
+		url:'back/orderInfoBean_getPageOrdersInfo.action',
 		fitColumns:true,
 		striped:true,
 		loadMsg:"数据加载中...",
@@ -25,10 +24,11 @@ $(function(){
 		remoteSort:false,
 		columns:[[
 			{field:'ordIds',title:'选择',width:100,align:'center',checkbox:true},
-			{field:'ordId',title:'订单编号',width:100,align:'center',sortable:true},
+			{field:'ordId',title:'订单编号',width:70,align:'center',sortable:true},
 			{field:'detailDelivery',title:'收获地址',width:150,align:'center'},
-			{field:'usersName',title:'用户姓名',width:100,align:'center'},
-			{field:'ordDates',title:'订单日期',width:100,align:'center'},
+			{field:'usersName',title:'用户姓名',width:80,align:'center'},
+			{field:'recipient',title:'收货人姓名',width:80,align:'center'},
+			{field:'ordDate',title:'订单日期',width:100,align:'center'},
 			{field:'ordTatol',title:'订单总价',width:100,align:'center'},
 			{field:'ordSta',title:'订单状态',width:100,align:'center',editor:{type:"combobox",options:{
 				required:true,valueField:'sid',textField:'sname',data:statusObj}},
@@ -43,7 +43,8 @@ $(function(){
 			},
 			{field:'_operate',title:'操作',width:100,align:'center',
 				formatter:function(value,rowData,index){
-					return '<a class="icon-search1 icon-padding" href="javascript:showOrdersDetail(\''+rowData.ordId+'\')">详情</a>';
+					return '<a class="icon-edit icon-padding" href="javascript:updateOrdersInfo(\''+rowData.ordId+'\')">修改</a>'
+					+'<a class="icon-search1 icon-padding" href="javascript:showOrdersDetail(\''+rowData.ordId+'\')">详情</a>';
 				}
 			}
 		]],
@@ -53,13 +54,11 @@ $(function(){
 
 function findGoodsInfoByInfo(){
 	var ordId=$.trim($("#show_ordersId").val());
-	alert(ordId);
-	var ndate=$("#show_orders_ndate").datebox('getValue');
+	var ordDate=$("#show_orders_ndate").datebox('getValue');
 	
 	$('#orders_info').datagrid({
-		url:'../ordersServlet',
-		queryParams:{op:"findGoodsByInfo",ordId:ordId,ndate:ndate}
-		
+		url:'back/orderInfoBean_findGoodsByInfo.action',
+		queryParams:{ordId:ordId,ordDate:ordDate}
 	});
 }
 </script>
@@ -70,67 +69,135 @@ function findGoodsInfoByInfo(){
 		width:200px;
 		border:1px solid #F63;
 	}
-	
 	label{
 		padding-right:10px;
+	}
+	#detailShow{
+		width: 350px;
+		height: 500px;
+		float: left;
+		margin-left: 20px;
+		margin-top: 20px;
 	}
 </style>
 
 
 
 <!-- 订单详情查看 -->
-<div id="ordersDetail_show" class="easyui-dialog" title="订单详情" data-options="fit:true,iconCls:'icon-add',resizable:true,modal:true,closed:true">
-	<form action="" style="padding:20px;float:left;display:inline-block;">
-		<label>订单编号： </label><input type="text" id="ordId_show" class="myinput" readonly="readonly"/><br /><br />
-		<label>收件人：</label><input type="text" name="users_name" id="users_name" class="myinput" readonly/><br /><br />
-		<label>收件人电话：</label><input name="price" id="users_addrTel" class="myinput" readonly="readonly"/><br /><br />
-		<label>收货地址： </label><input type="text" id="users_address" class="myinput" readonly="readonly"/><br /><br />
-		<label>邮政编码： </label><input type="text" id="users_post" class="myinput" readonly="readonly"/><br /><br />
-		<label>商品名称： </label><input type="text" id="goods_name" class="myinput" readonly="readonly"/><br /><br />
-		<label>网络格式： </label><input type="text" id="goods_formatInfo" class="myinput" readonly="readonly"/><br /><br />
-		<label>商品颜色：</label><input class="myinput" name="goods_colorInfo" id="goods_colorInfo" readonly="readonly"/><br /><br />
-		<label>内存大小：</label><input name="goods_memoryInfo" id="goods_memoryInfo" class="myinput" readonly="readonly"/><br /><br />
-		<label>网络版本：</label><input name="goods_versionsInfo" id="goods_versionsInfo" class="myinput" readonly="readonly"/><br /><br />
-		<label>商品数量：</label><input type="text" id="orders_detaNum" class="myinput" readonly="readonly"/><br /><br />
-		<label>订单总价：</label><input type="text" id="orders_detaPrice" class="myinput" readonly="readonly"/><br /><br />
-	</form>
+<div id="ordersDetail_show" class="easyui-dialog" title="订单详情" data-options="fit:true,iconCls:'icon-search',resizable:true,modal:true,closed:true">
+	<div id="bigShow"></div>
 </div>
 
+<!-- 订单状态修改 -->
+<div id="ordersUpdate_show" class="easyui-dialog" title="处理订单" data-options="fit:true,iconCls:'icon-edit',resizable:true,modal:true,closed:true">
+	<div id="bigShows"></div>
+	<div style="margin-top: 50px;">
+	 <label>订单状态： </label><select name='goodsdetaSta' class='goodsdetaSta' class='myinput'>
+		<option value='0'>订单取消</option>
+		<option value='1'>未支付</option>
+		<option value='2'>已支付等待发货</option>
+		<option value='3'>发货</option>
+		<option value='4'>已收货</option>
+	</select><br /><br />
+	<input type="button" id="" value="确认修改" onclick="ordersInfoUpdate()"/>
+	</div>	
+</div>
 
 <script>
-	function showOrdersDetail(ordId){
-		$("#ordersDetail_show").dialog("open");
-		$.post("../ordersServlet",{op:"findOrdersInfoByOrdId",ordId:ordId},function(data){
+	var ordIds;  //全局变量用来接收订单编号
+	function updateOrdersInfo(ordId){
+		ordIds = ordId;
+		$.post("back/orderInfoBean_findOrdersInfoByOrdId.action",{ordId:ordId},function(data){
 			var orders=data.rows;
-			$("#ordId_show").val(orders.ordId);
-			$("#users_name").val(orders.usersName);
-			$("#users_addrTel").val(orders.addrTel);
-			$("#users_address").val(orders.detailDelivery);
-			$("#users_post").val(orders.reserve3);
-			$("#goods_name").val(orders.goodsName);
-			$("#goods_formatInfo").val(orders.format);
-			$("#goods_colorInfo").val(orders.color);
-			$("#goods_memoryInfo").val(orders.memory);
-			$("#goods_versionsInfo").val(orders.versions);
-			$("#orders_detaNum").val(orders.detaNum);
-			$("#orders_detaPrice").val(orders.ordTatol);
-		},"json");
+			console.info(data.total);
+			var str="";
+			
+			$(".goodsdetaSta").get(0).value =data.total;//状态
+			for(var i=0;i<data.rows.length;i++){
+				var detaSta=data.rows[i].detaSta;
+				var detaSta=data.rows[i].detaSta;
+				var sta="";
+				// 0 取消订单1 未支付2已支付等待发货 3待收货  4已签收
+				if(detaSta==0){
+					sta="订单取消";
+				}else if(detaSta==1){
+					sta="未支付";
+				}else if(detaSta==2){
+					sta="已支付等待发货";
+				}else if(detaSta==3){
+					sta="已发货";
+				}else if(detaSta==4){
+					sta="已签收";
+				}
+				
+				str+="<div id='detailShow'><label>商品名称： </label><input type='text' id='goodsname' class='myinput' readonly='readonly' value='"+data.rows[i].goodsName+"'/><br /><br />";
+				str+="<label>商品图片： </label><input type='image' style='width: 200px;height: 120px;' id='goodsminPic' class='myinput' readonly='readonly' src='../uploadpic/"+data.rows[i].goodsminPic+"'/><br /><br />";
+				str+="<label>商品价格： </label><input type='text' id='goodsdetaPrice' class='myinput' readonly='readonly' value='"+data.rows[i].detaPrice+"'/><br /><br />";
+				str+="<label>购买数量： </label><input type='text' id='goodsdetaNum' class='myinput' readonly='readonly' value='"+data.rows[i].detaNum+"'/><br /><br />";
+				str+="<input type='hidden' name='ptId' class='Id_hidden' value='"+data.rows[i].ptId+"'/>"; 
+				str+="<label>订单状态： </label><input type='text' id='goodsdetaSta' class='myinput' readonly='readonly' value='"+sta+"'/></div>"; 
+				/* str+="<select name='goodsdetaSta' class='goodsdetaSta' class='myinput'>"; 
+				str+="<option value='0'>订单取消</option><option value='1'>未支付</option><option value='2'>已支付等待发货</option><option value='3'>待收货</option><option value='4'>已收货</option></select><br /><br />";
+				str+="<input type='button' id='"+data.rows[i].ordId+"' value='确认修改' onclick='ordersInfoUpdate("+data.rows[i].ordId+")'/>"; */
+			}
+			//str+="<input type='button' value='确认修改' onclick='ordersInfoUpdate("+data.rows[i].ordId+")'>";
+			$("#bigShows").html(str);
+		});
+		$("#ordersUpdate_show").dialog("open");
 	}
 	
-	$("#ordersDetail_show").dialog({
+	function ordersInfoUpdate(){
+		//var ptId = $("#"+ordId).parent().find($(".Id_hidden")).val();
+		//var detaSta = $("#"+ordId).parent().find($(".goodsdetaSta option:selected")).val();
+		var ordSta = $(".goodsdetaSta option:selected").val();
+		var ordId = ordIds;
+		
+		//alert(ordSta+"id==>"+ordId)
+		$.post("back/orderInfoBean_updateOrdersInfoById.action",{ordId:ordId,ordSta:ordSta},function(data){
+			if(data.total == 1){
+				$.messager.show({title:'成功提示',msg:'订单状态信息修改成功...',timeout:2000,showType:'slide'});
+			}else{
+				$.messager.alert("失败提示","订单状态信息修改失败...","error");
+			}
+		});
+	}
+	
+	$("#ordersUpdate_show").dialog({
 		onClose:function(){
-			$("#ordId_show").val("");
-			$("#users_name").val("");
-			$("#users_addrTel").val("");
-			$("#users_address").val("");
-			$("#users_post").val("");
-			$("#goods_name").val("");
-			$("#goods_formatInfo").val("");
-			$("#goods_colorInfo").val("");
-			$("#goods_memoryInfo").val("");
-			$("#goods_versionsInfo").val("");
-			$("#orders_detaNum").val("");
-			$("#orders_detaPrice").val("");
+			$('#orders_info').datagrid({
+				url:'back/orderInfoBean_getPageOrdersInfo.action'
+			});
 		}
 	});	
+
+	function showOrdersDetail(ordId){
+		$.post("back/orderInfoBean_findOrdersInfoByOrdId.action",{ordId:ordId},function(data){
+			var orders=data.rows;
+			console.info(orders.length);
+			var str="";
+			for(var i=0;i<data.rows.length;i++){
+				var detaSta=data.rows[i].detaSta;
+				var sta="";
+				// 0 取消订单1 未支付2已支付等待发货 3待收货  4已签收
+				if(detaSta==0){
+					sta="订单取消";
+				}else if(detaSta==1){
+					sta="未支付";
+				}else if(detaSta==2){
+					sta="已支付等待发货";
+				}else if(detaSta==3){
+					sta="待收货";
+				}else if(detaSta==4){
+					sta="已签收";
+				}
+				str+="<div id='detailShow'><label>商品名称： </label><input type='text' id='goods_name' class='myinput' readonly='readonly' value='"+data.rows[i].goodsName+"'/><br /><br />";
+				str+="<label>商品图片： </label><input type='image' style='width: 200px;height: 120px;' id='goods_goodsminPic' class='myinput' readonly='readonly' src='../uploadpic/"+data.rows[i].goodsminPic+"'/><br /><br />";
+				str+="<label>商品价格： </label><input type='text' id='goods_detaPrice' class='myinput' readonly='readonly' value='"+data.rows[i].detaPrice+"'/><br /><br />";
+				str+="<label>购买数量： </label><input type='text' id='goods_detaNum' class='myinput' readonly='readonly' value='"+data.rows[i].detaNum+"'/><br /><br />";
+				str+="<label>订单状态： </label><input type='text' id='goods_detaSta' class='myinput' readonly='readonly' value='"+sta+"'/><br /><br /></div>";
+			}
+			$("#bigShow").html(str);
+		});
+		$("#ordersDetail_show").dialog("open");
+	}
 </script>

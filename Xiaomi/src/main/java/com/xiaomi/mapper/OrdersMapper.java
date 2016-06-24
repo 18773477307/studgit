@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.xiaomi.entity.OrderInfoBean;
-import com.xiaomi.entity.Orderdetail;
 import com.xiaomi.entity.Orders;
 
 @Repository("ordersMapper")
@@ -29,5 +28,17 @@ public interface OrdersMapper {
 	List<OrderInfoBean> selectOrderData(Map<String, Object> params);
 
 	int getTotal(int usersId);
+
+	List<Orders> getPageOrdersInfo(Map<String, Object> params);
+
+	List<Orders> findOrdersInfoByOrdId(int ordId);
+
+	List<Orders> findGoodsByInfo(Map<String, Object> params);
+	//后台修改订单状态  发货
+	int updateOrdersInfoById(Map<String, Object> params);
+
+	int getOrdSta(int ordId);
+
+	int updateDetaStaById(Map<String, Object> params);
 
 }
