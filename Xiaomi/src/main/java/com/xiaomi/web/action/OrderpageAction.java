@@ -30,11 +30,12 @@ public class OrderpageAction implements SessionAware,ModelDriven<OrderInfoBean> 
 	public void setOp(String op) {
 		this.op = op;
 	}
-	
 	public String getOrderInfo(){
 		
 		int usersId = orderInfoBean.getUsersId();
-		
+		if(orderInfoBean.getOrdSta()!=0){
+			pageUtil.setSta(orderInfoBean.getOrdSta());
+		}
 //		System.out.println(usersId+"用户id");
 //		System.out.println(op);
 		Object obj=session.get("pageUtil");
@@ -48,7 +49,6 @@ public class OrderpageAction implements SessionAware,ModelDriven<OrderInfoBean> 
 		//对不同的操作请求进行判断
 		if("1".equals(op)){
 			pageUtil.setPageNo(1);
-//			System.out.println(111111);
 		}else if("2".equals(op)){
 			pageUtil.setPageNo(pageUtil.getPageNo()-1);
 		}else if("3".equals(op)){
@@ -62,15 +62,15 @@ public class OrderpageAction implements SessionAware,ModelDriven<OrderInfoBean> 
 		System.out.println(pageUtil);
 		
 		//根据页面号查询信息
-		ordersList=ordersService.find(usersId,pageUtil.getPageNo(),pageUtil.getPageSize());
+		ordersList=ordersService.find(usersId,pageUtil.getSta(),pageUtil.getPageNo(),pageUtil.getPageSize());
 		session.put("yeorders", ordersList);
 		System.out.println(ordersList);
 		//转成json数据，往前台传送
 		jsonObject=new JsonObject<OrderInfoBean>();
 		jsonObject.setRows(ordersList);
-		
 		return "success";
 	}
+	
 	
 	@Override
 	public void setSession(Map<String, Object> session) {

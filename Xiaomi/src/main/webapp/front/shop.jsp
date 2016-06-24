@@ -115,7 +115,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <div class="site_top">
-       
         	<div id="header">
 		    	<div class="mainpage"><a>小米网</a></div><div class="line"></div>
 		        <div class="miui"><a>MIUI</a></div><div class="line"></div>
@@ -126,14 +125,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="question"><a>问题反馈</a></div>
 		        <div class="dl">
 		        	<c:if test="${not empty loginUsers }">
-<<<<<<< HEAD
-		        		<input type="hidden" value="${loginUsers.usersId }" id="hidden_usersId">
-		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录：${loginUsers.usersName }</a>
 		        		
-=======
-		        		<input type="hidden" name="usersId" id="Id_hidden" value="${loginUsers.usersId }"/>
+		        		<input type="hidden" name="usersId" id="Id_hidden hidden_usersId" value="${loginUsers.usersId }"/>
 		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录:${loginUsers.usersName }</a>
->>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 		        	</c:if>
 		        	<c:if test="${empty loginUsers }">
 		   				<a id="top_login" href="front/login.jsp" style="text-decoration: none; color:#ccc;">登录</a>
@@ -149,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        </div>
 		        <div class="shop_car"><a href="javascript:goShopCar()"><img src="front/images/shop_car.png"/><span id="end">购物车(<i>${sums }</i>)</span></a></div>
 		</div>
-    
+    </div>
     <div class="site_header">
     	<div class="container2">
             <div class="header_logo">
@@ -205,7 +199,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="红米手机2" src="front/images/hongmi2!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>红米手机2</a></p>
+                                    <p><a>红米手机2</a></p>
                                 </div>
                                 <p><span class="price">599元起</span></p>
                             </li>
@@ -214,7 +208,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="红米手机2A 增强版" src="front/images/hongmi2a!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>红米手机2A 增强版</a></p>
+                                    <p><a>红米手机2A 增强版</a></p>
                                 </div>
                                 <p><span class="price">特价499元</span></p>
                             </li>
@@ -223,7 +217,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="红米Note 电信版" src="front/images/note!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>红米Note 电信版</a></p>
+                                    <p><a>红米Note 电信版</a></p>
                                 </div>
                                 <p><span class="price">699元起</span></p>
                             </li>
@@ -240,7 +234,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米平板 16GB" src="front/images/mipad16!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米平板 16GB</a></p>
+                                    <p><a>小米平板 16GB</a></p>
                                 </div>
                                 <p><span class="price">999元</span></p>
                             </li>
@@ -249,7 +243,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米平板 64GB" src="front/images/mipad64!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米平板 64GB</a></p>
+                                    <p><a>小米平板 64GB</a></p>
                                 </div>
                                 <p><span class="price">1299元</span></p>
                             </li>
@@ -266,7 +260,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米电视2 40英寸" src="front/images/mitv40!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米电视2 40英寸</a></p>
+                                    <p><a>小米电视2 40英寸</a></p>
                                 </div>
                                 <p><span class="price">1999元</span></p>
                             </li>
@@ -275,7 +269,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米电视2/2S 48/49英寸" src="front/images/mitv48!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米电视2/2S 48/49英寸</a></p>
+                                    <p><a>小米电视2/2S 48/49英寸</a></p>
                                 </div>
                                 <p><span class="price">2999元</span></p>
                             </li>
@@ -284,7 +278,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米电视3 55英寸" src="front/images/mitv3-55!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米电视3 55英寸</a></p>
+                                    <p><a>小米电视3 55英寸</a></p>
                                 </div>
                                 <p><span class="price">3999元</span></p>
                             </li>
@@ -301,7 +295,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="全新小米路由器" src="front/images/miwifi!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>全新小米路由器</a></p>
+                                    <p><a>全新小米路由器</a></p>
                                 </div>
                                 <p><span class="price">699元起</span></p>
                             </li>
@@ -310,7 +304,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米路由器 青春版" src="front/images/miwifilite!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米路由器 青春版</a></p>
+                                    <p><a>小米路由器 青春版</a></p>
                                 </div>
                                 <p><span class="price">79元</span></p>
                             </li>
@@ -319,7 +313,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="小米路由器 mini" src="front/images/miwifimini!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>小米路由器 mini</a></p>
+                                    <p><a>小米路由器 mini</a></p>
                                 </div>
                                 <p><span class="price">129元</span></p>
                             </li>
@@ -336,7 +330,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="九号平衡车" src="front/images/scooter!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>九号平衡车</a></p>
+                                    <p><a>九号平衡车</a></p>
                                 </div>
                                 <p><span class="price">1999</span></p>
                             </li>
@@ -345,7 +339,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="摄像机" src="front/images/xiaoyi!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>摄像机</a></p>
+                                    <p><a>摄像机</a></p>
                                 </div>
                                 <p><span class="price">149元</span></p>
                             </li>
@@ -354,7 +348,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                     <a><img width="160" height="110" alt="运动相机" src="front/images/yicamera!160x110.jpg"/></a>
                                 </div>
                                 <div class="title">
-                                    <a>运动相机</a></p>
+                                    <p><a>运动相机</a></p>
                                 </div>
                                 <p><span class="price">399元起</span></p>
                             </li>
@@ -538,79 +532,53 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	成功加入购物车</div>
                     </div>
                </c:forEach>
-                    
-                     <script>
-					$(function() {
-						var offset = $("#end").offset();
-						$(".addcar").click(function(data){ //function hh(event)
-						 	var count=$("#end i").html();
-							var addcar = $(this);
-							var img = addcar.parent().parent().find('ul li img').attr('src');
-							var flyer = $('<img class="u-flyer" src="'+img+'">');
-							flyer.fly({
-								start: {
-									left: data.pageX,
-									top: data.pageY
-								},
-								end: {
-									left: offset.left+10,
-									top: offset.top+10,
-									width: 0,
-									height: 0
-								},
-								onEnd: function(){
-								//	alert("加入购物车成功...");
-									//addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-									//addcar.css("cursor","default").removeClass('orange').unbind('click');
+                </div>    
+<script>
+		$(function() {
+			var offset = $("#end").offset();
+			$(".addcar").click(function(data){ //function hh(event)
+			 	var count=$("#end i").html();
+				var addcar = $(this);
+				var img = addcar.parent().parent().find('ul li img').attr('src');
+				var flyer = $('<img class="u-flyer" src="'+img+'">');
+				flyer.fly({
+					start: {
+						left: data.pageX,
+						top: data.pageY
+					},
+					end: {
+						left: offset.left+10,
+						top: offset.top+10,
+						width: 0,
+						height: 0
+					},
+					onEnd: function(){
+					//	alert("加入购物车成功...");
+						//addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+						//addcar.css("cursor","default").removeClass('orange').unbind('click');
+						
+						this.destory();
+					}
+				});
+				var goodsId=$(this).parent().parent().attr('id');
+				//console.info(goodsId);
+				var usersId=$("#hidden_usersId").val();
+				$.post("front/product_findPtnumByGoodsId",{goodsId:goodsId},function(data){
+					var ptnum=data.total;
+					alert(data.total);
+					
+					if(ptnum>1){
+						location.href="front/products.jsp";
+					}else if(ptnum==0){
+						$.post("front/product_findPtIdByGoodsId",{goodsId:goodsId},function(data){
+							var ptId = data.object.ptId;
+							
+							$.post("front/shopDetail_toCarFind",{ptId:ptId,usersId:usersId},function(datad){
+								alert(datad.total);
+								if(datad.total!=1){
 									
-									this.destory();
-								}
-							});
-							var goodsId=$(this).parent().parent().attr('id');
-<<<<<<< HEAD
-							//console.info(goodsId);
-							var usersId=$("#hidden_usersId").val();
-							$.post("product_findPtnumByGoodsId",{goodsId:goodsId},function(data){
-								var ptnum=data.total;
-								alter(data.total);
-								
-								if(ptnum>1){
-									location.href="front/products.jsp";
-								}else if(ptnum==0){
-									$.post("product_findPtIdByGoodsId",{goodsId:goodsId},function(data){
-										var ptId = data.object.ptId;
-										
-										$.post("shopDetail_toCarFind",{ptId:ptId,usersId:usersId},function(datad){
-											alert(datad.total);
-											if(datad.total!=1){
-												
-												$.post("shopDetail_toCarAdd",function(dataa){
-													if(dataa.total==1){
-														addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-														count++;
-														$("#end i").html(count);
-													}else{
-														alert("失败");
-													}
-												});
-											}else{
-												$.post("shopDetail_toCarUpdate",function(dataa){
-													if(dataa.total==1){
-														addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-														count++;
-														$("#end i").html(count);
-													}else{
-														alert("失败");
-													}
-												});
-											}
-										});
-=======
-							console.info(goodsId);
-							$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
-								if(parseInt($.trim(data.total))!=1){
-									$.post("front/shopCar_toCarAdd.action",function(data){
-										if(parseInt($.trim(data.total))==1){
+									$.post("front/shopDetail_toCarAdd",function(dataa){
+										if(dataa.total==1){
 											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 											count++;
 											$("#end i").html(count);
@@ -619,34 +587,57 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										}
 									});
 								}else{
-									$.post("front/shopCar_toCarUpdate.action",function(data){
-										if(parseInt($.trim(data.total))==1){
+									$.post("front/shopDetail_toCarUpdate",function(dataa){
+										if(dataa.total==1){
 											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 											count++;
 											$("#end i").html(count);
 										}else{
 											alert("失败");
 										}
->>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 									});
 								}
-								
 							});
-							
 						});
-						
-						$(".btn_like").click(function(){
-							var src=$(this).children().attr('src');
-							if(src=="front/iconfont-photo/iconfont-tubiao.svg"){
-								$(this).children().attr('src','front/iconfont-photo/iconfont-xihuan.svg');
-							}else if(src=="front/iconfont-photo/iconfont-xihuan.svg"){
-								$(this).children().attr('src','front/iconfont-photo/iconfont-tubiao.svg');
+					}
+				});	
+				console.info(goodsId);
+				$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
+					if(parseInt($.trim(data.total))!=1){
+						$.post("front/shopCar_toCarAdd.action",function(data){
+							if(parseInt($.trim(data.total))==1){
+								addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+								count++;
+								$("#end i").html(count);
+							}else{
+								alert("失败");
 							}
 						});
-					});
-					</script>
-                  
-                </div>
+					}else{
+						$.post("front/shopCar_toCarUpdate.action",function(data){
+							if(parseInt($.trim(data.total))==1){
+								addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+								count++;
+								$("#end i").html(count);
+							}else{
+								alert("失败");
+							}
+						});
+					}
+				});
+			});
+			
+			$(".btn_like").click(function(){
+				var src=$(this).children().attr('src');
+				if(src=="front/iconfont-photo/iconfont-tubiao.svg"){
+					$(this).children().attr('src','front/iconfont-photo/iconfont-xihuan.svg');
+				}else if(src=="front/iconfont-photo/iconfont-xihuan.svg"){
+					$(this).children().attr('src','front/iconfont-photo/iconfont-tubiao.svg');
+				}
+			});
+			
+		});
+</script>
                 
                 <div class="goods_page">
                 	<a class="numbers_first"><</a>

@@ -69,6 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
  		 <if test="usersId != null and usersId != '' and usersId !=0">
         	and o.usersId=#{usersId}
+	     </if> 
+	     <if test="ordSta != null and ordSta != '' and ordSta !=0">
+        	and ordSta=#{ordSta}
 	     </if> 		 
 	     order by ordDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
 	</select>
@@ -116,4 +119,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateDetaStaById" parameterType="map">
 		update orderdetail set detaSta =#{ordSta} where ordId= #{ordId}
 	</update>
+	
+	<!-- <resultMap type="OrderInfoBean" id="OrderInfoMap">
+		<id property="ordId" column="ordId"/>
+		<collection property="orderdetails" column="ordId" ofType="Orderdetail" select="getOrderByordId"></collection>
+	</resultMap>
+	<select id="findInfoBySta" parameterType="map" resultType="OrderInfoMap">
+		select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
+ 		 <if test="usersId != null and usersId != '' and usersId !=0">
+        	and o.usersId=#{usersId}
+	     </if>
+	     <if test="ordSta != null and ordSta != '' and ordSta !=0">
+        	and ordSta=#{ordSta}
+	     </if> 		 
+	     order by ordDate desc)a where #{pageNo} >=rownum)b where rn>#{pageSize}
+	</select>
+	<select id="getOrderByordId" parameterType="int" resultType="Orderdetail">
+		select o.ordId,g.goodsminPic,g.goodsName,od.detaNum,od.detaPrice,od.detaSta,p.ptId from 
+			orders o,orderdetail od,goods g,product p where o.ordId = od.ordId and od.ptId = p.ptId
+			and p.goodsId = g.goodsId and o.ordId = #{ordId}
+	</select> -->
+	
+	
 </mapper>

@@ -373,7 +373,7 @@ select * from  (select a.*,rownum rn from (select o.*,a.recipient from orders o,
 and o.usersId=1011 and ordSta=2 order by ordDate desc)a where rownum <=10)b where rn>0
 
 select * from  (select a.*,rownum rn from (select o.*,ad.recipient from orders o,address ad where ad.addrId=o.addrId 
-        	and o.usersId=1011
+        	and o.usersId=1011 and ordSta=3
 	     order by ordDate desc)a where 10>=rownum)b where rn>0
 	     
 	select * from (select a.*,rownum rn from (select o.*,usersName,province,city,county,detailAddr,recipient from orders o,usersInfo u,address a where o.usersId=u.usersId and o.addrId=a.addrId and 

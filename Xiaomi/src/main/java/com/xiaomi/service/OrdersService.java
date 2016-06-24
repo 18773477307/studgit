@@ -24,7 +24,7 @@ public interface OrdersService {
 	//查询用户余额
 	double getBanlance(int usersId);
 
-	List<OrderInfoBean> find(int usersId, int pageNo,int pageSize);
+	List<OrderInfoBean> find(int usersId,int ordSta, int pageNo,int pageSize);
 
 	int getTotal(int usersId);
 	//后台查询信息
@@ -41,6 +41,8 @@ public interface OrdersService {
 	//后台订单管理状态修改
 	int updateOrdersInfoById(int ordId, int ordSta);
 	int updateDetaStaById(int ordId, int ordSta);
+	
+	List<OrderInfoBean> findInfoBySta(int usersId, int ordSta,int pageNo,int pageSize);
 	
 
 }

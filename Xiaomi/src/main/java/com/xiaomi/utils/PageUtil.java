@@ -5,17 +5,29 @@ public class PageUtil {
 	private int pageSize;
 	private int totalSize;
 	private int totalPage;
+	private int sta;
+	
+	
 	
 	@Override
 	public String toString() {
 		return "PageUtil [pageNo=" + pageNo + ", pageSize=" + pageSize
-				+ ", totalSize=" + totalSize + ", totalPage=" + totalPage + "]";
+				+ ", totalSize=" + totalSize + ", totalPage=" + totalPage
+				+ ", sta=" + sta + "]";
 	}
-	
+
 	public int getPageNo() {
 		return pageNo;
 	}
 	
+	public int getSta() {
+		return sta;
+	}
+
+	public void setSta(int sta) {
+		this.sta = sta;
+	}
+
 	public void setPageNo(int pageNo) {
 		if(pageNo<=0){
 			this.pageNo=1;
@@ -66,6 +78,8 @@ public class PageUtil {
 		result = prime * result + pageSize;
 		result = prime * result + totalPage;
 		result = prime * result + totalSize;
+		result = prime * result + sta;
+		
 		return result;
 	}
 
@@ -86,6 +100,8 @@ public class PageUtil {
 		if (totalPage != other.totalPage)
 			return false;
 		if (totalSize != other.totalSize)
+			return false;
+		if (sta != other.sta)
 			return false;
 		return true;
 	}

@@ -41,4 +41,6 @@ public interface OrdersMapper {
 
 	int updateDetaStaById(Map<String, Object> params);
 
+	List<OrderInfoBean> findInfoBySta(Map<String, Object> params);
+
 }

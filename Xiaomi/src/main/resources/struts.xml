@@ -34,7 +34,8 @@
 		getIndexArticleInfo,ArticleByInfo,
 		addArtComment,PageArtComment,
 		shopCarShow,delByShopId,getPayInfo,payOnline,addOrderInfo,back,payOrderes,getOrderInfo,
-		usersOut,findAddrInfoById
+		usersOut,findAddrInfoById,findInfoBySta,
+		toCarFind,findPtnumByGoodsId,findPtIdByGoodsId  
 		</global-allowed-methods>
 		
     	<action name="*_*" class="{1}Action" method="{2}">

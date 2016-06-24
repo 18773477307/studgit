@@ -46,17 +46,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					var myorders=data.rows;
 					var str="";
 					for(var i=0;i<myorders.length;i++){
-						var ordSta=myorders[i].ordsta;
+						var ordStas=myorders[i].ordSta;
+						alert
 						// 0 取消订单1 未支付2已支付等待发货 3待收货  4已签收
-						if(ordSta==0){
+						if(ordStas==0){
 							var zhuatai="订单取消";
-						}else if(ordSta==1){
+						}else if(ordStas==1){
 							var zhuatai="未支付";
-						}else if(ordSta==2){
+						}else if(ordStas==2){
 							var zhuatai="已支付等待发货";
-						}else if(ordSta==3){
+						}else if(ordStas==3){
 							var zhuatai="待收货";
-						}else if(ordSta==4){
+						}else if(ordStas==4){
 							var zhuatai="已签收";
 						}
 						str+="<div id='orderdiv'>";
@@ -83,6 +84,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$(function(){
 				pageInfo(1);
 			});
+			
+			function findInfoBySta(ordSta){
+				var usersId = $("#Id_hidden").val();
+				var op="1";
+				$.post("front/orderpage_getOrderInfo.action",{op:op,ordSta:ordSta,usersId:usersId},function(data){
+					var myorders=data.rows;
+					var str="";
+					for(var i=0;i<myorders.length;i++){
+						var ordStas=myorders[i].ordSta;
+						// 0 取消订单1 未支付2已支付等待发货 3待收货  4已签收
+						if(ordStas==0){
+							var zhuatai="订单取消";
+						}else if(ordStas==1){
+							var zhuatai="未支付";
+						}else if(ordStas==2){
+							var zhuatai="已支付等待发货";
+						}else if(ordStas==3){
+							var zhuatai="待收货";
+						}else if(ordStas==4){
+							var zhuatai="已签收";
+						}
+						str+="<div id='orderdiv'>";
+						
+						str+="<div class='orderInfo'>";
+						str+="<p class='orderSta'>"+zhuatai+"（订单状态）</p>";
+						str+="<div><span class='date'>日期："+myorders[i].ordDate+"　</span><span>|</span>";
+						str+="<span class='shrName>"+myorders[i].recipient+"</span><span>|</span>";
+						str+="<span>订单号:</span><span class='orderId'>　"+myorders[i].ordId+"（订单号）　| </span>　";
+						str+="<span>订单金额：</span><span class='orderPay'>"+myorders[i].ordTatol+"</span><span>元</span>";
+						str+="</div></div>";
+						for(var j=0;j<myorders[i].orderdetails.length;j++){
+							str+="<div class='prodInfo'>";
+							str+="<div class='imgDiv'><img src=../uploadpic/"+myorders[i].orderdetails[j].goodsminPic+" class='prodPic'/></div>";
+							str+="<div class='prodList'><p><span class='prodName'>"+myorders[i].orderdetails[j].goodsName+"</span></p>";
+							str+="<p><span class='prodPrice'>"+myorders[i].orderdetails[j].detaPrice+"</span><span>元　×　</span><span class='prodCount'>"+myorders[i].orderdetails[j].detaNum+"件</span></p></div></div>";
+						}
+						str+="</div>";
+					}
+					$("#bigDiv").html($(str)); 
+				},"json");
+			}
 		</script>
 		
   </head>
@@ -272,8 +314,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<p class="rightTitle">我的订单</p>
 								<ul>
 									<li>全部有效订单　|</li>
-									<li>待发货　|</li>
-									<li>待收货　|</li>
+									<li><a href="javascript:findInfoBySta(2)">待发货</a>　|</li>
+									<li><a href="javascript:findInfoBySta(3)">待收货　|</a></li>
 									<li>已关闭 </li>
 								</ul>
 							</div>

@@ -10,7 +10,7 @@ public class OrderInfoBean implements Serializable {
 	private int usersId;
 	private String ordDate;
 	private double ordTatol;
-	private int ordsta;
+	private int ordSta;
 	private String recipient; // 收货人姓名
 	private List<Orderdetail> orderdetails;
 
@@ -34,8 +34,8 @@ public class OrderInfoBean implements Serializable {
 		return ordTatol;
 	}
 
-	public int getOrdsta() {
-		return ordsta;
+	public int getOrdSta() {
+		return ordSta;
 	}
 
 	public String getRecipient() {
@@ -66,8 +66,8 @@ public class OrderInfoBean implements Serializable {
 		this.ordTatol = ordTatol;
 	}
 
-	public void setOrdsta(int ordsta) {
-		this.ordsta = ordsta;
+	public void setOrdSta(int ordSta) {
+		this.ordSta = ordSta;
 	}
 
 	public void setRecipient(String recipient) {
@@ -83,7 +83,7 @@ public class OrderInfoBean implements Serializable {
 	}
 
 	public OrderInfoBean(int ordId, int addrId, int usersId, String ordDate,
-			double ordTatol, int ordsta, String recipient,
+			double ordTatol, int ordSta, String recipient,
 			List<Orderdetail> orderdetails) {
 		super();
 		this.ordId = ordId;
@@ -91,7 +91,7 @@ public class OrderInfoBean implements Serializable {
 		this.usersId = usersId;
 		this.ordDate = ordDate;
 		this.ordTatol = ordTatol;
-		this.ordsta = ordsta;
+		this.ordSta = ordSta;
 		this.recipient = recipient;
 		this.orderdetails = orderdetails;
 	}
@@ -100,7 +100,7 @@ public class OrderInfoBean implements Serializable {
 	public String toString() {
 		return "\nOrderInfoBean [ordId=" + ordId + ", addrId=" + addrId
 				+ ", usersId=" + usersId + ", ordDate=" + ordDate
-				+ ", ordTatol=" + ordTatol + ", ordsta=" + ordsta
+				+ ", ordTatol=" + ordTatol + ", ordSta=" + ordSta
 				+ ", recipient=" + recipient + ", orderdetails=" + orderdetails
 				+ "]";
 	}

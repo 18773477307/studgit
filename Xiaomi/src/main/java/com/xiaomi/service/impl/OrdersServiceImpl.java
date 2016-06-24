@@ -100,9 +100,10 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<OrderInfoBean> find(int usersId, int pageNo,int pageSize) {
+	public List<OrderInfoBean> find(int usersId,int ordSta, int pageNo,int pageSize) {
 		Map<String , Object> params=new HashMap< String , Object>();
 		params.put("usersId", usersId);
+		params.put("ordSta", ordSta);
 		params.put("pageNo", pageNo*pageSize);
 		params.put("pageSize", (pageNo-1)*pageSize);
 		return ordersMapper.selectOrderData(params);
@@ -164,6 +165,16 @@ public class OrdersServiceImpl implements OrdersService {
 		params.put("ordId", ordId);
 		params.put("ordSta", ordSta);
 		return ordersMapper.updateDetaStaById(params);
+	}
+
+	@Override
+	public List<OrderInfoBean> findInfoBySta(int usersId, int ordSta, int pageNo,int pageSize) {
+		Map<String , Object> params=new HashMap< String , Object>();
+		params.put("usersId", usersId);
+		params.put("ordSta", ordSta);
+		params.put("pageNo", pageNo*pageSize);
+		params.put("pageSize", (pageNo-1)*pageSize);
+		return ordersMapper.findInfoBySta(params);
 	}
 	
 	
