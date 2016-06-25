@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<style type="text/css">
 		 	a{
 		 		text-decoration: none;
+		 		
 		 	}
 		 	#end{
 		 		color: #eee;
@@ -132,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     	<div id="bb">
     		<div id="header">
-	    		<div class="mainpage"><a>小米网</a></div><div class="line"></div>
+	    		<div class="mainpage"><a href="" style="color: #fff;">小米网</a></div><div class="line"></div>
 		        <div class="miui"><a>MIUI</a></div><div class="line"></div>
 		        <div class="ml"><a>米聊</a></div><div class="line"></div>
 		        <div class="game"><a>游戏</a></div><div class="line"></div>
@@ -146,7 +147,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	</c:if>
 		        </div><div class="line"></div>
 		        <div class="wddd">
-		   			<a id="zhuxiao" href="" style="text-decoration: none; color:#ccc; line-height: 40px; margin: 0px 10px;">我的订单</a>
+		   			<a id="zhuxiao" href="front/myorder.jsp" style="text-decoration: none; color:#ccc; line-height: 40px; margin: 0px 10px;">我的订单</a>
 		        </div>
 		        <div class="shop_car"><a href="javascript:goshopcar()"><img src="front/images/shop_car.png"/><span id="end" style="color:#ccc;">购物车(<i>${sums }</i>)</span></a></div>
 			</div>

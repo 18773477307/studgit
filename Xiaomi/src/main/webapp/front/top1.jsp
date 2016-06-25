@@ -14,11 +14,11 @@
             		<c:forEach items="${allPhone }" var="item">
                 		<c:if test="${item.goodsPlace eq '顶部,小米1' }">
 		                	<div class="xmsj-show-img">
-			                	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+			                	<a href=' '>
 			                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 			                	</a>
 		                	</div>
-		                	<p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                	<p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 		                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 		             	</c:if>
                     </c:forEach>
@@ -28,12 +28,12 @@
                		<c:forEach items="${allPhone }" var="item">
                			<c:if test="${item.goodsPlace eq '顶部,小米2' }">
 		                	<div  class="xmsj-show-img">
-		                		<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                		<a href=' '>
 	
 		                			<img id="ssimg" src="../uploadpic/${item.goodsminPic}"/>
 		                		</a>
 		                	</div>
-		                	<p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title">${item.goodsName }</a></p>
+		                	<p><a href=' ' class="top1-title">${item.goodsName }</a></p>
 		                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
                    		</c:if>
                    	</c:forEach>
@@ -43,11 +43,11 @@
                		<c:forEach items="${allPhone }" var="item">
                			<c:if test="${item.goodsPlace eq '顶部,小米3' }">
 		                	<div  class="xmsj-show-img">
-		                		<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                		<a href=' '>
 		                			<img id="ssimg" src="../uploadpic/${item.goodsminPic}"/>
 		                		</a>
 		                	</div>
-		                	<p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title">${item.goodsName }</a></p>
+		                	<p><a href=' ' class="top1-title">${item.goodsName }</a></p>
 		                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
                    		</c:if>
                    	</c:forEach>
@@ -61,11 +61,11 @@
                 	<c:forEach items="${allPhone }" var="item">
                 		<c:if test="${item.goodsPlace eq '顶部,红米1' }">
 		                	<div class="xmsj-show-img">
-			                	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+			                	<a href=' '>
 			                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 			                	</a>
 		                	</div>
-		                	<p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                	<p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 		                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 		             	</c:if>
                     </c:forEach>
@@ -75,11 +75,24 @@
                 	<c:forEach items="${allPhone }" var="item">
                 		<c:if test="${item.goodsPlace eq '顶部,红米2' }">
 		                	<div class="xmsj-show-img">
-			                	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+			                	<a href=' '>
 			                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 			                	</a>
 		                	</div>
-		                	<p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                	<p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
+		             	</c:if>
+                    </c:forEach>
+                </div>
+                <div class="hongmi-show2">
+                	<c:forEach items="${allPhone }" var="item">
+                		<c:if test="${item.goodsPlace eq '顶部,红米3' }">
+		                	<div class="xmsj-show-img">
+			                	<a href=''>
+			                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
+			                	</a>
+		                	</div>
+		                	<p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 		                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 		             	</c:if>
                     </c:forEach>
@@ -92,11 +105,11 @@
 	                    <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,平板1' }">
 		                        <div class="pingban-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>    
@@ -106,11 +119,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,平板2' }">
 		                        <div class="pingban-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>  
@@ -123,11 +136,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,电视1' }">
 		                        <div class="tv-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach> 
@@ -137,11 +150,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,电视2' }">
 		                        <div class="tv-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -151,11 +164,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,电视3' }">
 		                        <div class="tv-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -168,11 +181,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,路由器1' }">
 		                        <div class="luyouqi-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -182,11 +195,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,路由器2' }">
 		                        <div class="luyouqi-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -196,11 +209,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,路由器3' }">
 		                        <div class="luyouqi-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -213,11 +226,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,智能硬件1' }">
 		                        <div class="yingjian-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -227,11 +240,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,智能硬件2' }">
 		                        <div class="yingjian-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>
@@ -241,11 +254,11 @@
                         <c:forEach items="${allPhone }" var="item">
 	                		<c:if test="${item.goodsPlace eq '顶部,智能硬件3' }">
 		                        <div class="yingjian-show-img">
-		                        	<a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }'>
+		                        	<a href=' '>
 				                		<img id="testimg" src="../uploadpic/${item.goodsminPic}"/>
 				                	</a>
 		                        </div>
-		                        <p><a href='goodsServlet?op=getGoodsGformatName&goosdName=${item.goodsName }' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
+		                        <p><a href=' ' class="top1-title" id="top1-titles">${item.goodsName }</a></p>
 			                    <p><span class="top1-price">${fn:substring(item.goodsminPrice,0,fn:indexOf(item.goodsminPrice, '.'))}元起</span></p>
 	                    	</c:if>
 	                    </c:forEach>

@@ -75,7 +75,7 @@
 	    <div title="评论管理">  
         	<ul class="easyui-tree" id="menu-tree4">
         		<li id="admin_goodsappr">商品评价</li>
-				<li id="admin_artcomment">文章评论</li>
+				<!-- <li id="admin_artcomment">文章评论</li> -->
 				<li id="admin_reply">官方回复</li>
 			</ul>   
     	</div>  

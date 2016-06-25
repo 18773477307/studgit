@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			if(window.confirm('您确定要注销登录吗？')){
 				$.post("front/user_usersOut.action",function(data){
 				console.info(data);
-					if(parseInt($.trim(data))==1){
+					if(parseInt($.trim(data.total))==1){
 						var str='<li><a href="front/login.jsp">登录&nbsp;</a></li>';
 						str+='<li class="login_last"><a href="front/login.jsp">注册</a></li>';
 						$(".login_user ul").html(str);	
@@ -37,9 +37,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var artId=$.trim($("#artId").val());
 			var usersId=$.trim($("#usersId").val());
 			var str="";
+			alert(usersId);
 	 		$.post("front/artcomment_addArtComment.action",{comCont:comCont,artId:artId,usersId:usersId},function(data){
 	 			if(data=='' || data==undefined || data==null){
-	 				window.location.href = 'front/login.jsp';
+	 				if(window.confirm('您尚未登录，请登录后再发表评论！')){
+	 					window.location.href = 'front/login.jsp';
+	 				}
 				}else{
 					//重写评论次数
 	 				document.getElementById("count").innerHTML=data.object.commentsCount;
@@ -62,6 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var artId=$.trim($("#artId").val());
 			var usersId=$.trim($("#usersId").val());
 			var str="";
+			alert(usersId);
 	 		$.post("front/artcomment_addArtComment.action",{comCont:comCont,artId:artId,usersId:usersId},function(data){
 	 			if(data=='' || data==undefined || data==null){
 	 				window.location.href = 'front/login.jsp';
@@ -157,7 +161,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 
                 <div id=counts>
                 	<input type="hidden" id="artId" value="${article.artId }"/>
-                	<input type="hidden" id="usersId" value="${loginUsers.usersId }"/>
+                	<c:if test="${not empty loginUsers }">
+		        		<input type="hidden" name="usersId" id="Id_hidden usersId" value="${loginUsers.usersId }"/>
+		        	</c:if>
 	                <p class="text"><span></span>
 	                	<img src="front/images/see.png">${article.artViews }
 	                	<img src="front/images/msg.png"><a id="count">${article.commentsCount }</a>

@@ -256,7 +256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                        </c:if>
                             </c:forEach>
                             <c:forEach items="${allPhone }" var="item">	
-                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左2' }">
+                            <c:if test="${item.goodsPlace eq '顶滚2,顶滚2左3' }">
 	                        	<div class="lists">
 	                            	<div class="imgAndtitle">
 	                                	<a class="imgAndtitle-img"><img src="../uploadpic/${item.goodsminPic}"/></a>

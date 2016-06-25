@@ -43,6 +43,7 @@ public class ArtcommentAction implements SessionAware,ModelDriven<Artcomment>{
 	
 	public String addArtComment(){
 		System.out.println("拦截器起作用");
+		System.out.println(artcomment.getUsersId());
 		int result=artcommentService.insertartcomment(artcomment);
 		if(result>0){
 			articleBean=new ArticleBean();

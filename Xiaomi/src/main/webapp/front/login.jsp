@@ -125,11 +125,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div id="dlzc">
 						<div class="user_name">
 							<input type="text" id="txuser_name" name="userNameOrTel"
-								placeholder="手机号/用户名" value="18773477307"/>
+								placeholder="手机号/用户名" value="a2"/>
 						</div>
 						<div class="pwd">
 							<input type="password" id="txpwd" name="usersPwd"
-								placeholder="密码" value="pengjian950308"/>
+								placeholder="密码" value="aaaaaa"/>
 						</div>
 					</div>
 					<div id="denglu">

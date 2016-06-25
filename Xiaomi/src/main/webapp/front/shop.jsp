@@ -125,7 +125,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <div class="question"><a>问题反馈</a></div>
 		        <div class="dl">
 		        	<c:if test="${not empty loginUsers }">
-		        		
 		        		<input type="hidden" name="usersId" id="Id_hidden hidden_usersId" value="${loginUsers.usersId }"/>
 		        		<a id="top_login" style="text-decoration: none; color:#ccc;">当前登录:${loginUsers.usersName }</a>
 		        	</c:if>
@@ -533,79 +532,56 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     </div>
                </c:forEach>
                 </div>    
-<script>
-		$(function() {
-			var offset = $("#end").offset();
-			$(".addcar").click(function(data){ //function hh(event)
-			 	var count=$("#end i").html();
-				var addcar = $(this);
-				var img = addcar.parent().parent().find('ul li img').attr('src');
-				var flyer = $('<img class="u-flyer" src="'+img+'">');
-				flyer.fly({
-					start: {
-						left: data.pageX,
-						top: data.pageY
-					},
-					end: {
-						left: offset.left+10,
-						top: offset.top+10,
-						width: 0,
-						height: 0
-					},
-					onEnd: function(){
-					//	alert("加入购物车成功...");
-						//addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-						//addcar.css("cursor","default").removeClass('orange').unbind('click');
+ <script>
+ $(function() {
+  	var offset = $("#end").offset();
+  	$(".addcar").click(function(data){ //function hh(event)
+  	var count=$("#end i").html();
+  	var addcar = $(this);
+  	var img = addcar.parent().parent().find('ul li img').attr('src');
+  	var flyer = $('<img class="u-flyer" src="'+img+'">');
+  	flyer.fly({
+  		start: {
+  			left: data.pageX,
+  			top: data.pageY
+  		},
+  		end: {
+			left: offset.left+10,
+			top: offset.top+10,
+			width: 0,
+			height: 0
+  		},
+  		onEnd: function(){
+  			//	alert("加入购物车成功...");
+  			//addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+  			//addcar.css("cursor","default").removeClass('orange').unbind('click');
+			this.destory();
+		}
+	});
+	var goodsId=$(this).parent().parent().attr('id');
+	//console.info(goodsId);
+	var usersId=$("#hidden_usersId").val();
+	$.post("front/product_findPtnumByGoodsId.action",{goodsId:goodsId},function(data){
+		var ptnum=data.total;
+		//alert(ptnum);
+		
+		if(ptnum>1){
+			$.post("front/goods_getGoodsByGoodsId",{goodsId:goodsId},function(data){
+				if(data.rows!=null && data.rows!=""){
+					location.href="front/products.jsp";
+				}
+			});
+		}else if(ptnum==1){
+			$.post("front/product_findPtIdByGoodsId.action",{goodsId:goodsId},function(data){
+				var ptId = data.object.ptId;
+				console.info(ptId);
+				
+				$.post("front/shopDetail_toCarFind.action",{ptId:ptId,usersId:usersId},function(datad){
+					console.info(datad.total);
+					if(datad.total!=1){
 						
-						this.destory();
-					}
-				});
-				var goodsId=$(this).parent().parent().attr('id');
-				//console.info(goodsId);
-				var usersId=$("#hidden_usersId").val();
-				$.post("front/product_findPtnumByGoodsId",{goodsId:goodsId},function(data){
-					var ptnum=data.total;
-					alert(data.total);
-					
-					if(ptnum>1){
-						location.href="front/products.jsp";
-					}else if(ptnum==0){
-						$.post("front/product_findPtIdByGoodsId",{goodsId:goodsId},function(data){
-							var ptId = data.object.ptId;
-							
-							$.post("front/shopDetail_toCarFind",{ptId:ptId,usersId:usersId},function(datad){
-								alert(datad.total);
-								if(datad.total!=1){
-									
-									$.post("front/shopDetail_toCarAdd",function(dataa){
-										if(dataa.total==1){
-											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-											count++;
-											$("#end i").html(count);
-										}else{
-											alert("失败");
-										}
-									});
-								}else{
-									$.post("front/shopDetail_toCarUpdate",function(dataa){
-										if(dataa.total==1){
-											addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
-											count++;
-											$("#end i").html(count);
-										}else{
-											alert("失败");
-										}
-									});
-								}
-							});
-						});
-					}
-				});	
-				console.info(goodsId);
-				$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
-					if(parseInt($.trim(data.total))!=1){
-						$.post("front/shopCar_toCarAdd.action",function(data){
-							if(parseInt($.trim(data.total))==1){
+						$.post("front/shopDetail_toCarAdd.action",function(dataa){
+							if(dataa.total==1){
 								addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 								count++;
 								$("#end i").html(count);
@@ -614,8 +590,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							}
 						});
 					}else{
-						$.post("front/shopCar_toCarUpdate.action",function(data){
-							if(parseInt($.trim(data.total))==1){
+						$.post("front/shopDetail_toCarUpdate.action",function(dataa){
+							if(dataa.total==1){
 								addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
 								count++;
 								$("#end i").html(count);
@@ -626,19 +602,46 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 				});
 			});
-			
-			$(".btn_like").click(function(){
-				var src=$(this).children().attr('src');
-				if(src=="front/iconfont-photo/iconfont-tubiao.svg"){
-					$(this).children().attr('src','front/iconfont-photo/iconfont-xihuan.svg');
-				}else if(src=="front/iconfont-photo/iconfont-xihuan.svg"){
-					$(this).children().attr('src','front/iconfont-photo/iconfont-tubiao.svg');
+		}
+	});
+	console.info(goodsId);
+	$.post("front/shopCar_toCarFind.action",{goodsId:goodsId},function(data){
+		if(parseInt($.trim(data.total))!=1){
+			$.post("front/shopCar_toCarAdd.action",function(data){
+				if(parseInt($.trim(data.total))==1){
+					addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+					count++;
+					$("#end i").html(count);
+				}else{
+					alert("失败");
 				}
 			});
-			
-		});
+		}else{
+			$.post("front/shopCar_toCarUpdate.action",function(data){
+				if(parseInt($.trim(data.total))==1){
+					addcar.parent().parent().find($(".msg")).css("display","block").animate({width: '275px'}, 1000).fadeOut(1000);
+					count++;
+					$("#end i").html(count);
+				}else{
+					alert("失败");
+				}
+			});
+		}
+	});
+});
+		
+	$(".btn_like").click(function(){
+		var src=$(this).children().attr('src');
+		if(src=="front/iconfont-photo/iconfont-tubiao.svg"){
+			$(this).children().attr('src','front/iconfont-photo/iconfont-xihuan.svg');
+		}else if(src=="front/iconfont-photo/iconfont-xihuan.svg"){
+			$(this).children().attr('src','front/iconfont-photo/iconfont-tubiao.svg');
+		}
+	});
+	
+});
 </script>
-                
+                  
                 <div class="goods_page">
                 	<a class="numbers_first"><</a>
 					<a class="numbers_current">1</a>

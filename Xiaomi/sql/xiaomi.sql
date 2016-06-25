@@ -37,7 +37,7 @@ drop sequence seq_usersinfo_usersId
 delete from usersInfo where usersId=1001,usersId=1002,usersId=1003
 drop table usersinfo;
 
-update usersinfo set  usersbalance=15000 where usersId = 1011
+update usersinfo set  usersbalance=15000 where usersId = 1007
 --2----------------------------------------------------------------------------------------------------
 --用户收获地址
 create table  address(
@@ -56,7 +56,8 @@ create table  address(
 	   reserve4 varchar2(20)       --备用字段
 );
 select a.*,u.usersName from address a,usersinfo u where a.usersId = u.usersId and a.usersId =1011
-
+update address set recipient='张三',detailAddr ='霊湖车站'  where addrId=1004
+delete from address where addrId=1004
 create sequence seq_address_addrId start with 1001 increment by 1;
 select u.usersName,province,city,county,detailAddr,reserve4,addrTel from (select a.*,rownum rn from (select * from address order by addrId)a where rownum<=10)b,usersInfo u where rn>0 and b.usersId=u.usersId
 insert into address values (seq_address_addrId.nextval,1007,'湖南','衡阳市','珠晖区','湖南工学院','18773477307',1,'421002','彭健','','');
@@ -276,10 +277,22 @@ create sequence seq_product_ptId start with 1000 increment by 1;
 --插入---------------------------------------------------------------------------------
 insert into product values(seq_product_ptId.nextval,1899,'',100,1001,1,5,12,18,23,34,37,1);
 insert into product values(seq_product_ptId.nextval,999,'',100,1002,4,6,17,22,30,34,37,1);
+insert into product values(seq_product_ptId.nextval,1799,'',100,1001,2,5,12,18,23,34,37,1);
 --查询---------------------------------------------------------------------------------
 select count(*) from product where goodsId=1001;
-select * from product;
+select * from product
+select * from product where ptId=1001;
 select * from goods;
+select a.*,i.goodsName,b.dirName as formats,c.dirName as colors,d.dirName as nets,e.dirName as versions,f.dirName as memorys,g.dirName as sizes,h.dirName as batterys 
+	from product a
+	left join datadict b on a.ptformat=b.dirId 
+	left join datadict c on a.ptcolor = c.dirId
+	left join datadict d on a.ptnet = d.dirId
+	left join datadict e on a.ptversions = e.dirId
+	left join datadict f on a.ptmemory = f.dirId
+	left join datadict g on a.ptsize = g.dirId
+	left join datadict h on a.ptbattery = h.dirId
+	left join goods i on a.goodsId = i.goodsId where ptId=1001
 --跟新---------------------------------------------------------------------------------
 update product set ptPrice=1499 where ptId=1
 update product set ptNum=68 where ptId=1004
@@ -302,10 +315,8 @@ create table shopCar(
 );
 create sequence seq_shopCar_shopId start with 1001 increment by 1;
 --插入---------------------------------------------------------------------------------
-<<<<<<< HEAD
 insert into shopCar values(seq_shopCar_shopId.nextval,1001,1001,1,1,'','');
 insert into shopCar values(seq_shopCar_shopId.nextval,1002,1002,1,1,'','');
-=======
 select * from usersinfo;
 select * from product;
 select * from goods;
@@ -323,6 +334,14 @@ select count(1) from shopCar where usersId=1011
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1001,1001,1,1,'','');
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1002,1010,2,1,'','');
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1001,2,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1002,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1003,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1004,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1005,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1021,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1022,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1023,1,1,'',''); a2
+--insert into shopCar values(seq_shopCar_shopId.nextVal,1007,1024,1,1,'',''); a2
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1002,1,1,'',''); test
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1001,1,1,'',''); test
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1011,1004,1,1,'',''); test
@@ -331,13 +350,10 @@ select count(1) from shopCar where usersId=1011
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1005,1,1,'',''); nihao
 --insert into shopCar values(seq_shopCar_shopId.nextVal,1010,1004,1,1,'',''); nihao
 --查询---------------------------------------------------------------------------------
-<<<<<<< HEAD
 select shopNum from shopCar where ptId=1001 and usersId=1001 and shopSta=1;
 select * from shopCar where usersId=1001
-=======
 select * from shopCar where usersId=1011
 select count(1) from shopCar where usersId=1011 and shopSta=1
->>>>>>> branch 'master' of ssh://git@github.com/18773477307/studgit.git
 select * from shopCar;
 select * from shopCar s,goods g,product p where s.ptId=p.ptId and p.goodsId=g.goodsId and usersId=1011;
 --更新---------------------------------------------------------------------------------
@@ -366,7 +382,8 @@ create sequence seq_orders_ordId start with 1001 increment by 1;
 --insert into orders values (seq_orders_ordId.nextval,1002,1002,TO_DATE('2016-01-05 08:22:23','yyyy-mm-dd hh24:mi:ss'),340,1,'','');
 --查询---------------------------------------------------------------------------------
 select * from address
-select * from orders where ordId=1001;
+select * from orders where ordId in (1001,1002,1003,1004,1005,1006,1007);
+update orders set usersId = 1007 where ordId in (1001,1002,1003,1004,1005,1006,1007);
 select count(1) from orders where usersId=1011
 select ordSta from orders where ordId=1003
 select * from  (select a.*,rownum rn from (select o.*,a.recipient from orders o,address a where a.addrId=o.addrId  

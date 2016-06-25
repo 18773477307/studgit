@@ -29,9 +29,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script>
 	 function loginOut(){
 			if(window.confirm('您确定要注销登录吗？')){
-				$.post("usersServlet?d="+new Date(),{op:"usersOut"},function(data){
+				$.post("front/user_usersOut.action",function(data){
 				console.info(data);
-					if(parseInt($.trim(data))==1){
+					if(parseInt($.trim(data.total))==1){
 						var str='<li><a href="front/login.html?community">登录&nbsp;</a></li>';
 						str+='<li class="login_last"><a href="front/login.html">注册</a></li>';
 						$(".login_user ul").html(str);	

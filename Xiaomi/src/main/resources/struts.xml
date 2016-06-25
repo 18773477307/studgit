@@ -33,9 +33,11 @@
 		goToMiHome,unameCheck,emailCheck,telCheck,idCardCheck,findUserByUsersInfo,addUsersInfo,getIndexGoodsInfo,
 		getIndexArticleInfo,ArticleByInfo,
 		addArtComment,PageArtComment,
+		findPtnumByGoodsId,findPtIdByGoodsId,
+		toCarFind,toCarAdd,toCarUpdate,
 		shopCarShow,delByShopId,getPayInfo,payOnline,addOrderInfo,back,payOrderes,getOrderInfo,
 		usersOut,findAddrInfoById,findInfoBySta,
-		toCarFind,findPtnumByGoodsId,findPtIdByGoodsId  
+		getGoodsByGoodsId,addAddr,updateAddr
 		</global-allowed-methods>
 		
     	<action name="*_*" class="{1}Action" method="{2}">
@@ -56,7 +58,7 @@
 	
 	<package name="xmBack" namespace="/back" extends="json-default">
 		<global-allowed-methods>
-		<!--一排一个表的操作  -->
+		<!--一排一个表的操作  -->v
 		getAllManager,updateManager,delManager,addManager,
 		getAllUsers,addUsersInfo,updateUsersInfo,delUsersInfo,getAllUsersName,
 		getAllAddress,findAddressByInfo,findUsersInfoByInfo,
@@ -71,7 +73,7 @@
 		getAllGoodsInfo,findAllType,
 		findAllTypegoods,updateTypegoods,addTypegoods,delTypegoods,
 		getAllProduct,getAllGoodsName,findAllDatadict,findProductInfoByPtId,updateProductInfo,
-		findGoodsByGoodsId,addGoodsInfo,updateGoodsInfo,updateOrdersInfoById
+		findGoodsByGoodsId,addGoodsInfo,updateGoodsInfo,updateOrdersInfoById,addProductInfo
 		</global-allowed-methods>
 
     	<action name="*_*" class="{1}Action" method="{2}">
